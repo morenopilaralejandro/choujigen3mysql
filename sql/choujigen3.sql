@@ -117,8 +117,8 @@ insert into region (
     region_name_es) 
 values 
     (1, '日本', 'Japan', 'Japón'),
-    (2, 'ライオコット島', 'Liocott Island', 'Isla Liocott')
-    (3, '未来', 'Future', 'Futuro')
+    (2, 'ライオコット島', 'Liocott Island', 'Isla Liocott'),
+    (3, '未来', 'Future', 'Futuro'),
     (4, 'イナズマキャラバン', 'Inazuma Caravan', 'Caravana Inazuma');
 
 insert into zone_type (
@@ -142,7 +142,7 @@ values
     (1, '北東京', 'North Tokyo', 'Norte de Tokio', 1),
     (2, '南東京', 'South Tokyo', 'Sur de Tokio', 1),
     (3, '北海道', 'Hokkaido', 'Hokkaido', 1),
-   tal (4, '奈良', 'Nara', 'Nara', 1),
+    (4, '奈良', 'Nara', 'Nara', 1),
     (5, '大阪', 'Osaka', 'Osaka', 1),
     (6, '京都', 'Kioto', 'Kioto', 1),
     (7, '愛媛', 'Ehime', 'Ehime', 1),
@@ -164,11 +164,11 @@ values
     (23, 'コトアールエリア', 'Cotarl Area', 'Costail', 1),
     (24, 'マグニード山', 'Mt.Magnido', 'Monte Magnitud', 1),
     (25, '未来', 'Future', 'Futuro', 1),
-    (26, 'イナズマキャラバン', 'Inazuma Caravan', 'Caravana Inazuma', 1);
+    (26, 'イナズマキャラバン', 'Inazuma Caravan', 'Caravana Inazuma', 1),
 /*zone-inner_zone*/
 /*north-tokyo*/
     (27, '住宅街', 'Residential Area', 'Zona Residencial', 2),
-    (28, '商店街', 'Shopping Street ', 'Barrio de Tiendas', 2),
+    (28, '商店街', 'Shopping Street', 'Barrio de Tiendas', 2),
     (29, '雷門中', 'Raimon Junior High', 'Instituto Raimon', 2),
     (30, '河川敷', 'Stream Bed', 'Rivera del Rio', 2),
     (31, '鉄塔', 'Steel Tower', 'Torre', 2),
@@ -180,7 +180,7 @@ values
 /*south-tokyo*/
     (37, '東京大江戸国際空港', 'Tokyo International Airport', 'Aeropuerto de Tokio', 2),
     (38, 'サッカー協会', 'Football Association', 'Sede de la Asociación de Fútbol', 2),
-    (39, 'フロンティアスタジアム', 'Frontier Stadium ', 'Estadio Fútbol Frontier', 2),
+    (39, 'フロンティアスタジアム', 'Frontier Stadium', 'Estadio Fútbol Frontier', 2),
     (40, '虎ノ屋', 'Toramaru\'s restaurant', 'Casa Hobbes', 2),
 /*hokkaido*/
     (41, '市街地', 'Urban Area', 'Ciudad', 2),
@@ -190,8 +190,8 @@ values
     (44, '奈良市街地', 'Nara City Area', 'Ciudad', 2),
     (45, 'シカ公園', 'Deer Park', 'Parque Deerfield', 2),
 /*osaka*/
-    (46, '市街地 ', 'Urban Area', 'Ciudad', 2),
-    (47, 'ナニワランド', 'Naniwaland ', 'Osakaland', 2),
+    (46, '市街地', 'Urban Area', 'Ciudad', 2),
+    (47, 'ナニワランド', 'Naniwaland', 'Osakaland', 2),
 /*kioto*/
     (48, '京都市街地', 'Kyoto City Area', 'Ciudad', 2),
     (49, '漫遊寺中', 'Cloister Divinity', 'Claustro Sagrado', 2),
@@ -208,46 +208,269 @@ values
     (56, '富士の樹海', 'Fuji Forest', 'Bosque del Monte Fuji', 2),
     (57, '星の使徒研究所', 'Fuji Lab', 'Laboratirio M. de las Estrellas', 2),
 /*entrance*/
-    (5, 'asd', 'asd', 'asd', 2),
-    (5, 'asd', 'asd', 'asd', 2),
-    (5, 'asd', 'asd', 'asd', 2),
-    (5, 'asd', 'asd', 'asd', 2),
-    (5, 'asd', 'asd', 'asd', 2),
-
-
-
-    (5, 'asd', 'asd', 'asd', 2),
-
-
-
-
-
-
-
-
+    (58, 'ライオコット空港', 'Liocott Airport', 'Aeropuerto de Liocott', 2),
+    (59, 'セントラルパーク', 'Central Park', 'Parque Central', 2),
+    (60, 'タイタニックスタジアム', 'Titanic Stadium', 'Estadio Monumental', 2),
+    (61, 'ライオコット港', 'Liocott Port', 'Puerto', 2),
+    (62, '病院', 'Hospital', 'Hospital', 2),
 /*japan-area*/
+    (63, '店舗通り', 'Shopping Street', 'Zona de Tiendas', 2),
+    (64, '宿舎前', 'Hostel', 'Albergue', 2),
 /*uk-area*/
+    (65, '噴水通り', 'Fountain Street', 'Calle de la Fuente', 2),
+    (66, '空き地前', 'Empty Lot', 'Solar Vacío', 2),
 /*sea-snake-island*/
+    (67, 'ウミヘビ港', 'Sea snake port', 'Puerto Hidra', 2),
+    (68, 'スタジアムへの道', 'Road to the Stadium', 'Camino del Estadio', 2),
+    (69, 'ウミヘビスタジアム', 'Sea Snake Stadium', 'Estadio Hidra', 2),
 /*argentina-area*/
+    (70, 'メインストリート', 'Main Street', 'Calle Principal', 2),
+    (71, '銅像広場', 'Statue Square', 'Plaza de la Estatua', 2),
+    (72, 'Y字路前', 'Y-Intersection', 'Intersección en Y', 2),
 /*wildcat-island*/
+    (73, 'ヤマネコ港', 'Wildcat Port', 'Puerto Gato Montés', 2),
+    (74, 'スタジアムへの道', 'Road to the Stadium', 'Camino del estadio', 2),
+    (75, 'ヤマネコスタジアム', 'Wildcat Stadium', 'Estadio Gato Montés', 2),
 /*us-area*/
+    (76, '入り口前', 'Urban Area', 'Ciudad', 2),
+    (77, 'スクラップ広場', 'Scrapping', 'Desguace', 2),
+    (78, '駅前広場', 'Station', 'Estación', 2),
 /*peacock-island*/
+    (79, 'クジャク港', 'Peacock Port', 'Puerto Pavo Real', 2),
+    (80, 'スタジアムへの道', 'Road to the Stadium', 'Camino del Estadio', 2),
+    (81, 'クジャクスタジアム', 'Peacock Stadium', 'Estadio Pavo Real', 2),
 /*italy-area*/
+    (82, 'イタリア街', 'Main Street', 'Calle Principal', 2),
+    (83, '公園', 'Park', 'Parque', 2),
+    (84, 'サッカー場', 'Football Court', 'Campo de Fútbol', 2),
 /*condor-island*/
+    (85, 'コンドル港', 'Condor Port', 'Puerto Cóndor', 2),
+    (86, 'コンドルスタジアム', 'Condor Stadium', 'Estadio Cóndor', 2),
 /*brazil-area*/
+    (87, 'メインストリート', 'Main Street', 'Calle Principal', 2),
+    (88, '下道', 'Downtown', 'Calle lateral', 2),
+    (89, '路地裏', 'Back Alley', 'Callejón', 2),
 /*sea-turtle-island*/
+    (90, 'ウミガメ港', 'Sea Turtle Port', 'Puerto Tortuga Marina', 2),
+    (91, 'スタジアムへの道', 'Road to the Stadium', 'Camino del Estadio', 2),
+    (92, 'ウミガメスタジアム', 'Sea Turtle Stadium', 'Estadio Tortuga Marina', 2),
 /*cotarl-area*/
+    (93, '入り口前', 'Urban Area', 'Ciudad', 2),
+    (94, '広場前', 'Square', 'Lugar de reunion', 2),
 /*mount-magnitude*/
+    (95, 'ダンジョン', 'Dungeon', 'Mazmorra', 2),
 /*future*/
+    (96, '未来', 'Future', 'Futuro', 2);
+/*zone-level-building-building-floor*/
+/*north-tokyo-residential-area*/
+    (97, 'asd', 'ad', 'asd', 3)
+    calle de mark
+        casa de mark
+            casa de mark
+            habitación de mark
+/*north-tokyo-shopping-street*/
+    barrio de tiendas
+        mercazuma 
+        balón bazar
+        farmacia
+        tienda de maquetas
+
+    calle de bares
+    campo barrio de tiendas
+    calle peatonal
+        restaurante Rai Rai
+        videojuegos
+        balón bazar
+
+/*north-tokyo-raimon-junior-high*/
+    entrada del raimon
+        Residencia
+            pb
+            p1
+        Edificio principal 
+            pb
+            p1
+            p2
+    gimnasio raimon
+        gimnasio
+    zona tienda chuches
+        tienda de chuches
+    area de la caseta
+        club
+            club
+            trastero
+            búnker presidente
+/*north-tokyo-stream-bed*/
+    ribera del río
+        puerto (pier)
+    campo del río
+/*north-tokyo-steel-tower*/
+    torre
+        caseta
+        torre
+            plataforma
+/*north-tokyo-hospital*/
+    hospital (level)
+        hospital (building)
+            recepción
+            p1
+            p2
+/*north-tokyo-station*/
+    estacion inazuma
+        mercazuma
+/*north-tokyo-umbrella-junior-high*/
+    instututo umbrella
+/*north-tokyo-royal-academy*/
+    royal academy
+    entrada r. academy
+/*north-tokyo-arcane-hill*/
+    cerro arcano
+/*south-tokyo-tokyo-international-airport*/
+    aeropuerto de tokyo
+        aeropuerto de tokyo   
+/*south-tokyo-football-association*/
+    asociación de fútbol
+        asociación de fútbol
+            recepción
+            archivo
+/*south-tokyo-frontier-stadium*/
+    entrada 
+    estadio FF
+        vestíbulo
+        estadio FF
+/*south-tokyo-toramarus-restaurant*/
+    alrededores C.Hobbes
+    casa hobbes
+        casa hobbes
+/*hokkaido-urban-area*/
+
+/*hokkaido-heavy-snow-field*/
+
+/*hokkaido-alpine-junior-high*/
+
+/*nara-nara-city-area*/
+
+/*nara-deer-park*/
+
+/*osaka-urban-area*/
+
+/*osaka-naniwaland*/
+
+/*kioto-kyoto-city-area*/
+
+/*kioto-cloister-divinity*/
+
+/*ehime-ehime-city-area*/
+
+/*ehime-pier*/
+
+/*fukuoka-fukuoka-city-area*/
+
+/*fukuoka-fauxshore*/
+
+/*okinawa-okinawa-city-area*/
+
+/*okinawa-mary times-junior-high*/
+
+/*fuji-fuji-forest*/
+
+/*fuji-fuji-lab*/
+
+/*entrance-liocott-airport*/
+
+/*entrance-central-park*/
+
+/*entrance-titanic-stadium*/
+
+/*entrance-liocott-port*/
+
+/*entrance-hospital*/
+
+/*japan-area-shopping-street*/
+
+/*japan-area-hostel*/
+
+/*uk-area-fountain-street*/
+
+/*uk-area-empty-lot*/
+
+/*sea-snake-island-sea-snake-port*/
+
+/*sea-snake-island-road-to-the-stadium*/
+
+/*sea-snake-island-sea-snake-stadium*/
+
+/*argentina-area-main-street*/
+
+/*argentina-area-statue-square*/
+
+/*argentina-area-y-intersection*/
+
+/*wildcat-island-wildcat-port*/
+
+/*wildcat-island-road-to-the-stadium*/
+
+/*wildcat-island-wildcat-stadium*/
+
+/*us-area-urban-area*/
+
+/*us-area-scrapping*/
+
+/*us-area-station*/
+
+/*peacock-island-peacock-port*/
+
+/*peacock-island-road-to-the-stadium*/
+
+/*peacock-island-peacock-stadium*/
+
+/*italy-area-main-street*/
+
+/*italy-area-park*/
+
+/*italy-area-football-court*/
+
+/*condor-island-condor-port*/
+/*condor-island-condor-stadium*/
+
+/*brazil-area-main-street*/
+
+/*brazil-area-downtown*/
+
+/*brazil-area-back-alley*/
+
+/*sea-turtle-island-sea-turtle-port*/
+
+/*sea-turtle-island-road-to-the-stadium*/
+
+/*sea-turtle-island-sea-turtle-stadium*/
+
+/*cotarl-area-urban-area*/
+
+/*cotarl-area-square*/
+
+/*mount-magnitude-dungeon*/
+
+/*future-future*/
 
 
-    (4, 'asd', 'asd', 'asd', 2),
 
+
+
+
+    (100, 'asd', 'ad', 'asd', 3)
 
 /*
+future inner
+Urban Area
+Ogre Junior High
+
 nara-deer-park
 シカ公園市街北側 Deer Park City North Side 
-シカ公園巨シカ像側 Deer Park Giant Deer Statue Side 
+シカ公園巨シカ像側 Deer Park Giant Deer Statue Side
+
+ガルシルド邸  Garshild Mansion
+ガルシルド邸廊下 Garshild Mansion Corridor
 */
 
 
@@ -257,6 +480,20 @@ insert into outer_zone (
 (1, 1), (2, 1), (3, 1), (4, 1), (5, 1), (6, 1), (7, 1), (8, 1), (9, 1), (10, 1), 
 (11, 2), (12, 2), (13, 2), (14, 2), (15, 2), (16, 2), (17, 2), (18, 2), (19, 2), 
 (20, 2), (21, 2), (22, 2), (23, 2), (24, 2), (25, 3), (26, 4);
+
+insert into inner_zone (
+    inner_zone_id, 
+    outer_zone_id) values 
+(27, 1), (28, 1), (29, 1), (30, 1), (31, 1), (32, 1), (33, 1), (34, 1), (35, 1), 
+(36, 1), (37, 2), (38, 2), (39, 2), (40, 2), (41, 3), (42, 3), (43, 3), (44, 4),
+(45, 4), (46, 5), (47, 5), (48, 6), (49, 6), (50, 7), (51, 7), (52, 8), (53, 8),
+(54, 9), (55, 9), 
+(56, 10), (57, 10), (58, 11), (59, 11), (60, 11), (61, 11), (62, 11), (63, 12), 
+(64, 12), (65, 13), (66, 13), (67, 14), (68, 14), (69, 14), (70, 15), (71, 15),
+(72, 15), (73, 16), (74, 16), (75, 16), (76, 17), (77, 17), (78, 17), (79, 18), 
+(80, 18), (81, 18), (82, 19), (83, 19), (84, 19), (85, 20), (86, 20), (87, 21), 
+(88, 21), (89, 21), (90, 22), (91, 22), (92, 22), (93, 23), (94, 23), (95, 24), 
+(96, 25);
 
 insert into store_type (
     store_type_id, 
