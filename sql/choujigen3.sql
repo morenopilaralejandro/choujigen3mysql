@@ -12,7 +12,6 @@ drop table if exists zone;
 drop table if exists zone_type;
 drop table if exists region;
 
-
 /*2-create*/
 create table region (
     region_id int not null auto_increment,
@@ -260,46 +259,34 @@ values
 /*mount-magnitude*/
     (95, 'ダンジョン', 'Dungeon', 'Mazmorra', 2),
 /*future*/
-    (96, '未来', 'Future', 'Futuro', 2);
+    (96, '未来', 'Future', 'Futuro', 2),
 /*zone-level-building-building-floor*/
 /*north-tokyo-residential-area*/
-    (97, 'asd', 'ad', 'asd', 3)
-    calle de mark
-        casa de mark
-            casa de mark
-            habitación de mark
+    (97, '住宅街', 'Residential Area', 'Calle de Mark', 3),
 /*north-tokyo-shopping-street*/
-    barrio de tiendas
-        mercazuma 
-        balón bazar
-        farmacia
-        tienda de maquetas
-
-    calle de bares
-    campo barrio de tiendas
-    calle peatonal
-        restaurante Rai Rai
-        videojuegos
-        balón bazar
-
+    (98, '商店街', 'Shopping Street', 'Barrio de Tiendas', 3),
+    (99, '商店街 路地裏', 'Back Alley', 'Calle de Bares', 3),
+    (100, '商店街グラウンド', 'Shopping Street Court', 'Campo Barrio de Tiendas', 3),
+    (101, '商店街アーケード', 'Shopping Street Gallery', 'Calle Peatonal', 3),
+    (102, '商店街 倉庫前', 'Shopping Street Warehouse', 'Zona del Almazén', 3),
 /*north-tokyo-raimon-junior-high*/
-    entrada del raimon
-        Residencia
-            pb
-            p1
-        Edificio principal 
-            pb
-            p1
-            p2
-    gimnasio raimon
-        gimnasio
-    zona tienda chuches
-        tienda de chuches
-    area de la caseta
-        club
-            club
-            trastero
-            búnker presidente
+    (103, '雷門中 正門前', 'Raimon Entrance', 'Entrada del Raimon', 3),
+        (104, '合宿所', 'Training Camp', 'Residencia', 4),
+                    (105, 'F1', 'GF', 'PB', 5),
+                    (106, 'F2', 'F1', 'P1', 5),
+        (107, '正面校舎', 'Main Building', 'Edificio Principal', 4),
+                    (108, 'F1', 'GF', 'PB', 5),
+                    (109, 'F2', 'F1', 'P1', 5),
+                    (110, 'F3', 'F2', 'P2', 5),
+    (111, '雷門中 部室前', 'Club Area', 'Area de la Caseta', 3),
+        (112, 'サッカー部室', 'Club', 'Club', 4),
+            (113, 'サッカー部室', 'Club', 'Club', 5),
+            (114, '物置', 'Storage Room', 'Trastero', 5),
+            (115, '地下理手長室', 'Underground Bunker', 'Búnker Presidente', 5),
+    (116, '雷門中 体育館前', 'Raimon Gym Area', 'Gimnasio Raimon', 3),
+        (117, '雷門中 体育館', 'Raimon Gym', 'Gimnasio', 4),
+    (118, '駄菓子屋前', 'Sweet Shop Area', 'Zona Tienda Chuches', 3),
+        (119, '駄菓子屋', 'Sweet Shop', 'Tienda de Chuches', 4),
 /*north-tokyo-stream-bed*/
     ribera del río
         puerto (pier)
@@ -343,40 +330,76 @@ values
     casa hobbes
         casa hobbes
 /*hokkaido-urban-area*/
-
+    hokkaido
+        balón bazar
+        todotécnicas
+        mercazuma
 /*hokkaido-heavy-snow-field*/
-
+    pico del norte
 /*hokkaido-alpine-junior-high*/
-
+    instituto alpino
+    campo alpino
 /*nara-nara-city-area*/
-
+    nara - Este
+        todotécnicas
+        balón bazar
+    nara - Oeste
+        mercazuma
 /*nara-deer-park*/
-
+シカ公園市街北側 - Deer Park - Parque Deerfield
+シカ公園巨シカ像側 - Deer Park Giant Deer Statue Side - Estatua p. Deerfield
 /*osaka-urban-area*/
-
+    osaka
+        mercazuma
+    barrio de tiendas
+        balón bazar
+        todotécnicas
 /*osaka-naniwaland*/
-
+    ciudad
+    osaka land
 /*kioto-kyoto-city-area*/
-
+    kioto
+        balón bazar
 /*kioto-cloister-divinity*/
-
+    claustro sagrado
 /*ehime-ehime-city-area*/
-
+    ehime
+        todotécnicas
+        mercazuma
 /*ehime-pier*/
-
+    puerto
 /*fukuoka-fukuoka-city-area*/
-
+    fukuoka
+        balón bazar
+        todotécnicas
 /*fukuoka-fauxshore*/
-
+    fauxshore
 /*okinawa-okinawa-city-area*/
-
+    okinawa
+        todotécnicas
+        balón bazar
+        mercazuma
+        Faro
+            pb
+            casa del faro
+            parte superior
 /*okinawa-mary times-junior-high*/
-
+    mary times
 /*fuji-fuji-forest*/
-
+    entrada del bosque
+    laberinto del bosque
+    cueva del bosque
 /*fuji-fuji-lab*/
-
+    aparcam laboratorio
+        laboratorio
+            pb
+            p1
+            p2
+            p3
+            camara piedra alius
+            campo academia alius
 /*entrance-liocott-airport*/
+    aeropuerto de liocott
 
 /*entrance-central-park*/
 
@@ -431,6 +454,7 @@ values
 /*italy-area-football-court*/
 
 /*condor-island-condor-port*/
+
 /*condor-island-condor-stadium*/
 
 /*brazil-area-main-street*/
@@ -465,9 +489,7 @@ future inner
 Urban Area
 Ogre Junior High
 
-nara-deer-park
-シカ公園市街北側 Deer Park City North Side 
-シカ公園巨シカ像側 Deer Park Giant Deer Statue Side
+
 
 ガルシルド邸  Garshild Mansion
 ガルシルド邸廊下 Garshild Mansion Corridor
