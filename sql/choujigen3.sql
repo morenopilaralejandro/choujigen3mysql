@@ -107,7 +107,6 @@ create table store (
         references zone(zone_id) on delete cascade
 );
 
-
 /*3-insert*/
 insert into region (
     region_id, 
@@ -175,7 +174,7 @@ values
     (33, '駅前', 'Station', 'Estación', 2),
     (34, '傘美野中', 'Umbrella Junior High', 'Instituto Umbrella', 2),
     (35, '帝国学園', 'Royal Academy', 'Royal Academy', 2),
-    (36, '秘儀の丘', 'Arcane Hill', 'Cerro Arcano', 2),
+    (36, '裏山', 'Hill Behind', 'Cerro Arcano', 2),
 /*south-tokyo*/
     (37, '東京大江戸国際空港', 'Tokyo International Airport', 'Aeropuerto de Tokio', 2),
     (38, 'サッカー協会', 'Football Association', 'Sede de la Asociación de Fútbol', 2),
@@ -272,12 +271,12 @@ values
 /*north-tokyo-raimon-junior-high*/
     (103, '雷門中 正門前', 'Raimon Entrance', 'Entrada del Raimon', 3),
         (104, '合宿所', 'Training Camp', 'Residencia', 4),
-                    (105, 'F1', 'GF', 'PB', 5),
-                    (106, 'F2', 'F1', 'P1', 5),
+                    (105, '1F', 'GF', 'PB', 5),
+                    (106, '2F', 'F1', 'P1', 5),
         (107, '正面校舎', 'Main Building', 'Edificio Principal', 4),
-                    (108, 'F1', 'GF', 'PB', 5),
-                    (109, 'F2', 'F1', 'P1', 5),
-                    (110, 'F3', 'F2', 'P2', 5),
+                    (108, '1F', 'GF', 'PB', 5),
+                    (109, '2F', 'F1', 'P1', 5),
+                    (110, '3F', 'F2', 'P2', 5),
     (111, '雷門中 部室前', 'Club Area', 'Area de la Caseta', 3),
         (112, 'サッカー部室', 'Club', 'Club', 4),
             (113, 'サッカー部室', 'Club', 'Club', 5),
@@ -288,30 +287,27 @@ values
     (118, '駄菓子屋前', 'Sweet Shop Area', 'Zona Tienda Chuches', 3),
         (119, '駄菓子屋', 'Sweet Shop', 'Tienda de Chuches', 4),
 /*north-tokyo-stream-bed*/
-    ribera del río
-        puerto (pier)
-    campo del río
+    (120, '河川敷', 'Stream Bed', 'Ribera del Río', 3),
+    (121, '河川敷グラウンド', 'Stream Bed Court', 'Campo del Río', 3),
 /*north-tokyo-steel-tower*/
-    torre
-        caseta
-        torre
-            plataforma
+    (122, '鉄塔', 'Steel Tower', 'Torre', 3),
+        (123, '鉄塔小屋', 'Steel Tower Hut', 'Caseta', 4),
+        (124, '鉄塔上', 'Platform', 'Plataforma', 4),
 /*north-tokyo-hospital*/
-    hospital (level)
-        hospital (building)
-            recepción
-            p1
-            p2
+    (125, '稲妻総合病院 中庭', 'Hospital Courtyard', 'Hospital', 3),
+        (126, '稲妻総合病院', 'Hospital', 'Hospital', 4),
+            (127, '受付', 'Reception', 'Recepción', 5),
+            (128, '2F', 'F1', 'P1', 5),
+            (129, '3F', 'F2', 'P2', 5),
 /*north-tokyo-station*/
-    estacion inazuma
-        mercazuma
+    (130, '稲妻町駅 駅前', 'Inazuma Station Square', 'Estacion Inazuma', 3),
 /*north-tokyo-umbrella-junior-high*/
-    instututo umbrella
+    (131, '傘美野中', 'Umbrella Junior High', 'Instututo Umbrella', 3),
 /*north-tokyo-royal-academy*/
-    royal academy
-    entrada r. academy
+    (132, '帝国学園', 'Royal Academy', 'Royal Academy', 3),
+    (133, '帝国学園 通路', 'Royal Academy Passage', 'Entrada R. Academy', 3),
 /*north-tokyo-arcane-hill*/
-    cerro arcano
+    (134, '裏山', 'Hill Behind', 'Cerro Arcano', 3),
 /*south-tokyo-tokyo-international-airport*/
     aeropuerto de tokyo
         aeropuerto de tokyo   
