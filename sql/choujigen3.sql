@@ -3,11 +3,11 @@
 /*1-drop*/
 drop table if exists store;
 drop table if exists store_type;
-drop table if exists building_floor;
-drop table if exists building;
+drop table if exists zone_building_floor;
+drop table if exists zone_building;
 drop table if exists zone_level;
-drop table if exists inner_zone;
-drop table if exists outer_zone;
+drop table if exists zone_inner;
+drop table if exists zone_outer;
 drop table if exists zone;
 drop table if exists zone_type;
 drop table if exists region;
@@ -38,54 +38,54 @@ create table zone (
         references zone_type(zone_type_id) on delete cascade
 );
 
-create table outer_zone (
-    outer_zone_id int not null,
+create table zone_outer (
+    zone_outer_id int not null,
     region_id int,
-    constraint outer_zone_pk primary key (outer_zone_id),
-    constraint outer_zone_fk_zone foreign key (outer_zone_id) 
+    constraint zone_outer_pk primary key (zone_outer_id),
+    constraint zone_outer_fk_zone foreign key (zone_outer_id) 
         references zone(zone_id) on delete cascade,
-    constraint outer_zone_fk_region foreign key (region_id) 
+    constraint zone_outer_fk_region foreign key (region_id) 
         references region(region_id) on delete cascade
 );
 
-create table inner_zone ( 
-    inner_zone_id int not null,
-    outer_zone_id int,
-    constraint inner_zone_pk primary key (inner_zone_id),
-    constraint inner_zone_fk_zone foreign key (inner_zone_id) 
+create table zone_inner ( 
+    zone_inner_id int not null,
+    zone_outer_id int,
+    constraint zone_inner_pk primary key (zone_inner_id),
+    constraint zone_inner_fk_zone foreign key (zone_inner_id) 
         references zone(zone_id) on delete cascade,
-    constraint inner_zone_fk_outer_zone foreign key (outer_zone_id) 
-        references outer_zone(outer_zone_id) on delete cascade
+    constraint zone_inner_fk_zone_outer foreign key (zone_outer_id) 
+        references zone_outer(zone_outer_id) on delete cascade
 );
 
 create table zone_level ( 
     zone_level_id int not null,
-    inner_zone_id int,
+    zone_inner_id int,
     constraint zone_level_pk primary key (zone_level_id),
     constraint zone_level_fk_zone foreign key (zone_level_id) 
         references zone(zone_id) on delete cascade,
-    constraint zone_level_fk_inner_zone foreign key (inner_zone_id) 
-        references inner_zone(inner_zone_id) on delete cascade
+    constraint zone_level_fk_zone_inner foreign key (zone_inner_id) 
+        references zone_inner(zone_inner_id) on delete cascade
 );
 
-create table building ( 
-    building_id int not null,
+create table zone_building ( 
+    zone_building_id int not null,
     zone_level_id int,
-    constraint building_pk primary key (building_id),
-    constraint building_fk_zone foreign key (building_id) 
+    constraint zone_building_pk primary key (zone_building_id),
+    constraint zone_building_fk_zone foreign key (zone_building_id) 
         references zone(zone_id) on delete cascade,
-    constraint building_fk_zone_level foreign key (zone_level_id) 
+    constraint zone_building_fk_zone_level foreign key (zone_level_id) 
         references zone_level(zone_level_id) on delete cascade
 );
 
-create table building_floor ( 
-    building_floor_id int not null,
-    building_id int,
-    constraint building_floor_pk primary key (building_floor_id),
-    constraint building_floor_fk_zone foreign key (building_floor_id) 
+create table zone_building_floor ( 
+    zone_building_floor_id int not null,
+    zone_building_id int,
+    constraint zone_building_floor_pk primary key (zone_building_floor_id),
+    constraint zone_building_floor_fk_zone foreign key (zone_building_floor_id) 
         references zone(zone_id) on delete cascade,
-    constraint building_floor_fk_building foreign key (building_id) 
-        references building(building_id) on delete cascade
+    constraint zone_building_floor_fk_building foreign key (zone_building_id) 
+        references zone_building(zone_building_id) on delete cascade
 );
 
 create table store_type ( 
@@ -123,11 +123,11 @@ insert into zone_type (
     zone_type_id,
     zone_type_name) 
 values 
-    (1, 'outer zone'),
-    (2, 'inner zone'),
-    (3, 'zone level'),
-    (4, 'building'),
-    (5, 'building_floor');
+    (1, 'zone-outer'),
+    (2, 'zone-inner'),
+    (3, 'zone-level'),
+    (4, 'zone-building'),
+    (5, 'zone-building-floor');
 
 insert into zone (
     zone_id, 
@@ -136,7 +136,7 @@ insert into zone (
     zone_name_es, 
     zone_type_id) 
 values
-/*zone-outer_zone*/
+/*zone-zone_outer*/
     (1, '北東京', 'North Tokyo', 'Norte de Tokio', 1),
     (2, '南東京', 'South Tokyo', 'Sur de Tokio', 1),
     (3, '北海道', 'Hokkaido', 'Hokkaido', 1),
@@ -163,7 +163,7 @@ values
     (24, 'マグニード山', 'Mt.Magnido', 'Monte Magnitud', 1),
     (25, '未来', 'Future', 'Futuro', 1),
     (26, 'イナズマキャラバン', 'Inazuma Caravan', 'Caravana Inazuma', 1),
-/*zone-inner_zone*/
+/*zone-zone_inner*/
 /*north-tokyo*/
     (27, '住宅街', 'Residential Area', 'Zona Residencial', 2),
     (28, '商店街', 'Shopping Street', 'Barrio de Tiendas', 2),
@@ -316,200 +316,200 @@ values
         (138, 'サッカー協会', 'Football Association', 'Asociación de Fútbol', 4),
             (139, 'サッカー協会 ロビー', 'Lobby', 'Recepción', 5),
             (140, 'サッカー協会 資料室', 'Resource Room', 'Archivo', 5),
-
-
+/*
 ------------
 ------------
 ------------
 ------------
 ------------
-/*south-tokyo-frontier-stadium*/
-    (140, 'Fスタジアム前', 'asd', 'Entrada', 3),
-        (141, 'asd', 'asd', 'Estadio FF', 4),
-            (142, 'asd', 'asd', 'Vestíbulo', 5),
-            (143, 'asd', 'asd', 'Estadio FF', 5),   
+south-tokyo-frontier-stadium*/
+    (141, 'Fスタジアム前', 'asd', 'Entrada', 3),
+        (142, 'asd', 'asd', 'Estadio FF', 4),
+            (143, 'asd', 'asd', 'Vestíbulo', 5),
+            (144, 'asd', 'asd', 'Estadio FF', 5),   
 /*south-tokyo-toramarus-restaurant*/
-    (144, 'asd', 'asd', 'alrededores C.Hobbes', 3),
-    (145, 'asd', 'asd', 'Casa Hobbes', 3),
-        (146, 'asd', 'asd', 'Casa Hobbes', 4),
+    (145, 'asd', 'asd', 'alrededores C.Hobbes', 3),
+    (146, 'asd', 'asd', 'Casa Hobbes', 3),
+        (147, 'asd', 'asd', 'Casa Hobbes', 4),
 /*hokkaido-urban-area*/
-    (147, 'asd', 'asd', 'Hokkaido', 3),
+    (148, 'asd', 'asd', 'Hokkaido', 3),
 /*hokkaido-heavy-snow-field*/
-    (148, 'asd', 'asd', 'Pico del Norte', 3),
+    (149, 'asd', 'asd', 'Pico del Norte', 3),
 /*hokkaido-alpine-junior-high*/
-    (149, 'asd', 'asd', 'Instituto Alpino', 3),
-    (150, 'asd', 'asd', 'Campo Alpino', 3),
+    (150, 'asd', 'asd', 'Instituto Alpino', 3),
+    (151, 'asd', 'asd', 'Campo Alpino', 3),
 /*nara-nara-city-area*/
-    (151, 'asd', 'asd', 'Nara - Este', 3),
-    (152, 'asd', 'asd', 'Nara - Oeste', 3),
+    (152, 'asd', 'asd', 'Nara - Este', 3),
+    (153, 'asd', 'asd', 'Nara - Oeste', 3),
 /*nara-deer-park*/
-    (153, 'シカ公園市街北側', 'Deer Park', 'Parque Deerfield', 3),
-    (154, 'シカ公園巨シカ像側 ', 'Deer Park Statue Side', 'Estatua p. Deerfield', 3),
+    (154, 'シカ公園市街北側', 'Deer Park', 'Parque Deerfield', 3),
+    (155, 'シカ公園巨シカ像側 ', 'Deer Park Statue Side', 'Estatua p. Deerfield', 3),
 /*osaka-urban-area*/
-    (155, 'asd', 'asd', 'Osaka', 3),
-    (156, 'asd', 'asd', 'Barrio de Tiendas', 3),
+    (156, 'asd', 'asd', 'Osaka', 3),
+    (157, 'asd', 'asd', 'Barrio de Tiendas', 3),
 /*osaka-naniwaland*/
-    (157, 'asd', 'asd', 'Ciudad', 3),
-    (158, 'asd', 'asd', 'Osakaland', 3),
+    (158, 'asd', 'asd', 'Ciudad', 3),
+    (159, 'asd', 'asd', 'Osakaland', 3),
 /*kioto-kyoto-city-area*/
-    (159, 'asd', 'asd', 'Kioto', 3),
+    (160, 'asd', 'asd', 'Kioto', 3),
 /*kioto-cloister-divinity*/
-    (160, 'asd', 'asd', 'Claustro Sagrado', 3),
+    (161, 'asd', 'asd', 'Claustro Sagrado', 3),
 /*ehime-ehime-city-area*/
-    (161, 'asd', 'asd', 'Ehime', 3),
+    (162, 'asd', 'asd', 'Ehime', 3),
 /*ehime-pier*/
-    (162, 'asd', 'asd', 'Puerto', 3),
+    (163, 'asd', 'asd', 'Puerto', 3),
 /*fukuoka-fukuoka-city-area*/
-    (163, 'asd', 'asd', 'Fukuoka', 3),
+    (164, 'asd', 'asd', 'Fukuoka', 3),
 /*fukuoka-fauxshore*/
-    (164, 'asd', 'asd', 'Fauxshore', 3),
+    (165, 'asd', 'asd', 'Fauxshore', 3),
 /*okinawa-okinawa-city-area*/
-    (165, 'asd', 'asd', 'Okinawa', 3),
-        (166, 'asd', 'asd', 'Faro', 4),  
-            (167, 'asd', 'asd', 'PB', 5), 
-            (168, 'asd', 'asd', 'Casa del Faro', 5),
-            (169, 'asd', 'asd', 'Parte Superior', 5),        
+    (166, 'asd', 'asd', 'Okinawa', 3),
+        (167, 'asd', 'asd', 'Faro', 4),  
+            (168, 'asd', 'asd', 'PB', 5), 
+            (169, 'asd', 'asd', 'Casa del Faro', 5),
+            (170, 'asd', 'asd', 'Parte Superior', 5),        
 /*okinawa-mary times-junior-high*/
-    (170, 'asd', 'asd', 'Mary Times', 3),
+    (171, 'asd', 'asd', 'Mary Times', 3),
 /*fuji-fuji-forest*/
-    (171, 'asd', 'asd', 'Entrada del Bosque', 3),
-    (172, 'asd', 'asd', 'Laberinto del Bosque', 3),
-    (173, 'asd', 'asd', 'Cueva del bosque', 3),
+    (172, 'asd', 'asd', 'Entrada del Bosque', 3),
+    (173, 'asd', 'asd', 'Laberinto del Bosque', 3),
+    (174, 'asd', 'asd', 'Cueva del bosque', 3),
 /*fuji-fuji-lab*/
-    (174, 'asd', 'asd', 'Aparcam. Laboratorio', 3),
-    (175, 'asd', 'asd', 'Laberinto del Laboratorio', 3),
-        (176, 'asd', 'asd', 'Camara Piedra Alius', 4),
-            (177, 'asd', 'asd', 'Camara Piedra Alius', 5),
-            (178, 'asd', 'asd', 'Camara Piedra Alius', 5),    
-    (179, 'asd', 'asd', 'Campo Academia Alius', 3),
+    (175, 'asd', 'asd', 'Aparcam. Laboratorio', 3),
+    (176, 'asd', 'asd', 'Laberinto del Laboratorio', 3),
+        (177, 'asd', 'asd', 'Camara Piedra Alius', 4),
+            (178, 'asd', 'asd', 'Camara Piedra Alius', 5),
+            (179, 'asd', 'asd', 'Camara Piedra Alius', 5),    
+    (180, 'asd', 'asd', 'Campo Academia Alius', 3),
 /*entrance-liocott-airport*/
-    (180, 'asd', 'asd', 'Aeropuerto de Liocott', 3),
-        (181, 'asd', 'asd', 'Aeropuerto de Liocott', 4),
+    (181, 'asd', 'asd', 'Aeropuerto de Liocott', 3),
+        (182, 'asd', 'asd', 'Aeropuerto de Liocott', 4),
 /*entrance-central-park*/
-    (182, 'asd', 'asd', 'Parque Central', 3),
-        (183, 'asd', 'asd', 'Nuevo C.E. Recepción', 4),
+    (183, 'asd', 'asd', 'Parque Central', 3),
+        (184, 'asd', 'asd', 'Nuevo C.E. Recepción', 4),
 /*entrance-titanic-stadium*/
-        (184, 'asd', 'asd', 'Estadio Monumental', 3),
-            (185, 'asd', 'asd', 'Estadio Monumental', 4),
-                (186, 'asd', 'asd', 'Vestíbulo', 5),
-                (187, 'asd', 'asd', 'Vestuario 1', 5),
-                (188, 'asd', 'asd', 'Vestuario 2', 5),
-                (189, 'asd', 'asd', 'Vestuario 3', 5),
-                (190, 'asd', 'asd', 'Estadio Monumental', 5),
+    (185, 'asd', 'asd', 'Estadio Monumental', 3),
+        (186, 'asd', 'asd', 'Estadio Monumental', 4),
+            (187, 'asd', 'asd', 'Vestíbulo', 5),
+            (188, 'asd', 'asd', 'Vestuario 1', 5),
+            (189, 'asd', 'asd', 'Vestuario 2', 5),
+            (190, 'asd', 'asd', 'Vestuario 3', 5),
+            (191, 'asd', 'asd', 'Estadio Monumental', 5),
 /*entrance-liocott-port*/
-    (191, 'asd', 'asd', 'Puerto de Liocott', 3),
+    (192, 'asd', 'asd', 'Puerto de Liocott', 3),
 /*entrance-hospital*/
-    (192, 'asd', 'asd', 'Hospital de Liocott', 3),
-        (193, 'asd', 'asd', 'Hospital de Liocott', 4),
-            (194, 'asd', 'asd', 'Hospital de Liocott', 5),
+    (193, 'asd', 'asd', 'Hospital de Liocott', 3),
+        (194, 'asd', 'asd', 'Hospital de Liocott', 4),
             (195, 'asd', 'asd', 'Hospital de Liocott', 5),
+            (196, 'asd', 'asd', 'Hospital de Liocott', 5),
 /*japan-area-shopping-street*/
-    (196, 'asd', 'asd', 'Zona de Tiendas', 3),
-        (197, 'asd', 'asd', 'Recepción C.E.', 4),
+    (197, 'asd', 'asd', 'Zona de Tiendas', 3),
+        (198, 'asd', 'asd', 'Recepción C.E.', 4),
 /*japan-area-hostel*/
-    (198, 'asd', 'asd', 'Albergue', 3),
-        (199, 'asd', 'asd', 'Albergue', 4),
-            (200, 'asd', 'asd', 'PB', 5),
-            (201, 'asd', 'asd', 'P1', 5),
+    (199, 'asd', 'asd', 'Albergue', 3),
+        (200, 'asd', 'asd', 'Albergue', 4),
+            (201, 'asd', 'asd', 'PB', 5),
+            (202, 'asd', 'asd', 'P1', 5),
 /*uk-area-fountain-street*/
-    (202, 'asd', 'asd', 'Calle de la Fuente', 3),
+    (203, 'asd', 'asd', 'Calle de la Fuente', 3),
 /*uk-area-empty-lot*/
-    (203, 'asd', 'asd', 'Solar Vacío', 3),
+    (204, 'asd', 'asd', 'Solar Vacío', 3),
 /*sea-snake-island-sea-snake-port*/
-    (204, 'asd', 'asd', 'Puerto Hidra', 3),
+    (205, 'asd', 'asd', 'Puerto Hidra', 3),
 /*sea-snake-island-road-to-the-stadium*/
-    (205, 'asd', 'asd', 'Camino del Estadio', 3),
+    (206, 'asd', 'asd', 'Camino del Estadio', 3),
 /*sea-snake-island-sea-snake-stadium*/
-    (206, 'asd', 'asd', 'Estadio Hidra - Entrada', 3),
-        (207, 'asd', 'asd', 'Estadio Hidra', 4),
+    (207, 'asd', 'asd', 'Estadio Hidra - Entrada', 3),
+        (208, 'asd', 'asd', 'Estadio Hidra', 4),
 /*argentina-area-main-street*/
-    (208, 'asd', 'asd', 'Calle Principal', 3),
+    (209, 'asd', 'asd', 'Calle Principal', 3),
 /*argentina-area-statue-square*/
-    (209, 'asd', 'asd', 'Plaza de la Estatua', 3),
+    (210, 'asd', 'asd', 'Plaza de la Estatua', 3),
 /*argentina-area-y-intersection*/
-    (210, 'asd', 'asd', 'Intersección en Y', 3),
+    (211, 'asd', 'asd', 'Intersección en Y', 3),
 /*wildcat-island-wildcat-port*/
-    (211, 'asd', 'asd', 'Puerto Gato Montés', 3),
+    (212, 'asd', 'asd', 'Puerto Gato Montés', 3),
 /*wildcat-island-road-to-the-stadium*/
-    (212, 'asd', 'asd', 'Camino del Estadio', 3),
+    (213, 'asd', 'asd', 'Camino del Estadio', 3),
 /*wildcat-island-wildcat-stadium*/
-    (213, 'asd', 'asd', 'E. Gato Montés - Entrada', 3),
-        (214, 'asd', 'asd', 'Estadio Gato Montés', 4),
+    (214, 'asd', 'asd', 'E. Gato Montés - Entrada', 3),
+        (215, 'asd', 'asd', 'Estadio Gato Montés', 4),
 /*us-area-urban-area*/
-    (215, 'asd', 'asd', 'Ciudad', 3),
+    (216, 'asd', 'asd', 'Ciudad', 3),
 /*us-area-scrapping*/
-    (216, 'asd', 'asd', 'Desguace', 3),
+    (217, 'asd', 'asd', 'Desguace', 3),
 /*us-area-station*/
-    (217, 'asd', 'asd', 'Estación', 3),
+    (218, 'asd', 'asd', 'Estación', 3),
 /*peacock-island-peacock-port*/
-    (218, 'asd', 'asd', 'asd', 3),
+    (219, 'asd', 'asd', 'asd', 3),
 /*peacock-island-road-to-the-stadium*/
-    (219, 'asd', 'asd', 'Camino del Estadio', 3),
+    (220, 'asd', 'asd', 'Camino del Estadio', 3),
 /*peacock-island-peacock-stadium*/
-    (220, 'asd', 'asd', 'E. Pavo Real - Entrada', 3),
-        (221, 'asd', 'asd', 'Estadio Pavo Real', 4),
+    (221, 'asd', 'asd', 'E. Pavo Real - Entrada', 3),
+        (222, 'asd', 'asd', 'Estadio Pavo Real', 4),
 /*italy-area-main-street*/
-    (222, 'asd', 'asd', 'Calle Principal', 3),
+    (223, 'asd', 'asd', 'Calle Principal', 3),
 /*italy-area-park*/
-    (223, 'asd', 'asd', 'Parque', 3),
+    (224, 'asd', 'asd', 'Parque', 3),
 /*italy-area-football-court*/
-    (224, 'asd', 'asd', 'Campo de Fútbol', 3),
+    (225, 'asd', 'asd', 'Campo de Fútbol', 3),
 /*condor-island-condor-port*/
-    (225, 'asd', 'asd', 'Puerto Cóndor', 3),
+    (226, 'asd', 'asd', 'Puerto Cóndor', 3),
 /*condor-island-condor-stadium*/
-    (226, 'asd', 'asd', 'Estadio Cóndor - Entrada', 3),
-        (227, 'asd', 'asd', 'Estadio Cóndor', 4),
-            (228, 'asd', 'asd', 'PB', 5),
-            (229, 'asd', 'asd', 'P1', 5),
-            (230, 'asd', 'asd', 'P2', 5),
-            (231, 'asd', 'asd', 'P3', 5),
-            (232, 'asd', 'asd', 'P4', 5),
-            (233, 'asd', 'asd', 'P5', 5),
-            (234, 'asd', 'asd', 'P6', 5),
-            (235, 'asd', 'asd', 'Estadio Cóndor', 5),
+    (227, 'asd', 'asd', 'Estadio Cóndor - Entrada', 3),
+        (228, 'asd', 'asd', 'Estadio Cóndor', 4),
+            (229, 'asd', 'asd', 'PB', 5),
+            (230, 'asd', 'asd', 'P1', 5),
+            (231, 'asd', 'asd', 'P2', 5),
+            (232, 'asd', 'asd', 'P3', 5),
+            (233, 'asd', 'asd', 'P4', 5),
+            (234, 'asd', 'asd', 'P5', 5),
+            (235, 'asd', 'asd', 'P6', 5),
+            (236, 'asd', 'asd', 'Estadio Cóndor', 5),
 /*brazil-area-main-street*/
-    (236, 'asd', 'asd', 'Calle Principal', 3),
-    (237, 'asd', 'asd', 'Mansión de Zoolan', 3),
+    (237, 'asd', 'asd', 'Calle Principal', 3),
+    (238, 'asd', 'asd', 'Mansión de Zoolan', 3),
 /*brazil-area-downtown*/
-    (238, 'asd', 'asd', 'Calle Lateral', 3),
+    (239, 'asd', 'asd', 'Calle Lateral', 3),
 /*brazil-area-back-alley*/
-    (239, 'asd', 'asd', 'Callejón', 3),
+    (240, 'asd', 'asd', 'Callejón', 3),
 /*sea-turtle-island-sea-turtle-port*/
-    (240, 'asd', 'asd', 'Puerto Tortuga Marina', 3),
+    (241, 'asd', 'asd', 'Puerto Tortuga Marina', 3),
 /*sea-turtle-island-road-to-the-stadium*/
-    (241, 'asd', 'asd', 'Camino del Estadio', 3),
+    (242, 'asd', 'asd', 'Camino del Estadio', 3),
 /*sea-turtle-island-sea-turtle-stadium*/
-    (242, 'asd', 'asd', 'E. Tortuga M. - Entrada', 3),
-        (243, 'asd', 'asd', 'Estadio Tortuga Marina', 4),
+    (243, 'asd', 'asd', 'E. Tortuga M. - Entrada', 3),
+        (244, 'asd', 'asd', 'Estadio Tortuga Marina', 4),
 /*cotarl-area-urban-area*/
-    (244, 'asd', 'asd', 'Ciudad', 3),
+    (245, 'asd', 'asd', 'Ciudad', 3),
 /*cotarl-area-square*/
-    (245, 'asd', 'asd', 'Lugar de Reunión', 3),
+    (246, 'asd', 'asd', 'Lugar de Reunión', 3),
 /*mount-magnitude-entrance*/
-    (246, 'asd', 'asd', 'Laberinto Monte Magnitud', 3),
-    (247, 'asd', 'asd', 'Puerta Demoníaca', 3),
-    (248, 'asd', 'asd', 'Jardín Celestial', 3),
-    (249, 'asd', 'asd', 'Tierra Legendaria', 3),
+    (247, 'asd', 'asd', 'Laberinto Monte Magnitud', 3),
+    (248, 'asd', 'asd', 'Puerta Demoníaca', 3),
+    (249, 'asd', 'asd', 'Jardín Celestial', 3),
+    (250, 'asd', 'asd', 'Tierra Legendaria', 3),
 /*future-future*/
-    (250, 'asd', 'asd', 'El Futuro - Calle', 3),
-    (251, 'asd', 'asd', 'El Futuro - Z. Residencial', 3),
-        (252, 'asd', 'asd', 'Casa de Canon', 4),
-    (253, 'asd', 'asd', 'El Futuro - Laboratorio', 3),
-        (254, 'asd', 'asd', 'Laboratorio Prof. Killard', 4),
-    (255, 'asd', 'asd', 'Túnel Subterráneo', 3),
-    (256, 'asd', 'asd', 'Alacantarilla', 3),
-    (257, 'asd', 'asd', 'E. Ogro - Entrada', 3),
-        (258, 'asd', 'asd', 'Estadio del Ogro', 4),
-insert into outer_zone (
-    outer_zone_id, 
+    (251, 'asd', 'asd', 'El Futuro - Calle', 3),
+    (252, 'asd', 'asd', 'El Futuro - Z. Residencial', 3),
+        (253, 'asd', 'asd', 'Casa de Canon', 4),
+    (254, 'asd', 'asd', 'El Futuro - Laboratorio', 3),
+        (255, 'asd', 'asd', 'Laboratorio Prof. Killard', 4),
+    (256, 'asd', 'asd', 'Túnel Subterráneo', 3),
+    (257, 'asd', 'asd', 'Alacantarilla', 3),
+    (258, 'asd', 'asd', 'E. Ogro - Entrada', 3),
+        (259, 'asd', 'asd', 'Estadio del Ogro', 4);
+
+insert into zone_outer (
+    zone_outer_id, 
     region_id) values 
 (1, 1), (2, 1), (3, 1), (4, 1), (5, 1), (6, 1), (7, 1), (8, 1), (9, 1), (10, 1), 
 (11, 2), (12, 2), (13, 2), (14, 2), (15, 2), (16, 2), (17, 2), (18, 2), (19, 2), 
 (20, 2), (21, 2), (22, 2), (23, 2), (24, 2), (25, 3), (26, 4);
 
-insert into inner_zone (
-    inner_zone_id, 
-    outer_zone_id) values 
+insert into zone_inner (
+    zone_inner_id, 
+    zone_outer_id) values 
 (27, 1), (28, 1), (29, 1), (30, 1), (31, 1), (32, 1), (33, 1), (34, 1), (35, 1), 
 (36, 1), (37, 2), (38, 2), (39, 2), (40, 2), (41, 3), (42, 3), (43, 3), (44, 4),
 (45, 4), (46, 5), (47, 5), (48, 6), (49, 6), (50, 7), (51, 7), (52, 8), (53, 8),
@@ -521,12 +521,49 @@ insert into inner_zone (
 (88, 21), (89, 21), (90, 22), (91, 22), (92, 22), (93, 23), (94, 23), (95, 24), 
 (96, 25);
 
+insert into zone_level ( 
+    zone_level_id,
+    zone_inner_id) values
+(97, 27), (98, 28), (99, 28), (100, 28), (101, 28), (102, 28), (103, 29), 
+(111, 29), (116, 29), (118, 29), (120, 30), (121, 30), (122, 31), (125, 32), 
+(130, 33), (131, 34), (132, 35), (133, 35), (134, 36), (135, 37), (137, 38), 
+(141, 39), (145, 40), (146, 40), (148, 41), (149, 42), (150, 43), (151, 43), 
+(152, 44), (153, 44), (154, 45), (155, 45), (156, 46), (157, 46), (158, 47), 
+(159, 47), (160, 48), (161, 49), (162, 50), (163, 51), (164, 52), (165, 53), 
+(166, 54), (171, 55), (172, 56), (173, 56), (174, 56), (175, 57), (176, 57), 
+(180, 57), (181, 58), (183, 59), (185, 60), (192, 61), (193, 62), (197, 63), 
+(199, 64), (203, 65), (204, 66), (205, 67), (206, 68), (207, 69), (209, 70), 
+(210, 71), (211, 72), (212, 73), (213, 74), (214, 75), (216, 76), (217, 77), 
+(218, 78), (219, 79), (220, 80), (221, 81), (223, 82), (224, 83), (225, 84), 
+(226, 85), (227, 86), (237, 87), (238, 87), (239, 88), (240, 89), (241, 90), 
+(242, 91), (243, 92), (245, 93), (246, 94), (247, 95), (248, 95), (249, 95), 
+(250, 95), (251, 96), (252, 96), (254, 96), (256, 96), (257, 96), (258, 96); 
+
+insert into zone_building ( 
+    zone_building_id,
+    zone_level_id) values
+(104, 103), (107, 103), (112, 111), (117, 116), (119, 118), (123, 122),
+(124, 122), (126, 125), (136, 135), (138, 137), (142, 141), (147, 146), 
+(167, 166), (177, 176), (182, 181), (184, 183), (186, 185), (194, 193), 
+(198, 197), (200, 199), (208, 207), (215, 214), (222, 221), (228, 227), 
+(244, 243), (253, 252), (255, 254), (259, 258);
+
+insert into zone_building_floor ( 
+    zone_building_floor_id,
+    zone_building_id) values
+(105, 104), (106, 104), (108, 107), (109, 107), (110, 107), (113, 112), 
+(114, 112), (115, 112), (127, 126), (128, 126), (129, 126), (139, 138), 
+(140, 138), (143, 142), (144, 142), (168, 167), (169, 167), (170, 167), 
+(178, 177), (179, 177), (187, 186), (188, 186), (189, 186), (190, 186), 
+(191, 186), (195, 194), (196, 194), (201, 200), (202, 200), (229, 228), 
+(230, 228), (231, 228), (232, 228), (233, 228), (234, 228), (235, 228),
+(236, 228);
+
 insert into store_type (
     store_type_id, 
     store_type_name_ja, 
     store_type_name_en, 
-    store_type_name_es) 
-values
+    store_type_name_es) values
     (1, 'ごくらくマーケット', 'Market', 'Mercazuma'),
     (2, 'ペンギーゴ', 'Sport Shop', 'Balón Bazar'),
     (3, '秘宝堂', 'Tech Shop', 'Todotécnicas'),
@@ -536,7 +573,81 @@ values
     (7, '駄菓子屋', 'Sweet Shop', 'Tienda de Chuches');
 
 /*4-select*/
+/*select-zone-level*/
+SET @var_zone_level_id := 220;
+select 
+lvl.zone_level_id,
+inn.zone_inner_id,
+oute.zone_outer_id,
+zlvl.zone_name_es,
+zinn.zone_name_es,
+zoute.zone_name_es
 
+from zone_level lvl
 
+join zone_inner inn 
+on lvl.zone_inner_id = inn.zone_inner_id
 
+join zone_outer oute 
+on oute.zone_outer_id = inn.zone_outer_id
+
+join zone zlvl
+on zlvl.zone_id = lvl.zone_level_id
+
+join zone zinn
+on zinn.zone_id = inn.zone_inner_id
+
+join zone zoute
+on zoute.zone_id = oute.zone_outer_id
+
+where lvl.zone_level_id = @var_zone_level_id\G
+
+/*select-zone-building*/
+SET @var_zone_building_id := 107;
+select 
+bld.zone_building_id,
+lvl.zone_level_id,
+inn.zone_inner_id,
+oute.zone_outer_id,
+zbld.zone_name_es,
+zlvl.zone_name_es,
+zinn.zone_name_es,
+zoute.zone_name_es
+
+from zone_building bld
+
+join zone_level lvl
+on bld.zone_level_id = lvl.zone_level_id
+
+join zone_inner inn 
+on lvl.zone_inner_id = inn.zone_inner_id
+
+join zone_outer oute 
+on oute.zone_outer_id = inn.zone_outer_id
+
+join zone zbld
+on zbld.zone_id = bld.zone_building_id
+
+join zone zlvl
+on zlvl.zone_id = lvl.zone_level_id
+
+join zone zinn
+on zinn.zone_id = inn.zone_inner_id
+
+join zone zoute
+on zoute.zone_id = oute.zone_outer_id
+
+where bld.zone_building_id = @var_zone_building_id\G
+
+/*select-zone-building-floor*/
+select 
+flr.zone_building_floor_id,
+zfld.zone_name_es
+
+from zone_building_floor flr
+
+join zone zfld
+on zfld.zone_id = flr.zone_building_floor_id
+
+where flr.zone_building_id = @var_zone_building_id\G
 
