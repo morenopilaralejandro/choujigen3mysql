@@ -204,7 +204,7 @@ values
     (55, '大海原中', 'Mary Times Junior High', 'Instituto Mary Times', 2),
 /*fuji*/
     (56, '富士の樹海', 'Fuji Forest', 'Bosque del Monte Fuji', 2),
-    (57, '星の使徒研究所', 'Fuji Lab', 'Laboratirio M. de las Estrellas', 2),
+    (57, '星の使徒研究所', 'Fuji Lab', 'Laboratorio M. de las Estrellas', 2),
 /*entrance*/
     (58, 'ライオコット空港', 'Liocott Airport', 'Aeropuerto de Liocott', 2),
     (59, 'セントラルパーク', 'Central Park', 'Parque Central', 2),
@@ -254,9 +254,9 @@ values
     (92, 'ウミガメスタジアム', 'Sea Turtle Stadium', 'Estadio Tortuga Marina', 2),
 /*cotarl-area*/
     (93, '入り口前', 'Urban Area', 'Ciudad', 2),
-    (94, '広場前', 'Square', 'Lugar de reunion', 2),
+    (94, '広場前', 'Square', 'Lugar de Reunión', 2),
 /*mount-magnitude*/
-    (95, 'ダンジョン', 'Dungeon', 'Mazmorra', 2),
+    (95, 'エントランス', 'Entrance', 'Entrada', 2),
 /*future*/
     (96, '未来', 'Future', 'Futuro', 2),
 /*zone-level-building-building-floor*/
@@ -309,189 +309,197 @@ values
 /*north-tokyo-arcane-hill*/
     (134, '裏山', 'Hill Behind', 'Cerro Arcano', 3),
 /*south-tokyo-tokyo-international-airport*/
-    aeropuerto de tokyo
-        aeropuerto de tokyo   
+    (135, '東京大江戸国際空港', 'Tokyo International Airport', 'Aeropuerto de Tokyo', 3),
+        (136, '東京大江戸国際空港', 'Tokyo International Airport', 'Aeropuerto de Tokyo', 4),
 /*south-tokyo-football-association*/
-    asociación de fútbol
-        asociación de fútbol
-            recepción
-            archivo
+    (137, 'サッカー協会前', 'Football Association', 'Asociación de Fútbol', 3),
+        (138, 'サッカー協会', 'Football Association', 'Asociación de Fútbol', 4),
+            (139, 'サッカー協会 ロビー', 'Lobby', 'Recepción', 5),
+            (140, 'サッカー協会 資料室', 'Resource Room', 'Archivo', 5),
+
+
+------------
+------------
+------------
+------------
+------------
 /*south-tokyo-frontier-stadium*/
-    entrada 
-    estadio FF
-        vestíbulo
-        estadio FF
+    (140, 'Fスタジアム前', 'asd', 'Entrada', 3),
+        (141, 'asd', 'asd', 'Estadio FF', 4),
+            (142, 'asd', 'asd', 'Vestíbulo', 5),
+            (143, 'asd', 'asd', 'Estadio FF', 5),   
 /*south-tokyo-toramarus-restaurant*/
-    alrededores C.Hobbes
-    casa hobbes
-        casa hobbes
+    (144, 'asd', 'asd', 'alrededores C.Hobbes', 3),
+    (145, 'asd', 'asd', 'Casa Hobbes', 3),
+        (146, 'asd', 'asd', 'Casa Hobbes', 4),
 /*hokkaido-urban-area*/
-    hokkaido
-        balón bazar
-        todotécnicas
-        mercazuma
+    (147, 'asd', 'asd', 'Hokkaido', 3),
 /*hokkaido-heavy-snow-field*/
-    pico del norte
+    (148, 'asd', 'asd', 'Pico del Norte', 3),
 /*hokkaido-alpine-junior-high*/
-    instituto alpino
-    campo alpino
+    (149, 'asd', 'asd', 'Instituto Alpino', 3),
+    (150, 'asd', 'asd', 'Campo Alpino', 3),
 /*nara-nara-city-area*/
-    nara - Este
-        todotécnicas
-        balón bazar
-    nara - Oeste
-        mercazuma
+    (151, 'asd', 'asd', 'Nara - Este', 3),
+    (152, 'asd', 'asd', 'Nara - Oeste', 3),
 /*nara-deer-park*/
-シカ公園市街北側 - Deer Park - Parque Deerfield
-シカ公園巨シカ像側 - Deer Park Giant Deer Statue Side - Estatua p. Deerfield
+    (153, 'シカ公園市街北側', 'Deer Park', 'Parque Deerfield', 3),
+    (154, 'シカ公園巨シカ像側 ', 'Deer Park Statue Side', 'Estatua p. Deerfield', 3),
 /*osaka-urban-area*/
-    osaka
-        mercazuma
-    barrio de tiendas
-        balón bazar
-        todotécnicas
+    (155, 'asd', 'asd', 'Osaka', 3),
+    (156, 'asd', 'asd', 'Barrio de Tiendas', 3),
 /*osaka-naniwaland*/
-    ciudad
-    osaka land
+    (157, 'asd', 'asd', 'Ciudad', 3),
+    (158, 'asd', 'asd', 'Osakaland', 3),
 /*kioto-kyoto-city-area*/
-    kioto
-        balón bazar
+    (159, 'asd', 'asd', 'Kioto', 3),
 /*kioto-cloister-divinity*/
-    claustro sagrado
+    (160, 'asd', 'asd', 'Claustro Sagrado', 3),
 /*ehime-ehime-city-area*/
-    ehime
-        todotécnicas
-        mercazuma
+    (161, 'asd', 'asd', 'Ehime', 3),
 /*ehime-pier*/
-    puerto
+    (162, 'asd', 'asd', 'Puerto', 3),
 /*fukuoka-fukuoka-city-area*/
-    fukuoka
-        balón bazar
-        todotécnicas
+    (163, 'asd', 'asd', 'Fukuoka', 3),
 /*fukuoka-fauxshore*/
-    fauxshore
+    (164, 'asd', 'asd', 'Fauxshore', 3),
 /*okinawa-okinawa-city-area*/
-    okinawa
-        todotécnicas
-        balón bazar
-        mercazuma
-        Faro
-            pb
-            casa del faro
-            parte superior
+    (165, 'asd', 'asd', 'Okinawa', 3),
+        (166, 'asd', 'asd', 'Faro', 4),  
+            (167, 'asd', 'asd', 'PB', 5), 
+            (168, 'asd', 'asd', 'Casa del Faro', 5),
+            (169, 'asd', 'asd', 'Parte Superior', 5),        
 /*okinawa-mary times-junior-high*/
-    mary times
+    (170, 'asd', 'asd', 'Mary Times', 3),
 /*fuji-fuji-forest*/
-    entrada del bosque
-    laberinto del bosque
-    cueva del bosque
+    (171, 'asd', 'asd', 'Entrada del Bosque', 3),
+    (172, 'asd', 'asd', 'Laberinto del Bosque', 3),
+    (173, 'asd', 'asd', 'Cueva del bosque', 3),
 /*fuji-fuji-lab*/
-    aparcam laboratorio
-        laboratorio
-            pb
-            p1
-            p2
-            p3
-            camara piedra alius
-            campo academia alius
+    (174, 'asd', 'asd', 'Aparcam. Laboratorio', 3),
+    (175, 'asd', 'asd', 'Laberinto del Laboratorio', 3),
+        (176, 'asd', 'asd', 'Camara Piedra Alius', 4),
+            (177, 'asd', 'asd', 'Camara Piedra Alius', 5),
+            (178, 'asd', 'asd', 'Camara Piedra Alius', 5),    
+    (179, 'asd', 'asd', 'Campo Academia Alius', 3),
 /*entrance-liocott-airport*/
-    aeropuerto de liocott
-
+    (180, 'asd', 'asd', 'Aeropuerto de Liocott', 3),
+        (181, 'asd', 'asd', 'Aeropuerto de Liocott', 4),
 /*entrance-central-park*/
-
+    (182, 'asd', 'asd', 'Parque Central', 3),
+        (183, 'asd', 'asd', 'Nuevo C.E. Recepción', 4),
 /*entrance-titanic-stadium*/
-
+        (184, 'asd', 'asd', 'Estadio Monumental', 3),
+            (185, 'asd', 'asd', 'Estadio Monumental', 4),
+                (186, 'asd', 'asd', 'Vestíbulo', 5),
+                (187, 'asd', 'asd', 'Vestuario 1', 5),
+                (188, 'asd', 'asd', 'Vestuario 2', 5),
+                (189, 'asd', 'asd', 'Vestuario 3', 5),
+                (190, 'asd', 'asd', 'Estadio Monumental', 5),
 /*entrance-liocott-port*/
-
+    (191, 'asd', 'asd', 'Puerto de Liocott', 3),
 /*entrance-hospital*/
-
+    (192, 'asd', 'asd', 'Hospital de Liocott', 3),
+        (193, 'asd', 'asd', 'Hospital de Liocott', 4),
+            (194, 'asd', 'asd', 'Hospital de Liocott', 5),
+            (195, 'asd', 'asd', 'Hospital de Liocott', 5),
 /*japan-area-shopping-street*/
-
+    (196, 'asd', 'asd', 'Zona de Tiendas', 3),
+        (197, 'asd', 'asd', 'Recepción C.E.', 4),
 /*japan-area-hostel*/
-
+    (198, 'asd', 'asd', 'Albergue', 3),
+        (199, 'asd', 'asd', 'Albergue', 4),
+            (200, 'asd', 'asd', 'PB', 5),
+            (201, 'asd', 'asd', 'P1', 5),
 /*uk-area-fountain-street*/
-
+    (202, 'asd', 'asd', 'Calle de la Fuente', 3),
 /*uk-area-empty-lot*/
-
+    (203, 'asd', 'asd', 'Solar Vacío', 3),
 /*sea-snake-island-sea-snake-port*/
-
+    (204, 'asd', 'asd', 'Puerto Hidra', 3),
 /*sea-snake-island-road-to-the-stadium*/
-
+    (205, 'asd', 'asd', 'Camino del Estadio', 3),
 /*sea-snake-island-sea-snake-stadium*/
-
+    (206, 'asd', 'asd', 'Estadio Hidra - Entrada', 3),
+        (207, 'asd', 'asd', 'Estadio Hidra', 4),
 /*argentina-area-main-street*/
-
+    (208, 'asd', 'asd', 'Calle Principal', 3),
 /*argentina-area-statue-square*/
-
+    (209, 'asd', 'asd', 'Plaza de la Estatua', 3),
 /*argentina-area-y-intersection*/
-
+    (210, 'asd', 'asd', 'Intersección en Y', 3),
 /*wildcat-island-wildcat-port*/
-
+    (211, 'asd', 'asd', 'Puerto Gato Montés', 3),
 /*wildcat-island-road-to-the-stadium*/
-
+    (212, 'asd', 'asd', 'Camino del Estadio', 3),
 /*wildcat-island-wildcat-stadium*/
-
+    (213, 'asd', 'asd', 'E. Gato Montés - Entrada', 3),
+        (214, 'asd', 'asd', 'Estadio Gato Montés', 4),
 /*us-area-urban-area*/
-
+    (215, 'asd', 'asd', 'Ciudad', 3),
 /*us-area-scrapping*/
-
+    (216, 'asd', 'asd', 'Desguace', 3),
 /*us-area-station*/
-
+    (217, 'asd', 'asd', 'Estación', 3),
 /*peacock-island-peacock-port*/
-
+    (218, 'asd', 'asd', 'asd', 3),
 /*peacock-island-road-to-the-stadium*/
-
+    (219, 'asd', 'asd', 'Camino del Estadio', 3),
 /*peacock-island-peacock-stadium*/
-
+    (220, 'asd', 'asd', 'E. Pavo Real - Entrada', 3),
+        (221, 'asd', 'asd', 'Estadio Pavo Real', 4),
 /*italy-area-main-street*/
-
+    (222, 'asd', 'asd', 'Calle Principal', 3),
 /*italy-area-park*/
-
+    (223, 'asd', 'asd', 'Parque', 3),
 /*italy-area-football-court*/
-
+    (224, 'asd', 'asd', 'Campo de Fútbol', 3),
 /*condor-island-condor-port*/
-
+    (225, 'asd', 'asd', 'Puerto Cóndor', 3),
 /*condor-island-condor-stadium*/
-
+    (226, 'asd', 'asd', 'Estadio Cóndor - Entrada', 3),
+        (227, 'asd', 'asd', 'Estadio Cóndor', 4),
+            (228, 'asd', 'asd', 'PB', 5),
+            (229, 'asd', 'asd', 'P1', 5),
+            (230, 'asd', 'asd', 'P2', 5),
+            (231, 'asd', 'asd', 'P3', 5),
+            (232, 'asd', 'asd', 'P4', 5),
+            (233, 'asd', 'asd', 'P5', 5),
+            (234, 'asd', 'asd', 'P6', 5),
+            (235, 'asd', 'asd', 'Estadio Cóndor', 5),
 /*brazil-area-main-street*/
-
+    (236, 'asd', 'asd', 'Calle Principal', 3),
+    (237, 'asd', 'asd', 'Mansión de Zoolan', 3),
 /*brazil-area-downtown*/
-
+    (238, 'asd', 'asd', 'Calle Lateral', 3),
 /*brazil-area-back-alley*/
-
+    (239, 'asd', 'asd', 'Callejón', 3),
 /*sea-turtle-island-sea-turtle-port*/
-
+    (240, 'asd', 'asd', 'Puerto Tortuga Marina', 3),
 /*sea-turtle-island-road-to-the-stadium*/
-
+    (241, 'asd', 'asd', 'Camino del Estadio', 3),
 /*sea-turtle-island-sea-turtle-stadium*/
-
+    (242, 'asd', 'asd', 'E. Tortuga M. - Entrada', 3),
+        (243, 'asd', 'asd', 'Estadio Tortuga Marina', 4),
 /*cotarl-area-urban-area*/
-
+    (244, 'asd', 'asd', 'Ciudad', 3),
 /*cotarl-area-square*/
-
-/*mount-magnitude-dungeon*/
-
+    (245, 'asd', 'asd', 'Lugar de Reunión', 3),
+/*mount-magnitude-entrance*/
+    (246, 'asd', 'asd', 'Laberinto Monte Magnitud', 3),
+    (247, 'asd', 'asd', 'Puerta Demoníaca', 3),
+    (248, 'asd', 'asd', 'Jardín Celestial', 3),
+    (249, 'asd', 'asd', 'Tierra Legendaria', 3),
 /*future-future*/
-
-
-
-
-
-
-    (100, 'asd', 'ad', 'asd', 3)
-
-/*
-future inner
-Urban Area
-Ogre Junior High
-
-
-
-ガルシルド邸  Garshild Mansion
-ガルシルド邸廊下 Garshild Mansion Corridor
-*/
-
-
+    (250, 'asd', 'asd', 'El Futuro - Calle', 3),
+    (251, 'asd', 'asd', 'El Futuro - Z. Residencial', 3),
+        (252, 'asd', 'asd', 'Casa de Canon', 4),
+    (253, 'asd', 'asd', 'El Futuro - Laboratorio', 3),
+        (254, 'asd', 'asd', 'Laboratorio Prof. Killard', 4),
+    (255, 'asd', 'asd', 'Túnel Subterráneo', 3),
+    (256, 'asd', 'asd', 'Alacantarilla', 3),
+    (257, 'asd', 'asd', 'E. Ogro - Entrada', 3),
+        (258, 'asd', 'asd', 'Estadio del Ogro', 4),
 insert into outer_zone (
     outer_zone_id, 
     region_id) values 
