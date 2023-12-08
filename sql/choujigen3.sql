@@ -316,63 +316,58 @@ values
         (138, 'サッカー協会', 'Football Association', 'Asociación de Fútbol', 4),
             (139, 'サッカー協会 ロビー', 'Lobby', 'Recepción', 5),
             (140, 'サッカー協会 資料室', 'Resource Room', 'Archivo', 5),
-/*
-------------
-------------
-------------
-------------
-------------
-south-tokyo-frontier-stadium*/
-    (141, 'Fスタジアム前', 'asd', 'Entrada', 3),
-        (142, 'asd', 'asd', 'Estadio FF', 4),
-            (143, 'asd', 'asd', 'Vestíbulo', 5),
-            (144, 'asd', 'asd', 'Estadio FF', 5),   
+/*south-tokyo-frontier-stadium*/
+    (141, 'Fスタジアム前', 'Entrance', 'Entrada', 3),
+        (142, 'Fスタジアム', 'Frontier Stadium', 'Estadio FF', 4),
+            (143, 'Fスタジアム 廊下', 'Corridor', 'Vestíbulo', 5),
+            (144, 'Fスタジアム', 'Frontier Stadium', 'Estadio FF', 5),   
 /*south-tokyo-toramarus-restaurant*/
-    (145, 'asd', 'asd', 'alrededores C.Hobbes', 3),
-    (146, 'asd', 'asd', 'Casa Hobbes', 3),
-        (147, 'asd', 'asd', 'Casa Hobbes', 4),
+    (145, '虎ノ屋周辺', 'Around Toramaru\'s Restaurant', 'Alrededores C.Hobbes', 3),
+    (146, '虎ノ屋前', 'Toramaru\'s Restaurant Area', 'Casa Hobbes', 3),
+        (147, '虎ノ屋', 'Toramaru\'s Restaurant', 'Casa Hobbes', 4),
 /*hokkaido-urban-area*/
-    (148, 'asd', 'asd', 'Hokkaido', 3),
+    (148, '北海道街中', 'Hokkaido City Center', 'Hokkaido', 3),
 /*hokkaido-heavy-snow-field*/
-    (149, 'asd', 'asd', 'Pico del Norte', 3),
+    (149, '北ヶ峰', 'Heavy Snow Field', 'Pico del Norte', 3),
 /*hokkaido-alpine-junior-high*/
-    (150, 'asd', 'asd', 'Instituto Alpino', 3),
-    (151, 'asd', 'asd', 'Campo Alpino', 3),
+    (150, '白恋中 校舎側', 'Alpine Junior High Building Side', 'Instituto Alpino', 3),
+    (151, '白恋中 グラウンド側', 'Alpine Junior High Court Side', 'Campo Alpino', 3),
 /*nara-nara-city-area*/
-    (152, 'asd', 'asd', 'Nara - Este', 3),
-    (153, 'asd', 'asd', 'Nara - Oeste', 3),
+    (152, '奈良市街地 東側', 'Nara City Area - East Side', 'Nara - Este', 3),
+    (153, '奈良市街地 西側', 'Nara City Area - West Side', 'Nara - Oeste', 3), 
 /*nara-deer-park*/
-    (154, 'シカ公園市街北側', 'Deer Park', 'Parque Deerfield', 3),
-    (155, 'シカ公園巨シカ像側 ', 'Deer Park Statue Side', 'Estatua p. Deerfield', 3),
+    (154, 'シカ公園 市街地側', 'Deer Park', 'Parque Deerfield', 3),
+    (155, 'シカ公園 巨シカ像側 ', 'Deer Park Statue Side', 'Estatua P. Deerfield', 3),
 /*osaka-urban-area*/
-    (156, 'asd', 'asd', 'Osaka', 3),
-    (157, 'asd', 'asd', 'Barrio de Tiendas', 3),
+    (156, '大阪市街地', 'Osaka City Area', 'Osaka', 3),
+    (157, '大阪市街地 商店街側', 'Osaka City Area Shopping Street Side', 'Barrio de Tiendas', 3),
 /*osaka-naniwaland*/
-    (158, 'asd', 'asd', 'Ciudad', 3),
-    (159, 'asd', 'asd', 'Osakaland', 3),
+    (158, 'ナニワランド 入り口', 'Naniwaland Entrance', 'Ciudad', 3),
+    (159, 'ナニワランド 広場', 'Naniwaland Square', 'Osakaland', 3),
 /*kioto-kyoto-city-area*/
-    (160, 'asd', 'asd', 'Kioto', 3),
+    (160, '京都市街地', 'Kyoto City Area', 'Kioto', 3),
 /*kioto-cloister-divinity*/
-    (161, 'asd', 'asd', 'Claustro Sagrado', 3),
+    (161, '漫遊寺中', 'Cloister Divinity', 'Claustro Sagrado', 3),
 /*ehime-ehime-city-area*/
-    (162, 'asd', 'asd', 'Ehime', 3),
+    (162, '愛媛市街地', 'Ehime City Area', 'Ehime', 3),
 /*ehime-pier*/
-    (163, 'asd', 'asd', 'Puerto', 3),
+    (163, '埠頭', 'Pier', 'Puerto', 3),
 /*fukuoka-fukuoka-city-area*/
-    (164, 'asd', 'asd', 'Fukuoka', 3),
+    (164, '福岡市街地', 'Fukuoka City Area', 'Fukuoka', 3),
 /*fukuoka-fauxshore*/
-    (165, 'asd', 'asd', 'Fauxshore', 3),
+    (165, '陽花戸中', 'Fauxshore', 'Fauxshore', 3),
 /*okinawa-okinawa-city-area*/
-    (166, 'asd', 'asd', 'Okinawa', 3),
-        (167, 'asd', 'asd', 'Faro', 4),  
-            (168, 'asd', 'asd', 'PB', 5), 
-            (169, 'asd', 'asd', 'Casa del Faro', 5),
-            (170, 'asd', 'asd', 'Parte Superior', 5),        
-/*okinawa-mary times-junior-high*/
-    (171, 'asd', 'asd', 'Mary Times', 3),
-/*fuji-fuji-forest*/
-    (172, 'asd', 'asd', 'Entrada del Bosque', 3),
-    (173, 'asd', 'asd', 'Laberinto del Bosque', 3),
+    (166, '沖縄市街地', 'Okinawa City Area', 'Okinawa', 3),
+        (167, '灯台', 'Lighthouse', 'Faro', 4),  
+            (168, '1F', 'GF', 'PB', 5), 
+            (169, '小部屋', 'Small Room', 'Casa del Faro', 5),
+            (170, '屋上', 'Rooftop', 'Parte Superior', 5),        
+/*okinawa-mary-times-junior-high*/
+    (171, '大海原中', 'Mary Times Junior High', 'Mary Times', 3),
+/*fuji-fuji-forest
+    (172, '', '', 'Entrada del Bosque', 3),
+*/
+    (173, '富士の樹海 迷路', 'Fuji Forest Maze', 'Laberinto del Bosque', 3),
     (174, 'asd', 'asd', 'Cueva del bosque', 3),
 /*fuji-fuji-lab*/
     (175, 'asd', 'asd', 'Aparcam. Laboratorio', 3),
