@@ -365,17 +365,17 @@ values
 /*okinawa-mary-times-junior-high*/
     (171, '大海原中', 'Mary Times Junior High', 'Mary Times', 3),
 /*fuji-fuji-forest
-    (172, '', '', 'Entrada del Bosque', 3),
+    (172, '', '', 'Entrada del Bosque', 3), 星の使徒研究所
 */
     (173, '富士の樹海 迷路', 'Fuji Forest Maze', 'Laberinto del Bosque', 3),
-    (174, 'asd', 'asd', 'Cueva del bosque', 3),
+    (174, '最果ての洞くつ', 'Forest Cave', 'Cueva del Bosque', 3),
 /*fuji-fuji-lab*/
-    (175, 'asd', 'asd', 'Aparcam. Laboratorio', 3),
-    (176, 'asd', 'asd', 'Laberinto del Laboratorio', 3),
-        (177, 'asd', 'asd', 'Camara Piedra Alius', 4),
-            (178, 'asd', 'asd', 'Camara Piedra Alius', 5),
-            (179, 'asd', 'asd', 'Camara Piedra Alius', 5),    
-    (180, 'asd', 'asd', 'Campo Academia Alius', 3),
+    (175, '研究所駐車場', 'Lab Parking', 'Aparcam. Laboratorio', 3),
+    (176, '研究所 迷路', 'Lab Maze', 'Laberinto del Laboratorio', 3),
+        (177, 'エイリア石の部屋', 'Alius Stone Room', 'Camara Piedra Alius', 4),
+            (178, '下側', 'Lower Side', 'Parte Inferior', 5),
+            (179, '上側', 'Upper Side', 'Parte Superior', 5),    
+    (180, '星の使徒グラウンド', 'Fuji Lab Court', 'Campo Academia Alius', 3),
 /*entrance-liocott-airport*/
     (181, 'asd', 'asd', 'Aeropuerto de Liocott', 3),
         (182, 'asd', 'asd', 'Aeropuerto de Liocott', 4),
