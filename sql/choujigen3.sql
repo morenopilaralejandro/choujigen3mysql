@@ -218,7 +218,7 @@ values
     (65, '噴水通り', 'Fountain Street', 'Calle de la Fuente', 2),
     (66, '空き地前', 'Empty Lot', 'Solar Vacío', 2),
 /*sea-snake-island*/
-    (67, 'ウミヘビ港', 'Sea snake port', 'Puerto Hidra', 2),
+    (67, 'ウミヘビ港', 'Sea Snake Port', 'Puerto Hidra', 2),
     (68, 'スタジアムへの道', 'Road to the Stadium', 'Camino del Estadio', 2),
     (69, 'ウミヘビスタジアム', 'Sea Snake Stadium', 'Estadio Hidra', 2),
 /*argentina-area*/
@@ -366,6 +366,7 @@ values
     (171, '大海原中', 'Mary Times Junior High', 'Mary Times', 3),
 /*fuji-fuji-forest
     (172, '', '', 'Entrada del Bosque', 3), 星の使徒研究所
+    256 × 192
 */
     (173, '富士の樹海 迷路', 'Fuji Forest Maze', 'Laberinto del Bosque', 3),
     (174, '最果ての洞くつ', 'Forest Cave', 'Cueva del Bosque', 3),
@@ -377,58 +378,58 @@ values
             (179, '上側', 'Upper Side', 'Parte Superior', 5),    
     (180, '星の使徒グラウンド', 'Fuji Lab Court', 'Campo Academia Alius', 3),
 /*entrance-liocott-airport*/
-    (181, 'asd', 'asd', 'Aeropuerto de Liocott', 3),
-        (182, 'asd', 'asd', 'Aeropuerto de Liocott', 4),
+    (181, 'ライオコット空港', 'Liocott Airport', 'Aeropuerto de Liocott', 3),
+        (182, 'ライオコット空港', 'Liocott Airport', 'Aeropuerto de Liocott', 4),
 /*entrance-central-park*/
-    (183, 'asd', 'asd', 'Parque Central', 3),
-        (184, 'asd', 'asd', 'Nuevo C.E. Recepción', 4),
+    (183, 'セントラルパーク', 'Central Park', 'Parque Central', 3),
+        (184, '新修練場 受付', 'New Training Center Reception', 'Nuevo C.E. Recepción', 4),
 /*entrance-titanic-stadium*/
-    (185, 'asd', 'asd', 'Estadio Monumental', 3),
-        (186, 'asd', 'asd', 'Estadio Monumental', 4),
-            (187, 'asd', 'asd', 'Vestíbulo', 5),
-            (188, 'asd', 'asd', 'Vestuario 1', 5),
-            (189, 'asd', 'asd', 'Vestuario 2', 5),
-            (190, 'asd', 'asd', 'Vestuario 3', 5),
-            (191, 'asd', 'asd', 'Estadio Monumental', 5),
+    (185, 'Tスタジアム前', 'Titanic Stadium Area', 'Estadio Monumental', 3),
+        (186, 'Tスタジアム', 'Titanic Stadium', 'Estadio Monumental', 4),
+            (187, 'Tスタジアム 廊下', 'Corridor', 'Vestíbulo', 5),
+            (188, 'Tスタジアム 控え室 1', 'Waiting Room 1', 'Vestuario 1', 5),
+            (189, 'Tスタジアム 控え室 2', 'Waiting Room 2', 'Vestuario 2', 5),
+            (190, 'Tスタジアム 控え室 3', 'Waiting Room 3', 'Vestuario 3', 5),
+            (191, 'Tスタジアム', 'Titanic Stadium', 'Estadio Monumental', 5),
 /*entrance-liocott-port*/
-    (192, 'asd', 'asd', 'Puerto de Liocott', 3),
+    (192, 'ライオコット港', 'Liocott Port', 'Puerto de Liocott', 3),
 /*entrance-hospital*/
-    (193, 'asd', 'asd', 'Hospital de Liocott', 3),
-        (194, 'asd', 'asd', 'Hospital de Liocott', 4),
-            (195, 'asd', 'asd', 'Hospital de Liocott', 5),
-            (196, 'asd', 'asd', 'Hospital de Liocott', 5),
+    (193, 'ライオコット病院', 'Liocott Hospital', 'Hospital de Liocott', 3),
+        (194, 'ライオコット病院', 'Liocott Hospital', 'Hospital de Liocott', 4),
+            (195, 'ライオコット病院', 'Liocott Hospital', 'Hospital de Liocott', 5),
+            (196, 'ライオコット病院', 'Liocott Hospital', 'Hospital de Liocott', 5),
 /*japan-area-shopping-street*/
-    (197, 'asd', 'asd', 'Zona de Tiendas', 3),
-        (198, 'asd', 'asd', 'Recepción C.E.', 4),
+    (197, '店舗通り', 'Shopping Street', 'Zona de Tiendas', 3),
+        (198, '修練場 受付', 'Training Center Reception', 'Recepción C.E.', 4),
 /*japan-area-hostel*/
-    (199, 'asd', 'asd', 'Albergue', 3),
-        (200, 'asd', 'asd', 'Albergue', 4),
-            (201, 'asd', 'asd', 'PB', 5),
-            (202, 'asd', 'asd', 'P1', 5),
+    (199, '宿舎前', 'Hostel Area', 'Albergue', 3),
+        (200, '宿舎', 'Hostel', 'Albergue', 4),
+            (201, '1F', 'GF', 'PB', 5),
+            (202, '2F', 'F1', 'P1', 5),
 /*uk-area-fountain-street*/
-    (203, 'asd', 'asd', 'Calle de la Fuente', 3),
+    (203, '噴水通り', 'Fountain Street', 'Calle de la Fuente', 3),
 /*uk-area-empty-lot*/
-    (204, 'asd', 'asd', 'Solar Vacío', 3),
+    (204, '空き地前', 'Empty Lot Area', 'Solar Vacío', 3),
 /*sea-snake-island-sea-snake-port*/
-    (205, 'asd', 'asd', 'Puerto Hidra', 3),
+    (205, 'ウミヘビ港', 'Sea Snake Port', 'Puerto Hidra', 3),
 /*sea-snake-island-road-to-the-stadium*/
-    (206, 'asd', 'asd', 'Camino del Estadio', 3),
+    (206, 'スタジアムへの道', 'Road to the Stadium', 'Camino del Estadio', 3),
 /*sea-snake-island-sea-snake-stadium*/
-    (207, 'asd', 'asd', 'Estadio Hidra - Entrada', 3),
-        (208, 'asd', 'asd', 'Estadio Hidra', 4),
+    (207, 'ウミヘビスタジアム前', 'Sea Snake Stadium Entrance', 'Estadio Hidra - Entrada', 3),
+        (208, 'ウミヘビスタジアム', 'Sea Snake Stadium', 'Estadio Hidra', 4),
 /*argentina-area-main-street*/
-    (209, 'asd', 'asd', 'Calle Principal', 3),
+    (209, 'メインストリート', 'Main Street', 'Calle Principal', 3),
 /*argentina-area-statue-square*/
-    (210, 'asd', 'asd', 'Plaza de la Estatua', 3),
+    (210, '銅像広場', 'Statue Square', 'Plaza de la Estatua', 3),
 /*argentina-area-y-intersection*/
-    (211, 'asd', 'asd', 'Intersección en Y', 3),
+    (211, 'Y字路前', 'Y-Intersection Area', 'Intersección en Y', 3),
 /*wildcat-island-wildcat-port*/
-    (212, 'asd', 'asd', 'Puerto Gato Montés', 3),
+    (212, 'ヤマネコ港', 'Wildcat Port', 'Puerto Gato Montés', 3),
 /*wildcat-island-road-to-the-stadium*/
-    (213, 'asd', 'asd', 'Camino del Estadio', 3),
+    (213, 'スタジアムへの道', 'Road to the Stadium', 'Camino del Estadio', 3),
 /*wildcat-island-wildcat-stadium*/
-    (214, 'asd', 'asd', 'E. Gato Montés - Entrada', 3),
-        (215, 'asd', 'asd', 'Estadio Gato Montés', 4),
+    (214, 'ヤマネコスタジアム前', 'Wildcat Stadium Entrance', 'E. Gato Montés - Entrada', 3),
+        (215, 'ヤマネコスタジアム', 'Wildcat Stadium', 'Estadio Gato Montés', 4),
 /*us-area-urban-area*/
     (216, 'asd', 'asd', 'Ciudad', 3),
 /*us-area-scrapping*/
