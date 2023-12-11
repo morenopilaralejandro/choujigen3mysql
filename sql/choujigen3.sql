@@ -238,9 +238,9 @@ values
     (80, 'スタジアムへの道', 'Road to the Stadium', 'Camino del Estadio', 2),
     (81, 'クジャクスタジアム', 'Peacock Stadium', 'Estadio Pavo Real', 2),
 /*italy-area*/
-    (82, 'イタリア街', 'Main Street', 'Calle Principal', 2),
-    (83, '公園', 'Park', 'Parque', 2),
-    (84, 'サッカー場', 'Football Court', 'Campo de Fútbol', 2),
+    (82, 'メインストリート', 'Main Street', 'Calle Principal', 2),
+    (83, '公園前', 'Park', 'Parque', 2),
+    (84, 'グラウンド前', 'Football Court', 'Campo de Fútbol', 2),
 /*condor-island*/
     (85, 'コンドル港', 'Condor Port', 'Puerto Cóndor', 2),
     (86, 'コンドルスタジアム', 'Condor Stadium', 'Estadio Cóndor', 2),
@@ -431,24 +431,24 @@ values
     (214, 'ヤマネコスタジアム前', 'Wildcat Stadium Entrance', 'E. Gato Montés - Entrada', 3),
         (215, 'ヤマネコスタジアム', 'Wildcat Stadium', 'Estadio Gato Montés', 4),
 /*us-area-urban-area*/
-    (216, 'asd', 'asd', 'Ciudad', 3),
+    (216, '入り口前', 'Urban Area', 'Ciudad', 3),
 /*us-area-scrapping*/
-    (217, 'asd', 'asd', 'Desguace', 3),
+    (217, 'スクラップ広場', 'Scrapping', 'Desguace', 3),
 /*us-area-station*/
-    (218, 'asd', 'asd', 'Estación', 3),
+    (218, '駅前広場', 'Station', 'Estación', 3),
 /*peacock-island-peacock-port*/
-    (219, 'asd', 'asd', 'asd', 3),
+    (219, 'クジャク港', 'Peacock Port', 'asd', 3),
 /*peacock-island-road-to-the-stadium*/
-    (220, 'asd', 'asd', 'Camino del Estadio', 3),
+    (220, 'スタジアムへの道', 'Road to the Stadium', 'Camino del Estadio', 3),
 /*peacock-island-peacock-stadium*/
-    (221, 'asd', 'asd', 'E. Pavo Real - Entrada', 3),
-        (222, 'asd', 'asd', 'Estadio Pavo Real', 4),
+    (221, 'クジャクスタジアム前', 'Peacock Stadium Entrance', 'E. Pavo Real - Entrada', 3),
+        (222, 'クジャクスタジアム', 'Peacock Stadium', 'Estadio Pavo Real', 4),
 /*italy-area-main-street*/
-    (223, 'asd', 'asd', 'Calle Principal', 3),
+    (223, 'メインストリート', 'Main Street', 'Calle Principal', 3),
 /*italy-area-park*/
-    (224, 'asd', 'asd', 'Parque', 3),
+    (224, '公園前', 'Park Area', 'Parque', 3),
 /*italy-area-football-court*/
-    (225, 'asd', 'asd', 'Campo de Fútbol', 3),
+    (225, 'グラウンド前', 'Football Court', 'Campo de Fútbol', 3),
 /*condor-island-condor-port*/
     (226, 'asd', 'asd', 'Puerto Cóndor', 3),
 /*condor-island-condor-stadium*/
