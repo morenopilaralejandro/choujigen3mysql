@@ -160,7 +160,7 @@ values
     (21, 'ブラジルエリア', 'Brazil Area', 'Área de Brasil', 1),
     (22, 'ウミガメ島', 'Sea Turtle Island', 'Isla de la Tortuga Marina', 1),
     (23, 'コトアールエリア', 'Cotarl Area', 'Costail', 1),
-    (24, 'マグニード山', 'Mt.Magnido', 'Monte Magnitud', 1),
+    (24, 'マグニード山', 'Mt.Magnitude', 'Monte Magnitud', 1),
     (25, '未来', 'Future', 'Futuro', 1),
     (26, 'イナズマキャラバン', 'Inazuma Caravan', 'Caravana Inazuma', 1),
 /*zone-zone_inner*/
@@ -179,7 +179,7 @@ values
     (37, '東京大江戸国際空港', 'Tokyo International Airport', 'Aeropuerto de Tokio', 2),
     (38, 'サッカー協会', 'Football Association', 'Sede de la Asociación de Fútbol', 2),
     (39, 'フロンティアスタジアム', 'Frontier Stadium', 'Estadio Fútbol Frontier', 2),
-    (40, '虎ノ屋', 'Toramaru\'s restaurant', 'Casa Hobbes', 2),
+    (40, '虎ノ屋', 'Hobbes\'s Restaurant', 'Casa Hobbes', 2),
 /*hokkaido*/
     (41, '市街地', 'Urban Area', 'Ciudad', 2),
     (42, '大雪原', 'Heavy Snow Field', 'Pico del Norte', 2),
@@ -322,9 +322,9 @@ values
             (143, 'Fスタジアム 廊下', 'Corridor', 'Vestíbulo', 5),
             (144, 'Fスタジアム', 'Frontier Stadium', 'Estadio FF', 5),   
 /*south-tokyo-toramarus-restaurant*/
-    (145, '虎ノ屋周辺', 'Around Toramaru\'s Restaurant', 'Alrededores C.Hobbes', 3),
-    (146, '虎ノ屋前', 'Toramaru\'s Restaurant Area', 'Casa Hobbes', 3),
-        (147, '虎ノ屋', 'Toramaru\'s Restaurant', 'Casa Hobbes', 4),
+    (145, '虎ノ屋周辺', 'Around Hobbes\'s Restaurant', 'Alrededores C.Hobbes', 3),
+    (146, '虎ノ屋前', 'Hobbes\'s Restaurant Area', 'Casa Hobbes', 3),
+        (147, '虎ノ屋', 'Hobbes\'s Restaurant', 'Casa Hobbes', 4),
 /*hokkaido-urban-area*/
     (148, '北海道街中', 'Hokkaido City Center', 'Hokkaido', 3),
 /*hokkaido-heavy-snow-field*/
@@ -450,36 +450,37 @@ values
 /*italy-area-football-court*/
     (225, 'グラウンド前', 'Football Court', 'Campo de Fútbol', 3),
 /*condor-island-condor-port*/
-    (226, 'asd', 'asd', 'Puerto Cóndor', 3),
+    (226, 'コンドル港', 'Condor Port', 'Puerto Cóndor', 3),
 /*condor-island-condor-stadium*/
-    (227, 'asd', 'asd', 'Estadio Cóndor - Entrada', 3),
-        (228, 'asd', 'asd', 'Estadio Cóndor', 4),
-            (229, 'asd', 'asd', 'PB', 5),
-            (230, 'asd', 'asd', 'P1', 5),
-            (231, 'asd', 'asd', 'P2', 5),
-            (232, 'asd', 'asd', 'P3', 5),
-            (233, 'asd', 'asd', 'P4', 5),
-            (234, 'asd', 'asd', 'P5', 5),
-            (235, 'asd', 'asd', 'P6', 5),
-            (236, 'asd', 'asd', 'Estadio Cóndor', 5),
+    (227, 'コンドルスタジアム前', 'Condor Stadium Entrance', 'Estadio Cóndor - Entrada', 3),
+        (228, 'コンドルタワー', 'Condor Tower', 'Torre Cóndor', 4),
+            (229, '1F', 'GF', 'PB', 5),
+            (230, '2F', 'F1', 'P1', 5),
+            (231, '3F', 'F2', 'P2', 5),
+            (232, '4F', 'F3', 'P3', 5),
+            (233, '5F', 'F4', 'P4', 5),
+            (234, '6F', 'F5', 'P5', 5),
+            (235, '7F', 'F6', 'P6', 5),
+            (236, 'コンドルスタジアム', 'Condor Stadium', 'Estadio Cóndor', 5),
 /*brazil-area-main-street*/
-    (237, 'asd', 'asd', 'Calle Principal', 3),
-    (238, 'asd', 'asd', 'Mansión de Zoolan', 3),
+    (237, 'メインストリート', 'Main Street', 'Calle Principal', 3),
+    (238, 'ガルシルド邸', 'Zoolan Mansión', 'Mansión de Zoolan', 3),
+        (260, 'ガルシルド邸', 'Zoolan Mansión', 'Mansión de Zoolan', 4),
 /*brazil-area-downtown*/
-    (239, 'asd', 'asd', 'Calle Lateral', 3),
+    (239, '下道', 'Downtown', 'Calle Lateral', 3),
 /*brazil-area-back-alley*/
-    (240, 'asd', 'asd', 'Callejón', 3),
+    (240, '路地裏', 'Back Alley', 'Callejón', 3),
 /*sea-turtle-island-sea-turtle-port*/
-    (241, 'asd', 'asd', 'Puerto Tortuga Marina', 3),
+    (241, 'ウミガメ港', 'Sea Turtle Port', 'Puerto Tortuga Marina', 3),
 /*sea-turtle-island-road-to-the-stadium*/
-    (242, 'asd', 'asd', 'Camino del Estadio', 3),
+    (242, 'スタジアムへの道', 'Road to the Stadium', 'Camino del Estadio', 3),
 /*sea-turtle-island-sea-turtle-stadium*/
-    (243, 'asd', 'asd', 'E. Tortuga M. - Entrada', 3),
-        (244, 'asd', 'asd', 'Estadio Tortuga Marina', 4),
+    (243, 'ウミガメスタジアム前', 'Sea Turtle Stadium Entrance', 'E. Tortuga M. - Entrada', 3),
+        (244, 'ウミガメスタジアム', 'Sea Turtle Stadium', 'Estadio Tortuga Marina', 4),
 /*cotarl-area-urban-area*/
-    (245, 'asd', 'asd', 'Ciudad', 3),
+    (245, '入り口前', 'Urban Area', 'Ciudad', 3),
 /*cotarl-area-square*/
-    (246, 'asd', 'asd', 'Lugar de Reunión', 3),
+    (246, '広場前', 'Square', 'Lugar de Reunión', 3),
 /*mount-magnitude-entrance*/
     (247, 'asd', 'asd', 'Laberinto Monte Magnitud', 3),
     (248, 'asd', 'asd', 'Puerta Demoníaca', 3),
@@ -542,7 +543,7 @@ insert into zone_building (
 (124, 122), (126, 125), (136, 135), (138, 137), (142, 141), (147, 146), 
 (167, 166), (177, 176), (182, 181), (184, 183), (186, 185), (194, 193), 
 (198, 197), (200, 199), (208, 207), (215, 214), (222, 221), (228, 227), 
-(244, 243), (253, 252), (255, 254), (259, 258);
+(244, 243), (253, 252), (255, 254), (259, 258), (260, 238);
 
 insert into zone_building_floor ( 
     zone_building_floor_id,
