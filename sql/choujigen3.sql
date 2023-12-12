@@ -482,20 +482,20 @@ values
 /*cotarl-area-square*/
     (246, '広場前', 'Square', 'Lugar de Reunión', 3),
 /*mount-magnitude-entrance*/
-    (247, 'asd', 'asd', 'Laberinto Monte Magnitud', 3),
-    (248, 'asd', 'asd', 'Puerta Demoníaca', 3),
-    (249, 'asd', 'asd', 'Jardín Celestial', 3),
-    (250, 'asd', 'asd', 'Tierra Legendaria', 3),
+    (247, 'マグニード山 迷路', 'Mt.Magnitude Maze', 'Laberinto Monte Magnitud', 3),
+    (248, 'デモンズゲート', 'Demon\'s Gate', 'Puerta Demoníaca', 3),
+    (249, 'ヘブンズガーデン', 'Heaven\'s Garden', 'Jardín Celestial', 3),
+    (250, '伝説の地', 'Legendary Land', 'Tierra Legendaria', 3),
 /*future-future*/
-    (251, 'asd', 'asd', 'El Futuro - Calle', 3),
-    (252, 'asd', 'asd', 'El Futuro - Z. Residencial', 3),
-        (253, 'asd', 'asd', 'Casa de Canon', 4),
-    (254, 'asd', 'asd', 'El Futuro - Laboratorio', 3),
-        (255, 'asd', 'asd', 'Laboratorio Prof. Killard', 4),
-    (256, 'asd', 'asd', 'Túnel Subterráneo', 3),
-    (257, 'asd', 'asd', 'Alacantarilla', 3),
-    (258, 'asd', 'asd', 'E. Ogro - Entrada', 3),
-        (259, 'asd', 'asd', 'Estadio del Ogro', 4);
+    (251, '未来 ストリート', 'Future Street', 'El Futuro - Calle', 3),
+    (252, '未来 住宅街', 'Future Residential Area', 'El Futuro - Z. Residencial', 3),
+        (253, 'カノンの家', 'Canon\'s House', 'Casa de Canon', 4),
+    (254, '未来 研究所前', 'Future Research Institute', 'El Futuro - Laboratorio', 3),
+        (255, 'キラード研究室', 'Killard\'s Laboratory', 'Laboratorio Prof. Killard', 4),
+    (256, '地下道路', 'Underground Tunnel', 'Túnel Subterráneo', 3),
+    (257, '下水道', 'Sewer', 'Alacantarilla', 3),
+    (258, 'オーガスタジアム前', 'Ogre Stadium Entrance', 'E. Ogro - Entrada', 3),
+        (259, 'オーガスタジアム', 'Ogre Stadium', 'Estadio del Ogro', 4);
 
 insert into zone_outer (
     zone_outer_id, 
