@@ -691,12 +691,107 @@ insert into store (
 /*other*/
 (54, 7, 119);
 
+insert into training_method (    
+    training_method_id,
+    training_method_name_ja,
+    training_method_name_en,
+    training_method_name_es,
+    training_method_desc_ja,
+    training_method_desc_en,
+    training_method_desc_es) values
+(1, 'エクスプローシブストライカー', 'Explosive Striker', 'Delantero Explosivo', 
+    '最大のショット力。', 
+    'Maxed out shooting power.', 
+    'Máximo poder de tiro.'),
+(2, 'ライトニングストライカー', 'Lightning Striker', 'Delantero Relámpago', 
+    '平均的なショット力と高いスピード。', 
+    'Average shooting power and high speed.', 
+    'Poder de tiro intermedio y elevada rapidez.'),
+(3, 'バランスストライカー', 'All-rounder Striker', 'Delantero Todoterreno', 
+    'スピードに優れたバランスの取れたシュートとドリブル能力。 攻撃的ミッドフィールダーにも有効です。', 
+    'Balanced shooting and dribbling capability with high speed. It also works for offensive midfielders.', 
+    'Capacidad equilibrada de tiro y regate con elevada rapidez. También sirve para mediocentros ofensivos.'),
+(4, 'エクスプローシブミッドフィールダー', 'Explosive Midfielder', 'Medio Explosivo', 
+    'ドリブル力とブロック力は向上しますが、スピードは低下します。', 
+    'Greater dribbling and blocking power but lesser speed.', 
+    'Mayor poder de regate y bloqueo pero menor rapidez.'),
+(5, 'バランス', 'en', 'All-rounder', 
+    '高いスピードを備えたバランスの取れたドリブルとブロック能力。', 
+    'Balanced dribbling and blocking capability with high speed.', 
+    'Capacidad equilibrada de regate y bloqueo con elevada rapidez.'),
+(6, 'コントミッドフィールダー', 'Control Midfielder', 'Medio Control', 
+    'コントの影響を受けたアクションでゴールを決めることができます。', 
+    'It is possible to score a goal with actions influenced by control.', 
+    'Permite marcar gol con acciones influenciadas por el control.'),
+(7, 'ガッツディフェンダー', 'Guts Defender', 'Defensa Valor', 
+    '平均的なブロック能力と高速性。', 
+    'Average blocking capability and high speed.', 
+    'Capacidad de bloqueo intermedia y elevada rapidez.'),
+(8, 'ガッツキーパー', 'Guts Keeper', 'Portero Valor', 
+    '最大のキャッチ力。', 
+    'Maxed out save power.', 
+    'Máximo poder de parada.'),
+(9, 'スピードキーパー', 'Speed Keeper', 'Portero Rapidez', 
+    '平均的なキャッチ能力と高速性。', 
+    'Average saving capability and high speed.', 
+    'Capacidad de parada intermedia y elevada rapidez.');
+
+insert into stat (    
+    stat_id,
+    stat_name_ja,
+    stat_name_en,
+    stat_name_es) values
+(1, 'GP', 'FP', 'PE'),
+(2, 'TP', 'TP', 'PT'),
+(3, 'キック', 'Kick', 'Tiro'),
+(4, 'ボディ', 'Body', 'Físico'),
+(5, 'コント', 'Control', 'Control'),
+(6, 'ガード', 'Guard', 'Defensa'),
+(7, 'スピード', 'Speed', 'Rapidez'),
+(8, 'スタミナ', 'Stamina', 'Aguante'),
+(9, 'ガッツ', 'Guts', 'Valor'),
+(10, '自由値', 'Freedom', 'Libertad');
+
+insert into training_method_focuses_on_stat (    
+    training_method_id,
+    stat_id) values
+(1, 3), (1, 5), (1, 9),
+(2, 3), (2, 7), (2, 9),
+(3, 3), (3, 7), (3, 4),
+(4, 4), (4, 6), (4, 9),
+(5, 4), (5, 6), (5, 7),
+(6, 4), (6, 6), (6, 5),
+(7, 6), (7, 9), (7, 7),
+(8, 6), (8, 4), (8, 9),
+(9, 6), (9, 4), (9, 7);
+
 /*
-drop table if exists attri;
-drop table if exists position;
-drop table if exists body_type;
-drop table if exists genre;
-drop table if exists training_method_focuses_on_stat;
-drop table if exists stat;
-drop table if exists training_method;
+insert into genre (    
+    genre_id,
+    genre_name_ja,
+    genre_name_en,
+    genre_name_es,
+    genre_symbol) values
+();
+
+insert into body_type (    
+    body_type_id,
+    body_type_name_ja,
+    body_type_name_en,
+    body_type_name_es) values
+();
+
+insert into position (    
+    position_id,
+    position_name_ja,
+    position_name_en,
+    position_name_es) values
+();
+
+insert into attri (    
+    attri_id int,
+    attri_name_ja,
+    attri_name_en,
+    attri_name_es) values
+();
 */
