@@ -1,6 +1,13 @@
 /*database choujigen3ogre*/
 
 /*1-drop*/
+drop table if exists attri;
+drop table if exists position;
+drop table if exists body_type;
+drop table if exists genre;
+drop table if exists training_method_focuses_on_stat;
+drop table if exists stat;
+drop table if exists training_method;
 drop table if exists store;
 drop table if exists store_type;
 drop table if exists zone_building_floor;
@@ -13,6 +20,7 @@ drop table if exists zone_type;
 drop table if exists region;
 
 /*2-create*/
+/*page-zone*/
 create table region (
     region_id int not null auto_increment,
     region_name_ja varchar(32),
@@ -105,6 +113,70 @@ create table store (
         references store_type(store_type_id) on delete cascade,
     constraint store_fk_zone foreign key (zone_id) 
         references zone(zone_id) on delete cascade
+);
+/*page-training-method*/
+create table training_method (
+    training_method_id int not null auto_increment,
+    training_method_name_ja varchar(32),
+    training_method_name_en varchar(32),
+    training_method_name_es varchar(32),
+    training_method_desc_ja varchar(200),
+    training_method_desc_en varchar(200),
+    training_method_desc_es varchar(200),
+    constraint training_method_pk primary key (training_method_id)
+);
+
+create table stat (
+    stat_id int not null auto_increment,
+    stat_name_ja varchar(32),
+    stat_name_en varchar(32),
+    stat_name_es varchar(32),
+    constraint stat_pk primary key (stat_id)
+);
+
+create table training_method_focuses_on_stat (
+    training_method_id int not null,
+    stat_id int not null,
+    constraint training_method_focuses_on_stat_pk 
+        primary key (training_method_id, stat_id),    
+    constraint training_method_focuses_on_stat_fk_training_method
+        foreign key (training_method_id) 
+        references training_method(training_method_id) on delete cascade,
+    constraint training_method_focuses_on_stat_fk_stat foreign key (stat_id) 
+        references stat(stat_id) on delete cascade
+);
+/*page-player*/
+create table genre (
+    genre_id int not null auto_increment,
+    genre_name_ja varchar(32),
+    genre_name_en varchar(32),
+    genre_name_es varchar(32),
+    genre_symbol varchar(1),
+    constraint genre_pk primary key (genre_id)
+);
+
+create table body_type (
+    body_type_id int not null auto_increment,
+    body_type_name_ja varchar(32),
+    body_type_name_en varchar(32),
+    body_type_name_es varchar(32),
+    constraint body_type_pk primary key (body_type_id)
+);
+
+create table position (
+    position_id int not null auto_increment,
+    position_name_ja varchar(32),
+    position_name_en varchar(32),
+    position_name_es varchar(32),
+    constraint position_pk primary key (position_id)
+);
+
+create table attri (
+    attri_id int not null auto_increment,
+    attri_name_ja varchar(32),
+    attri_name_en varchar(32),
+    attri_name_es varchar(32),
+    constraint attri_pk primary key (attri_id)
 );
 
 /*3-insert*/
@@ -340,7 +412,7 @@ values
     (155, 'シカ公園 巨シカ像側 ', 'Deer Park Statue Side', 'Estatua P. Deerfield', 3),
 /*osaka-urban-area*/
     (156, '大阪市街地', 'Osaka City Area', 'Osaka', 3),
-    (157, '大阪市街地 商店街側', 'Osaka City Area Shopping Street Side', 'Barrio de Tiendas', 3),
+    (157, '大阪市街地 商店街側', 'Shopping Street Side', 'Barrio de Tiendas', 3),
 /*osaka-naniwaland*/
     (158, 'ナニワランド 入り口', 'Naniwaland Entrance', 'Ciudad', 3),
     (159, 'ナニワランド 広場', 'Naniwaland Square', 'Osakaland', 3),
@@ -437,7 +509,7 @@ values
 /*us-area-station*/
     (218, '駅前広場', 'Station', 'Estación', 3),
 /*peacock-island-peacock-port*/
-    (219, 'クジャク港', 'Peacock Port', 'asd', 3),
+    (219, 'クジャク港', 'Peacock Port', 'Puerto Pavo Real', 3),
 /*peacock-island-road-to-the-stadium*/
     (220, 'スタジアムへの道', 'Road to the Stadium', 'Camino del Estadio', 3),
 /*peacock-island-peacock-stadium*/
@@ -527,7 +599,7 @@ insert into zone_level (
 (141, 39), (145, 40), (146, 40), (148, 41), (149, 42), (150, 43), (151, 43), 
 (152, 44), (153, 44), (154, 45), (155, 45), (156, 46), (157, 46), (158, 47), 
 (159, 47), (160, 48), (161, 49), (162, 50), (163, 51), (164, 52), (165, 53), 
-(166, 54), (171, 55), (172, 56), (173, 56), (174, 56), (175, 57), (176, 57), 
+(166, 54), (171, 55), /*(172, 56),*/ (173, 56), (174, 56), (175, 57), (176, 57), 
 (180, 57), (181, 58), (183, 59), (185, 60), (192, 61), (193, 62), (197, 63), 
 (199, 64), (203, 65), (204, 66), (205, 67), (206, 68), (207, 69), (209, 70), 
 (210, 71), (211, 72), (212, 73), (213, 74), (214, 75), (216, 76), (217, 77), 
@@ -561,90 +633,70 @@ insert into store_type (
     store_type_name_ja, 
     store_type_name_en, 
     store_type_name_es) values
-    (1, 'ごくらくマーケット', 'Market', 'Mercazuma'),
-    (2, 'ペンギーゴ', 'Sport Shop', 'Balón Bazar'),
-    (3, '秘宝堂', 'Tech Shop', 'Todotécnicas'),
-    (4, '万屋', 'Salesman', 'Vendedor'),
-    (5, '最強ショップ', 'Strongest shop', 'Supertienda'),
-    (6, '真・最強ショップ', 'True Strongest shop', 'Supertienda Redux'),
-    (7, '駄菓子屋', 'Sweet Shop', 'Tienda de Chuches');
+(1, 'ごくらくマーケット', 'Market', 'Mercazuma'),
+(2, 'ペンギーゴ', 'Sport Shop', 'Balón Bazar'),
+(3, '秘宝堂', 'Tech Shop', 'Todotécnicas'),
+(4, '万屋', 'Salesman', 'Vendedor'),
+(5, '最強ショップ', 'Strongest shop', 'Supertienda'),
+(6, '真・最強ショップ', 'True Strongest shop', 'Supertienda Redux'),
+(7, '駄菓子屋', 'Sweet Shop', 'Tienda de Chuches');
 
-/*4-select*/
-/*select-zone-level*/
-SET @var_zone_level_id := 220;
-select 
-lvl.zone_level_id,
-inn.zone_inner_id,
-oute.zone_outer_id,
-zlvl.zone_name_es,
-zinn.zone_name_es,
-zoute.zone_name_es
+insert into store (
+    store_id,
+    store_type_id,
+    zone_id) values 
+/*tokio*/
+(1, 1, 98), (2, 2, 98), (3, 2, 101), (4, 1, 130), (5, 4, 116), (6, 5, 109), 
+(7, 4, 146), (8, 4, 143),
+/*kioto*/
+(9, 1, 160), (10, 2, 160),
+/*fukuoka*/
+(11, 2, 164), (12, 3, 164),
+/*nara*/
+(13, 2, 152), (14, 1, 153), (15, 3, 152),
+/*ehime*/
+(16, 1, 162), (17, 3, 162),
+/*okinawa*/
+(18, 1, 166), (19, 2, 166), (20, 3, 166),
+/*hokkaido*/
+(21, 2, 148), (22, 1, 148), (23, 3, 148),
+/*osaka*/
+(24, 1, 156), (25, 2, 157), (26, 3, 157),
+/*sea-snake-port*/
+(27, 4, 205),
+/*wildcat-port*/
+(28, 4, 212),
+/*condor-port*/
+(29, 4, 226),
+/*peacock-port*/
+(30, 4, 219),
+/*sea-turtle-port*/
+(31, 4, 241), 
+/*cotarl-area*/
+(32, 1, 245), (33, 3, 245), (34, 2, 246),
+/*brazil-area*/
+(35, 1, 237), (36, 2, 240), (37, 3, 239),
+/*us-area*/
+(38, 2, 217), (39, 1, 216), (40, 3, 218),
+/*argentina-area*/
+(41, 3, 209), (42, 1, 209), (43, 2, 211),
+/*italy-area*/ 
+(44, 1, 223), (45, 3, 224), (46, 2, 223),
+/*japan-area*/
+(47, 1, 197), (48, 3, 197), (49, 2, 197),
+/*uk-area*/
+(50, 1, 204), (51, 3, 203), (52, 2, 203),
+/*mount-magnitude*/
+(53, 6, 250),
+/*other*/
+(54, 7, 119);
 
-from zone_level lvl
-
-join zone_inner inn 
-on lvl.zone_inner_id = inn.zone_inner_id
-
-join zone_outer oute 
-on oute.zone_outer_id = inn.zone_outer_id
-
-join zone zlvl
-on zlvl.zone_id = lvl.zone_level_id
-
-join zone zinn
-on zinn.zone_id = inn.zone_inner_id
-
-join zone zoute
-on zoute.zone_id = oute.zone_outer_id
-
-where lvl.zone_level_id = @var_zone_level_id\G
-
-/*select-zone-building*/
-SET @var_zone_building_id := 107;
-select 
-bld.zone_building_id,
-lvl.zone_level_id,
-inn.zone_inner_id,
-oute.zone_outer_id,
-zbld.zone_name_es,
-zlvl.zone_name_es,
-zinn.zone_name_es,
-zoute.zone_name_es
-
-from zone_building bld
-
-join zone_level lvl
-on bld.zone_level_id = lvl.zone_level_id
-
-join zone_inner inn 
-on lvl.zone_inner_id = inn.zone_inner_id
-
-join zone_outer oute 
-on oute.zone_outer_id = inn.zone_outer_id
-
-join zone zbld
-on zbld.zone_id = bld.zone_building_id
-
-join zone zlvl
-on zlvl.zone_id = lvl.zone_level_id
-
-join zone zinn
-on zinn.zone_id = inn.zone_inner_id
-
-join zone zoute
-on zoute.zone_id = oute.zone_outer_id
-
-where bld.zone_building_id = @var_zone_building_id\G
-
-/*select-zone-building-floor*/
-select 
-flr.zone_building_floor_id,
-zfld.zone_name_es
-
-from zone_building_floor flr
-
-join zone zfld
-on zfld.zone_id = flr.zone_building_floor_id
-
-where flr.zone_building_id = @var_zone_building_id\G
-
+/*
+drop table if exists attri;
+drop table if exists position;
+drop table if exists body_type;
+drop table if exists genre;
+drop table if exists training_method_focuses_on_stat;
+drop table if exists stat;
+drop table if exists training_method;
+*/
