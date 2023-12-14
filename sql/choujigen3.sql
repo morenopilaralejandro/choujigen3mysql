@@ -765,33 +765,41 @@ insert into training_method_focuses_on_stat (
 (8, 6), (8, 4), (8, 9),
 (9, 6), (9, 4), (9, 7);
 
-/*
+
 insert into genre (    
     genre_id,
     genre_name_ja,
     genre_name_en,
     genre_name_es,
     genre_symbol) values
-();
+(1, '男性', 'Male', 'Hombre', '♂'),
+(2, '女性', 'Female', 'Mujer', '♀');
 
 insert into body_type (    
     body_type_id,
     body_type_name_ja,
     body_type_name_en,
     body_type_name_es) values
-();
+(1, 'Sサイズ', 'Small', 'Pequeño'),
+(2, 'Mサイズ', 'Medium', 'Normal'),
+(3, 'Lサイズ', 'Large', 'Gigante');
 
 insert into position (    
     position_id,
     position_name_ja,
     position_name_en,
     position_name_es) values
-();
+(1, 'FW', 'FW', 'DL'),
+(2, 'MF', 'MF', 'MD'),
+(3, 'DF', 'DF', 'DF'),
+(4, 'GK', 'GK', 'PR');
 
 insert into attri (    
-    attri_id int,
+    attri_id,
     attri_name_ja,
     attri_name_en,
     attri_name_es) values
-();
-*/
+(1, '風', 'Wind', 'Aire'),
+(2, '林', 'Wood', 'Bosque'),
+(3, '火', 'Fire', 'Fuego'),
+(4, '山', 'Earth', 'Montaña');
