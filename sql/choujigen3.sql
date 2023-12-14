@@ -179,7 +179,189 @@ create table attri (
     constraint attri_pk primary key (attri_id)
 );
 
+create table passwd (
+    passwd_id int not null auto_increment,
+    passwd_ja varchar(32),
+    passwd_en varchar(32),
+    passwd_es varchar(32),
+    constraint passwd_pk primary key (passwd_id)
+);
+
+create table player_obtention_method (
+    player_obtention_method_id int not null auto_increment,
+    player_obtention_method_name varchar(32),
+    constraint player_obtention_method_pk 
+        primary key (player_obtention_method_id)
+);
+
+create table player (
+    player_id int not null auto_increment,
+    player_name_ja varchar(32),
+    player_name_en  varchar(32),
+    player_initial_lv int,
+    player_gp_99 int,
+    player_tp_99 int,
+    player_kick_99 int,
+    player_body_99 int,
+    player_control_99 int,
+    player_guard_99 int,
+    player_speed_99 int,
+    player_stamina_99 int,
+    player_guts_99 int,
+    player_freedom_99  int,
+    attri_id int,
+    position_id int,
+    genre_id int,
+    body_type_id int,
+    constraint player_pk primary key (player_id),
+    constraint player_fk_attri foreign key (attri_id) 
+        references attri(attri_id) on delete cascade,
+    constraint player_fk_position foreign key (position_id) 
+        references position(position_id) on delete cascade,
+    constraint player_fk_genre foreign key (genre_id) 
+        references genre(genre_id) on delete cascade,
+    constraint player_fk_body_type foreign key (body_type_id) 
+        references body_type(body_type_id) on delete cascade
+);
+
+/*page-item*/
+create table item_type (
+    item_type_id not null auto_increment,
+    item_type_name varchar(32),
+    constraint item_type_pk primary key (item_type_id)
+);
+
+create table item (
+    item_id int not null auto_increment,
+    item_name_ja varchar(32),
+    item_name_en varchar(32),
+    item_name_es varchar(32),
+    item_desc_ja varchar(200),
+    item_desc_en varchar(200),
+    item_desc_es varchar(200),
+    item_price_buy int,
+    item_price_sell int,
+    constraint item_pk primary key (item_id)
+);
+
+create table hissatsu_type (
+    hissatsu_type_id int not null auto_increment,
+    hissatsu_type_name varchar(32),
+    constraint hissatsu_type_pk primary key (hissatsu_type_id)
+);
+
+create table item_hissatsu (
+    item_hissatsu_id int not null,
+    hissatsu_type_id int,
+    constraint item_hissatsu_pk primary key (item_hissatsu_id),
+    constraint item_hissatsu_fk_item foreign key (item_hissatsu_id) 
+        references item(item_id) on delete cascade,
+    constraint item_hissatsu_fk_hissatsu_type foreign key (hissatsu_type_id) 
+        references hissatsu_type(hissatsu_type_id) on delete cascade
+);
+
+create table tactic_type (
+    tactic_type_id int not null auto_increment,
+    tactic_type_name_ja varchar(32),
+    tactic_type_name_en varchar(32),
+    tactic_type_name_es varchar(32),
+    constraint tactic_type_pk primary key (tactic_type_id)
+);
+
+create table tactic_side (
+    tactic_side_id int not null auto_increment,
+    tactic_side_name_ja varchar(32),
+    tactic_side_name_en varchar(32),
+    tactic_side_name_es varchar(32),
+    constraint tactic_side_pk primary key (tactic_side_id)    
+);
+
+create table item_tactic (
+    item_tactic_id int not null,
+    item_tactic_ttp int
+    item_tactic_effect_ja varchar(200),
+    item_tactic_effect_en varchar(200),
+    item_tactic_effect_es varchar(200),
+    tactic_type_id int,
+    tactic_side_id int,
+    constraint item_tactic_id_pk primary key (item_tactic_id),
+    constraint item_tactic_fk_item foreign key (item_tactic_id), 
+        references item(item_id) on delete cascade,
+    constraint item_tactic_fk_tactic_type foreign key (tactic_type_id) 
+        references tactic_type(tactic_type_id) on delete cascade,
+    constraint item_tactic_fk_tactic_side foreign key (tactic_side_id) 
+        references tactic_side(tactic_side_id) on delete cascade
+);
+
+create table equipment_type (
+    equipment_type_id int not null auto_increment,
+    equipment_type_name_ja varchar(32),
+    equipment_type_name_en varchar(32),
+    equipment_type_name_es varchar(32),
+    constraint equipment_type_pk primary key (equipment_type_id)   
+);
+
+create table item_equipment (
+    item_equipment_id
+    equipment_type_id
+    constraint equipment_type_pk primary key (equipment_type_id),
+    constraint item_equipment_fk_item foreign key (item_equipment_id), 
+        references item(item_id) on delete cascade,
+    constraint item_equipment_fk_equipment_type foreign key (equipment_type_id) 
+        references equipment_type(equipment_type_id) on delete cascade
+);
+
+create table item_currency (
+
+);
+
+create table item_reward_player (
+
+);
+
+create table item_map (
+
+);
+
+create table item_key (
+
+);
+
+create table item_recovery (
+
+);
+
+create table item_ultimate_note (
+
+);
+
+create table item_wear (
+
+);
+
+/*page-zone*/
+
 /*3-insert*/
+/*----------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------*/
 insert into region (
     region_id, 
     region_name_ja, 
@@ -724,7 +906,7 @@ insert into training_method (
     'It is possible to score a goal with actions influenced by control.', 
     'Permite marcar gol con acciones influenciadas por el control.'),
 (7, 'ガッツディフェンダー', 'Guts Defender', 'Defensa Valor', 
-    '平均的なブロック能力と高速性。', 
+    '平均的なブロック能力と高いスピード。', 
     'Average blocking capability and high speed.', 
     'Capacidad de bloqueo intermedia y elevada rapidez.'),
 (8, 'ガッツキーパー', 'Guts Keeper', 'Portero Valor', 
@@ -732,7 +914,7 @@ insert into training_method (
     'Maxed out save power.', 
     'Máximo poder de parada.'),
 (9, 'スピードキーパー', 'Speed Keeper', 'Portero Rapidez', 
-    '平均的なキャッチ能力と高速性。', 
+    '平均的なキャッチ能力と高いスピード。', 
     'Average saving capability and high speed.', 
     'Capacidad de parada intermedia y elevada rapidez.');
 
@@ -765,15 +947,14 @@ insert into training_method_focuses_on_stat (
 (8, 6), (8, 4), (8, 9),
 (9, 6), (9, 4), (9, 7);
 
-
 insert into genre (    
     genre_id,
     genre_name_ja,
     genre_name_en,
     genre_name_es,
     genre_symbol) values
-(1, '男性', 'Male', 'Hombre', '♂'),
-(2, '女性', 'Female', 'Mujer', '♀');
+(1, '男', 'Male', 'Hombre', '♂'),
+(2, '女', 'Female', 'Mujer', '♀');
 
 insert into body_type (    
     body_type_id,
@@ -803,3 +984,8 @@ insert into attri (
 (2, '林', 'Wood', 'Bosque'),
 (3, '火', 'Fire', 'Fuego'),
 (4, '山', 'Earth', 'Montaña');
+
+/*
+
+*/
+
