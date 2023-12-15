@@ -1,8 +1,27 @@
 /*database choujigen3ogre*/
 
 /*1-drop*/
+drop table if exists item_wear;
+drop table if exists item_ultimate_note;
+drop table if exists item_recovery;
+drop table if exists item_key;
+drop table if exists item_map;
+drop table if exists item_reward_player;
+drop table if exists item_currency;
+drop table if exists item_equipment;
+drop table if exists equipment_type;
+drop table if exists item_tactic;
+drop table if exists tactic_side;
+drop table if exists tactic_type;
+drop table if exists item_hissatsu;
+drop table if exists hissatsu_type;
+drop table if exists item;
+drop table if exists item_type;
+drop table if exists player;
+drop table if exists player_obtention_method;
+drop table if exists passwd;
 drop table if exists attri;
-drop table if exists position;
+drop table if exists positi;
 drop table if exists body_type;
 drop table if exists genre;
 drop table if exists training_method_focuses_on_stat;
@@ -163,12 +182,12 @@ create table body_type (
     constraint body_type_pk primary key (body_type_id)
 );
 
-create table position (
-    position_id int not null auto_increment,
-    position_name_ja varchar(32),
-    position_name_en varchar(32),
-    position_name_es varchar(32),
-    constraint position_pk primary key (position_id)
+create table positi (
+    positi_id int not null auto_increment,
+    positi_name_ja varchar(32),
+    positi_name_en varchar(32),
+    positi_name_es varchar(32),
+    constraint positi_pk primary key (positi_id)
 );
 
 create table attri (
@@ -197,7 +216,7 @@ create table player_obtention_method (
 create table player (
     player_id int not null auto_increment,
     player_name_ja varchar(32),
-    player_name_en  varchar(32),
+    player_name_en varchar(32),
     player_initial_lv int,
     player_gp_99 int,
     player_tp_99 int,
@@ -208,16 +227,16 @@ create table player (
     player_speed_99 int,
     player_stamina_99 int,
     player_guts_99 int,
-    player_freedom_99  int,
+    player_freedom_99 int,
     attri_id int,
-    position_id int,
+    positi_id int,
     genre_id int,
     body_type_id int,
     constraint player_pk primary key (player_id),
     constraint player_fk_attri foreign key (attri_id) 
         references attri(attri_id) on delete cascade,
-    constraint player_fk_position foreign key (position_id) 
-        references position(position_id) on delete cascade,
+    constraint player_fk_positi foreign key (positi_id) 
+        references positi(positi_id) on delete cascade,
     constraint player_fk_genre foreign key (genre_id) 
         references genre(genre_id) on delete cascade,
     constraint player_fk_body_type foreign key (body_type_id) 
@@ -226,7 +245,7 @@ create table player (
 
 /*page-item*/
 create table item_type (
-    item_type_id not null auto_increment,
+    item_type_id int not null auto_increment,
     item_type_name varchar(32),
     constraint item_type_pk primary key (item_type_id)
 );
@@ -278,14 +297,14 @@ create table tactic_side (
 
 create table item_tactic (
     item_tactic_id int not null,
-    item_tactic_ttp int
+    item_tactic_ttp int,
     item_tactic_effect_ja varchar(200),
     item_tactic_effect_en varchar(200),
     item_tactic_effect_es varchar(200),
     tactic_type_id int,
     tactic_side_id int,
     constraint item_tactic_id_pk primary key (item_tactic_id),
-    constraint item_tactic_fk_item foreign key (item_tactic_id), 
+    constraint item_tactic_fk_item foreign key (item_tactic_id)
         references item(item_id) on delete cascade,
     constraint item_tactic_fk_tactic_type foreign key (tactic_type_id) 
         references tactic_type(tactic_type_id) on delete cascade,
@@ -294,7 +313,7 @@ create table item_tactic (
 );
 
 create table equipment_type (
-    equipment_type_id int not null auto_increment,
+    equipment_type_id int not null,
     equipment_type_name_ja varchar(32),
     equipment_type_name_en varchar(32),
     equipment_type_name_es varchar(32),
@@ -302,42 +321,79 @@ create table equipment_type (
 );
 
 create table item_equipment (
-    item_equipment_id
-    equipment_type_id
+    item_equipment_id int not null,
+    equipment_type_id int,
     constraint equipment_type_pk primary key (equipment_type_id),
-    constraint item_equipment_fk_item foreign key (item_equipment_id), 
+    constraint item_equipment_fk_item foreign key (item_equipment_id)
         references item(item_id) on delete cascade,
     constraint item_equipment_fk_equipment_type foreign key (equipment_type_id) 
         references equipment_type(equipment_type_id) on delete cascade
 );
 
 create table item_currency (
-
+    item_currency_id int not null,
+    item_currency_carry_limit int,
+    constraint item_currency_pk primary key (item_currency_id),
+    constraint item_currency_fk_item foreign key (item_currency_id)
+        references item(item_id) on delete cascade
 );
 
 create table item_reward_player (
-
+    item_reward_player_id int not null,
+    player_id int,
+    constraint item_reward_player_pk primary key (item_reward_player_id),
+    constraint item_reward_player_fk_item foreign key (item_reward_player_id) 
+        references item(item_id) on delete cascade,
+    constraint item_reward_player_fk_player foreign key (player_id) 
+        references player(player_id) on delete cascade
 );
 
 create table item_map (
-
+    item_map_id int not null,
+    zone_id int,
+    constraint item_map_pk primary key (item_map_id),
+    constraint item_map_fk_item foreign key (item_map_id)
+        references item(item_id) on delete cascade,
+    constraint item_map_fk_zone foreign key (zone_id) 
+        references zone(zone_id) on delete cascade
 );
 
 create table item_key (
-
+    item_key_id int not null,
+    zone_building_id int,
+    constraint item_key_pk primary key (item_key_id),
+    constraint item_key_fk_item foreign key (item_key_id) 
+        references item(item_id) on delete cascade,
+    constraint item_key_fk_zone_building foreign key (zone_building_id) 
+        references zone_building(zone_building_id) on delete cascade
 );
 
 create table item_recovery (
-
+    item_recovery_id int not null,
+    item_recovery_gp int,
+    item_recovery_tp int,
+    constraint item_recovery_pk primary key (item_recovery_id),
+    constraint item_recovery_fk_item foreign key (item_recovery_id)
+        references item(item_id) on delete cascade
 );
 
 create table item_ultimate_note (
-
+    item_ultimate_note_id int not null,
+    item_ultimate_note_order int,
+    constraint item_ultimate_note_pk primary key (item_ultimate_note_id),
+    constraint item_ultimate_note_fk_item foreign key (item_ultimate_note_id)
+        references item(item_id) on delete cascade
 );
 
 create table item_wear (
-
+    item_wear_id int not null,
+    item_wear_hex varchar(6), 
+    constraint item_wear_pk primary key (item_wear_id),
+    constraint item_wear_fk_item foreign key (item_wear_id)
+        references item(item_id) on delete cascade
 );
+
+/*missing vscard*/
 
 /*page-zone*/
 
@@ -965,11 +1021,11 @@ insert into body_type (
 (2, 'Mサイズ', 'Medium', 'Normal'),
 (3, 'Lサイズ', 'Large', 'Gigante');
 
-insert into position (    
-    position_id,
-    position_name_ja,
-    position_name_en,
-    position_name_es) values
+insert into positi (    
+    positi_id,
+    positi_name_ja,
+    positi_name_en,
+    positi_name_es) values
 (1, 'FW', 'FW', 'DL'),
 (2, 'MF', 'MF', 'MD'),
 (3, 'DF', 'DF', 'DF'),
@@ -986,6 +1042,24 @@ insert into attri (
 (4, '山', 'Earth', 'Montaña');
 
 /*
-
+passwd
+player_obtention_method
+player
+item_type
+item
+hissatsu_type
+item_hissatsu
+tactic_type
+tactic_side
+item_tactic
+equipment_type
+item_equipment
+item_currency
+item_reward_player
+item_map
+item_key
+item_recovery
+item_ultimate_note
+item_wear
 */
 
