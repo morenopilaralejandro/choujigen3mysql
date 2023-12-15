@@ -1,6 +1,10 @@
 /*database choujigen3ogre*/
 
 /*1-drop*/
+drop table if exists item_sold_at_stor;
+drop table if exists chest;
+drop table if exists npc;
+drop table if exists player_found_at_zone;
 drop table if exists item_wear;
 drop table if exists item_ultimate_note;
 drop table if exists item_recovery;
@@ -27,8 +31,8 @@ drop table if exists genre;
 drop table if exists training_method_focuses_on_stat;
 drop table if exists stat;
 drop table if exists training_method;
-drop table if exists store;
-drop table if exists store_type;
+drop table if exists stor;
+drop table if exists stor_type;
 drop table if exists zone_building_floor;
 drop table if exists zone_building;
 drop table if exists zone_level;
@@ -115,22 +119,22 @@ create table zone_building_floor (
         references zone_building(zone_building_id) on delete cascade
 );
 
-create table store_type ( 
-    store_type_id int not null auto_increment,
-    store_type_name_ja varchar(32),
-    store_type_name_en varchar(32),
-    store_type_name_es varchar(32),
-    constraint store_type_pk primary key (store_type_id)
+create table stor_type ( 
+    stor_type_id int not null auto_increment,
+    stor_type_name_ja varchar(32),
+    stor_type_name_en varchar(32),
+    stor_type_name_es varchar(32),
+    constraint stor_type_pk primary key (stor_type_id)
 );
 
-create table store ( 
-    store_id int not null auto_increment,
-    store_type_id int,
+create table stor ( 
+    stor_id int not null auto_increment,
+    stor_type_id int,
     zone_id int,
-    constraint store_pk primary key (store_id),
-    constraint store_fk_store_type foreign key (store_type_id) 
-        references store_type(store_type_id) on delete cascade,
-    constraint store_fk_zone foreign key (zone_id) 
+    constraint stor_pk primary key (stor_id),
+    constraint stor_fk_stor_type foreign key (stor_type_id) 
+        references stor_type(stor_type_id) on delete cascade,
+    constraint stor_fk_zone foreign key (zone_id) 
         references zone(zone_id) on delete cascade
 );
 /*page-training-method*/
@@ -392,10 +396,55 @@ create table item_wear (
     constraint item_wear_fk_item foreign key (item_wear_id)
         references item(item_id) on delete cascade
 );
-
 /*missing vscard*/
-
 /*page-zone*/
+create table player_found_at_zone (
+    player_id int not null,
+    zone_id int not null,
+    is_random boolean,
+    hint_ja varchar(200), 
+    hint_en varchar(200), 
+    hint_es varchar(200),
+    constraint player_found_at_zone_pk primary key (player_id),
+    constraint player_found_at_zone_fk_player foreign key (player_id)
+        references player(player_id) on delete cascade,
+    constraint player_found_at_zone_fk_zone foreign key (zone_id)
+        references zone(zone_id) on delete cascade
+);
+
+create table npc (
+    npc_id int not null auto_increment,
+    npc_name_ja varchar(32),
+    npc_name_en varchar(32),
+    zone_id int,
+    constraint npc_pk primary key (npc_id),
+    constraint npc_fk_zone foreign key (zone_id)
+        references zone(zone_id) on delete cascade
+);
+
+create table chest (
+    chest_id int not null auto_increment,
+    chest_hint_ja varchar(200), 
+    chest_hint_en varchar(200), 
+    chest_hint_es varchar(200), 
+    zone_id int,
+    item_id int,
+    constraint chest_pk primary key (chest_id),
+    constraint chest_fk_zone foreign key (zone_id)
+        references zone(zone_id) on delete cascade,
+    constraint chest_fk_item foreign key (item_id)
+        references item(item_id) on delete cascade
+);
+
+create table item_sold_at_stor (
+    stor_id int not null,
+    item_id int not null,
+    constraint item_sold_at_stor_pk primary key (stor_id, item_id),
+    constraint item_sold_at_stor_fk_stor_id foreign key (stor_id)
+        references stor(stor_id) on delete cascade,
+    constraint item_sold_at_stor_fk_item foreign key (item_id)
+        references item(item_id) on delete cascade
+);
 
 /*3-insert*/
 /*----------------------------------------------------------------------------*/
@@ -866,11 +915,11 @@ insert into zone_building_floor (
 (230, 228), (231, 228), (232, 228), (233, 228), (234, 228), (235, 228),
 (236, 228);
 
-insert into store_type (
-    store_type_id, 
-    store_type_name_ja, 
-    store_type_name_en, 
-    store_type_name_es) values
+insert into stor_type (
+    stor_type_id, 
+    stor_type_name_ja, 
+    stor_type_name_en, 
+    stor_type_name_es) values
 (1, 'ごくらくマーケット', 'Market', 'Mercazuma'),
 (2, 'ペンギーゴ', 'Sport Shop', 'Balón Bazar'),
 (3, '秘宝堂', 'Tech Shop', 'Todotécnicas'),
@@ -879,9 +928,9 @@ insert into store_type (
 (6, '真・最強ショップ', 'True Strongest shop', 'Supertienda Redux'),
 (7, '駄菓子屋', 'Sweet Shop', 'Tienda de Chuches');
 
-insert into store (
-    store_id,
-    store_type_id,
+insert into stor (
+    stor_id,
+    stor_type_id,
     zone_id) values 
 /*tokio*/
 (1, 1, 98), (2, 2, 98), (3, 2, 101), (4, 1, 130), (5, 4, 116), (6, 5, 109), 
@@ -1061,5 +1110,12 @@ item_key
 item_recovery
 item_ultimate_note
 item_wear
+
+player_found_at_zone
+npc
+chest
+item_sold_at_stor
+
+asd
 */
 
