@@ -1,6 +1,25 @@
 /*database choujigen3ogre*/
 
 /*1-drop*/
+drop table if exists hissatsu_evokes_attri;
+drop table if exists hissatsu_restricted_by_hissatsu_special_restriction;
+drop table if exists hissatsu_special_restriction;
+drop table if exists hissatsu_available_for_positi;
+drop table if exists hissatsu_constrained_by_body_type;
+drop table if exists hissatsu_limited_by_genre;
+drop table if exists hissatsu_evolves;
+drop table if exists growth_type_can_achieve_growth_rate;
+drop table if exists growth_rate;
+drop table if exists growth_type;
+drop table if exists hissatsu_skill;
+drop table if exists hissatsu_catch;
+drop table if exists hissatsu_block;
+drop table if exists hissatsu_dribble;
+drop table if exists hissatsu_shoot_can_have_shoot_special_property;
+drop table if exists hissatsu_shoot;
+drop table if exists shoot_special_property;
+drop table if exists catch_type;
+drop table if exists equipment_strengthens_stat;
 drop table if exists item_sold_at_stor;
 drop table if exists chest;
 drop table if exists npc;
@@ -212,7 +231,9 @@ create table passwd (
 
 create table player_obtention_method (
     player_obtention_method_id int not null auto_increment,
-    player_obtention_method_name varchar(32),
+    player_obtention_method_desc_ja varchar(32),
+    player_obtention_method_desc_en varchar(32),
+    player_obtention_method_desc_es varchar(32),
     constraint player_obtention_method_pk 
         primary key (player_obtention_method_id)
 );
@@ -282,7 +303,7 @@ create table item_hissatsu (
     constraint item_hissatsu_fk_hissatsu_type foreign key (hissatsu_type_id) 
         references hissatsu_type(hissatsu_type_id) on delete cascade
 );
-
+/*page-tactic*/
 create table tactic_type (
     tactic_type_id int not null auto_increment,
     tactic_type_name_ja varchar(32),
@@ -298,7 +319,7 @@ create table tactic_side (
     tactic_side_name_es varchar(32),
     constraint tactic_side_pk primary key (tactic_side_id)    
 );
-
+/*page-item*/
 create table item_tactic (
     item_tactic_id int not null,
     item_tactic_ttp int,
@@ -440,10 +461,216 @@ create table item_sold_at_stor (
     stor_id int not null,
     item_id int not null,
     constraint item_sold_at_stor_pk primary key (stor_id, item_id),
-    constraint item_sold_at_stor_fk_stor_id foreign key (stor_id)
+    constraint item_sold_at_stor_fk_stor foreign key (stor_id)
         references stor(stor_id) on delete cascade,
     constraint item_sold_at_stor_fk_item foreign key (item_id)
         references item(item_id) on delete cascade
+);
+/*page-equipment*/
+create table equipment_strengthens_stat (
+    item_equipment_id int not null,
+    stat_id int not null,    
+    constraint equipment_strengthens_stat_pk 
+        primary key (item_equipment_id, stat_id),
+    constraint equipment_strengthens_stat_fk_item_equipment 
+        foreign key (item_equipment_id)
+        references item_equipment(item_equipment_id) on delete cascade,
+    constraint equipment_strengthens_stat_fk_stat foreign key (stat_id)
+        references stat(stat_id) on delete cascade
+);
+/*page-hissatsu*/
+create table catch_type (
+    catch_type_id int not null auto_increment,
+    catch_type_name_ja varchar(32),
+    catch_type_name_en varchar(32),
+    catch_type_name_es varchar(32),
+    constraint catch_type_pk primary key (catch_type_id)
+);
+
+create table shoot_special_property (
+    shoot_special_property_id int not null auto_increment,
+    shoot_special_property_name_ja varchar(32),
+    shoot_special_property_name_en varchar(32),
+    shoot_special_property_name_es varchar(32),
+    constraint shoot_special_property_pk primary key (shoot_special_property_id)
+);
+
+create table hissatsu_shoot (
+    item_hissatsu_id int not null,
+    hissatsu_shoot_power int,
+    hissatsu_shoot_tp int,
+    hissatsu_shoot_participants int,
+    constraint hissatsu_shoot_pk primary key (item_hissatsu_id),
+    constraint hissatsu_shoot_fk_item_hissatsu foreign key (item_hissatsu_id)
+        references item_hissatsu(item_hissatsu_id) on delete cascade
+);
+
+create table hissatsu_shoot_can_have_shoot_special_property (
+    item_hissatsu_id int not null,
+    shoot_special_property_id int not null,
+    constraint hissatsu_shoot_can_have_spp_pk primary key (item_hissatsu_id),
+    constraint hissatsu_shoot_can_have_ssp_fk_hissatsu_shoot foreign key (item_hissatsu_id)
+        references hissatsu_shoot(item_hissatsu_id) on delete cascade,
+    constraint hissatsu_shoot_can_have_spp_fk_spp foreign key (shoot_special_property_id)
+        references shoot_special_property(shoot_special_property_id) on delete cascade
+);
+
+create table hissatsu_dribble (
+    item_hissatsu_id int not null,
+    hissatsu_dribble_power int,
+    hissatsu_dribble_tp int,
+    hissatsu_dribble_participants int,
+    hissatsu_dribble_foul int,
+    constraint hissatsu_dribble_pk primary key (item_hissatsu_id),
+    constraint hissatsu_dribble_fk_item_hissatsu foreign key (item_hissatsu_id)
+        references item_hissatsu(item_hissatsu_id) on delete cascade
+);
+
+create table hissatsu_block (
+    item_hissatsu_id int not null,
+    hissatsu_block_power int,
+    hissatsu_block_tp int,
+    hissatsu_block_participants int,
+    hissatsu_block_foul int,
+    constraint hissatsu_block_pk primary key (item_hissatsu_id),
+    constraint hissatsu_block_fk_item_hissatsu foreign key (item_hissatsu_id)
+        references item_hissatsu(item_hissatsu_id) on delete cascade
+);
+
+create table hissatsu_catch (
+    item_hissatsu_id int not null,
+    hissatsu_catch_power int,
+    hissatsu_catch_tp int,
+    hissatsu_catch_participants int,
+    catch_type_id int,
+    constraint hissatsu_catch_pk primary key (item_hissatsu_id),
+    constraint hissatsu_catch_fk_item_hissatsu foreign key (item_hissatsu_id)
+        references item_hissatsu(item_hissatsu_id) on delete cascade,
+    constraint hissatsu_catch_fk_catch_type foreign key (catch_type_id)
+        references catch_type(catch_type_id) on delete cascade
+);
+
+create table hissatsu_skill (
+    item_hissatsu_id int not null,
+    hissatsu_skill_effect_ja varchar(200),
+    hissatsu_skill_effect_en varchar(200),
+    hissatsu_skill_effect_es varchar(200),
+    constraint hissatsu_skill_pk primary key (item_hissatsu_id),
+    constraint hissatsu_skill_fk_item_hissatsu foreign key (item_hissatsu_id)
+        references item_hissatsu(item_hissatsu_id) on delete cascade
+);
+
+create table growth_type (
+    growth_type_id int not null auto_increment,
+    growth_type_name_ja varchar(32),
+    growth_type_name_en varchar(32),
+    growth_type_name_es varchar(32),
+    constraint growth_type_pk primary key (growth_type_id)
+);
+
+create table growth_rate (
+    growth_rate_id int not null auto_increment,
+    growth_rate_name_ja varchar(32),
+    growth_rate_name_en varchar(32),
+    growth_rate_name_es varchar(32),
+    constraint growth_rate_pk primary key (growth_rate_id)
+);
+
+create table growth_type_can_achieve_growth_rate (
+    growth_type_id int not null,
+    growth_rate_id int not null,
+    additional_power int, 
+    number_of_uses int,    
+    constraint growth_type_can_achieve_growth_rate_pk 
+        primary key (growth_type_id, growth_rate_id),
+    constraint growth_type_can_achieve_growth_rate_fk_growth_type
+        foreign key (growth_type_id)
+        references growth_type(growth_type_id) on delete cascade,
+    constraint growth_type_can_achieve_growth_rate_fk_growth_rate 
+        foreign key (growth_rate_id)
+        references growth_rate(growth_rate_id) on delete cascade
+);
+
+create table hissatsu_evolves (
+    item_hissatsu_id int not null,
+    growth_type_id int not null,
+    growth_rate_id int not null,
+    constraint hissatsu_evolves_pk primary key (item_hissatsu_id, growth_type_id, growth_rate_id),
+    constraint hissatsu_evolves_fk_item_hissatsu foreign key (item_hissatsu_id)
+        references item_hissatsu(item_hissatsu_id) on delete cascade,
+    constraint hissatsu_evolves_fk_growth_type foreign key (growth_type_id)
+        references growth_type(growth_type_id) on delete cascade,
+    constraint hissatsu_evolves_fk_growth_rate 
+        foreign key (growth_rate_id)
+        references growth_rate(growth_rate_id) on delete cascade
+);
+
+create table hissatsu_limited_by_genre (
+    item_hissatsu_id int not null,
+    genre_id int not null,
+    constraint hissatsu_limited_by_genre_pk primary key (item_hissatsu_id),
+    constraint hissatsu_limited_by_genre_fk_item_hissatsu 
+        foreign key (item_hissatsu_id)
+        references item_hissatsu(item_hissatsu_id) on delete cascade,
+    constraint hissatsu_limited_by_genre_fk_genre
+        foreign key (genre_id)
+        references genre(genre_id) on delete cascade
+);
+
+create table hissatsu_constrained_by_body_type (
+    item_hissatsu_id int not null,
+    body_type_id int not null,
+    constraint hissatsu_constrained_by_body_type_pk 
+        primary key (item_hissatsu_id, body_type_id),
+    constraint hissatsu_constrained_by_body_type_fk_item_hissatsu 
+        foreign key (item_hissatsu_id)
+        references item_hissatsu(item_hissatsu_id) on delete cascade,
+    constraint hissatsu_constrained_by_body_type_fk_body_type
+        foreign key body_type(body_type_id)
+        references body_type(body_type_id) on delete cascade
+);
+
+create table hissatsu_available_for_positi (
+    item_hissatsu_id int not null,
+    positi_id int not null,
+    constraint hissatsu_available_for_positi_pk 
+        primary key (item_hissatsu_id, positi_id),
+    constraint hissatsu_available_for_positi_fk_item_hissatsu 
+        foreign key (item_hissatsu_id)
+        references item_hissatsu(item_hissatsu_id) on delete cascade,
+    constraint hissatsu_available_for_positi_fk_positi
+        foreign key (positi_id)
+        references positi(positi_id) on delete cascade
+);
+
+create table hissatsu_special_restriction (
+    hissatsu_special_restriction_id int not null auto_increment,
+    hissatsu_special_restriction_desc_ja varchar(200),
+    hissatsu_special_restriction_desc_en varchar(200),
+    hissatsu_special_restriction_desc_es varchar(200),
+    constraint hissatsu_special_restriction_pk 
+        primary key (hissatsu_special_restriction_id)
+);
+
+create table hissatsu_restricted_by_hissatsu_special_restriction (
+    item_hissatsu_id int not null,
+    hissatsu_special_restriction_id int not null,
+    constraint hissatsu_restricted_by_hsp_pk primary key (item_hissatsu_id),
+    constraint hissatsu_restricted_by_hsp_fk_item_hissatsu foreign key (item_hissatsu_id)
+        references item_hissatsu(item_hissatsu_id) on delete cascade,
+    constraint hissatsu_restricted_by_hsp_fk_hsp foreign key (hissatsu_special_restriction_id)
+        references hissatsu_special_restriction(hissatsu_special_restriction_id) on delete cascade
+);
+
+create table hissatsu_evokes_attri (
+    item_hissatsu_id int not null,
+    attri_id int not null,
+    constraint hissatsu_evokes_attri_pk primary key (item_hissatsu_id),
+    constraint hissatsu_evokes_attri_fk_item_hissatsu 
+        foreign key (item_hissatsu_id)
+        references item_hissatsu(item_hissatsu_id) on delete cascade,
+    constraint hissatsu_evokes_attri_fk_attri_id foreign key (attri_id) 
+        references attri(attri_id) on delete cascade
 );
 
 /*3-insert*/
@@ -1116,6 +1343,24 @@ npc
 chest
 item_sold_at_stor
 
-asd
+equipment_strengthens_stat
+catch_type
+shoot_special_property
+hissatsu_shoot
+hissatsu_shoot_can_have_shoot_special_property
+hissatsu_dribble
+hissatsu_block
+hissatsu_catch
+hissatsu_skill
+growth_type
+growth_rate
+growth_type_can_achieve_growth_rate
+hissatsu_evolves
+hissatsu_limited_by_genre
+hissatsu_constrained_by_body_type
+hissatsu_available_for_positi
+hissatsu_special_restriction
+hissatsu_restricted_by_hissatsu_special_restriction
+hissatsu_evokes_attri
 */
 
