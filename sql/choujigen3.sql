@@ -1,6 +1,11 @@
 /*database choujigen3ogre*/
 
 /*1-drop*/
+drop table if exists player_decrypted_with_passwd;
+drop table if exists player_has_recommended_routine_training_method;
+drop table if exists player_has_recommended_gear_equipment;
+drop table if exists player_has_recommended_slot_hissatsu;
+drop table if exists player_learns_hissatsu;
 drop table if exists hissatsu_evokes_attri;
 drop table if exists hissatsu_restricted_by_hissatsu_special_restriction;
 drop table if exists hissatsu_special_restriction;
@@ -257,6 +262,8 @@ create table player (
     positi_id int,
     genre_id int,
     body_type_id int,
+    player_obtention_method_id int,
+    original_version int,
     constraint player_pk primary key (player_id),
     constraint player_fk_attri foreign key (attri_id) 
         references attri(attri_id) on delete cascade,
@@ -265,7 +272,12 @@ create table player (
     constraint player_fk_genre foreign key (genre_id) 
         references genre(genre_id) on delete cascade,
     constraint player_fk_body_type foreign key (body_type_id) 
-        references body_type(body_type_id) on delete cascade
+        references body_type(body_type_id) on delete cascade,
+    constraint player_fk_player_obtention_method 
+        foreign key (player_obtention_method_id) 
+        references player_obtention_method(player_obtention_method_id) on delete cascade,
+    constraint player_fk_player foreign key (original_version) 
+        references player(player_id) on delete cascade
 );
 
 /*page-item*/
@@ -671,6 +683,65 @@ create table hissatsu_evokes_attri (
         references item_hissatsu(item_hissatsu_id) on delete cascade,
     constraint hissatsu_evokes_attri_fk_attri_id foreign key (attri_id) 
         references attri(attri_id) on delete cascade
+);
+/*page-player*/
+create table player_learns_hissatsu (
+    player_id int not null,
+    item_hissatsu_id int not null,
+    learn_lv int,
+    learn_order int,
+    constraint player_learns_hissatsu_pk 
+        primary key (player_id, item_hissatsu_id),
+    constraint player_learns_hissatsu_fk_player foreign key (player_id)
+        references player(player_id) on delete cascade,
+    constraint player_learns_hissatsu_fk_item_hissatsu 
+        foreign key (item_hissatsu_id)
+        references item_hissatsu(item_hissatsu_id) on delete cascade
+);
+
+create table player_has_recommended_slot_hissatsu (
+    player_id int not null,
+    item_hissatsu_id int not null,
+    constraint player_has_recommended_slot_hissatsu_pk 
+        primary key (player_id, item_hissatsu_id),
+    constraint player_has_recommended_slot_hissatsu_fk_player foreign key (player_id)
+        references player(player_id) on delete cascade,
+    constraint player_has_recommended_slot_hissatsu_fk_item_hissatsu 
+        foreign key (item_hissatsu_id)
+        references item_hissatsu(item_hissatsu_id) on delete cascade
+);
+
+create table player_has_recommended_gear_equipment (
+    player_id int not null,
+    item_equipment_id int not null,
+    constraint player_has_recommended_gear_equipment_pk 
+        primary key (player_id, item_equipment_id),
+    constraint player_has_recommended_gear_equipment_fk_player foreign key (player_id)
+        references player(player_id) on delete cascade,
+    constraint player_has_recommended_gear_equipment_fk_item_equipment 
+        foreign key (item_equipment_id)
+        references item_equipment(item_equipment_id) on delete cascade
+);
+
+create table player_has_recommended_routine_tm (
+    player_id int not null,
+    training_method_id int not null,
+    constraint player_has_recommended_routine_tm_pk 
+        primary key (player_id, training_method_id),
+    constraint player_has_recommended_routine_tm_fk_player foreign key (player_id)
+        references player(player_id) on delete cascade,
+    constraint player_has_recommended_routine_tm_fk_tm foreign key (training_method_id)
+        references training_method(training_method_id) on delete cascade
+);
+
+create table player_decrypted_with_passwd (
+    player_id int not null,
+    passwd_id int not null,
+    constraint player_decrypted_with_passwd_pk primary key (player_id),
+    constraint player_decrypted_with_passwd_fk_player foreign key (player_id)
+        references player(player_id) on delete cascade,
+    constraint player_decrypted_with_passwd_fk_passwd foreign key (passwd_id)
+        references passwd(passwd_id) on delete cascade
 );
 
 /*3-insert*/
@@ -1362,5 +1433,11 @@ hissatsu_available_for_positi
 hissatsu_special_restriction
 hissatsu_restricted_by_hissatsu_special_restriction
 hissatsu_evokes_attri
+
+player_learns_hissatsu
+player_has_recommended_slot_hissatsu
+player_has_recommended_gear_equipment
+player_has_recommended_routine_training_method
+player_decrypted_with_passwd
 */
 
