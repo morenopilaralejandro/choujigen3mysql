@@ -1,8 +1,21 @@
-/*database choujigen3ogre*/
+/*
+
+database choujigen3ogre
+
+drop database choujigen3ogre;
+create database choujigen3ogre;
+use choujigen3ogre;
+source /home/alejandro/Desktop/projects/choujigen3mysql/sql/choujigen3.sql
+*/
 
 /*1-drop*/
+drop table if exists player_plays_during_story_team;
+drop table if exists player_is_part_of_team;
+drop table if exists team;
+drop table if exists formation_organized_as_positi;
+drop table if exists formation;
 drop table if exists player_decrypted_with_passwd;
-drop table if exists player_has_recommended_routine_training_method;
+drop table if exists player_has_recommended_routine_tm;
 drop table if exists player_has_recommended_gear_equipment;
 drop table if exists player_has_recommended_slot_hissatsu;
 drop table if exists player_learns_hissatsu;
@@ -743,6 +756,61 @@ create table player_decrypted_with_passwd (
     constraint player_decrypted_with_passwd_fk_passwd foreign key (passwd_id)
         references passwd(passwd_id) on delete cascade
 );
+/*page-team*/
+create table formation (
+    formation_id int not null auto_increment,
+    formation_id_name_ja varchar(32),
+    formation_id_name_en varchar(32),
+    formation_id_name_es varchar(32),
+    constraint formation_pk primary key (formation_id)
+);
+
+create table formation_organized_as_positi (
+    formation_id int not null,
+    positi_id int not null,
+    place int not null,
+    constraint formation_organized_as_positi_pk 
+        primary key (formation_id, positi_id, place),
+    constraint formation_organized_as_positi_fk_formation foreign key (formation_id)
+        references formation(formation_id) on delete cascade,
+    constraint formation_organized_as_positi_fk_positi foreign key (positi_id)
+        references positi(positi_id) on delete cascade
+);
+
+create table team (
+    team_id int not null auto_increment,
+    team_name_ja varchar(32),
+    team_name_en varchar(32),
+    team_name_es varchar(32),
+    formation_id int,
+    item_wear_id int,
+    constraint team_pk primary key (team_id),
+    constraint team_fk_formation foreign key (formation_id)
+        references formation(formation_id) on delete cascade,
+    constraint team_fk_item_wear foreign key (item_wear_id)
+        references item_wear(item_wear_id) on delete cascade
+);
+
+create table player_is_part_of_team (
+    player_id int not null,
+    team_id int not null,
+    place int,
+    constraint player_is_part_of_team_pk primary key (player_id, team_id),
+    constraint player_is_part_of_team_fk_player foreign key (player_id)
+        references player(player_id) on delete cascade,
+    constraint player_is_part_of_team_fk_team foreign key (team_id)
+        references team(team_id) on delete cascade
+);
+
+create table player_plays_during_story_team (
+    player_id int not null,
+    team_id int not null,
+    constraint player_plays_during_story_team_pk primary key (player_id),
+    constraint player_plays_during_story_team_fk_player foreign key (player_id)
+        references player(player_id) on delete cascade,
+    constraint player_plays_during_story_team_fk_team foreign key (team_id)
+        references team(team_id) on delete cascade
+);
 
 /*3-insert*/
 /*----------------------------------------------------------------------------*/
@@ -1437,7 +1505,13 @@ hissatsu_evokes_attri
 player_learns_hissatsu
 player_has_recommended_slot_hissatsu
 player_has_recommended_gear_equipment
-player_has_recommended_routine_training_method
+player_has_recommended_routine_tm
 player_decrypted_with_passwd
+
+formation
+formation_organized_as_positi
+team
+player_is_part_of_team
+player_plays_during_story_team
 */
 
