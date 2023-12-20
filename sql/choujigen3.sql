@@ -9,6 +9,13 @@ source /home/alejandro/Desktop/projects/choujigen3mysql/sql/choujigen3.sql
 */
 
 /*1-drop*/
+drop table if exists utc_session_drops;
+drop table if exists utc_drop_type;
+drop table if exists utc_session_develops_stat;
+drop table if exists utc_session;
+drop table if exists old_pin_badge_exchange;
+drop table if exists gacha_yields;
+drop table if exists gacha;
 drop table if exists tournament_rank_may_drop_item;
 drop table if exists tournament_rank_disputed_by_team;
 drop table if exists tournament_rank_requires_player;
@@ -707,7 +714,7 @@ create table hissatsu_evokes_attri (
     constraint hissatsu_evokes_attri_fk_item_hissatsu 
         foreign key (item_hissatsu_id)
         references item_hissatsu(item_hissatsu_id) on delete cascade,
-    constraint hissatsu_evokes_attri_fk_attri_id foreign key (attri_id) 
+    constraint hissatsu_evokes_attri_fk_attri foreign key (attri_id) 
         references attri(attri_id) on delete cascade
 );
 /*page-player*/
@@ -976,6 +983,80 @@ create table tournament_rank_may_drop_item (
     constraint tournament_rank_may_drop_item_fk_item
         foreign key (item_id)
         references item(item_id) on delete cascade  
+);
+/*page-gacha*/
+create table gacha (
+    gacha_id int not null auto_increment,
+    zone_id int,
+    constraint gacha_pk primary key (gacha_id),
+    constraint gacha_fk_zone foreign key (zone_id)
+        references zone(zone_id) on delete cascade  
+);
+
+create table gacha_yields (
+    gacha_id int not null, 
+    player_id int not null,
+    item_currency_id int not null,
+    constraint gacha_yields_pk 
+        primary key (gacha_id, player_id, item_currency_id),
+    constraint gacha_yields_fk_gacha foreign key (gacha_id)
+        references gacha(gacha_id) on delete cascade,
+    constraint gacha_yields_fk_player foreign key (player_id)
+        references player(player_id) on delete cascade,
+    constraint gacha_yields_fk_item_currency foreign key (item_currency_id)
+        references item_currency(item_currency_id) on delete cascade
+);
+
+create table old_pin_badge_exchange (
+    old_pin_badge_exchange_id int not null auto_increment,
+    old_pin_badge_exchange_amount int,
+    item_id int,
+    constraint old_pin_badge_exchange_pk 
+        primary key (old_pin_badge_exchange_id),
+    constraint old_pin_badge_exchange_fk_item foreign key (item_id)
+        references item(item_id) on delete cascade  
+);
+/*page-underground-training-center-session*/
+create table utc_session (
+    utc_session_id int not null auto_increment,
+    utc_session_name_ja varchar(32),
+    utc_session_name_en varchar(32),
+    utc_session_name_es varchar(32),
+    constraint utc_session_pk primary key (utc_session_id)
+);
+
+create table utc_session_develops_stat (
+    utc_session_id int not null,
+    stat_id int not null,
+    constraint utc_session_develops_stat_pk 
+        primary key (utc_session_id, stat_id),
+    constraint utc_session_develops_stat_fk_utc_session 
+        foreign key (utc_session_id)
+        references utc_session(utc_session_id) on delete cascade,
+    constraint utc_session_develops_stat_fk_stat foreign key (stat_id)
+        references stat(stat_id) on delete cascade    
+);
+
+create table utc_drop_type (
+    utc_drop_type_id int not null auto_increment,
+    utc_drop_type_name varchar(32),
+    constraint utc_drop_type_pk primary key (utc_drop_type_id)
+);
+
+create table utc_session_drops (
+    utc_session_id int not null,
+    item_id int not null,
+    utc_drop_type_id int,
+    drop_rate int,
+    constraint utc_session_drops_pk 
+        primary key (utc_session_id, item_id),
+    constraint utc_session_drops_fk_utc_session foreign key (utc_session_id)
+        references utc_session(utc_session_id) on delete cascade, 
+    constraint utc_session_drops_fk_item foreign key (item_id)
+        references item(item_id) on delete cascade, 
+    constraint utc_session_drops_fk_utc_drop_type 
+        foreign key (utc_drop_type_id)
+        references utc_drop_type(utc_drop_type_id) on delete cascade 
 );
 
 /*3-insert*/
@@ -1694,5 +1775,13 @@ tournament_name
 tournament_rank_requires_player
 tournament_rank_disputed_by_team
 tournament_rank_may_drop_item
+
+gacha
+gacha_yields
+old_pin_badge_exchange
+utc_session
+utc_session_develops_stat
+utc_drop_type
+utc_session_drops
 */
 
