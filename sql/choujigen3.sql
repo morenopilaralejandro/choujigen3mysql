@@ -9,6 +9,14 @@ source /home/alejandro/Desktop/projects/choujigen3mysql/sql/choujigen3.sql
 */
 
 /*1-drop*/
+drop table if exists practice_game_can_drop_item;
+drop table if exists item_vscard;
+drop table if exists practice_game_dictated_by_pgc;
+drop table if exists practice_game;
+drop table if exists practice_game_condition;
+drop table if exists route_path;
+drop table if exists extra_battle_route;
+drop table if exists tactic_executed_by_team;
 drop table if exists player_plays_during_story_team;
 drop table if exists player_is_part_of_team;
 drop table if exists team;
@@ -811,6 +819,101 @@ create table player_plays_during_story_team (
     constraint player_plays_during_story_team_fk_team foreign key (team_id)
         references team(team_id) on delete cascade
 );
+/*page-tactic*/
+create table tactic_executed_by_team (
+    item_tactic_id int not null,
+    team_id int not null,
+    constraint tactic_executed_by_team_pk primary key (item_tactic_id, team_id),
+    constraint tactic_executed_by_team_fk_item_tactic 
+        foreign key (item_tactic_id)
+        references item_tactic(item_tactic_id) on delete cascade,
+    constraint tactic_executed_by_team_fk_team foreign key (team_id)
+        references team(team_id) on delete cascade
+);
+/*page-extra-battle-route*/
+create table extra_battle_route (
+    extra_battle_route_id int not null auto_increment,
+    extra_battle_route_name_ja varchar(32),
+    extra_battle_route_name_en varchar(32),
+    extra_battle_route_name_es varchar(32),
+    npc_id int,
+    constraint extra_battle_route_pk primary key (extra_battle_route_id),
+    constraint extra_battle_route_fk_npc foreign key (npc_id)
+        references npc(npc_id) on delete cascade
+);
+
+create table route_path (
+    route_path_id int not null auto_increment,
+    route_path_order int,
+    extra_battle_route_id int,
+    reward_n int,
+    reward_s int,
+    constraint route_path_pk primary key (route_path_id),
+    constraint route_path_fk_extra_battle_route 
+        foreign key (extra_battle_route_id)
+        references extra_battle_route(extra_battle_route_id) on delete cascade,
+    constraint route_path_fk_item_n foreign key (reward_n)
+        references item(item_id) on delete cascade,
+    constraint route_path_fk_item_s foreign key (reward_s)
+        references item(item_id) on delete cascade
+);
+
+create table practice_game_condition (
+    practice_game_condition_id int not null auto_increment,
+    practice_game_condition_desc_ja varchar(200),
+    practice_game_condition_desc_en varchar(200),
+    practice_game_condition_desc_es varchar(200),
+    constraint practice_game_condition_pk 
+        primary key (practice_game_condition_id)
+);
+
+create table practice_game (
+    practice_game_id int not null auto_increment,
+    practice_game_order int,
+    route_path_id int,
+    team_id int,
+    constraint practice_game_pk primary key (practice_game_id),
+    constraint practice_game_fk_route_path foreign key (route_path_id)
+        references route_path(route_path_id) on delete cascade,
+    constraint practice_game_fk_team foreign key (team_id)
+        references team(team_id) on delete cascade
+);
+
+create table practice_game_dictated_by_pgc (
+    practice_game_id int not null,
+    practice_game_condition_id int not null,
+    constraint practice_game_dictated_by_pgc_pk primary key (practice_game_id),
+    constraint practice_game_dictated_by_pgc_fk_practice_game 
+        foreign key (practice_game_id)
+        references practice_game(practice_game_id) on delete cascade,
+    constraint practice_game_dictated_by_pgc_fk_pgc 
+        foreign key (practice_game_condition_id)
+        references practice_game_condition(practice_game_condition_id) on delete cascade
+);
+
+create table item_vscard (
+    item_vscard_id int not null,
+    practice_game_id int,
+    constraint item_vscard_pk primary key (item_vscard_id),
+    constraint item_vscard_fk_item foreign key (item_vscard_id) 
+        references item(item_id) on delete cascade,
+    constraint item_vscard_fk_practice_game foreign key (practice_game_id) 
+        references practice_game(practice_game_id) on delete cascade
+);
+
+create table practice_game_can_drop_item (
+    practice_game_id int not null,
+    item_id int not null,
+    drop_rate int,
+    constraint practice_game_can_drop_item_pk primary key (practice_game_id, item_id),
+    constraint practice_game_can_drop_item_fk_practice_game 
+        foreign key (practice_game_id)
+        references practice_game(practice_game_id) on delete cascade,
+    constraint practice_game_can_drop_item_fk_item foreign key (item_id)
+        references item(item_id) on delete cascade
+);
+
+/*page-tournament-rank*/
 
 /*3-insert*/
 /*----------------------------------------------------------------------------*/
@@ -1513,5 +1616,14 @@ formation_organized_as_positi
 team
 player_is_part_of_team
 player_plays_during_story_team
+
+tactic_executed_by_team
+extra_battle_route
+route_path
+practice_game_condition
+practice_game
+practice_game_dictated_by_pgc
+item_vscard
+practice_game_can_drop_item
 */
 
