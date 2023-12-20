@@ -9,6 +9,11 @@ source /home/alejandro/Desktop/projects/choujigen3mysql/sql/choujigen3.sql
 */
 
 /*1-drop*/
+drop table if exists tournament_rank_may_drop_item;
+drop table if exists tournament_rank_disputed_by_team;
+drop table if exists tournament_rank_requires_player;
+drop table if exists tournament_name;
+drop table if exists tournament_rank;
 drop table if exists practice_game_can_drop_item;
 drop table if exists item_vscard;
 drop table if exists practice_game_dictated_by_pgc;
@@ -912,8 +917,66 @@ create table practice_game_can_drop_item (
     constraint practice_game_can_drop_item_fk_item foreign key (item_id)
         references item(item_id) on delete cascade
 );
-
 /*page-tournament-rank*/
+create table tournament_rank (
+    tournament_rank_id int not null auto_increment,
+    tournament_rank_lv_range varchar(5),
+    constraint tournament_rank_pk primary key (tournament_rank_id)
+);
+
+create table tournament_name (
+    tournament_name_id int not null auto_increment,
+    tournament_name_ja varchar(32),
+    tournament_name_en varchar(32),
+    tournament_name_es varchar(32),
+    tournament_rank_id int,
+    constraint tournament_name_pk primary key (tournament_name_id),
+    constraint tournament_name_fk_tournament_rank 
+        foreign key (tournament_rank_id)
+        references tournament_rank(tournament_rank_id) on delete cascade 
+);
+
+create table tournament_rank_requires_player (
+    tournament_rank_id int not null,
+    player_id int not null,
+    constraint tournament_rank_requires_player_pk primary key (player_id),
+    constraint tournament_rank_requires_player_fk_tournament_rank 
+        foreign key (tournament_rank_id)
+        references tournament_rank(tournament_rank_id) on delete cascade,
+    constraint tournament_rank_requires_player_fk_player 
+        foreign key (player_id)
+        references player(player_id) on delete cascade  
+);
+
+create table tournament_rank_disputed_by_team (
+    tournament_rank_id int not null,
+    team_id int not null,
+    constraint tournament_rank_disputed_by_team_pk 
+        primary key (tournament_rank_id, team_id),
+    constraint tournament_rank_disputed_by_team_fk_tournament_rank 
+        foreign key (tournament_rank_id)
+        references tournament_rank(tournament_rank_id) on delete cascade,
+    constraint tournament_rank_disputed_by_team_fk_team
+        foreign key (team_id)
+        references team(team_id) on delete cascade  
+);
+
+create table tournament_rank_may_drop_item (
+    tournament_rank_id int not null,
+    item_id int not null,
+    amount int,
+    selection_rate int, 
+    drop_rate int,
+    no_recover_rate int,
+    constraint tournament_rank_may_drop_item_pk 
+        primary key (tournament_rank_id, item_id),
+    constraint tournament_rank_may_drop_item_fk_tournament_rank 
+        foreign key (tournament_rank_id)
+        references tournament_rank(tournament_rank_id) on delete cascade,
+    constraint tournament_rank_may_drop_item_fk_item
+        foreign key (item_id)
+        references item(item_id) on delete cascade  
+);
 
 /*3-insert*/
 /*----------------------------------------------------------------------------*/
@@ -1625,5 +1688,11 @@ practice_game
 practice_game_dictated_by_pgc
 item_vscard
 practice_game_can_drop_item
+
+tournament_rank
+tournament_name
+tournament_rank_requires_player
+tournament_rank_disputed_by_team
+tournament_rank_may_drop_item
 */
 
