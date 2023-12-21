@@ -9,6 +9,12 @@ source /home/alejandro/Desktop/projects/choujigen3mysql/sql/choujigen3.sql
 */
 
 /*1-drop*/
+drop table if exists link_lock;
+drop table if exists link_chest;
+drop table if exists link_player;
+drop table if exists conn_link;
+drop table if exists conn_link_type;
+drop table if exists conn_panel;
 drop table if exists player_received_during_story;
 drop table if exists item_gifted_during_story;
 drop table if exists story;
@@ -1090,6 +1096,66 @@ create table player_received_during_story (
     constraint player_received_during_story_fk_story foreign key (story_id)
         references story(story_id) on delete cascade 
 );
+/*page-connection-panel*/
+create table conn_panel (
+    conn_panel_id int not null auto_increment,
+    conn_panel_name_ja varchar(32),
+    conn_panel_name_en varchar(32),
+    conn_panel_name_es varchar(32),
+    constraint conn_panel_pk primary key (conn_panel_id)
+);
+
+create table conn_link_type (
+    conn_link_type_id int not null auto_increment,
+    conn_link_type_name varchar(32),
+    constraint conn_link_type_pk primary key (conn_link_type_id)
+);
+
+create table conn_link (
+    conn_link_id int not null auto_increment,
+    conn_panel_id int,
+    constraint conn_link_pk primary key (conn_link_id),
+    constraint conn_link_fk_conn_panel foreign key (conn_panel_id)
+        references conn_panel(conn_panel_id) on delete cascade 
+);
+
+
+create table link_player (
+    link_player_id int not null, 
+    link_player_team_lv int,
+    link_player_needs_girl boolean,
+    link_player_is_wifi boolean,
+    link_player_num_players int,
+    player_id int,
+    constraint link_player_pk primary key (link_player_id),
+    constraint link_player_fk_conn_link foreign key (link_player_id)
+        references conn_link(conn_link_id) on delete cascade,
+    constraint link_player_fk_player foreign key (player_id)
+        references player(player_id) on delete cascade
+);
+
+create table link_chest (
+    link_chest_id int not null,
+    item_id int,
+    constraint link_chest_pk primary key (link_chest_id),
+    constraint link_chest_fk_conn_link foreign key (link_chest_id)
+        references conn_link(conn_link_id) on delete cascade,
+    constraint link_chest_fk_item foreign key (item_id)
+        references item(item_id) on delete cascade
+);
+
+create table link_lock (
+    link_lock_id int not null,
+    story_id int,
+    player_id int,
+    constraint link_lock_pk primary key (link_lock_id),
+    constraint link_lock_fk_conn_link foreign key (link_lock_id)
+        references conn_link(conn_link_id) on delete cascade,
+    constraint link_lock_fk_story foreign key (story_id)
+        references story(story_id) on delete cascade,
+    constraint link_lock_fk_player foreign key (player_id)
+        references player(player_id) on delete cascade
+);
 
 /*3-insert*/
 /*----------------------------------------------------------------------------*/
@@ -1819,5 +1885,12 @@ utc_session_drops
 story
 item_gifted_during_story
 player_received_during_story
+
+conn_panel
+conn_link_type
+conn_link
+link_player
+link_chest
+link_lock
 */
 
