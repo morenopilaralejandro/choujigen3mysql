@@ -9,6 +9,9 @@ source /home/alejandro/Desktop/projects/choujigen3mysql/sql/choujigen3.sql
 */
 
 /*1-drop*/
+drop table if exists player_received_during_story;
+drop table if exists item_gifted_during_story;
+drop table if exists story;
 drop table if exists utc_session_drops;
 drop table if exists utc_drop_type;
 drop table if exists utc_session_develops_stat;
@@ -1058,6 +1061,35 @@ create table utc_session_drops (
         foreign key (utc_drop_type_id)
         references utc_drop_type(utc_drop_type_id) on delete cascade 
 );
+/*page-story*/
+create table story (
+    story_id int not null auto_increment,
+    story_name_ja varchar(32),
+    story_name_en varchar(32),
+    story_name_es varchar(32),
+    constraint story_pk primary key (story_id)
+);
+
+create table item_gifted_during_story (
+    item_id int not null,
+    story_id int not null,
+    constraint item_gifted_during_story_pk primary key (item_id, story_id),
+    constraint item_gifted_during_story_fk_item foreign key (item_id)
+        references item(item_id) on delete cascade, 
+    constraint item_gifted_during_story_fk_story foreign key (story_id)
+        references story(story_id) on delete cascade 
+);
+
+create table player_received_during_story (
+    player_id int not null,
+    story_id int not null,
+    constraint player_received_during_story_pk 
+        primary key (player_id, story_id),
+    constraint player_received_during_story_fk_player foreign key (player_id)
+        references player(player_id) on delete cascade, 
+    constraint player_received_during_story_fk_story foreign key (story_id)
+        references story(story_id) on delete cascade 
+);
 
 /*3-insert*/
 /*----------------------------------------------------------------------------*/
@@ -1783,5 +1815,9 @@ utc_session
 utc_session_develops_stat
 utc_drop_type
 utc_session_drops
+
+story
+item_gifted_during_story
+player_received_during_story
 */
 
