@@ -779,7 +779,7 @@ create table player_has_recommended_routine_tm (
 create table player_decrypted_with_passwd (
     player_id int not null,
     passwd_id int not null,
-    constraint player_decrypted_with_passwd_pk primary key (player_id),
+    constraint player_decrypted_with_passwd_pk primary key (player_id, passwd_id),
     constraint player_decrypted_with_passwd_fk_player foreign key (player_id)
         references player(player_id) on delete cascade,
     constraint player_decrypted_with_passwd_fk_passwd foreign key (passwd_id)
@@ -1800,6 +1800,84 @@ insert into attri (
 (2, '林', 'Wood', 'Bosque'),
 (3, '火', 'Fire', 'Fuego'),
 (4, '山', 'Earth', 'Montaña');
+
+
+insert into passwd (
+    passwd_id,
+    passwd_ja,
+    passwd_en,
+    passwd_es) values
+/*cuarteto del más allá - コロコロ*/
+/*lucien thrope (howler) - オオカミ*/
+(1, 'つよくてこわい', 'fullmoon', 'lunallena'),
+/*lenton gouger (gouger) - ランタン*/
+(2, 'こわくてつよい', 'pumpkin', 'calabaza'),
+/*titania khamun (wraps) - マミー*/
+(3, 'コロコロげんてい', 'wrappedup', 'todavendada'),
+/*eveline veitch (vicked) - くろまじょ*/
+(4, 'ハロウィンズだ！', 'broomstick', 'vuelaescoba'),
+/*tarjeteros - TCG*/
+/*bernie ellement (bernie) - ねっけつ	
+そしき
+ねっけつ
+とくしゅ
+しっぷう
+*/
+(5, 'よっつのぞくせい', 'elements', '4elementos'),
+/*decker pile (deck) - やまふだ
+やまふだ
+すてふだ
+キラレア
+せいた
+*/
+(6, 'デッキをつくろう', 'buildadeck', 'granbaraja'),
+/*larry pogue (pogue) - パック
+パック
+カード
+ファイル
+シデン
+*/
+(7, 'カードであそぼう', 'fullhouse', 'pokerdeases'),
+/*walken ruhlbuch (stickler) - チェアマン
+チェアマン
+おとながい
+プロモ
+いしどう
+*/
+(8, 'われらでんどうし', 'followrules', 'siguenormas'),
+/*otros*/
+/*dino zolletta (zolletta) - ディノ マルディーニ*/
+(9, 'いまをまもれ', 'Cappuccino', 'Cappuccino'),
+/*isaac glass (isaac) - めがね かずと*/
+(10, 'めがねかける', 'William', 'William'),
+/*jordan greenway (jordan) - みどりかわ リュウジ*/
+(11, 'よくほえる', 'word', 'mordedor'),
+(12, 'すべてよし', 'ends well', 'volando'),
+(13, 'いっけんにしかず', 'believe', 'bienes'),
+(14, 'てんめいをまつ', 'merrier', 'diente'),
+/*dave quagmire (quagmire) - さぎぬま おさむ*/
+(15, 'グングニル', 'Gungnir', 'Odín'),
+(16, 'イプシロン', 'Epsilon', 'Épsilon'),
+(17, 'ファースト', 'Kyoto', 'Kioto'),
+(18, 'さぎぬまおさむ', 'Dave', 'Quagmire'),
+(19, 'ガイア', 'Gaia', 'Gaia'),
+/*ファミ通*/
+/*andy - あずま
+あずま
+おおたに
+みやさか
+まつばら
+*/
+(20, 'エンター', 'letsplay', 'juguemos'),
+/*aurelia dingle - おおたに
+あずま
+おおたに
+みやさか
+まつばら
+*/
+(21, 'ブレイン', 'football', 'alfutbol'),
+/*super exp*/
+(22, 'ゆうきがあれば', 'moreexp', 'subenivel');
 
 /*
 passwd
