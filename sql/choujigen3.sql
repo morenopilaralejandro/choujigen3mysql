@@ -1777,9 +1777,10 @@ insert into body_type (
     body_type_name_ja,
     body_type_name_en,
     body_type_name_es) values
-(1, 'Sサイズ', 'Small', 'Pequeño'),
-(2, 'Mサイズ', 'Medium', 'Normal'),
-(3, 'Lサイズ', 'Large', 'Gigante');
+(1, '小', 'Small', 'Pequeño'),
+(2, '中', 'Medium', 'Normal'),
+(3, '大', 'Large', 'Grande');
+(4, '特大', 'Extra Large', 'Gigante');
 
 insert into positi (    
     positi_id,
