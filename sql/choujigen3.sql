@@ -1879,9 +1879,30 @@ insert into passwd (
 /*super exp*/
 (22, 'ゆうきがあれば', 'moreexp', 'subenivel');
 
+/*ゲット法*/
+insert into player_obtention_method (
+    player_obtention_method_id,
+    player_obtention_method_desc_ja,
+    player_obtention_method_desc_en,
+    player_obtention_method_desc_es) values
+(1, '本編', 'story', 'historia'),
+(2, 'スカウト', 'other team scouting', 'fichaje de otros equipos'),
+(3, 'ガチャ', 'gacha', 'gacha'),
+(4, '人脈システム', 'connection map', 'mapa de contactos'),
+(5, 'ダウンロード', 'download', 'descarga'),
+(6, 'パスワード', 'password', 'contraseña'),
+(7, 'ミニバトル', 'random battle', 'pachanga'),
+(8, '隠しキャラ', 'special player', 'jugador especial'),
+/*extra battle route*/
+(9, 'リワード', 'reward', 'recompensa'),
+(10, 'イベント', 'limited distribution', 'distribución limitada'),
+(11, 'オーガプレミアムリンク', 'ogre premium link', 'conexión especial ogro'),
+(12, 'スパーク交换', 'trade spark', 'intercambio rayo celeste'),
+(13, 'ボンバー交换', 'trade bomber', 'intercambio fuego explosivo'),
+(14, '入手不可能', 'unobtainable', 'imposible de conseguir'),
+(15, 'なし', 'unknown', 'desconocido');
+
 /*
-passwd
-player_obtention_method
 player
 item_type
 item
