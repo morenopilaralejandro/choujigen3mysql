@@ -1,0 +1,10 @@
+-data extracted from
+https://w.atwiki.jp/inazuma11-3/pages/25.html
+-names of the female player obtained by downloadin the html and applying
+    1 - grep '<td style="background-color:#FF9999;">' -A 1 aux.html > aux2.txt
+    
+    2 - manually edit aux2.txt and replace this strings with an empty string
+            <td style="background-color:#FF9999;">    
+            -- 
+
+    3 - grep -v -e '^$' aux2.txt
