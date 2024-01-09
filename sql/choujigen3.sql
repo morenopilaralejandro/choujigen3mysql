@@ -1886,7 +1886,7 @@ insert into player_obtention_method (
     player_obtention_method_desc_ja,
     player_obtention_method_desc_en,
     player_obtention_method_desc_es) values
-(1, '本編', 'story', 'historia'),
+(1, 'ストーリー', 'story', 'historia'),
 (2, 'スカウト', 'other team scouting', 'fichaje de otros equipos'),
 (3, 'ガチャ', 'gacha', 'gacha'),
 (4, '人脈システム', 'connection map', 'mapa de contactos'),
