@@ -288,7 +288,11 @@ create table player_obtention_method (
 create table player (
     player_id int not null auto_increment,
     player_name_ja varchar(32),
+    player_name_hiragana varchar(32),
+    player_name_kanji varchar(32),
+    player_name_romanji varchar(32),
     player_name_en varchar(32),
+    player_name_en_full varchar(32),
     player_initial_lv int,
     player_gp_99 int,
     player_tp_99 int,
@@ -1779,7 +1783,7 @@ insert into body_type (
     body_type_name_es) values
 (1, '小', 'Small', 'Pequeño'),
 (2, '中', 'Medium', 'Normal'),
-(3, '大', 'Large', 'Grande');
+(3, '大', 'Large', 'Grande'),
 (4, '特大', 'Extra Large', 'Gigante');
 
 insert into positi (    
