@@ -1897,15 +1897,16 @@ insert into player_obtention_method (
 (5, 'ダウンロード', 'download', 'descarga'),
 (6, 'パスワード', 'password', 'contraseña'),
 (7, 'ミニバトル', 'random battle', 'pachanga'),
-(8, '隠しキャラ', 'special player', 'jugador especial'),
 /*extra battle route*/
+(8, '隠しキャラ', 'special player', 'jugador especial'),
 (9, 'リワード', 'reward', 'recompensa'),
 (10, 'イベント', 'limited distribution', 'distribución limitada'),
-(11, 'オーガプレミアムリンク', 'ogre premium link', 'conexión especial ogro'),
-(12, 'スパーク交换', 'trade spark', 'intercambio rayo celeste'),
-(13, 'ボンバー交换', 'trade bomber', 'intercambio fuego explosivo'),
-(14, '入手不可能', 'unobtainable', 'imposible de conseguir'),
-(15, 'なし', 'unknown', 'desconocido');
+(11, 'プレミアムスカウト', 'premium scout', 'fichaje especial'),
+(12, 'オーガプレミアムリンク', 'ogre premium link', 'conexión especial ogro'),
+(13, 'スパーク交换', 'trade spark', 'intercambio rayo celeste'),
+(14, 'ボンバー交换', 'trade bomber', 'intercambio fuego explosivo'),
+(15, '入手不可能', 'unobtainable', 'imposible de conseguir'),
+(16, 'なし', 'unknown', 'desconocido');
 
 /*
 player
