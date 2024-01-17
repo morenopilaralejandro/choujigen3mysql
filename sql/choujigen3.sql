@@ -325,6 +325,7 @@ create table player (
     constraint player_fk_player foreign key (original_version) 
         references player(player_id) on delete cascade
 );
+source /home/alejandro/Desktop/projects/choujigen3mysql/sql/player.sql;
 
 /*page-item*/
 create table item_type (
@@ -1908,8 +1909,9 @@ insert into player_obtention_method (
 (15, '入手不可能', 'unobtainable', 'imposible de conseguir'),
 (16, 'なし', 'unknown', 'desconocido');
 
+/*player*/
+
 /*
-player
 item_type
 item
 hissatsu_type
