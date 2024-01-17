@@ -332,24 +332,9 @@ select count(distinct name_ja) 'aux_player_f distinct' from aux_player_f;
 
 /*
 こうこ (first one is not female)
+ファン (first one is female)
 
 pending:
-+----------------+-----------------+
-|              2 | あらた          |
-|              2 | きりがくれ      |
-|              2 | ごういん        |
-|              2 | じもん          |
-|              2 | つとむ          |
-|              2 | なるかみ        |
-|              2 | まきや          |
-|              2 | ゆうこく        |
-|              2 | ザック          |
-|              2 | ゾーハン        |
-|              2 | デメテル        |
-|              2 | ヒート          |
-|              2 | ファン          |
-|              2 | ヘラ            |
-+----------------+-----------------+
 
 
 reviewed:
@@ -397,6 +382,20 @@ reviewed:
 さくま
 そめおか
 カノン
+あらた neo japan and other
+きりがくれ neo japan and other
+ごういん neo japan and other
+じもん neo japan and other
+つとむ neo japan and other
+なるかみ neo japan and other
+まきや neo japan and other
+ゆうこく neo japan and other
+ゾーハン neo japan and other
+デメテル neo japan and other
+ヒート neo japan and other
+ヘラ neo japan and other
+ザック
+ファン
 
 
 */

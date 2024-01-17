@@ -20,6 +20,7 @@ begin
     declare vObtentionId int default 0;
     declare vAuxFemaleName varchar(32) default '';
     declare vKoukoFound int default 0;
+    declare vFanFound int default 0;
     declare vLvInt int default 1;
     declare vBodyTypeInt int default 1;
     declare vHissatsuCounter int default 0;
@@ -141,13 +142,23 @@ begin
                 set vBodyId = vBodyTypeInt;         
             end if;
 
-            /*genre こうこ (first one is not female)*/
+            /*genre 
+                こうこ (first one is not female)
+                ファン (first one is female)
+            */
             if vNameJa = 'こうこ' then
                 if vKoukoFound = 0 then
-                    set vGenreId = 2;
-                else
                     set vGenreId = 1;
                     set vKoukoFound = 1;
+                else
+                    set vGenreId = 2;
+                end if;
+            elseif vNameJa = 'ファン' then
+                if vFanFound = 0 then
+                    set vGenreId = 2;
+                    set vFanFound = 1;
+                else
+                    set vGenreId = 1;
                 end if;
             else
                 set vAuxFemaleName = null;
