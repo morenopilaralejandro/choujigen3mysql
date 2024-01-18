@@ -41,8 +41,9 @@ drop table if exists tactic_executed_by_team;
 drop table if exists player_plays_during_story_team;
 drop table if exists player_is_part_of_team;
 drop table if exists team;
-drop table if exists formation_organized_as_positi;
-drop table if exists formation;
+drop table if exists item_formation_organized_as_positi;
+drop table if exists item_formation;
+drop table if exists item_formation_type;
 drop table if exists player_decrypted_with_passwd;
 drop table if exists player_has_recommended_routine_tm;
 drop table if exists player_has_recommended_gear_equipment;
@@ -325,12 +326,14 @@ create table player (
     constraint player_fk_player foreign key (original_version) 
         references player(player_id) on delete cascade
 );
-source /home/alejandro/Desktop/projects/choujigen3mysql/sql/player.sql;
+source /home/alejandro/Desktop/projects/choujigen3mysql/sql/player.sql
 
 /*page-item*/
 create table item_type (
     item_type_id int not null auto_increment,
-    item_type_name varchar(32),
+    item_type_name_ja varchar(32),
+    item_type_name_en varchar(32),
+    item_type_name_es varchar(32),
     constraint item_type_pk primary key (item_type_id)
 );
 
@@ -339,9 +342,6 @@ create table item (
     item_name_ja varchar(32),
     item_name_en varchar(32),
     item_name_es varchar(32),
-    item_desc_ja varchar(200),
-    item_desc_en varchar(200),
-    item_desc_es varchar(200),
     item_price_buy int,
     item_price_sell int,
     constraint item_pk primary key (item_id)
@@ -791,23 +791,38 @@ create table player_decrypted_with_passwd (
         references passwd(passwd_id) on delete cascade
 );
 /*page-team*/
-create table formation (
-    formation_id int not null auto_increment,
-    formation_id_name_ja varchar(32),
-    formation_id_name_en varchar(32),
-    formation_id_name_es varchar(32),
-    constraint formation_pk primary key (formation_id)
+create table item_formation_type (
+    item_formation_type_id int not null auto_increment,
+    item_formation_type_name_ja varchar(32),
+    item_formation_type_name_en varchar(32),
+    item_formation_type_name_es varchar(32),
+    constraint item_formation_type_pk primary key (item_formation_type_id)
 );
 
-create table formation_organized_as_positi (
-    formation_id int not null,
+create table item_formation (
+    item_formation_id int not null auto_increment,
+    item_formation_id_name_ja varchar(32),
+    item_formation_id_name_en varchar(32),
+    item_formation_id_name_es varchar(32),
+    item_formation_type_id int,
+    constraint item_formation_pk primary key (item_formation_id),
+    constraint item_formation_fk_item_formation_type 
+        foreign key (item_formation_type_id)
+        references item_formation_type(item_formation_type_id) on delete cascade,
+    constraint item_formation_fk_item foreign key (item_formation_id)
+        references item(item_id) on delete cascade
+);
+
+create table item_formation_organized_as_positi (
+    item_formation_id int not null,
     positi_id int not null,
     place int not null,
-    constraint formation_organized_as_positi_pk 
-        primary key (formation_id, positi_id, place),
-    constraint formation_organized_as_positi_fk_formation foreign key (formation_id)
-        references formation(formation_id) on delete cascade,
-    constraint formation_organized_as_positi_fk_positi foreign key (positi_id)
+    constraint item_formation_organized_as_positi_pk 
+        primary key (item_formation_id, positi_id, place),
+    constraint item_formation_organized_as_positi_fk_item_formation 
+        foreign key (item_formation_id)
+        references item_formation(item_formation_id) on delete cascade,
+    constraint item_formation_organized_as_positi_fk_positi foreign key (positi_id)
         references positi(positi_id) on delete cascade
 );
 
@@ -816,11 +831,11 @@ create table team (
     team_name_ja varchar(32),
     team_name_en varchar(32),
     team_name_es varchar(32),
-    formation_id int,
+    item_formation_id int,
     item_wear_id int,
     constraint team_pk primary key (team_id),
-    constraint team_fk_formation foreign key (formation_id)
-        references formation(formation_id) on delete cascade,
+    constraint team_fk_item_formation foreign key (item_formation_id)
+        references item_formation(item_formation_id) on delete cascade,
     constraint team_fk_item_wear foreign key (item_wear_id)
         references item_wear(item_wear_id) on delete cascade
 );
@@ -1911,8 +1926,25 @@ insert into player_obtention_method (
 
 /*player*/
 
+insert into item_type(
+    item_type_id,
+    item_type_name_ja,
+    item_type_name_en,
+    item_type_name_es) values
+(1, '必殺技', 'Hissatsu Technique', 'Supertécnicas'),
+(2, '装備品', 'Equipment', 'Equipación'),
+(3, '通貨', 'Currency', 'Divisa'),
+(4, '報酬 選手', 'Reward Player', 'Jugador Recompensa'),
+(5, 'マップチケット', 'Map', 'Mapa'),
+(6, '鍵', 'Key', 'Llave'),
+(7, '対戦チケット', 'VS Card', 'Tarjeta VS'),
+(8, '回復', 'Recovery', 'Recuperación'),
+(9, 'さいごのノート', 'Ultimate Note', 'Cuaderno Definitivo'),
+(10, 'ウェア', 'Uniform', 'Uniforme'),
+(11, '必殺タクティクス', 'Hissatsu tactics', 'Supertácticas'),
+(12, 'フォーメーション', 'Formation', 'Formación');
+
 /*
-item_type
 item
 hissatsu_type
 item_hissatsu
@@ -1960,8 +1992,9 @@ player_has_recommended_gear_equipment
 player_has_recommended_routine_tm
 player_decrypted_with_passwd
 
-formation
-formation_organized_as_positi
+item_formation_type
+item_formation
+item_formation_organized_as_positi
 team
 player_is_part_of_team
 player_plays_during_story_team
