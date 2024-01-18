@@ -344,7 +344,10 @@ create table item (
     item_name_es varchar(32),
     item_price_buy int,
     item_price_sell int,
-    constraint item_pk primary key (item_id)
+    item_type_id int,
+    constraint item_pk primary key (item_id),
+    constraint item_fk_item_type foreign key (item_type_id) 
+        references item_type(item_type_id) on delete cascade
 );
 
 create table hissatsu_type (
@@ -1926,7 +1929,7 @@ insert into player_obtention_method (
 
 /*player*/
 
-insert into item_type(
+insert into item_type (
     item_type_id,
     item_type_name_ja,
     item_type_name_en,
@@ -1944,8 +1947,29 @@ insert into item_type(
 (11, '必殺タクティクス', 'Hissatsu tactics', 'Supertácticas'),
 (12, 'フォーメーション', 'Formation', 'Formación');
 
+insert into item (
+    item_id,
+    item_name_ja,
+    item_name_en,
+    item_name_es,
+    item_price_buy,
+    item_price_sell,
+    item_type_id) values
+/*必殺技*/
+/*装備品*/
+/*通貨*/
+/*報酬*/
+/*マップチケット*/
+/*鍵*/
+/*対戦チケット*/
+/*回復*/
+/*さいごのノート*/
+/*ウェア*/
+/*必殺タクティクス*/
+/*フォーメーション*/
+(1, '', '', '', null, null, 1)
+
 /*
-item
 hissatsu_type
 item_hissatsu
 tactic_type
