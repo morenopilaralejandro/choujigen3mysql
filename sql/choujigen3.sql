@@ -614,9 +614,9 @@ create table hissatsu_catch (
 
 create table hissatsu_skill (
     item_hissatsu_id int not null,
-    hissatsu_skill_effect_ja varchar(200),
-    hissatsu_skill_effect_en varchar(200),
-    hissatsu_skill_effect_es varchar(200),
+    hissatsu_skill_effect_ja varchar(400),
+    hissatsu_skill_effect_en varchar(400),
+    hissatsu_skill_effect_es varchar(400),
     constraint hissatsu_skill_pk primary key (item_hissatsu_id),
     constraint hissatsu_skill_fk_item_hissatsu foreign key (item_hissatsu_id)
         references item_hissatsu(item_hissatsu_id) on delete cascade
