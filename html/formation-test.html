@@ -1,0 +1,207 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+	    <meta name="keywords" content="">
+	    <meta name="description" content="">
+	    <meta name="author" content="Alejandro Moreno Pilar">
+        <title>Formation Test</title>
+        <style>
+        body {
+            
+        }
+        .zoneGK .fPlayerData {
+            background-color: yellow;
+        }
+        .zoneDF .fPlayerData {
+            background-color: green;
+        }
+        .zoneMF .fPlayerData {
+            background-color: blue;
+        }
+        .zoneFW .fPlayerData {
+            background-color: pink;
+        }
+
+        img.player-portrait {
+            display: block;
+            margin: auto;
+            border: 1px solid black;
+        }
+        div.formationContainer {
+            max-width: 620px;
+            overflow-x: auto;
+            background-color: lime;
+        }
+        div.formation {
+            text-align: center;
+            display: grid;
+            gap: 5px;
+        }
+        div.fposition {
+            background-color: red;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 120px;   
+            padding: 5px;
+            box-sizing: border-box;
+        }
+
+        div.fPlayerData {
+            display: block;
+            width: 100px;   
+            background-color: cyan;
+            box-sizing: border-box;
+            padding-top: 10px;
+        }
+        div.fPlayerData span {
+            display: block;
+        }
+
+        div.formation.fdeathzone {
+            grid-template-columns: 120px 120px 120px 120px 120px;
+        }
+        div.fdeathzone .fposition11 {
+            grid-column: 2 / 5;
+            grid-row: 1;
+            margin-left: 60px;
+        }
+        div.fdeathzone .fposition10 {
+            grid-column: 4 / 5;
+            grid-row: 1;
+            margin-left: -60px;
+        }
+        div.fdeathzone .fposition9 {
+            grid-column: 2 / 5;
+            grid-row: 2;
+        }
+        div.fdeathzone .fposition8 {
+            grid-column: 3 / 5;
+            grid-row: 2;
+        }
+        div.fdeathzone .fposition7 {
+            grid-column: 4 / 5;
+            grid-row: 2;
+        }
+        div.fdeathzone .fposition6 {
+            grid-column: 1 / 5;
+            grid-row: 3;
+        }
+        div.fdeathzone .fposition5 {
+            grid-column: 2 / 5;
+            grid-row: 3;
+            margin-top: 40px;
+        }
+        div.fdeathzone .fposition4 {
+            grid-column: 3 / 5;
+            grid-row: 3;
+        }
+        div.fdeathzone .fposition3 {
+            grid-column: 4 / 5;
+            grid-row: 3;
+            margin-top: 40px;
+        }
+        div.fdeathzone .fposition2 {
+            grid-column: 5 / 5;
+            grid-row: 3;
+        }
+        div.fdeathzone .fposition1 {
+            grid-column: 3 / 5;
+            grid-row: 4;
+        }
+</style>
+    </head>
+    <body>
+        <header></header>
+
+        <div>
+            <h1>Formation Test</h1>
+            <div>
+                <h2>F-デスゾーン</h2>
+                <div class="formationContainer">
+                    <div class="formation fdeathzone">
+                        <div class="fposition fposition11 zoneFW">
+                            <div class="fPlayerData">
+                                <img class="player-portrait" 
+                                    src="portrait.jpg" alt="portrait">
+                                <span>Name 11</span>
+                            </div>
+                        </div>
+                        <div class="fposition fposition10 zoneFW">
+                            <div class="fPlayerData">
+                                <img class="player-portrait" 
+                                    src="portrait.jpg" alt="portrait">
+                                <span>Name 10</span>
+                            </div>
+                        </div>
+                        <div class="fposition fposition9 zoneMF">
+                            <div class="fPlayerData">
+                                <img class="player-portrait" 
+                                    src="portrait.jpg" alt="portrait">
+                                <span>Name 9</span>
+                            </div>
+                        </div>
+                        <div class="fposition fposition8 zoneMF">
+                            <div class="fPlayerData">
+                                <img class="player-portrait" 
+                                    src="portrait.jpg" alt="portrait">
+                                <span>Name 8</span>
+                            </div>
+                        </div>
+                        <div class="fposition fposition7 zoneMF">
+                            <div class="fPlayerData">
+                                <img class="player-portrait" 
+                                    src="portrait.jpg" alt="portrait">
+                                <span>Name 7</span>
+                            </div>
+                        </div>
+                        <div class="fposition fposition6 zoneMF">
+                            <div class="fPlayerData">
+                                <img class="player-portrait" 
+                                    src="portrait.jpg" alt="portrait">
+                                <span>Name 6</span>
+                            </div>
+                        </div>
+                        <div class="fposition fposition5 zoneDF">
+                            <div class="fPlayerData">
+                                <img class="player-portrait" 
+                                    src="portrait.jpg" alt="portrait">
+                                <span>Name 5</span>
+                            </div>
+                        </div>
+                        <div class="fposition fposition4 zoneMF">
+                            <div class="fPlayerData">
+                                <img class="player-portrait" 
+                                    src="portrait.jpg" alt="portrait">
+                                <span>Name 4</span>
+                            </div>
+                        </div>
+                        <div class="fposition fposition3 zoneDF">
+                            <div class="fPlayerData">
+                                <img class="player-portrait" 
+                                    src="portrait.jpg" alt="portrait">
+                                <span>Name 3</span>
+                            </div>
+                        </div>
+                        <div class="fposition fposition2 zoneDF">
+                            <div class="fPlayerData">
+                                <img class="player-portrait" 
+                                    src="portrait.jpg" alt="portrait">
+                                <span>Name 2</span>
+                            </div>
+                        </div>
+                        <div class="fposition fposition1 zoneGK">
+                            <div class="fPlayerData">
+                                <img class="player-portrait" 
+                                    src="portrait.jpg" alt="portrait">
+                                <span>Name 1</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer></footer>
+    </body>
+</html>
