@@ -43,6 +43,7 @@ drop table if exists player_is_part_of_team;
 drop table if exists team;
 drop table if exists item_formation_organized_as_positi;
 drop table if exists item_formation;
+drop table if exists item_formation_scheme;
 drop table if exists item_formation_type;
 drop table if exists player_decrypted_with_passwd;
 drop table if exists player_has_recommended_routine_tm;
@@ -802,16 +803,29 @@ create table item_formation_type (
     constraint item_formation_type_pk primary key (item_formation_type_id)
 );
 
+create table item_formation_scheme (
+    item_formation_scheme_id int not null auto_increment,
+    item_formation_scheme_name varchar(32),
+    constraint item_formation_scheme_pk primary key (item_formation_scheme_id)
+);
+
 create table item_formation (
     item_formation_id int not null auto_increment,
-    item_formation_id_name_ja varchar(32),
-    item_formation_id_name_en varchar(32),
-    item_formation_id_name_es varchar(32),
+    item_formation_name_ja varchar(32),
+    item_formation_name_en varchar(32),
+    item_formation_name_es varchar(32),
     item_formation_type_id int,
+    item_formation_scheme_id int,
+    original_version int,
     constraint item_formation_pk primary key (item_formation_id),
+    constraint item_formation_fk_item_formation  foreign key (original_version)
+        references item_formation(item_formation_id) on delete cascade,
     constraint item_formation_fk_item_formation_type 
         foreign key (item_formation_type_id)
         references item_formation_type(item_formation_type_id) on delete cascade,
+    constraint item_formation_fk_item_formation_scheme
+        foreign key (item_formation_scheme_id)
+        references item_formation_scheme(item_formation_scheme_id) on delete cascade,
     constraint item_formation_fk_item foreign key (item_formation_id)
         references item(item_id) on delete cascade
 );
@@ -2788,6 +2802,7 @@ player_has_recommended_routine_tm
 player_decrypted_with_passwd
 
 item_formation_type
+item_formation_scheme
 item_formation
 item_formation_organized_as_positi
 team
