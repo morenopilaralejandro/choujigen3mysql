@@ -2792,11 +2792,57 @@ insert into item (
 (790, 'B-トライアングル', 'B-Triangle', 'Pachanga total', null, null, 12),
 (791, 'B-ランス', 'B-Lance', 'Lanza', null, null, 12);
 
-/*
-tactic_type
-tactic_side
-item_tactic
+insert into tactic_type (
+    tactic_type_id,
+    tactic_type_name_ja,
+    tactic_type_name_en,
+    tactic_type_name_es) values 
+(1, '攻', 'Att.', 'At.'),
+(2, '守', 'Def.', 'Def.'),
+(3, '攻守', 'A/D', 'A/D'),
+(4, 'キック', 'Kick', 'Tiro');
 
+insert into tactic_side (
+    tactic_side_id,
+    tactic_side_name_ja,
+    tactic_side_name_en,
+    tactic_side_name_es) values
+(1, '自陣', 'Own half only', 'Solo en campo propio'),
+(2, '敵陣', 'Opposition half only', 'Solo en campo contrario'),
+(3, 'どこでも', 'Either half', 'Ambos campos'),
+(4, 'FKとCK', 'Free kick/corner kick only', 'Solo en tiro libre/corner');
+
+insert into item_tactic (
+    item_tactic_id,
+    item_tactic_ttp,
+    item_tactic_effect_ja,
+    item_tactic_effect_en,
+    item_tactic_effect_es,
+    tactic_type_id,
+    tactic_side_id) values
+(716, 40, '前線までボールをダイレクトパス(相手サイドの左右どちらかに移動する)。', 'A simple tactic using high passing to bring the ball to the centre of the pitch.', 'Alcanza la portería sin dejar caer la pelota', 1, 1),
+(717, 40, 'しばらくの間そばの敵を止める(４人)。', 'Stuns 4 nearby opponents.', 'Deja extenuados a 4 rivales cercanos', 1, 2),
+(718, 45, 'ボールを前に運ぶ。', 'Forms twin twisters to carry the ball forward.', 'Ábrete paso con dos tifones imparables', 1, 1),
+(719, 50, '7人でボールを前へ運ぶ。', 'Seven players carry the ball forward.', 'Genera un taladro de arena imparable', 1, 1),
+(720, 50, '4人でボールを前へ運ぶ。', 'Four players carry the ball forward.', 'Avanza con una formación en punta de lanza', 1, 1),
+(721, 50, '4人でボールを前に運ぶ。', 'Blast forward like a four-man thunderstorm.', 'Tormenta de disparos con cuatro jugadores', 1, 3),
+(722, 50, '敵のフォーメーションを左右に崩す。', 'Clear the way for a red carpet route to goal.', 'Despeja la senda hasta el área del adversario', 1, 3),
+(723, 55, '敵全員を止めつつ前進する。', 'Flood forward in a stunning surge.', 'Ábrete camino con una ola descomunal', 1, 1),
+(724, 40, 'バナナのように反り返るシュート。', 'Bend it like a banana.', 'Chuta el balón con efecto como un plátano', 4, 4),
+(725, 40, '波にのせてカーブするシュート。', 'A gnarly curve shot that rides the waves.', 'Chuta el balón con efecto como una ola', 4, 4),
+(726, 40, '4人で囲んでボールを奪う。', 'Four players mark their opponent in a circle to get the ball in a moment.', 'Cuatro jugadores rodean al rival en forma de cuadrado', 2, 1),
+(727, 40, '次々におそいかかりボールをうばう。', 'Strike in succession to reclaim the ball.', 'Apodérate del esférico en fila india', 2, 3),
+(728, 50, '敵をさそいこんでボールをうばう。', 'Lure the enemy in,  then steal the ball.', 'Recupera el esférico con una trampa de arena', 2, 1),
+(729, 50, '炎のうずをおこしボールをうばう。', 'Steal the ball with a cyclone of fire.', 'Roba ek balón con una espiral incandescente', 2, 3),
+(730, 55, 'ボールをうばいすかさず前へロングパス。', 'This shock move turns a tackle into an attack.', 'Desconcierta al rival con un contraataque', 2, 1),
+(731, 60, '８人で敵をゴール前へ運ぶ。', 'An eight-man cyclone forces the enemy back.', 'Detén al contrario con la fuerza de un ciclón', 2, 1),
+(732, 60, 'しばらくの間敵全員を止める。', 'Supernatural forces stop all enemy movement.', 'Inmoviliza al enemigo con poderes hipnóticos', 3, 3),
+(733, 60, 'しばらくの間味方全員を速くする。', 'Call down a divine light to increase your team\'s speed for ten seconds.', 'La velocidad de todos los jugadores del equipo aumentara temporalmente', 3, 3),
+(734, 60, 'しばらくの間敵全員を遅くする。', 'Slow the enemy with a flash of black lightning.', 'Ralentiza a todos los jugadores contrarios por un tiempo', 3, 3),
+(735, 65, 'しばらくの間時間を早くする。', 'Briefly speeds up match time.', 'Acelera el tiempo durante unos instantes', 3, 3),
+(736, 65, 'しばらくの間時間を遅くする。', 'Briefly slows down match time.', 'Ralentiza el tiempo durante unos instantes', 3, 3);
+
+/*
 insert into equipment_type (
     equipment_type_id int not null,
     equipment_type_name_ja),
