@@ -2522,7 +2522,7 @@ insert into item (
 (549, '守りのペンダント金', 'Mamori no Pendant Kin', 'Amuleto oro', 0, null, 2),
 (550, '力のペンダント銅', 'Chikara no Pendant Dou', 'Colgante poder bronce', 0, null, 2),
 (551, '力のペンダント銀', 'Chikara no Pendant Gin', 'Colgante poder plata', 0, null, 2),
-(552, '力のペンダント金', 'Chikara no Pendant Kin', 'Colgante poder oro', 0, null, 2);
+(552, '力のペンダント金', 'Chikara no Pendant Kin', 'Colgante poder oro', 0, null, 2),
 /*通貨*/
 (553, 'ねっけつＰ', 'Nekketsu points', 'Puntos de pasión', null, null, 3),
 (554, 'ゆうじょうＰ', 'Yuujou points', 'Puntos de amistad', null, null, 3),
@@ -2736,15 +2736,63 @@ insert into item (
 (735, 'クイックタイム', 'Fast Forward', 'Aceleración', null, null, 11),
 (736, 'スロータイム', 'Slow-Mo', 'Deceleración', null, null, 11),
 /*フォーメーション*/
-
-https://www.guiasnintendo.com/0a_NINTENDO_3DS/inazuma_eleven_3_ogro/inazuma_eleven_3_ogro_sp/formaciones.html
-https://inazuma-eleven.fandom.com/wiki/Formations#Inazuma_Eleven_3:_Sekai_e_no_Chousen!!
-https://site.nicovideo.jp/ch/userblomaga_thanks/archive/ar1738169
-
+(737, 'F-ベーシック', 'F-Basic', 'Diamante', null, null, 12),
+(738, 'F-ブランゼル', 'F-Branzel', 'Ángel Oscuro', null, null, 12),
+(739, 'F-Dエンペラー', 'F-D Emperor', 'Emperadores Oscuros', null, null, 12),
+(740, 'F-ビッグウェイブ', 'F-Big Wave', 'Big Waves', null, null, 12),
+(741, 'F-Dライオン', 'F-D Lion', 'Leones del Desierto', null, null, 12),
+(742, 'F-ナイツ', 'F-Knights', 'Knights of Queen', null, null, 12),
+(743, 'F-エンパイア', 'F-Empire', 'Emperadores', null, null, 12),
+(744, 'F-ユニコーン', 'F-Unicorn', 'Unicorn', null, null, 12),
+(745, 'F-アサシン', 'F-Assassin', 'Guadaña', null, null, 12),
+(746, 'F-リトルギガント', 'F-Little Gigant', 'Pequeños Gigantes', null, null, 12),
+(747, 'F-エッフェル', 'F-Eiffel', 'Grifos de la Rosa', null, null, 12),
+(748, 'F-デスゾーン', 'F-Death Zone', 'Zona muerta', null, null, 12),
+(749, 'F-デスゾーン２', 'F-Death Zone 2', 'Zona muerta 2', null, null, 12),
+(750, 'F-ダブルドッグ', 'F-Double Dog', 'Can doble', null, null, 12),
+(751, 'F-イージス', 'F-Aegis', 'Aegis', null, null, 12),
+(752, 'F-パンデモニウム', 'F-Pandemonium', 'Pandemonio', null, null, 12),
+(753, 'F-ジェミニ', 'F-Gemini', 'Géminis', null, null, 12),
+(754, 'F-ジェネシス', 'F-Genesis', 'Génesis', null, null, 12),
+(755, 'F-カオス', 'F-Chaos', 'Caos', null, null, 12),
+(756, 'F-KAGE', 'F-KAGE', 'Oscuridad', null, null, 12),
+(757, 'F-オルフェウス', 'F-Orpheus', 'Orfeo', null, null, 12),
+(758, 'F-オーガ', 'F-Ogre', 'Ogro', null, null, 12),
+(759, 'F-ゴーストダンス', 'F-Ghost Dance', 'Flecha espectral', null, null, 12),
+(760, 'F-ワイルドパーク', 'F-Wild Park', 'Jungla', null, null, 12),
+(761, 'F-GRID442', 'F-GRID442', 'Reja', null, null, 12),
+(762, 'F-パンテオン', 'F-Pantheon', 'Panteón', null, null, 12),
+(763, 'F-ブリッツ', 'F-Blitz', 'Brocken Brigade', null, null, 12),
+(764, 'F-かくよくのじん', 'F-Kakuyoku no Jin', 'Alas de grulla', null, null, 12),
+(765, 'F-スーパー☆5', 'F-Super☆5', 'Pirámide', null, null, 12),
+(766, 'F-むげんのかべ', 'F-Mugen no Kabe', 'Árbol de Navidad', null, null, 12),
+(767, 'F-ムカタマーチ', 'F-Mukata March', 'Ataque trillizo', null, null, 12),
+(768, 'F-スリートップ', 'F-Three Top', 'Tridente', null, null, 12),
+(769, 'F-キングダム', 'F-Kingdom', 'Os Reis', null, null, 12),
+(770, 'F-Fドラゴン', 'F-F Dragon', 'Dragones de Fuego', null, null, 12),
+(771, 'F-フェニックス', 'F-Phoenix', 'Vuelo del Fénix', null, null, 12),
+(772, 'F-バタフライ', 'F-Butterfly', 'Doble W', null, null, 12),
+(773, 'F-ヘブンズゲート', 'F-Heaven\'s Gate', 'Puerta al cielo', null, null, 12),
+(774, 'F-マタドール', 'F-Matador', 'Los Rojos', null, null, 12),
+(775, 'F-ファランクス', 'F-Phalanx', 'Ancla', null, null, 12),
+(776, 'F-イプシロン', 'F-Epsilon', 'Épsilon', null, null, 12),
+(777, 'F-ドットプリズン', 'F-Dot Prison', 'Doble M', null, null, 12),
+(778, 'F-ボー＆アロー', 'F-Bow & Arrow', 'Pala', null, null, 12),
+(779, 'F-ミドルブロック', 'F-Middle Block', 'Autobús', null, null, 12),
+(780, 'F-NEO', 'F-NEO', 'Neo', null, null, 12),
+(781, 'F-ブレッド', 'F-Bread', 'Caimanes del Cabo', null, null, 12),
+(782, 'B-ベーシック', 'B-Basic', 'Tirachinas', null, null, 12),
+(783, 'B-フラットバック', 'B-Flat Back', 'En línea', null, null, 12),
+(784, 'B-アタッカー', 'B-Attacker', 'Incursión', null, null, 12),
+(785, 'B-ブレイクスルー', 'B-Breakthrough', 'Kamikaze', null, null, 12),
+(786, 'B-プレッシャー', 'B-Pressure', 'Cerrojo', null, null, 12),
+(787, 'B-スラッシュ', 'B-Slash', 'Diagonal', null, null, 12),
+(788, 'B-ライトウィング', 'B-Right Wing', 'Ala derecha', null, null, 12),
+(789, 'B-トレイン', 'B-Train', 'Torre', null, null, 12),
+(790, 'B-トライアングル', 'B-Triangle', 'Pachanga total', null, null, 12),
+(791, 'B-ランス', 'B-Lance', 'Lanza', null, null, 12);
 
 /*
-(1, '', '', '', null, null, 1)
-
 tactic_type
 tactic_side
 item_tactic
