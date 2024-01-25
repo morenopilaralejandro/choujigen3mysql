@@ -353,7 +353,9 @@ create table item (
 
 create table hissatsu_type (
     hissatsu_type_id int not null auto_increment,
-    hissatsu_type_name varchar(32),
+    hissatsu_type_name_ja varchar(32),
+    hissatsu_type_name_en varchar(32),
+    hissatsu_type_name_es varchar(32),
     constraint hissatsu_type_pk primary key (hissatsu_type_id)
 );
 
@@ -3392,10 +3394,81 @@ insert into equipment_strengthens_stat (
 (551, 8, 7),
 (552, 8, 15);
 
+insert into catch_type (
+    catch_type_id,
+    catch_type_name_ja,
+    catch_type_name_en,
+    catch_type_name_es
+) values
+(1, 'キャッチ', 'Catch', 'Atajo'),
+(2, 'パンチング', 'Punching', 'Despeje'),
+(3, 'パンチング2', 'Punching 2', 'Despeje 2');
+
+insert into shoot_special_property (
+    shoot_special_property_id,
+    shoot_special_property_name_ja,
+    shoot_special_property_name_en,
+    shoot_special_property_name_es
+) values
+(1, 'シュートチェイン', 'Shoot Chain', 'Tiro Encadenado'),
+(2, 'ロングシュート', 'Long Shoot', 'Tiro Largo'),
+(3, 'シュートブロック', 'Shoot Block', 'Bloqueo de tiros');
+
+insert into hissatsu_type (
+    hissatsu_type_id,
+    hissatsu_type_name_ja,
+    hissatsu_type_name_en,
+    hissatsu_type_name_es 
+) values
+(1, 'シュート', 'Shoot', 'Tiro'),
+(2, 'ドリブル', 'Dribble', 'Regate'),
+(3, 'ブロック', 'Block', 'Bloqueo'),
+(4, 'キャッチ', 'Catch', 'Atajo'),
+(5, 'スキル', 'Skill', 'Talento');
+
+insert into growth_type (
+    growth_type_id,
+    growth_type_name_ja,
+    growth_type_name_en,
+    growth_type_name_es
+) values
+(1, '改 - 真', '+1 → +2', '+ → ++'),
+(2, 'V2 - V3', 'V2 → V3', 'N2 → N3'),
+(3, 'グレート (G)', 'Levels (L)', 'Grados (G)');
+
+insert into growth_rate (
+    growth_rate_id,
+    growth_rate_name_ja,
+    growth_rate_name_en,
+    growth_rate_name_es
+) values
+(1, '早熟', 'Precocious', 'Precoz'),
+(2, '普通', 'Average', 'Normal'),
+(3, '晩成', 'Late Bloomer', 'Tardío');
+
+insert into growth_type_can_achieve_growth_rate (
+    growth_type_id,
+    growth_rate_id,
+    additional_power,
+    number_of_uses
+) values 
+/*真*/
+(1, 1, 2, 21),
+(1, 2, 3, 27),
+(1, 3, 5, 33),
+/*V3*/
+(2, 1, 8, 21),
+(2, 2, 10, 27),
+(2, 3, 12, 33),
+/*グレート 5*/
+(3, 1, 14, 80),
+(3, 2, 16, 90),
+(3, 3, 18, 100);
+
 /*
-catch_type
-shoot_special_property
-hissatsu_type
+insert into asd (
+) values
+
 item_hissatsu
 hissatsu_shoot
 hissatsu_shoot_can_have_shoot_special_property
@@ -3403,9 +3476,6 @@ hissatsu_dribble
 hissatsu_block
 hissatsu_catch
 hissatsu_skill
-growth_type
-growth_rate
-growth_type_can_achieve_growth_rate
 hissatsu_evolves
 hissatsu_limited_by_genre
 hissatsu_constrained_by_body_type
