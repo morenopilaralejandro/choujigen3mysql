@@ -598,6 +598,7 @@ create table hissatsu_block (
     hissatsu_block_tp int,
     hissatsu_block_participants int,
     hissatsu_block_foul int,
+    hissatsu_block_is_block int,
     constraint hissatsu_block_pk primary key (item_hissatsu_id),
     constraint hissatsu_block_fk_item_hissatsu foreign key (item_hissatsu_id)
         references item_hissatsu(item_hissatsu_id) on delete cascade
