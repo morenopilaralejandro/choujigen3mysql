@@ -51,6 +51,9 @@ drop table if exists player_has_recommended_gear_equipment;
 drop table if exists player_has_recommended_slot_hissatsu;
 drop table if exists player_learns_hissatsu;
 drop table if exists hissatsu_evokes_attri;
+drop table if exists hissatsu_designed_for_attri;
+drop table if exists hissatsu_combined_with_hissatsu;
+drop table if exists hissatsu_helped_by_attri;
 drop table if exists hissatsu_restricted_by_hissatsu_special_restriction;
 drop table if exists hissatsu_special_restriction;
 drop table if exists hissatsu_available_for_positi;
@@ -723,10 +726,49 @@ create table hissatsu_restricted_by_hissatsu_special_restriction (
     item_hissatsu_id int not null,
     hissatsu_special_restriction_id int not null,
     constraint hissatsu_restricted_by_hsp_pk primary key (item_hissatsu_id),
-    constraint hissatsu_restricted_by_hsp_fk_item_hissatsu foreign key (item_hissatsu_id)
+    constraint hissatsu_restricted_by_hsp_fk_item_hissatsu 
+        foreign key (item_hissatsu_id)
         references item_hissatsu(item_hissatsu_id) on delete cascade,
-    constraint hissatsu_restricted_by_hsp_fk_hsp foreign key (hissatsu_special_restriction_id)
-        references hissatsu_special_restriction(hissatsu_special_restriction_id) on delete cascade
+    constraint hissatsu_restricted_by_hsp_fk_hsp 
+        foreign key (hissatsu_special_restriction_id)
+        references hissatsu_special_restriction(hissatsu_special_restriction_id)
+        on delete cascade
+);
+
+create table hissatsu_designed_for_attri (
+    item_hissatsu_id int not null,
+    attri_id int not null,
+    constraint hissatsu_designed_for_attri_pk primary key (item_hissatsu_id),
+    constraint hissatsu_designed_for_attri_fk_item_hissatsu 
+        foreign key (item_hissatsu_id)
+        references item_hissatsu(item_hissatsu_id) on delete cascade,
+    constraint hissatsu_designed_for_attri_fk_attri foreign key (attri_id)
+        references attri(attri_id) on delete cascade
+);
+
+create table hissatsu_helped_by_attri (
+    item_hissatsu_id int not null,
+    attri_id int not null,
+    constraint hissatsu_helped_by_attri_pk 
+        primary key (item_hissatsu_id, attri_id),
+    constraint hissatsu_helped_by_attri_fk_item_hissatsu 
+        foreign key (item_hissatsu_id)
+        references item_hissatsu(item_hissatsu_id) on delete cascade,
+    constraint hissatsu_helped_by_attri_fk_attri foreign key (attri_id)
+        references attri(attri_id) on delete cascade
+);
+
+create table hissatsu_combined_with_hissatsu (
+    item_hissatsu_id_base int not null,
+    item_hissatsu_id_combined int not null,
+    constraint hissatsu_combined_with_hissatsu_pk 
+        primary key (item_hissatsu_id_base),
+    constraint hissatsu_combined_with_hissatsu_fk_item_hissatsu1 
+        foreign key (item_hissatsu_id_base)
+        references item_hissatsu(item_hissatsu_id) on delete cascade,
+    constraint hissatsu_combined_with_hissatsu_fk_item_hissatsu2
+        foreign key (item_hissatsu_id_combined)
+        references item_hissatsu(item_hissatsu_id) on delete cascade
 );
 
 create table hissatsu_evokes_attri (
@@ -1842,7 +1884,6 @@ insert into attri (
 (2, '林', 'Wood', 'Bosque'),
 (3, '火', 'Fire', 'Fuego'),
 (4, '山', 'Earth', 'Montaña');
-
 
 insert into passwd (
     passwd_id,
@@ -3466,10 +3507,8 @@ insert into growth_type_can_achieve_growth_rate (
 (3, 2, 16, 90),
 (3, 3, 18, 100);
 
+source /home/alejandro/Desktop/projects/choujigen3mysql/sql/procfunc/proc_insert_hissatsu.sql
 /*
-insert into asd (
-) values
-
 item_hissatsu
 hissatsu_shoot
 hissatsu_shoot_can_have_shoot_special_property
@@ -3478,14 +3517,114 @@ hissatsu_block
 hissatsu_catch
 hissatsu_skill
 hissatsu_evolves
+hissatsu_designed_for_attri
+hissatsu_evokes_attri
 hissatsu_limited_by_genre
 hissatsu_constrained_by_body_type
 hissatsu_available_for_positi
+*/
+
+insert into hissatsu_helped_by_attri (
+    item_hissatsu_id,
+    attri_id
+) values
+(33, 3),
+(34, 3),
+(72, 4),
+(73, 1),
+(73, 3),
+(108, 1),
+(111, 1),
+(141, 2),
+(241, 4);
+
+insert into hissatsu_combined_with_hissatsu (
+    item_hissatsu_id_base,
+    item_hissatsu_id_combined
+) values
+(23, 11),
+(28, 11),
+(61, 7),
+(89, 77),
+(98, 77),
+(102, 90),
+(187, 196),
+(193, 165),
+(241, 301);
+
+/*
 hissatsu_special_restriction
 hissatsu_restricted_by_hissatsu_special_restriction
-hissatsu_evokes_attri
 
+insert into hissatsu_special_restriction (
+    hissatsu_special_restriction_id,
+    hissatsu_special_restriction_desc_ja,
+    hissatsu_special_restriction_desc_en,
+    hissatsu_special_restriction_desc_es
+) values
+(1, 
+    'パートナーは火属性', 
+    'Partner is fire element', 
+    'El compañero es de afinidad fuego'),
+(2, 
+    'パートナーは風属性', 
+    'Partner is wind element', 
+    'El compañero es de afinidad aire'),
+(3, 
+    'パートナーは山属性', 
+    'Partner is mountain element', 
+    'El compañero es de afinidad montaña'),
+(4, 
+    'パートナーは林属性', 
+    'Partner is forest element', 
+    'El compañero es de afinidad bosque'),
+(5, 
+    'パートナーは火と風属性', 
+    'The other partners are fire and wind element', 
+    'Los otros compañeros son de afinidad fuego y bosque'),
+(6, 
+    'ファイアトルネード習得者', 
+    'Partner knows Fire Tornado', 
+    'El compañero sabe Tornado de Fuego'),
+(7, 
+    'バックトルネード習得者', 
+    'Partner knows Back Tornado', 
+    'El compañero sabe Tornado Inverso'),
+(8, 
+    'エターナルブリザード習得者', 
+    'Partner knows Eternal Blizzard', 
+    'El compañero sabe Ventisca Eterna'),
+(9, 
+    'ばくねつストーム習得者', 
+    'Partner knows Fireball Storm', 
+    'El compañero sabe Tormenta de Fuego'),
+(1, 
+    'スーパーアルマジロ習得者', 
+    'Partner knows Super Armadillo', 
+    'El compañero sabe Superarmadillo'),
+(1, 
+    'イリュージョンボール習得者', 
+    'Partner knows Illusion Ball', 
+    'El compañero sabe Espejismo de Balón'),
+(1, 
+    'ゴッドハンド（山）習得者', 
+    'Partner knows God Hand and is mountain element', 
+    'El compañero sabe Mano Celestial y es de afinidad montaña');
+*/
+
+/*
 player_learns_hissatsu
+*/
+
+
+
+
+
+
+
+/*
+insert into asd (
+) values
 player_has_recommended_slot_hissatsu
 player_has_recommended_gear_equipment
 player_has_recommended_routine_tm

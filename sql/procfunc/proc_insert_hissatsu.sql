@@ -195,14 +195,69 @@ begin
                         vEffectEs);
             end case;
 
-            /*insert restriction*/
+            if vLearners != '' then
+                /*insert restriction body_type*/
+                if vLearners like '%S%' then
+                    insert into hissatsu_constrained_by_body_type
+                        values (vItemHissatsuId, 1);
+                end if;
+                if vLearners like '%M%' then
+                    insert into hissatsu_constrained_by_body_type
+                        values (vItemHissatsuId, 2);
+                end if;
+                if vLearners like '%L%' then
+                    insert into hissatsu_constrained_by_body_type
+                        values (vItemHissatsuId, 3);
+                    insert into hissatsu_constrained_by_body_type
+                        values (vItemHissatsuId, 4);
+                end if;
 
-            /*
-            select vItemHissatsuId, idGrowthType, idGrowthRate;
-            set statName = substring(vEffect, 1, char_length(vEffect)-3);
-            select stat_id into statId from stat 
-                where stat_name_ja like statName;
-            */
+                /*insert restriction genre*/
+                if vLearners like '%男性%' then
+                    insert into hissatsu_limited_by_genre 
+                        values (vItemHissatsuId, 1);
+                end if;
+                if vLearners like '%女性%' then
+                    insert into hissatsu_limited_by_genre 
+                        values (vItemHissatsuId, 2);
+                end if;
+
+                /*insert restriction designed_for_attri*/
+                if vLearners like '%風%' then
+                    insert into hissatsu_designed_for_attri 
+                        values (vItemHissatsuId, 1);
+                end if;
+                if vLearners like '%林%' then
+                    insert into hissatsu_designed_for_attri 
+                        values (vItemHissatsuId, 2);
+                end if;
+                if vLearners like '%火%' then
+                    insert into hissatsu_designed_for_attri 
+                        values (vItemHissatsuId, 3);
+                end if;
+                if vLearners like '%山%' then
+                    insert into hissatsu_designed_for_attri 
+                        values (vItemHissatsuId, 4);
+                end if;
+
+                /*insert restriction positi*/
+                if vLearners like '%for%' then
+                    insert into hissatsu_available_for_positi 
+                        values (vItemHissatsuId, 1);
+                end if;
+                if vLearners like '%cen%' then
+                    insert into hissatsu_available_for_positi 
+                        values (vItemHissatsuId, 2);
+                end if;
+                if vLearners like '%def%' then
+                    insert into hissatsu_available_for_positi 
+                        values (vItemHissatsuId, 3);
+                end if;
+                if vLearners like '%kee%' then
+                    insert into hissatsu_available_for_positi 
+                        values (vItemHissatsuId, 4);
+                end if;
+            end if;
         end if;
 	end while;
 	close cur1;
