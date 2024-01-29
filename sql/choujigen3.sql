@@ -3454,8 +3454,7 @@ insert into catch_type (
     catch_type_id,
     catch_type_name_ja,
     catch_type_name_en,
-    catch_type_name_es
-) values
+    catch_type_name_es) values
 (1, 'キャッチ', 'Catch', 'Atajo'),
 (2, 'パンチング', 'Punching', 'Despeje'),
 (3, 'パンチング2', 'Punching 2', 'Despeje 2');
@@ -3464,8 +3463,7 @@ insert into shoot_special_property (
     shoot_special_property_id,
     shoot_special_property_name_ja,
     shoot_special_property_name_en,
-    shoot_special_property_name_es
-) values
+    shoot_special_property_name_es) values
 (1, 'シュートチェイン', 'Shoot Chain', 'Tiro Encadenado'),
 (2, 'ロングシュート', 'Long Shoot', 'Tiro Largo'),
 (3, 'シュートブロック', 'Shoot Block', 'Bloqueo de tiros');
@@ -3474,8 +3472,7 @@ insert into hissatsu_type (
     hissatsu_type_id,
     hissatsu_type_name_ja,
     hissatsu_type_name_en,
-    hissatsu_type_name_es 
-) values
+    hissatsu_type_name_es) values
 (1, 'シュート', 'Shoot', 'Tiro'),
 (2, 'ドリブル', 'Dribble', 'Regate'),
 (3, 'ブロック', 'Block', 'Bloqueo'),
@@ -3486,8 +3483,7 @@ insert into growth_type (
     growth_type_id,
     growth_type_name_ja,
     growth_type_name_en,
-    growth_type_name_es
-) values
+    growth_type_name_es) values
 (1, '改 - 真', '+1 → +2', '+ → ++'),
 (2, 'V2 - V3', 'V2 → V3', 'N2 → N3'),
 (3, 'グレート (G)', 'Levels (L)', 'Grados (G)');
@@ -3496,8 +3492,7 @@ insert into growth_rate (
     growth_rate_id,
     growth_rate_name_ja,
     growth_rate_name_en,
-    growth_rate_name_es
-) values
+    growth_rate_name_es) values
 (1, '早熟', 'Precocious', 'Precoz'),
 (2, '普通', 'Average', 'Normal'),
 (3, '晩成', 'Late Bloomer', 'Tardío');
@@ -3506,8 +3501,7 @@ insert into growth_type_can_achieve_growth_rate (
     growth_type_id,
     growth_rate_id,
     additional_power,
-    number_of_uses
-) values 
+    number_of_uses) values 
 /*真*/
 (1, 1, 2, 21),
 (1, 2, 3, 27),
@@ -3541,8 +3535,7 @@ hissatsu_available_for_positi
 
 insert into hissatsu_helped_by_attri (
     item_hissatsu_id,
-    attri_id
-) values
+    attri_id) values
 (33, 3),
 (34, 3),
 (72, 4),
@@ -3555,8 +3548,7 @@ insert into hissatsu_helped_by_attri (
 
 insert into hissatsu_combined_with_hissatsu (
     item_hissatsu_id_base,
-    item_hissatsu_id_combined
-) values
+    item_hissatsu_id_combined) values
 (23, 11),
 (28, 11),
 (61, 7),
@@ -3630,12 +3622,55 @@ insert into hissatsu_special_restriction (
 source /home/alejandro/Desktop/projects/choujigen3mysql/sql/player_learns_hissatsu.sql
 
 /*
-insert into asd (
-) values
 player_has_recommended_slot_hissatsu
 player_has_recommended_gear_equipment
 player_has_recommended_routine_tm
-player_decrypted_with_passwd
+*/
+
+insert into player_decrypted_with_passwd (
+    player_id, 
+    passwd_id ) values
+(234, 1),
+(1550, 2),
+(1364, 3),
+(482, 4),
+(784, 5),
+(1085, 5),
+(963, 5),
+(652, 5),
+(1478, 6),
+(740, 6),
+(431, 6),
+(752, 6),
+(1127, 7),
+(290, 7),
+(1222, 7),
+(653, 7),
+(882, 8),
+(281, 8),
+(1284, 8),
+(107, 8),
+(917, 9),
+(1428, 10),
+(1396, 11),
+(1396, 12),
+(1396, 13),
+(1396, 14),
+(2077, 15),
+(2077, 16),
+(2077, 17),
+(2077, 18),
+(2077, 19),
+(44, 20),
+(1405, 20),
+(1354, 20),
+(242, 21),
+(1405, 21),
+(1354, 21);
+
+/*
+insert into asd (
+) values
 
 item_formation_type
 item_formation_scheme
