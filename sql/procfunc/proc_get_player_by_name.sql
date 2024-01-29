@@ -123,7 +123,6 @@ begin
             /*zone*/
             select vObtention 'ob', vZoneName 'zo';
             /*hissatsu*/
-            /*
             select i.item_name_ja into vHissatsu1 
                 from player_learns_hissatsu plh
                 join item i on i.item_id = plh.item_hissatsu_id
@@ -144,7 +143,6 @@ begin
 
             select vHissatsu1 'h1', vHissatsu2 'h2', vHissatsu3 'h3', 
                 vHissatsu4 'h4';
-            */
             set i = i + 1;
         end if;
 	end while;
@@ -154,4 +152,4 @@ begin
 end
 &&
 delimiter ;
-call proc_get_player_by_name('あいかた');
+call proc_get_player_by_name('アフロディ');

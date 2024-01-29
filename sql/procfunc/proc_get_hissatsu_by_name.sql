@@ -14,6 +14,12 @@ SELECT `player_name_ja` FROM `player` where `player_id` = 1072
 
 call proc_get_player_by_name('asd');
 
+hissatsu_type
+1 シュート
+2 ドリブル
+3 ブロック
+4 キャッチ
+5 スキル
 
 */
 delimiter &&
@@ -36,70 +42,69 @@ begin
 ##     ## 
 #######';
 	declare i int default 0;
-    declare vAttri varchar(1);
-    declare vGenre varchar(1);
-    declare vBody varchar(2);
-    declare vPositi varchar(2);
-    declare vObtention varchar(32);
-    declare vZoneName varchar(32);
-    declare vHissatsu1 varchar(32);
-    declare vHissatsu2 varchar(32);
-    declare vHissatsu3 varchar(32);
-    declare vHissatsu4 varchar(32);
+    declare hissatsuTypeNameJa varchar(32) default '';
+    declare attriNameJa varchar(32) default '';
+    declare basePower int default 0;
+    declare tp int default 0;
+    declare participants int default 0;
+    declare additionalPower int default 0;
+    declare maxPower int default 0;
+    declare growthTypeNameJa varchar(32) default '';
+    declare growthRateNameJa varchar(32) default '';
+    declare foul int default 0;
+    declare isBlock int default 0;
+    declare shootPropertyJa varchar(32) default '';
+    declare catchTypeJa varchar(32) default '';
+    declare skillEffectJa varchar(400) default '';
+    declare skillEffectEn varchar(400) default '';
+    declare skillEffectEs varchar(400) default '';
 
     /*cur1 variables*/
-    declare playerId int default 0;
-    declare playerNameJa varchar(32) default '';
-    declare playerNameHiragana varchar(32) default '';
-    declare playerNameKanji varchar(32) default '';
-    declare playerNameRomanji varchar(32) default '';
-    declare playerNameEn varchar(32) default '';
-    declare playerNameEnFull varchar(32) default '';
-    declare playerInitialLv int default 0;
-    declare playerGp99 int default 0;
-    declare playerTp99 int default 0;
-    declare playerKick99 int default 0;
-    declare playerBody99 int default 0;
-    declare playerControl99 int default 0;
-    declare playerGuard99 int default 0;
-    declare playerSpeed99 int default 0;
-    declare playerStamina99 int default 0;
-    declare playerGuts99 int default 0;
-    declare playerFreedom99 int default 0;
-    declare attriId int default 0;
-    declare positiId int default 0;
-    declare genreId int default 0;
-    declare bodyTypeId int default 0;
-    declare playerObtentionMethodId int default 0;
-    declare originalVersion int default 0;
+    declare itemId int default 0;
+    declare itemNameJa varchar(32) default '';
+    declare itemNameEn varchar(32) default '';
+    declare itemNameEs varchar(32) default '';
+    declare hissatsuTypeId int default 0;
 
     declare continueCur1 int default 1;
-    declare cur1 cursor for select * from player where 
-        player_name_ja = name or
-        player_name_hiragana = name or
-        player_name_kanji = name or
-        player_name_romanji = name or
-        player_name_en = name or
-        player_name_en_full  = name;
-    /*
-    declare cur1 cursor for select * from player where 
-        player_name_ja like concat(concat('%', name), '%') or
-        player_name_hiragana like concat(concat('%', name), '%') or
-        player_name_kanji like concat(concat('%', name), '%') or
-        player_name_romanji like concat(concat('%', name), '%') or
-        player_name_en like concat(concat('%', name), '%') or
-        player_name_en_full like concat(concat('%', name), '%');
-    */
+    declare cur1 cursor for 
+        select
+            i.item_id,
+            i.item_name_ja,
+            i.item_name_en,
+            i.item_name_es,
+            h.hissatsu_type_id
+        from
+            item i
+        join item_hissatsu h on
+            i.item_id = h.item_hissatsu_id
+        where
+            i.item_name_ja = name or 
+            i.item_name_en = name or 
+            i.item_name_es = name;
 	declare continue handler for SQLSTATE '02000' set continueCur1 = 0;
 
     open cur1;
 	while continueCur1=1 do
-        fetch cur1 into playerId, playerNameJa, playerNameHiragana, 
-            playerNameKanji, playerNameRomanji, playerNameEn, playerNameEnFull, 
-            playerInitialLv, playerGp99, playerTp99, playerKick99, playerBody99, 
-            playerControl99, playerGuard99, playerSpeed99, playerStamina99, 
-            playerGuts99, playerFreedom99, attriId, positiId, genreId, 
-            bodyTypeId, playerObtentionMethodId, originalVersion;
+        fetch cur1 into itemId, itemNameJa, itemNameEn, 
+            itemNameEs, hissatsuTypeId;
+
+        set hissatsuTypeNameJa = null;
+        set attriNameJa = null;
+        set basePower = null;
+        set tp = null;
+        set participants = null;
+        set additionalPower = null;
+        set maxPower = null;
+        set growthTypeNameJa = null;
+        set growthRateNameJa = null;
+        set foul = null;
+        set isBlock = null;
+        set shootPropertyJa = null;
+        set catchTypeJa = null;
+        set skillEffectJa = null;
+        set skillEffectEn = null;
+        set skillEffectEs = null;
 
         if continueCur1 = 1 then
             if i > 0 then
@@ -109,57 +114,168 @@ begin
                 select asciiStart as 'start';
             end if;
 
-            set vZoneName = null;
-            select genre_name_ja into vGenre from genre 
-                where genre_id = genreId;
-            select body_type_name_ja into vBody from body_type 
-                where body_type_id = bodyTypeId;
-            select attri_name_ja into vAttri from attri
-                where attri_id = attriId;
-            select positi_name_ja into vPositi from positi
-                where positi_id = positiId;
-            select player_obtention_method_desc_ja into vObtention
-                from player_obtention_method
-                where player_obtention_method_id = playerObtentionMethodId;
-            select z.zone_name_ja into vZoneName from zone z
-                join player_found_at_zone pfz on z.zone_id = pfz.zone_id
-                where pfz.player_id = playerId;   
+            /*type*/
+            select hissatsu_type_name_ja into hissatsuTypeNameJa 
+                from hissatsu_type
+                where hissatsu_type_id = hissatsuTypeId;
+            /*attri*/
+            select a.attri_name_ja into attriNameJa 
+                from hissatsu_evokes_attri het
+                join attri a on het.attri_id = a.attri_id
+                where het.item_hissatsu_id = itemId;
             set continueCur1 = 1;
+
+            
+
 
             /*basic*/
-            select playerId 'id', originalVersion 've', playerNameJa 'ja',
-                vAttri 'at', vPositi 'po', vGenre 'ge', vBody 'bo', 
-                playerInitialLv 'lv';
-            /*stats*/
-            select playerGp99 'gp', playerTp99 'tp', playerKick99 'ki', 
-                playerBody99 'bo', playerControl99 'co', playerGuard99 'gd', 
-                playerSpeed99 'sp', playerStamina99 'st', playerGuts99 'gt', 
-                playerFreedom99 'fr';
-            /*zone*/
-            select vObtention 'ob', vZoneName 'zo';
-            /*hissatsu*/
-            /*
-            select i.item_name_ja into vHissatsu1 
-                from player_learns_hissatsu plh
-                join item i on i.item_id = plh.item_hissatsu_id
-                where plh.player_id = playerId and plh.learn_order = 1;
-            select i.item_name_ja into vHissatsu2 
-                from player_learns_hissatsu plh
-                join item i on i.item_id = plh.item_hissatsu_id
-                where plh.player_id = playerId and plh.learn_order = 2;
-            select i.item_name_ja into vHissatsu3 
-                from player_learns_hissatsu plh
-                join item i on i.item_id = plh.item_hissatsu_id
-                where plh.player_id = playerId and plh.learn_order = 3;
-            select i.item_name_ja into vHissatsu4 
-                from player_learns_hissatsu plh
-                join item i on i.item_id = plh.item_hissatsu_id
-                where plh.player_id = playerId and plh.learn_order = 4;
-            set continueCur1 = 1;
+            select itemId 'id', attriNameJa 'at', hissatsuTypeNameJa 'type', 
+                itemNameJa 'NameJa';
 
-            select vHissatsu1 'h1', vHissatsu2 'h2', vHissatsu3 'h3', 
-                vHissatsu4 'h4';
+            /*
+            hissatsu_type
+                1 シュート
+                2 ドリブル
+                3 ブロック
+                4 キャッチ
+                5 スキル
             */
+            case 
+                when hissatsuTypeId = 1 then
+                    select h.hissatsu_shoot_power, h.hissatsu_shoot_tp, 
+                        h.hissatsu_shoot_participants, achive.additional_power,
+                        gt.growth_type_name_ja, gr.growth_rate_name_ja
+                        into basePower, tp, participants, additionalPower,
+                        growthTypeNameJa, growthRateNameJa
+                        from hissatsu_shoot h
+                        join hissatsu_evolves he 
+                        on h.item_hissatsu_id = he.item_hissatsu_id
+                        join growth_type gt 
+                        on gt.growth_type_id = he.growth_type_id
+                        join growth_rate gr 
+                        on gr.growth_rate_id = he.growth_rate_id
+                        join growth_type_can_achieve_growth_rate achive 
+                        on achive.growth_type_id = gt.growth_type_id 
+                        and achive.growth_rate_id = gr.growth_rate_id
+                        where h.item_hissatsu_id = itemId;
+
+                    select p.shoot_special_property_name_ja
+                        into shootPropertyJa
+                        from hissatsu_shoot h
+                        join hissatsu_shoot_can_have_shoot_special_property can 
+                        on h.item_hissatsu_id = can.item_hissatsu_id
+                        join shoot_special_property p 
+                        on p.shoot_special_property_id = 
+                        can.shoot_special_property_id
+                        where h.item_hissatsu_id = itemId;
+                    set continueCur1 = 1;
+
+                    set maxPower = basePower + additionalPower;
+
+                    select basePower 'bs', maxPower 'mx', tp, participants 'pa',
+                        shootPropertyJa;
+                    select growthTypeNameJa 'ty', growthRateNameJa 'ra', 
+                        additionalPower 'ad';
+
+                when hissatsuTypeId = 2 then        
+                    select h.hissatsu_dribble_power, h.hissatsu_dribble_tp, 
+                        h.hissatsu_dribble_participants, achive.additional_power,
+                        gt.growth_type_name_ja, gr.growth_rate_name_ja
+                        into basePower, tp, participants, additionalPower,
+                        growthTypeNameJa, growthRateNameJa
+                        from hissatsu_dribble h
+                        join hissatsu_evolves he 
+                        on h.item_hissatsu_id = he.item_hissatsu_id
+                        join growth_type gt 
+                        on gt.growth_type_id = he.growth_type_id
+                        join growth_rate gr 
+                        on gr.growth_rate_id = he.growth_rate_id
+                        join growth_type_can_achieve_growth_rate achive 
+                        on achive.growth_type_id = gt.growth_type_id 
+                        and achive.growth_rate_id = gr.growth_rate_id
+                        where h.item_hissatsu_id = itemId; 
+
+                    select hissatsu_dribble_foul 
+                        into foul
+                        from hissatsu_dribble h 
+                        where h.item_hissatsu_id = itemId; 
+
+                    set maxPower = basePower + additionalPower;
+                    select basePower 'bs', maxPower 'mx', tp, participants 'pa',
+                        foul 'fo';
+                    select growthTypeNameJa 'ty', growthRateNameJa 'ra', 
+                        additionalPower 'ad';
+
+                when hissatsuTypeId = 3 then   
+                    select h.hissatsu_block_power, h.hissatsu_block_tp, 
+                        h.hissatsu_block_participants, achive.additional_power,
+                        gt.growth_type_name_ja, gr.growth_rate_name_ja
+                        into basePower, tp, participants, additionalPower,
+                        growthTypeNameJa, growthRateNameJa
+                        from hissatsu_block h
+                        join hissatsu_evolves he 
+                        on h.item_hissatsu_id = he.item_hissatsu_id
+                        join growth_type gt 
+                        on gt.growth_type_id = he.growth_type_id
+                        join growth_rate gr 
+                        on gr.growth_rate_id = he.growth_rate_id
+                        join growth_type_can_achieve_growth_rate achive 
+                        on achive.growth_type_id = gt.growth_type_id 
+                        and achive.growth_rate_id = gr.growth_rate_id
+                        where h.item_hissatsu_id = itemId;
+
+                    select hissatsu_block_foul, hissatsu_block_is_block
+                        into foul, isBlock
+                        from hissatsu_block h
+                        where h.item_hissatsu_id = itemId;
+
+                    set maxPower = basePower + additionalPower;
+                    select basePower 'bs', maxPower 'mx', tp, participants 'pa',
+                        foul 'fo', isBlock 'bo';
+                    select growthTypeNameJa 'ty', growthRateNameJa 'ra', 
+                        additionalPower 'ad';
+
+                when hissatsuTypeId = 4 then    
+                    select h.hissatsu_catch_power, h.hissatsu_catch_tp, 
+                        h.hissatsu_catch_participants, achive.additional_power,
+                        gt.growth_type_name_ja, gr.growth_rate_name_ja
+                        into basePower, tp, participants, additionalPower,
+                        growthTypeNameJa, growthRateNameJa
+                        from hissatsu_catch h
+                        join hissatsu_evolves he 
+                        on h.item_hissatsu_id = he.item_hissatsu_id
+                        join growth_type gt 
+                        on gt.growth_type_id = he.growth_type_id
+                        join growth_rate gr 
+                        on gr.growth_rate_id = he.growth_rate_id
+                        join growth_type_can_achieve_growth_rate achive 
+                        on achive.growth_type_id = gt.growth_type_id 
+                        and achive.growth_rate_id = gr.growth_rate_id
+                        where h.item_hissatsu_id = itemId;
+
+                    select ct.catch_type_name_ja
+                        into catchTypeJa
+                        from hissatsu_catch h 
+                        join catch_type ct on h.catch_type_id = ct.catch_type_id
+                        where h.item_hissatsu_id = itemId;
+
+                    set maxPower = basePower + additionalPower;
+                    select basePower 'bs', maxPower 'mx', tp, participants 'pa',
+                        catchTypeJa;
+                    select growthTypeNameJa 'ty', growthRateNameJa 'ra', 
+                        additionalPower 'ad';
+
+                when hissatsuTypeId = 5 then  
+                    select h.hissatsu_skill_effect_ja, 
+                        h.hissatsu_skill_effect_en, h.hissatsu_skill_effect_es
+                        into skillEffectJa, skillEffectEn, skillEffectEs
+                        from hissatsu_skill h 
+                        where h.item_hissatsu_id = itemId;
+
+                    select skillEffectJa;
+                    select skillEffectEn;
+                    select skillEffectEs;
+            end case;
             set i = i + 1;
         end if;
 	end while;
@@ -169,4 +285,9 @@ begin
 end
 &&
 delimiter ;
-call proc_get_hissatsu_by_name('');
+call proc_get_hissatsu_by_name('スーパースキャン');
+call proc_get_hissatsu_by_name('マキシマムファイア');
+call proc_get_hissatsu_by_name('Heaven\'s Time');
+call proc_get_hissatsu_by_name('ザ・マウンテン');
+call proc_get_hissatsu_by_name('まおう・ザ・ハンド');
+call proc_get_hissatsu_by_name('ちょうわざ！');

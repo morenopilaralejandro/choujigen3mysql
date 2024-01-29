@@ -3522,6 +3522,7 @@ insert into growth_type_can_achieve_growth_rate (
 (3, 3, 18, 100);
 
 source /home/alejandro/Desktop/projects/choujigen3mysql/sql/procfunc/proc_insert_hissatsu.sql
+
 /*
 item_hissatsu
 hissatsu_shoot
@@ -3626,15 +3627,7 @@ insert into hissatsu_special_restriction (
     'El compañero sabe Mano Celestial y es de afinidad montaña');
 */
 
-/*
-player_learns_hissatsu
-*/
-
-
-
-
-
-
+source /home/alejandro/Desktop/projects/choujigen3mysql/sql/player_learns_hissatsu.sql
 
 /*
 insert into asd (
