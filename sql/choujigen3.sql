@@ -326,7 +326,8 @@ create table player (
         references body_type(body_type_id) on delete cascade,
     constraint player_fk_player_obtention_method 
         foreign key (player_obtention_method_id) 
-        references player_obtention_method(player_obtention_method_id) on delete cascade,
+        references player_obtention_method(player_obtention_method_id) 
+        on delete cascade,
     constraint player_fk_player foreign key (original_version) 
         references player(player_id) on delete cascade
 );
@@ -578,10 +579,13 @@ create table hissatsu_shoot_can_have_shoot_special_property (
     item_hissatsu_id int not null,
     shoot_special_property_id int not null,
     constraint hissatsu_shoot_can_have_spp_pk primary key (item_hissatsu_id),
-    constraint hissatsu_shoot_can_have_ssp_fk_hissatsu_shoot foreign key (item_hissatsu_id)
+    constraint hissatsu_shoot_can_have_ssp_fk_hissatsu_shoot 
+        foreign key (item_hissatsu_id)
         references hissatsu_shoot(item_hissatsu_id) on delete cascade,
-    constraint hissatsu_shoot_can_have_spp_fk_spp foreign key (shoot_special_property_id)
-        references shoot_special_property(shoot_special_property_id) on delete cascade
+    constraint hissatsu_shoot_can_have_spp_fk_spp 
+        foreign key (shoot_special_property_id)
+        references shoot_special_property(shoot_special_property_id) 
+        on delete cascade
 );
 
 create table hissatsu_dribble (
@@ -665,7 +669,8 @@ create table hissatsu_evolves (
     item_hissatsu_id int not null,
     growth_type_id int not null,
     growth_rate_id int not null,
-    constraint hissatsu_evolves_pk primary key (item_hissatsu_id, growth_type_id, growth_rate_id),
+    constraint hissatsu_evolves_pk 
+        primary key (item_hissatsu_id, growth_type_id, growth_rate_id),
     constraint hissatsu_evolves_fk_item_hissatsu foreign key (item_hissatsu_id)
         references item_hissatsu(item_hissatsu_id) on delete cascade,
     constraint hissatsu_evolves_fk_growth_type foreign key (growth_type_id)
@@ -801,7 +806,8 @@ create table player_has_recommended_slot_hissatsu (
     item_hissatsu_id int not null,
     constraint player_has_recommended_slot_hissatsu_pk 
         primary key (player_id, item_hissatsu_id),
-    constraint player_has_recommended_slot_hissatsu_fk_player foreign key (player_id)
+    constraint player_has_recommended_slot_hissatsu_fk_player 
+        foreign key (player_id)
         references player(player_id) on delete cascade,
     constraint player_has_recommended_slot_hissatsu_fk_item_hissatsu 
         foreign key (item_hissatsu_id)
@@ -813,7 +819,8 @@ create table player_has_recommended_gear_equipment (
     item_equipment_id int not null,
     constraint player_has_recommended_gear_equipment_pk 
         primary key (player_id, item_equipment_id),
-    constraint player_has_recommended_gear_equipment_fk_player foreign key (player_id)
+    constraint player_has_recommended_gear_equipment_fk_player 
+        foreign key (player_id)
         references player(player_id) on delete cascade,
     constraint player_has_recommended_gear_equipment_fk_item_equipment 
         foreign key (item_equipment_id)
@@ -825,16 +832,19 @@ create table player_has_recommended_routine_tm (
     training_method_id int not null,
     constraint player_has_recommended_routine_tm_pk 
         primary key (player_id, training_method_id),
-    constraint player_has_recommended_routine_tm_fk_player foreign key (player_id)
+    constraint player_has_recommended_routine_tm_fk_player 
+        foreign key (player_id)
         references player(player_id) on delete cascade,
-    constraint player_has_recommended_routine_tm_fk_tm foreign key (training_method_id)
+    constraint player_has_recommended_routine_tm_fk_tm 
+        foreign key (training_method_id)
         references training_method(training_method_id) on delete cascade
 );
 
 create table player_decrypted_with_passwd (
     player_id int not null,
     passwd_id int not null,
-    constraint player_decrypted_with_passwd_pk primary key (player_id, passwd_id),
+    constraint player_decrypted_with_passwd_pk 
+        primary key (player_id, passwd_id),
     constraint player_decrypted_with_passwd_fk_player foreign key (player_id)
         references player(player_id) on delete cascade,
     constraint player_decrypted_with_passwd_fk_passwd foreign key (passwd_id)
@@ -868,10 +878,12 @@ create table item_formation (
         references item_formation(item_formation_id) on delete cascade,
     constraint item_formation_fk_item_formation_type 
         foreign key (item_formation_type_id)
-        references item_formation_type(item_formation_type_id) on delete cascade,
+        references item_formation_type(item_formation_type_id) 
+        on delete cascade,
     constraint item_formation_fk_item_formation_scheme
         foreign key (item_formation_scheme_id)
-        references item_formation_scheme(item_formation_scheme_id) on delete cascade,
+        references item_formation_scheme(item_formation_scheme_id) 
+        on delete cascade,
     constraint item_formation_fk_item foreign key (item_formation_id)
         references item(item_id) on delete cascade
 );
@@ -885,7 +897,8 @@ create table item_formation_organized_as_positi (
     constraint item_formation_organized_as_positi_fk_item_formation 
         foreign key (item_formation_id)
         references item_formation(item_formation_id) on delete cascade,
-    constraint item_formation_organized_as_positi_fk_positi foreign key (positi_id)
+    constraint item_formation_organized_as_positi_fk_positi 
+        foreign key (positi_id)
         references positi(positi_id) on delete cascade
 );
 
@@ -992,7 +1005,8 @@ create table practice_game_dictated_by_pgc (
         references practice_game(practice_game_id) on delete cascade,
     constraint practice_game_dictated_by_pgc_fk_pgc 
         foreign key (practice_game_condition_id)
-        references practice_game_condition(practice_game_condition_id) on delete cascade
+        references practice_game_condition(practice_game_condition_id) 
+        on delete cascade
 );
 
 create table item_vscard (
@@ -1009,7 +1023,8 @@ create table practice_game_can_drop_item (
     practice_game_id int not null,
     item_id int not null,
     drop_rate int,
-    constraint practice_game_can_drop_item_pk primary key (practice_game_id, item_id),
+    constraint practice_game_can_drop_item_pk 
+        primary key (practice_game_id, item_id),
     constraint practice_game_can_drop_item_fk_practice_game 
         foreign key (practice_game_id)
         references practice_game(practice_game_id) on delete cascade,
@@ -1201,7 +1216,6 @@ create table conn_link (
     constraint conn_link_fk_conn_panel foreign key (conn_panel_id)
         references conn_panel(conn_panel_id) on delete cascade 
 );
-
 
 create table link_player (
     link_player_id int not null, 
