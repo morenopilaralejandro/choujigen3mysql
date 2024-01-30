@@ -1,0 +1,56 @@
+item_formation_id,item_formation_name_ja,item_formation_name_en,item_formation_name_es,formation_type,formation_scheme,original_version
+737,F-ベーシック,F-Basic,Diamante,対戦,4-4-2,original
+738,F-ブランゼル,F-Branzel,Ángel Oscuro,対戦,4-4-2,737
+739,F-Dエンペラー,F-D Emperor,Emperadores Oscuros,対戦,4-4-2,737
+740,F-ビッグウェイブ,F-Big Wave,Big Waves,対戦,4-4-2,737
+741,F-Dライオン,F-D Lion,Leones del Desierto,対戦,4-4-2,737
+742,F-ナイツ,F-Knights,Knights of Queen,対戦,4-4-2,737
+743,F-エンパイア,F-Empire,Emperadores,対戦,4-4-2,737
+744,F-ユニコーン,F-Unicorn,Unicorn,対戦,4-4-2,737
+745,F-アサシン,F-Assassin,Guadaña,対戦,4-4-2,737
+746,F-リトルギガント,F-Little Gigant,Pequeños Gigantes,対戦,4-4-2,737
+747,F-エッフェル,F-Eiffel,Grifos de la Rosa,対戦,4-4-2,737
+748,F-デスゾーン,F-Death Zone,Zona muerta,対戦,5-3-2,original
+749,F-デスゾーン２,F-Death Zone 2,Zona muerta 2,対戦,5-3-2,748
+750,F-ダブルドッグ,F-Double Dog,Can doble,対戦,5-3-2,748
+751,F-イージス,F-Aegis,Aegis,対戦,5-3-2,748
+752,F-パンデモニウム,F-Pandemonium,Pandemonio,対戦,5-3-2,748
+753,F-ジェミニ,F-Gemini,Géminis,対戦,5-3-2,748
+754,F-ジェネシス,F-Genesis,Génesis,対戦,5-3-2,748
+755,F-カオス,F-Chaos,Caos,対戦,5-3-2,748
+756,F-KAGE,F-KAGE,Oscuridad,対戦,5-3-2,748
+757,F-オルフェウス,F-Orpheus,Orfeo,対戦,5-3-2,748
+758,F-オーガ,F-Ogre,Ogro,対戦,5-3-2,748
+759,F-ゴーストダンス,F-Ghost Dance,Flecha espectral,対戦,4-5-1,original
+760,F-ワイルドパーク,F-Wild Park,Jungla,対戦,3-4-3,original
+761,F-GRID442,F-GRID442,Reja,対戦,4-4-2,original
+762,F-パンテオン,F-Pantheon,Panteón,対戦,4-4-2,761
+763,F-ブリッツ,F-Blitz,Brocken Brigade,対戦,4-4-2,761
+764,F-かくよくのじん,F-Kakuyoku no Jin,Alas de grulla,対戦,4-4-2,original
+765,F-スーパー☆5,F-Super☆5,Pirámide,対戦,2-3-5,original
+766,F-むげんのかべ,F-Mugen no Kabe,Árbol de Navidad,対戦,4-3-2-1,original
+767,F-ムカタマーチ,F-Mukata March,Ataque trillizo,対戦,4-3-3,original
+768,F-スリートップ,F-Three Top,Tridente,対戦,4-3-3,767
+769,F-キングダム,F-Kingdom,Os Reis,対戦,4-3-3,767
+770,F-Fドラゴン,F-F Dragon,Dragones de Fuego,対戦,4-3-3,767
+771,F-フェニックス,F-Phoenix,Vuelo del Fénix,対戦,4-3-3,original
+772,F-バタフライ,F-Butterfly,Doble W,対戦,4-3-3,771
+773,F-ヘブンズゲート,F-Heaven\'s Gate,Puerta al cielo,対戦,4-4-2,original
+774,F-マタドール,F-Matador,Los Rojos,対戦,4-4-2,773
+775,F-ファランクス,F-Phalanx,Ancla,対戦,5-4-1,original
+776,F-イプシロン,F-Epsilon,Épsilon,対戦,5-4-1,775
+777,F-ドットプリズン,F-Dot Prison,Doble M,対戦,3-4-3,original
+778,F-ボー＆アロー,F-Bow & Arrow,Pala,対戦,3-1-3-3,original
+779,F-ミドルブロック,F-Middle Block,Autobús,対戦,3-2-2-1-2,original
+780,F-NEO,F-NEO,Neo,対戦,4-3-3,original
+781,F-ブレッド,F-Bread,Caimanes del Cabo,対戦,4-3-3,780
+782,B-ベーシック,B-Basic,Tirachinas,ミニバトル,1-0-2,original
+783,B-フラットバック,B-Flat Back,En línea,ミニバトル,3-0-0,original
+784,B-アタッカー,B-Attacker,Incursión,ミニバトル,0-2-1,original
+785,B-ブレイクスルー,B-Breakthrough,Kamikaze,ミニバトル,0-0-3,original
+786,B-プレッシャー,B-Pressure,Cerrojo,ミニバトル,0-1-2,original
+787,B-スラッシュ,B-Slash,Diagonal,ミニバトル,1-1-1,original
+788,B-ライトウィング,B-Right Wing,Ala derecha,ミニバトル,0-0-0,original
+789,B-トレイン,B-Train,Torre,ミニバトル,0-0-0,original
+790,B-トライアングル,B-Triangle,Pachanga total,ミニバトル,0-1-2,original
+791,B-ランス,B-Lance,Lanza,ミニバトル,2-0-1,original
