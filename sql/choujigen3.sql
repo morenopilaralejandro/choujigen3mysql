@@ -3970,14 +3970,154 @@ insert into item_formation_organized_as_positi (
 (780, 1, 11);
 
 /*
+SELECT
+    w.item_wear_id,
+    i.item_name_ja,
+    i.item_name_en
+FROM
+    item_wear w
+JOIN item i ON
+    w.item_wear_id = i.item_id
+*/
+
+insert into team (
+    team_id,
+    team_name_ja,
+    team_name_en,
+    team_name_es,
+    item_formation_id,
+    item_wear_id,
+) values
+/*FFチーム*/
+(1, '傘美野', 'Umbrella Junior High', 'Instituto Umbrella', 737, 628),
+(2, '尾刈斗', 'Occult Junior High', 'Instituto Occult', 759, 619),
+(3, '野生', 'Wild Junior High', 'Instituto Wild', 760, 620),
+(4, '御影専農', 'Brainwashing Junior High', 'Instituto Brain', 761, 621),
+(5, '秋葉名戸', 'Otaku Junior High', 'Instituto Otaku', 765, 622),
+(6, '帝国学園', 'Royal Academy', 'Royal Academy', 748, 618),
+(7, '戦国伊賀島', 'Shuriken Junior High', 'Instituto Shuriken', 764, 623),
+(8, '千羽山', 'Farm Junior High', 'Instituto Farm', 766, 624),
+(9, '木戸川清修', 'Kirkwood Junior High', 'Instituto Kirkwood', 767, 625),
+(10, '世宇子', 'Zeus', 'Zeus', 773, 626),
+/*全国チーム*/
+(11, '白恋', 'Alpine', 'Alpino', 737, 635),
+(12, '漫遊寺', 'Cloister Divinity', 'Claustro Sagrado', 750, 636),
+(13, '真・帝国学園', 'Royal Academy Redux', 'Royal Academy Redux', 748, 637),
+(14, '大阪ギャルズCCC', 'Triple C', 'CCC de Osaka', 737, 641),
+(15, '陽花戸', 'Fauxshore', 'Fauxshore', 751, 638),
+(16, '大海原', 'Mary Times', 'Mary Times', 737, 639),
+/*エイリア学園チーム*/
+(17, 'ジェミニストーム', 'Gemini Storm', 'Tormenta de Géminis', 753, 631),
+(18, 'イプシロン', 'Epsilon', 'Épsilon', 776, 632),
+(19, 'イプシロン改', 'Advanced Epsilon', 'Épsilon Plus', 776, 632),
+(20, 'ザ・ジェネシス', 'Genesis', 'Génesis', 754, 633),
+(21, '警備マシンズ', 'Robot Guards', 'Robots Guardias', 737, 642),
+(22, 'ダークエンペラーズ', 'Dark Emperors', 'Emperadores Oscuros', 739, 640),
+(23, 'プロミネンス', 'Prominence', 'Prominence', 737, 643),
+(24, 'ダイヤモンドダスト', 'Diamond Dust', 'Polvo de Diamantes', 737, 644),
+(25, 'カオス', 'Chaos', 'Caos', 755, 645),
+/*さまざまなチーム*/
+(26, '稲妻KFC', 'Inazuma Kids FC', 'Inazuma Kids FC', 748, 627),
+(27, '一番街サリーズ', 'Street Sally\'s', 'Sallys', 748, 630),
+(28, 'SPフィクサーズ', 'Secret Service', 'Servicio Secreto', 737, 634),
+(29, '樹海チーム', 'Forest Team', 'Mar de Árboles', 737, 689),
+(30, '雷門OB', 'Veterans', 'Inazuma Eleven', 751, 629),
+(31, 'ヤングイナズマイレブン', 'Young Inazuma', 'Jóvenes Inazuma', 751, null),
+/*FFIチーム1*/
+(32, 'ビッグウェイブス', 'Big Waves', 'Big Waves', 740, 647),
+(33, 'デザートライオン', 'Desert Lions', 'Leones del Desierto', 741, 648),
+(34, 'ファイアードラゴン', 'Fire Dragon', 'Dragones de Fuego', 770, 650),
+(35, 'ネオジャパン', 'Neo National', 'Neo Japón', 780, 649),
+(36, 'チームK', 'Team D', 'Equipo D', 756, 652),
+(37, 'チーム・ガルシルド', 'Team Zoolan', 'Zoolan Team', 745, 656),
+(38, 'ナイツオブクィーン', 'Queen\'s Knights', 'Knights of Queen', 742, 651),
+(39, 'ジ・エンパイア', 'The Empire', 'Los Emperadores', 743, 653),
+(40, 'ユニコーン', 'Unicorn', 'Unicorn', 744, 654),
+(41, 'オルフェウス', 'Orpheus', 'Orfeo', 757, 655),
+(42, 'ザ・キングダム', 'The Kingdom', 'Os Reis', 769, 657),
+(43, 'リトルギガント', 'Little Gigant', 'Pequeños Gigantes', 746, 658),
+/*FFIチーム2*/
+(44, 'レッドマタドール', 'Red Matador', 'Los Rojos', 774, 660),
+(45, 'ローズグリフォン', 'Rose Griffons', 'Grifos de la Rosa', 747, 659),
+(46, 'ブロッケンボーグ', 'Brocken Brigade', 'Brocken Brigade', 763, 661),
+(47, 'ザ・グレイトホーン', 'The Cape Crusaders', 'Caimanes del Cabo', 781, 662),
+(48, '天空の使徒', 'Apostles from the Sky', 'Sky Team', 762, 663),
+(49, '魔界軍団Z', 'Devil Army Z', 'Dark Team', 752, 664),
+(50, 'ダークエンジェル', 'Dark Angels', 'Ángel Oscuro', 738, 665),
+(52, 'オーガ', 'Team Ogre', 'Equipo Ogro', 758, 666),
+/**/
+(53, '女子選抜チーム', 'The All-Girls Allstars', 'Estrellas Femeninas', 737, null),
+(54, 'アジア代表', 'Asia United', 'Ases Asiáticos', 749, null),
+(55, 'ネオジャパン改', 'Advanced Neo National', 'Neo Japón Plus', 780, 649),
+(56, 'ウラゼウス', 'Fallen Zeus', 'Ultra Zeus', 773, 626),
+(57, 'アジア選抜', 'Asian Allstars', 'Astros Asiáticos', 749, 650),
+(58, 'ヨーロッパ選抜', 'European Allstars', 'Astros Europeos', 749, 661),
+(59, 'グループA選抜', 'Group A Allstars', 'Astros del Grupo A', 757, 655),
+(60, '南米選抜', 'South American Allstars', 'Astros Sudamericanos', 749, 653),
+(61, 'アメリカ大陸選抜', 'American Allstars', 'Astros Americanos', 769, 654),
+(62, '稲妻KFC改', 'Advanced Kids', 'Inazuma Kids FC Plus', 748, 627),
+(63, '表と裏の王者', 'Front And Back Kings', 'Royal Claustro', 778, 703),
+(64, 'ドッペルズ', 'The Doppelgangers', 'Los Impostores', 749, 695),
+(65, 'ザ・ウッズ', 'The Woods', 'Guardabosques', 749, 678),
+(66, 'ザ・マウンテンズ', 'The Mountains', 'Montañeros', 749, 684),
+(67, 'ザ・キーパーズ', 'Canny Keepers', 'Porteros Imbatibles', 749, null),
+(68, 'なりきり戦隊', 'Ultrasquad Omega', 'Ultrapatrulla Omega', 749, null),
+(69, '南米代表', 'South America United', 'Ases Sudamericanos', 749, 657),
+(70, 'ヨーロッパ代表', 'Europe United', 'Ases Europeos', 749, 655),
+(71, 'グループB選抜', 'Group B Selection', 'Astros del Grupo B', 769, 658),
+(72, 'アフリカ代表', 'Africa United', 'Ases Africanos', 746, 662),
+(73, '世界代表', 'International United', 'Ases Internacionales', 748, 704),
+(74, 'ザ・フォワーズ', 'Flying Forwards', 'Delanteros Relámpagos', 749, null),
+(75, 'スーパー大阪CCC', 'Super Triple C', 'Súper Triple C', 751, 641),
+(76, 'チーム・カノン', 'Team Canon', 'Equipo Canon', 748, 705),
+(77, 'タカビーズ', 'The Ice Queens', 'Reinas del Hielo', 749, 693),
+(78, 'アダルトチーム', 'Grown-Ups', 'Equipo de Adultos', 761, 634),
+(79, 'イナズマタウンズ', 'Inazuma Town', 'Ciudad Inazuma', 737, 671),
+(80, 'アンダー12', 'Under Twelves', 'Los Alevines', 737, null),
+(81, 'ザ・ウインディーズ', 'The Windies', 'Airosos', 749, null),
+(82, 'ザ・ミッズ', 'Mercurial Midfielders', 'Medios Sorprendentes', 749, 661),
+(83, 'ゾディアックス', 'The Blastrologers', 'Astros del Firmamento', 749, 669),
+(84, 'ネオ帝国', 'Neo Royal', 'Neo Royal Academy', 748, 637),
+(85, 'エイリアA', 'Alius A', 'Alius A', 754, 633),
+(86, 'エイリアB', 'Alius B', 'Alius B', 776, 633),
+(87, '神と宇宙', 'Gods and Aliens', 'Divinidades y Alienígenas', 773, 685),
+(88, 'キャッピキャピA', 'Cutesy A', 'Chavalillas A', 737, 681),
+(89, 'リトルチーム', 'Little Team', 'Chiquis', 760, 693),
+(90, 'スーパーアニマルズ', 'The Zoo Keepers', 'Los Superadorables', 749, null),
+(91, 'FF地区選抜B', 'FF Regional Pick B', 'Fase Previa FF B', 759, 707),
+(92, 'FF全国選抜B', 'FF National Pick B', 'Fase Nacional FF B', 773, 695),
+(93, '全国チーム選抜B', 'National Team B', 'Selección Nacional B', 778, 704),
+(94, 'チーム東日本', 'E. Japan Orient', 'Japón Este', 749, 711),
+(95, '日本代表候補B', 'FFI Trials Team B', 'Pruebas de Selección - Equipo B', 749, 646),
+(96, 'ファースト雷門', 'Raimon I', 'Raimon 1', 737, 617),
+(97, 'リアル・エイリア', 'Real Alius', 'Atlético Alius', 754, 633),
+(98, '影山オールスター', 'Dark\'s All Stars', 'Ray Dark All Stars', 748, 618),
+(99, 'アナザーカオス', 'Chaos Returns', 'Nuevo Caos', 737, 645),
+(100, 'ピストンベリーズ', 'Piston Berryz', 'Dorremifagol', 749, null),
+(101, '十二天王', 'The Gangs of Four', 'Los Cuatro Magníficos', 770, 713),
+(102, 'ザ・カード', 'The Card', 'Tarjeteros', 749, 640),
+(103, 'チャンピオンズ', 'Champions', 'Los Campeones', 777, 705),
+(104, 'イナズマ’10', 'Inazuma 10', 'Ases del Inazuma 3', 749, 671),
+(105, '世界選抜', 'International Allstars', 'Selección Mundial', 749, 658),
+/*tournament*/
+(106, 'イナズマジャパン', 'Inazuma National', 'Inazuma Japón', 737, 646);
+
+
+
+
+
+
+/*
+(, '', '', '', , ),
+
 insert into asd (
 ) values
 
-team
 player_is_part_of_team
 player_plays_during_story_team
 
 tactic_executed_by_team
+
 extra_battle_route
 route_path
 practice_game_condition
