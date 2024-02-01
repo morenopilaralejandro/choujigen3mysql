@@ -4046,7 +4046,7 @@ insert into team (
 (50, 'ダークエンジェル', 'Dark Angels', 'Ángel Oscuro', 738, 665),
 (52, 'オーガ', 'Team Ogre', 'Equipo Ogro', 758, 666),
 /**/
-(53, '女子選抜チーム', 'The All-Girls Allstars', 'Estrellas Femeninas', 737, null),
+(53, '女子選抜チーム', 'The All-Girls Allstars', 'Estrellas Femeninas', 737, 646),
 (54, 'アジア代表', 'Asia United', 'Ases Asiáticos', 749, null),
 (55, 'ネオジャパン改', 'Advanced Neo National', 'Neo Japón Plus', 780, 649),
 (56, 'ウラゼウス', 'Fallen Zeus', 'Ultra Zeus', 773, 626),
@@ -4073,8 +4073,8 @@ insert into team (
 (77, 'タカビーズ', 'The Ice Queens', 'Reinas del Hielo', 749, 693),
 (78, 'アダルトチーム', 'Grown-Ups', 'Equipo de Adultos', 761, 634),
 (79, 'イナズマタウンズ', 'Inazuma Town', 'Ciudad Inazuma', 737, 671),
-(80, 'アンダー12', 'Under Twelves', 'Los Alevines', 737, null),
-(81, 'ザ・ウインディーズ', 'The Windies', 'Airosos', 749, null),
+(80, 'アンダー12', 'Under Twelves', 'Los Alevines', 737, 696),
+(81, 'ザ・ウインディーズ', 'The Windies', 'Airosos', 749, 688),
 (82, 'ザ・ミッズ', 'Mercurial Midfielders', 'Medios Sorprendentes', 749, 661),
 (83, 'ゾディアックス', 'The Blastrologers', 'Astros del Firmamento', 749, 669),
 (84, 'ネオ帝国', 'Neo Royal', 'Neo Royal Academy', 748, 637),
@@ -4093,14 +4093,88 @@ insert into team (
 (97, 'リアル・エイリア', 'Real Alius', 'Atlético Alius', 754, 633),
 (98, '影山オールスター', 'Dark\'s All Stars', 'Ray Dark All Stars', 748, 618),
 (99, 'アナザーカオス', 'Chaos Returns', 'Nuevo Caos', 737, 645),
-(100, 'ピストンベリーズ', 'Piston Berryz', 'Dorremifagol', 749, null),
+(100, 'ピストンベリーズ', 'Piston Berryz', 'Dorremifagol', 749, 702),
 (101, '十二天王', 'The Gangs of Four', 'Los Cuatro Magníficos', 770, 713),
 (102, 'ザ・カード', 'The Card', 'Tarjeteros', 749, 640),
 (103, 'チャンピオンズ', 'Champions', 'Los Campeones', 777, 705),
 (104, 'イナズマ’10', 'Inazuma 10', 'Ases del Inazuma 3', 749, 671),
 (105, '世界選抜', 'International Allstars', 'Selección Mundial', 749, 658),
-/*tournament*/
-(106, 'イナズマジャパン', 'Inazuma National', 'Inazuma Japón', 737, 646);
+/*rank1*/
+(106, 'Ｏ・Ｔ・Ａ・Ｋ・Ｕ', 'Herds of Nerds', 'Horda de Frikis', 765, 697),
+(107, '元祖･野球部', 'Baseball All Stars', 'Los Chicos del Bate', 749, 694),
+(108, 'スピードスター', 'The Motor Toters', 'Fundidores del Asfalto', 749, 714),
+(109, 'FF地区選抜Ａ', 'FF Regional Pick A', 'Fase Previa FF A', 759, 707),
+/*rank2*/
+(110, 'スーパー秋葉名戸', 'Super Otaku', 'Súper Otaku', 765, 681),
+(111, 'オールド木戸川', 'Old Kirkwood', 'Antiguo Kirkwood', 767, 625),
+(112, 'ウラ雷門Ａ', 'Raimon Subs A', 'Ultra Raimon A', 737, 617),
+(113, 'チーム西日本', 'W. Japan Wednesday', 'Japón Oeste', 749, 638),
+(114, 'ベンチーズ1', 'Benchers 1', 'Chupabanquillos 1', 775, 667),
+(115, 'ベンチーズ2', 'Benchers 2', 'Chupabanquillos 2', 765, 667),
+(116, 'ベンチーズ3', 'Benchers 3', 'Chupabanquillos 3', 778, 667),
+/*rank3*/
+(117, '〇メガネ〇Ｂ', 'Glasses B', 'Gafitas B', 761, 706),
+(118, 'ベンチーズ4', 'Benchers 4', 'Chupabanquillos 4', 737, 667),
+(119, 'ベンチーズ5', 'Benchers 5', 'Chupabanquillos 5', 737, 667),
+(120, 'ベンチーズ6', 'Benchers 6', 'Chupabanquillos 6', 737, 667),
+(121, '◇ＮＩＮＪＡ◇', 'The Ninja Infringers', 'Ninjas a Gogó', 764, 623),
+(122, 'セカンド雷門', 'Raimon II', 'Raimon II', 777, 617),
+(123, '表と裏の王者Ａ', 'Front And Back Kings A', 'Royal Claustro A', 778, 703),
+(124, '留学チーム', 'Foreign Students', 'Alumnos de Intercambio', 765, 712),
+/*rank4*/
+/*rank5*/
+(125, '〇メガネ〇Ａ', 'Glasses A', 'Gafitas A', 761, 706),
+(126, 'キャッピキャピＢ', 'Cutesy B', 'Chavalillas B', 737, 681),
+(127, 'Ｍ･Ｏ･Ｅ', 'The Fanboy Favourites', 'Mangapichichis', 737, 681),
+(128, 'マスクマンＡ', 'Masked Men A', 'Enmascarados A', 737, 697),
+(129, 'ピエロチーム', 'The Clown Princes', 'Los Payasetes', 748, 697),
+(130, 'タイニーガール', 'The Munchkins', 'Las Peques', 737, 693),
+(131, 'スキンヘッズ', 'The Baldboys', 'Los Cabezahuevo', 767, 636),
+(132, '中国キッカーズ', 'The Zing Dynasty', 'Estrellas de China', 749, 673),
+(133, 'ヘッドプロテクツ', 'The Hard Headers', 'Los Cara Oculta', 761, 651),
+(134, 'ラストイナズマ', 'Allstar Supernova', 'El Equipo Definitivo', 768, 671),
+/*rank6*/
+(135, 'スペースボーイズ', 'The Space Cadets', 'Cadetes Espaciales', 753, 631),
+(136, 'ダミーエンペラーズ', 'The Dork Emperors', 'Memos Imperiales', 739, 640),
+(137, 'ガイア', 'Gaia', 'Gaia', 775, 633),
+(138, 'クリアーゴ', 'The Completionists', 'Equipo de Ensueño', 737, 709),
+/*rank7*/
+(139, 'FF全国選抜Ａ', 'FF National Pick A', 'Fase Nacional FF A', 764, 695),
+(140, 'フドウヘッズ', 'The Stonewall Stylers', 'Los Calebmaníacos', 748, 685),
+(141, 'エル・マッチョス', 'Brawn to Be Wild', 'Los Supermachos', 749, 677),
+(142, '絶･世路死苦', 'The Wrong Crowd', 'Los Chungoleadores', 749, 678),
+(143, 'キュート★スターズ', 'The Cutie-Pies', 'Las Guapetonas', 737, null),
+(144, 'マスカレード', 'The Taskmaskers', 'Enmascarados Osados', 760, 675),
+/*rank8*/
+(145, 'モンスターズ', 'The Ghoul Hangers', 'Los Goles Fantasma', 765, 685),
+(146, 'セレブリティーズ', 'La Crème de la Crème', 'Los Caviar', 747, 675),
+(147, 'デモンフェイセズ', 'The Ugly Muggers', 'Los Preciosos', 758, 666),
+(148, 'ザ･ビッグ', 'The Gentle Giants', 'Gigantes Bondadosos', 764, 672),
+(149, 'ライモンアール', 'Côtes du Raimon', 'Raimon Costaleño', 746, 617),
+/*rank9*/
+(150, 'ザ･ディフェンズ', 'Doughty Defenders', 'Defensas Adamantinos', 749, 711),
+(151, 'ファンタジース', 'The Fantasistas', 'Criaturas Legendarias', 752, 700),
+(152, 'ハリケーンズ', 'The Belters', 'Las Voces de Oro', 777, 670),
+(153, 'アナザーカラーズ', 'The Kaleidoscopes', 'Los Caleidoscopios', 737, 692),
+(154, 'ファイアボーイズ', 'Balls of Fire', 'Balones Ardientes', 772, 707),
+(155, 'ウォーターボーイズ', 'Liquid Football', 'Fútbol Líquido', 759, 688),
+(156, 'イナズマレジェンド', 'The Absolute Legends', 'Leyendas de Antaño', 773, 698),
+/*rank10*/
+
+/*rank11*/
+
+/*rank12*/
+
+/*rank13*/
+
+/*rank14*/
+
+/*rank15*/
+
+/*rank16*/
+
+/*misc*/
+(999, 'イナズマジャパン', 'Inazuma National', 'Inazuma Japón', 737, 646);
 
 
 
