@@ -4199,6 +4199,7 @@ insert into team (
 /*misc*/
 
 /*
+https://tableconvert.com/html-to-excel#google_vignette
 insert into asd (
 ) values
 
