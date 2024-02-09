@@ -331,6 +331,7 @@ create table player (
     constraint player_fk_player foreign key (original_version) 
         references player(player_id) on delete cascade
 );
+drop table if exists player;
 source /home/alejandro/Desktop/projects/choujigen3mysql/sql/player.sql
 
 /*page-item*/
