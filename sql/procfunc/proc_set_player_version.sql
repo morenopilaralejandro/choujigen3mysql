@@ -1,5 +1,16 @@
 /*
 source /home/alejandro/Desktop/projects/choujigen3mysql/sql/procfunc/proc_set_player_version.sql
+select
+    p1.player_id,
+    p1.player_name_ja,
+    p2.player_id,
+    p2.player_name_ja
+from
+    player p1
+join player p2 on
+    p1.original_version = p2.player_id
+where
+    p1.original_version is not null;
 */
 delimiter &&
 drop procedure if exists proc_set_player_version;
@@ -68,6 +79,10 @@ begin
         end if;
 	end while;
 	close cur1;
+    /*midorikawa*/
+    update player set original_version = 1396 where player_id = 1896;
+    /*gran*/
+    update player set original_version = 1217 where player_id = 1868;
 end
 &&
 delimiter ;
