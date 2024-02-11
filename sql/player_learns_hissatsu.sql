@@ -1,3 +1,43 @@
+-- phpMyAdmin SQL Dump
+-- version 5.2.1
+-- https://www.phpmyadmin.net/
+--
+-- Host: localhost
+-- Generation Time: Feb 11, 2024 at 08:35 PM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `choujigen3ogre`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `player_learns_hissatsu`
+--
+
+CREATE TABLE `player_learns_hissatsu` (
+  `player_id` int(11) NOT NULL,
+  `item_hissatsu_id` int(11) NOT NULL,
+  `learn_lv` int(11) DEFAULT NULL,
+  `learn_order` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `player_learns_hissatsu`
+--
+
 INSERT INTO `player_learns_hissatsu` (`player_id`, `item_hissatsu_id`, `learn_lv`, `learn_order`) VALUES
 (1, 259, NULL, 2),
 (1, 321, NULL, 4),
@@ -9281,4 +9321,59 @@ INSERT INTO `player_learns_hissatsu` (`player_id`, `item_hissatsu_id`, `learn_lv
 (2320, 62, NULL, 2),
 (2320, 175, NULL, 3),
 (2320, 361, NULL, 4),
-(2320, 368, NULL, 1);
+(2320, 368, NULL, 1),
+(2321, 162, NULL, 2),
+(2321, 164, NULL, 3),
+(2321, 210, NULL, 1),
+(2321, 215, NULL, 4),
+(2322, 42, NULL, 2),
+(2322, 53, NULL, 3),
+(2322, 155, NULL, 4),
+(2322, 210, NULL, 1),
+(2323, 116, NULL, 2),
+(2323, 146, NULL, 1),
+(2323, 192, NULL, 4),
+(2323, 203, NULL, 3),
+(2324, 182, NULL, 2),
+(2324, 213, NULL, 4),
+(2324, 229, NULL, 1),
+(2324, 261, NULL, 3),
+(2325, 149, NULL, 1),
+(2325, 252, NULL, 2),
+(2325, 260, NULL, 3),
+(2325, 299, NULL, 4),
+(2326, 170, NULL, 3),
+(2326, 210, NULL, 1),
+(2326, 214, NULL, 2),
+(2326, 236, NULL, 4),
+(2327, 40, NULL, 1),
+(2327, 161, NULL, 4),
+(2327, 168, NULL, 3),
+(2327, 187, NULL, 2);
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `player_learns_hissatsu`
+--
+ALTER TABLE `player_learns_hissatsu`
+  ADD PRIMARY KEY (`player_id`,`item_hissatsu_id`),
+  ADD KEY `player_learns_hissatsu_fk_item_hissatsu` (`item_hissatsu_id`);
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `player_learns_hissatsu`
+--
+ALTER TABLE `player_learns_hissatsu`
+  ADD CONSTRAINT `player_learns_hissatsu_fk_item_hissatsu` FOREIGN KEY (`item_hissatsu_id`) REFERENCES `item_hissatsu` (`item_hissatsu_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `player_learns_hissatsu_fk_player` FOREIGN KEY (`player_id`) REFERENCES `player` (`player_id`) ON DELETE CASCADE;
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

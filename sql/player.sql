@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Feb 09, 2024 at 06:14 PM
+-- Generation Time: Feb 11, 2024 at 08:34 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -1930,7 +1930,7 @@ INSERT INTO `player` (`player_id`, `player_name_ja`, `player_name_hiragana`, `pl
 (1865, 'ディアム', NULL, NULL, 'diamu', NULL, NULL, NULL, 119, 115, 73, 59, 59, 50, 52, 54, 52, 38, 2, 1, 1, 2, 16, NULL),
 (1866, 'パンドラ', NULL, NULL, 'pandora', NULL, NULL, NULL, 105, 129, 58, 59, 67, 54, 58, 56, 54, 26, 1, 2, 2, 2, 16, NULL),
 (1867, 'リーム', NULL, NULL, 'riimu', NULL, NULL, NULL, 112, 124, 60, 54, 58, 49, 62, 63, 57, 29, 2, 1, 2, 2, 16, NULL),
-(1868, 'レーゼ', NULL, NULL, 'reeze', NULL, NULL, NULL, 108, 104, 63, 55, 73, 52, 71, 51, 60, 23, 2, 2, 1, 2, 16, 1348),
+(1868, 'レーゼ', NULL, NULL, 'reeze', NULL, NULL, NULL, 108, 104, 63, 55, 73, 52, 71, 51, 60, 23, 2, 2, 1, 2, 16, 1217),
 (1869, 'クリプト', NULL, NULL, 'kuriputo', NULL, NULL, NULL, 107, 129, 59, 62, 58, 56, 65, 53, 56, 19, 1, 2, 2, 2, 16, NULL),
 (1870, 'ケイソン', NULL, NULL, 'keison', NULL, NULL, NULL, 103, 112, 62, 65, 58, 60, 59, 56, 55, 6, 1, 3, 1, 2, 16, NULL),
 (1871, 'ケンビル', NULL, NULL, 'kenbiru', NULL, NULL, NULL, 107, 115, 59, 53, 64, 52, 64, 60, 60, 17, 3, 3, 1, 2, 16, NULL),
@@ -1958,23 +1958,23 @@ INSERT INTO `player` (`player_id`, `player_name_ja`, `player_name_hiragana`, `pl
 (1893, 'ウルビダ', NULL, NULL, 'urubida', NULL, NULL, NULL, 112, 130, 64, 60, 69, 55, 62, 55, 60, 17, 1, 2, 2, 2, 16, NULL),
 (1894, 'キーブ', NULL, NULL, 'kiibu', NULL, NULL, NULL, 120, 136, 56, 63, 77, 54, 62, 57, 58, 4, 3, 3, 2, 2, 16, NULL),
 (1895, 'クィール', NULL, NULL, 'kyiiru', NULL, NULL, NULL, 115, 135, 58, 58, 68, 57, 60, 59, 61, 10, 2, 2, 2, 2, 16, NULL),
-(1896, 'グラン', NULL, NULL, 'guran', NULL, NULL, NULL, 125, 128, 71, 71, 63, 64, 61, 62, 61, 6, 3, 1, 1, 2, 16, 2062),
+(1896, 'グラン', NULL, NULL, 'guran', NULL, NULL, NULL, 125, 128, 71, 71, 63, 64, 61, 62, 61, 6, 3, 1, 1, 2, 16, 1396),
 (1897, 'ゲイル', NULL, NULL, 'geiru', NULL, NULL, NULL, 117, 118, 57, 53, 60, 55, 79, 60, 56, 24, 1, 3, 1, 2, 16, NULL),
 (1898, 'コーマ', NULL, NULL, 'kooma', NULL, NULL, NULL, 125, 121, 57, 61, 72, 58, 62, 52, 57, 24, 3, 2, 1, 2, 16, NULL),
 (1899, 'ゾーハン', NULL, NULL, 'zoohan', NULL, NULL, NULL, 115, 118, 68, 76, 53, 70, 53, 56, 56, 10, 4, 3, 1, 2, 16, NULL),
 (1900, 'ネロ', NULL, NULL, 'nero', NULL, NULL, NULL, 104, 113, 59, 60, 57, 73, 72, 56, 58, 8, 1, 4, 1, 2, 16, NULL),
 (1901, 'ハウザー', NULL, NULL, 'hauzaa', NULL, NULL, NULL, 119, 120, 60, 61, 60, 61, 53, 63, 61, 22, 4, 3, 1, 2, 16, NULL),
-(1902, 'ロボB', NULL, NULL, 'roboB', NULL, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 1, 2, 16, NULL),
-(1903, 'ロボC', NULL, NULL, 'roboC', NULL, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 3, 2, 2, 16, NULL),
-(1904, 'ロボF', NULL, NULL, 'roboF', NULL, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 1, 1, 2, 16, NULL),
-(1905, 'ロボG', NULL, NULL, 'roboG', NULL, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 1, 2, 16, NULL),
-(1906, 'ロボK', NULL, NULL, 'roboK', NULL, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 1, 1, 2, 16, NULL),
-(1907, 'ロボL', NULL, NULL, 'roboL', NULL, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 1, 1, 2, 16, NULL),
-(1908, 'ロボO', NULL, NULL, 'roboO', NULL, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 2, 1, 2, 16, NULL),
-(1909, 'ロボP', NULL, NULL, 'roboP', NULL, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 1, 2, 16, NULL),
-(1910, 'ロボS', NULL, NULL, 'roboS', NULL, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 4, 1, 2, 16, NULL),
-(1911, 'ロボT', NULL, NULL, 'roboT', NULL, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 3, 1, 2, 16, NULL),
-(1912, 'ロボV', NULL, NULL, 'roboV', NULL, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 3, 1, 2, 16, NULL),
+(1902, 'ロボB', NULL, NULL, 'robo B', NULL, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 1, 2, 16, NULL),
+(1903, 'ロボC', NULL, NULL, 'Robo C', NULL, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 3, 2, 2, 16, NULL),
+(1904, 'ロボF', NULL, NULL, 'Robo F', NULL, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 1, 1, 2, 16, NULL),
+(1905, 'ロボG', NULL, NULL, 'Robo G', NULL, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 1, 2, 16, NULL),
+(1906, 'ロボK', NULL, NULL, 'Robo K', NULL, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 1, 1, 2, 16, NULL),
+(1907, 'ロボL', NULL, NULL, 'Robo L', NULL, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 1, 1, 2, 16, NULL),
+(1908, 'ロボO', NULL, NULL, 'Robo O', NULL, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 2, 1, 2, 16, NULL),
+(1909, 'ロボP', NULL, NULL, 'Robo P', NULL, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 1, 2, 16, NULL),
+(1910, 'ロボS', NULL, NULL, 'Robo S', NULL, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 4, 1, 2, 16, NULL),
+(1911, 'ロボT', NULL, NULL, 'Robo T', NULL, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 3, 1, 2, 16, NULL),
+(1912, 'ロボV', NULL, NULL, 'Robo V', NULL, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 3, 1, 2, 16, NULL),
 (1913, 'かぜまる', NULL, NULL, 'kazemaru', NULL, NULL, 1, 127, 125, 68, 59, 69, 58, 77, 63, 45, 14, 1, 1, 1, 2, 16, 327),
 (1914, 'くりまつ', NULL, NULL, 'kurimatsu', NULL, NULL, 1, 116, 116, 55, 56, 54, 60, 60, 61, 70, 24, 3, 2, 1, 2, 16, 471),
 (1915, 'ししど', NULL, NULL, 'shishido', NULL, NULL, 1, 128, 126, 66, 61, 57, 57, 59, 61, 81, 8, 3, 2, 1, 2, 16, 643),
@@ -2383,7 +2383,14 @@ INSERT INTO `player` (`player_id`, `player_name_ja`, `player_name_hiragana`, `pl
 (2317, 'ヒロト', NULL, NULL, 'hiroto', NULL, NULL, NULL, 141, 179, 98, 63, 67, 58, 90, 80, 60, 0, 3, 1, 1, 2, 16, NULL),
 (2318, 'たちむかい', NULL, NULL, 'tachimukai', NULL, NULL, NULL, 143, 192, 77, 54, 66, 99, 56, 60, 80, 0, 2, 4, 1, 2, 16, NULL),
 (2319, 'さくま', NULL, NULL, 'sakuma', NULL, NULL, NULL, 154, 176, 108, 100, 61, 53, 80, 70, 67, 0, 2, 1, 1, 2, 16, NULL),
-(2320, 'そめおか', NULL, NULL, 'someoka', NULL, NULL, NULL, 152, 174, 148, 70, 49, 53, 51, 100, 100, 0, 2, 1, 1, 2, 16, NULL);
+(2320, 'そめおか', NULL, NULL, 'someoka', NULL, NULL, NULL, 152, 174, 148, 70, 49, 53, 51, 100, 100, 0, 2, 1, 1, 2, 16, NULL),
+(2321, 'はいじん', NULL, NULL, 'haijin', NULL, NULL, NULL, 119, 128, 44, 62, 68, 69, 59, 64, 69, 6, 2, 1, 1, 2, 16, NULL),
+(2322, 'みちば', NULL, NULL, 'michiba', NULL, NULL, NULL, 105, 104, 52, 68, 60, 53, 58, 60, 66, 11, 1, 1, 1, 2, 16, NULL),
+(2323, 'こうじ', NULL, NULL, 'kouji', NULL, NULL, NULL, 108, 121, 62, 61, 59, 60, 49, 75, 62, 4, 4, 2, 1, 2, 16, NULL),
+(2324, 'かけやま', NULL, NULL, 'kakeyama', NULL, NULL, NULL, 120, 125, 56, 56, 63, 59, 64, 56, 61, 20, 3, 3, 1, 2, 16, NULL),
+(2325, 'あつた', NULL, NULL, 'atsuta', NULL, NULL, NULL, 122, 124, 52, 64, 67, 57, 57, 56, 57, 21, 4, 3, 1, 2, 16, NULL),
+(2326, 'かきがわ', NULL, NULL, 'kakigawa', NULL, NULL, NULL, 120, 99, 58, 59, 56, 62, 60, 58, 56, 15, 2, 3, 1, 2, 16, NULL),
+(2327, 'おいお', NULL, NULL, 'oio', NULL, NULL, NULL, 115, 101, 55, 60, 57, 53, 59, 54, 53, 49, 2, 2, 1, 2, 16, NULL);
 
 --
 -- Indexes for dumped tables

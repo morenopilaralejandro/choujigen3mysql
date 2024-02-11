@@ -3617,6 +3617,7 @@ insert into hissatsu_special_restriction (
     'El compañero sabe Mano Celestial y es de afinidad montaña');
 */
 
+drop table if exists player_learns_hissatsu;
 source /home/alejandro/Desktop/projects/choujigen3mysql/sql/player_learns_hissatsu.sql
 
 /*
@@ -4197,17 +4198,18 @@ insert into team (
 (183, 'カオスエンジェルス', 'Chaos Angels', 'Ángeles del Caos', 738, 645),
 (184, 'ファイアスパーク', 'The Firestorm Bolts', 'Rayo de Fuego', 765, 691),
 (185, 'リアル・イナズマ', 'The Real Inazuma', 'Mega Inazuma Eleven', 779, 646);
-/*misc*/
 
+source /home/alejandro/Desktop/projects/choujigen3mysql/sql/procfunc/proc_insert_team_player.sql
 /*
-https://tableconvert.com/html-to-excel#google_vignette
-insert into asd (
-) values
-
 player_is_part_of_team
 player_plays_during_story_team
+*/
 
+/*
 tactic_executed_by_team
+
+insert into asd (
+) values
 
 extra_battle_route
 route_path

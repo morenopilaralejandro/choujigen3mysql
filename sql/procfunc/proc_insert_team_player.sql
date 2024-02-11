@@ -55,21 +55,17 @@ begin
             if idPlayer is null then
                 select vTeam, vPlayer, vOff, vPla;
             end if;
-/*
 
-*/
             insert into player_is_part_of_team(player_id, team_id, place) 
                 values (idPlayer, idTeam, vPla);
 
-
-
-
-/*
-if team = '' or team = '' then
-insert into player_plays_during_story_team
-end if;
-*/
-
+            if idTeam = 51 or idTeam between 32 and 49 then
+                /*
+                select vTeam, vPlayer, vOff, vPla;
+                */
+                insert into player_plays_during_story_team
+                    (player_id, team_id) values (idPlayer, idTeam);
+            end if;
         end if;
         set i = i + 1;
 	end while;
