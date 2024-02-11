@@ -42,7 +42,7 @@ begin
         fetch cur1 into vTeam, vPlayer, vOff, vPla;
         set idPlayer = null;
         set idTeam = null;
-        if continueCur1 = 1 then
+        if continueCur1 = 1 and vPlayer != '' then
             select team_id into idTeam from team 
                 where team_name_ja = vTeam;
 

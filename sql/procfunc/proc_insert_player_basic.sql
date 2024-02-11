@@ -629,7 +629,8 @@ begin
     insert into player_learns_hissatsu values (2063, 230, null, 3);
     insert into player_learns_hissatsu values (2119, 164, null, 2);
     insert into player_learns_hissatsu values (2175, 230, null, 2);
-    insert into player_learns_hissatsu values (2252, 230, null, 3);  
+    insert into player_learns_hissatsu values (2252, 230, null, 3);
+    insert into player_learns_hissatsu values (2321, 164, null, 3);
 end
 &&
 delimiter ;

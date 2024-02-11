@@ -174,6 +174,7 @@ into table aux_player
 fields terminated by ',' 
 enclosed by '"'
 lines terminated by '\n'
+ignore 1 lines
 (page_order, name_ja, zone_name, obtention_desc, attri, positi, lv, gp, tp,
     kick, body, control, guard, speed, stamina, guts, freedom, h1, h2, h3, 
     h4, name_romanji);
