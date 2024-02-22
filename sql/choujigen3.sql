@@ -3501,9 +3501,9 @@ insert into growth_type_can_achieve_growth_rate (
     additional_power,
     number_of_uses) values 
 /*真*/
-(1, 1, 2, 21),
-(1, 2, 3, 27),
-(1, 3, 5, 33),
+(1, 1, 8, 21),
+(1, 2, 10, 27),
+(1, 3, 12, 33),
 /*V3*/
 (2, 1, 8, 21),
 (2, 2, 10, 27),
