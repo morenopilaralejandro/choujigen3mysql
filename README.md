@@ -1,4 +1,24 @@
 # ChouJigen3Mysql
-WIP MySQL database for chou jigen soccer 3.
-<br>
-Online entity-relationship diagram: [diagrams.net](https://drive.google.com/file/d/1rL1mgbhukqdM4S3PmuweO-ovmm5XZnyw/view?usp=sharing)
+MySQL database for Chou Jigen Soccer 3 with procedures to import data from Excel(csv) to MySql.
+## Detailed Entity-Relationship Diagram
+Online version: [diagrams.net](https://drive.google.com/file/d/1rL1mgbhukqdM4S3PmuweO-ovmm5XZnyw/view?usp=sharing)
+![alt text](https://github.com/morenopilaralejandro/choujigen3mysql/blob/main/img/github/dia-img.png?raw=true)
+## Procedures
+
+![alt text](https://github.com/morenopilaralejandro/choujigen3mysql/blob/main/img/github/player-img.png?raw=true)
+
+![alt text](https://github.com/morenopilaralejandro/choujigen3mysql/blob/main/img/github/hissatsu-img.png?raw=true)
+## Implemented
+- Items
+- Hissatsu
+- Hissatsu Tactics
+- Player stats and hissatsu
+- Teams
+- Formations
+## WIP
+- Chest
+- Battle Route
+- Tournament
+- Training Center
+- Story Events
+- Connection Map
