@@ -2384,7 +2384,7 @@ insert into item (
 (355, 'おいろけUP！', 'Charm Up!', 'Femme Fatale', 0, null, 1),
 (356, 'オフェンスフォース', 'Offense Force', 'Fuerza Ofensiva', 0, null, 1),
 (357, 'オフェンスプラス', 'Offence Plus', 'Ataque +', 0, null, 1),
-(358, 'がくしゅう', 'Repaso', 'Study', 0, null, 1),
+(358, 'がくしゅう', 'Study', 'Repaso', 0, null, 1),
 (359, 'キーパープラス', 'Keeper Plus', 'Portero +', 0, null, 1),
 (360, 'クリティカル！', 'Critical!', 'Lance Crítico', 0, null, 1),
 (361, 'こんしん！', 'Put Your Back Into It!', 'Mejor Garantía', 0, null, 1),
