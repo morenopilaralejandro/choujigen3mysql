@@ -2269,7 +2269,7 @@ insert into item (
 (240, 'ハーヴェスト', 'Harvest', 'Vendimia', 3800, null, 1),
 (241, 'ロックウォールダム', 'Stone Wall', 'Presa', 4200, null, 1),
 (242, 'デーモンカット', 'Diabolical Cut', 'Corte Diabólico', 4200, null, 1),
-(243, 'ゴー・トゥ・ヘル', 'Caída a los Infiernos', 'Caída a los Infiernos', 10000, null, 1),
+(243, 'ゴー・トゥ・ヘル', 'Hell\'s Descent', 'Caída a los Infiernos', 10000, null, 1),
 (244, 'シグマゾーン', 'Sigma Zone', 'Zona Sigma', 10000, null, 1),
 (245, 'ジャイアントスピン', 'Supreme Spin', 'Superpeonza', 400, null, 1),
 (246, 'フォトンフラッシュ', 'Photon Crash', 'Flash de Fotones', 600, null, 1),
