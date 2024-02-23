@@ -2330,7 +2330,7 @@ insert into item (
 (301, 'ゴッドハンド', 'God Hand', 'Mano Celestial', 0, null, 1),
 (302, 'シュートポケット', 'Shot Pocket', 'Campo de Fuerza', 1000, null, 1),
 (303, 'スラッシュネイル', 'Claw Slash', 'Uñas Afiladas', 1200, null, 1),
-(304, 'マジン・ザ・ハンド', 'Mano Mágica', 'Majin the Hand', 0, null, 1),
+(304, 'マジン・ザ・ハンド', 'Majin the Hand', 'Mano Mágica', 0, null, 1),
 (305, 'ブラックホール', 'Black Hole', 'Agujero Negro', 1400, null, 1),
 (306, 'スティンガー', 'The Stinger', 'Aguijón', 1800, null, 1),
 (307, 'ワームホール', 'Wormhole', 'Agujero de Gusano', 2200, null, 1),
