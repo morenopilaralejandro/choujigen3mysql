@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Feb 12, 2024 at 04:16 PM
+-- Generation Time: Mar 04, 2024 at 05:29 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -2083,9 +2083,9 @@ CREATE TABLE `growth_type_can_achieve_growth_rate` (
 --
 
 INSERT INTO `growth_type_can_achieve_growth_rate` (`growth_type_id`, `growth_rate_id`, `additional_power`, `number_of_uses`) VALUES
-(1, 1, 2, 21),
-(1, 2, 3, 27),
-(1, 3, 5, 33),
+(1, 1, 8, 21),
+(1, 2, 10, 27),
+(1, 3, 12, 33),
 (2, 1, 8, 21),
 (2, 2, 10, 27),
 (2, 3, 12, 33),
@@ -2109,10 +2109,10 @@ CREATE TABLE `hissatsu_available_for_positi` (
 --
 
 INSERT INTO `hissatsu_available_for_positi` (`item_hissatsu_id`, `positi_id`) VALUES
-(356, 1),
-(356, 2),
+(357, 1),
+(357, 2),
 (359, 4),
-(362, 1),
+(363, 1),
 (370, 3);
 
 -- --------------------------------------------------------
@@ -2399,6 +2399,8 @@ CREATE TABLE `hissatsu_designed_for_attri` (
 --
 
 INSERT INTO `hissatsu_designed_for_attri` (`item_hissatsu_id`, `attri_id`) VALUES
+(33, 1),
+(34, 1),
 (72, 2),
 (108, 3),
 (111, 3),
@@ -3884,7 +3886,7 @@ INSERT INTO `item` (`item_id`, `item_name_ja`, `item_name_en`, `item_name_es`, `
 (240, 'ハーヴェスト', 'Harvest', 'Vendimia', 3800, NULL, 1),
 (241, 'ロックウォールダム', 'Stone Wall', 'Presa', 4200, NULL, 1),
 (242, 'デーモンカット', 'Diabolical Cut', 'Corte Diabólico', 4200, NULL, 1),
-(243, 'ゴー・トゥ・ヘル', 'Caída a los Infiernos', 'Caída a los Infiernos', 10000, NULL, 1),
+(243, 'ゴー・トゥ・ヘル', 'Hell\'s Descent', 'Caída a los Infiernos', 10000, NULL, 1),
 (244, 'シグマゾーン', 'Sigma Zone', 'Zona Sigma', 10000, NULL, 1),
 (245, 'ジャイアントスピン', 'Supreme Spin', 'Superpeonza', 400, NULL, 1),
 (246, 'フォトンフラッシュ', 'Photon Crash', 'Flash de Fotones', 600, NULL, 1),
@@ -3945,7 +3947,7 @@ INSERT INTO `item` (`item_id`, `item_name_ja`, `item_name_en`, `item_name_es`, `
 (301, 'ゴッドハンド', 'God Hand', 'Mano Celestial', 0, NULL, 1),
 (302, 'シュートポケット', 'Shot Pocket', 'Campo de Fuerza', 1000, NULL, 1),
 (303, 'スラッシュネイル', 'Claw Slash', 'Uñas Afiladas', 1200, NULL, 1),
-(304, 'マジン・ザ・ハンド', 'Mano Mágica', 'Majin the Hand', 0, NULL, 1),
+(304, 'マジン・ザ・ハンド', 'Majin the Hand', 'Mano Mágica', 0, NULL, 1),
 (305, 'ブラックホール', 'Black Hole', 'Agujero Negro', 1400, NULL, 1),
 (306, 'スティンガー', 'The Stinger', 'Aguijón', 1800, NULL, 1),
 (307, 'ワームホール', 'Wormhole', 'Agujero de Gusano', 2200, NULL, 1),
@@ -3999,7 +4001,7 @@ INSERT INTO `item` (`item_id`, `item_name_ja`, `item_name_en`, `item_name_es`, `
 (355, 'おいろけUP！', 'Charm Up!', 'Femme Fatale', 0, NULL, 1),
 (356, 'オフェンスフォース', 'Offense Force', 'Fuerza Ofensiva', 0, NULL, 1),
 (357, 'オフェンスプラス', 'Offence Plus', 'Ataque +', 0, NULL, 1),
-(358, 'がくしゅう', 'Repaso', 'Study', 0, NULL, 1),
+(358, 'がくしゅう', 'Study', 'Repaso', 0, NULL, 1),
 (359, 'キーパープラス', 'Keeper Plus', 'Portero +', 0, NULL, 1),
 (360, 'クリティカル！', 'Critical!', 'Lance Crítico', 0, NULL, 1),
 (361, 'こんしん！', 'Put Your Back Into It!', 'Mejor Garantía', 0, NULL, 1),

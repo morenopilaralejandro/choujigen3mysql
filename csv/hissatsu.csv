@@ -33,8 +33,8 @@ item_hissatsu_id,name,power,price,tp,characteristic,learners,participant,obtenti
 30,スペースペンギン,106,(14000),61,,,3人,ある事をしたあと商店街のゲームショップ,V,早,風,シュート,,,,,,
 31,プライムレジェンド,106,(14000),61,SC,,2人,オーガのみトーナメントで入手可能,G,晩,風,シュート,,,,,,
 32,ゴッドブレイク,113,16000,64,,,,Wifi配信→ペンギーゴ稲妻店(商店街アーケード),G,普,風,シュート,,,,,,
-33,ファイアブリザード,113,(16000),64,,,2人(火),超次元トーナメント瞳子上Sランク景品,真,普,風,シュート,,,,,,
-34,クロスファイア,120,(18000),67,,,2人(火),（ド）ザ・ウィンディーズ,真,普,風,シュート,,,,,,
+33,ファイアブリザード,113,(16000),64,,風,2人(火),超次元トーナメント瞳子上Sランク景品,真,普,風,シュート,,,,,,
+34,クロスファイア,120,(18000),67,,風,2人(火),（ド）ザ・ウィンディーズ,真,普,風,シュート,,,,,,
 35,サイコショット,15,(400),20,,,,駅前でドロップ,V,普,林,シュート,,,,,,
 36,ローリングキック,15,(400),20,SC,,,トーナメント,真,早,林,シュート,,,,,,
 37,ファントムシュート,18,(600),21,SC,,,トーナメント,V,普,林,シュート,,,,,,
@@ -356,14 +356,14 @@ item_hissatsu_id,name,power,price,tp,characteristic,learners,participant,obtenti
 353,イケイケ!,1,,1,,,,,,,,スキル,,,,優勢時には点差に応じて習得選手のみが強化されるが劣勢時は点差に応じて弱体化される。,"When winning, increases the user\’s power based on the goal difference, but when losing it decreases based on the goal difference.","Al ir ganando, el usuario aumenta su poder en base a la diferencia de goles, pero al ir perdiendo su poder disminuye según la diferencia de goles."
 354,イケメンUP!,1,,1,,男性,,,,,,スキル,,,,あらゆるコマンドバトルにおいて女子キャラ相手の場合に相手のテク値を０．９倍。,"When dueling against a female player, decreases the opponent\'s power by multiplying it by 0.9.","Al enfrentar a una chica en un duelo, disminuye el poder del oponente al multiplicarla por 0,9."
 355,おいろけUP!,1,,1,,女性,,,,,,スキル,,,,あらゆるコマンドバトルにおいて男子キャラ相手の場合に相手のテク値を０．９倍。,"When dueling against a male player, decreases the opponent\'s power by multiplying it by 0.9.","Al enfrentar a un chico en un duelo, disminuye el poder del oponente al multiplicarla por 0,9."
-356,オフェンスフォース,1,,1,,cen for,,,,,,スキル,,,,チームメンバー全員のドリブル時のテク値１．０５倍。,"When the user is on the field, increases all teammates\' dribbling power by 1.05.","Cuando el usuario está en el campo, aumenta el poder de regate de todos los miembros del equipo en 1,05."
-357,オフェンスプラス,1,,1,,,,,,,,スキル,,,,習得者がフィールド上にいると特定のポジション（DFの位置）にいる選手複数人に補正が掛かる。補正はドリブル時テク値１．１倍。,"When the user is on the field, increases players\' placed in the DF zone dribbling power by 1.1.","Cuando el usuario está en el campo, aumenta el poder de regate de los jugadores en la zona de DF en 1,1."
+356,オフェンスフォース,1,,1,,,,,,,,スキル,,,,チームメンバー全員のドリブル時のテク値１．０５倍。,"When the user is on the field, increases all teammates\' dribbling power by 1.05.","Cuando el usuario está en el campo, aumenta el poder de regate de todos los miembros del equipo en 1,05."
+357,オフェンスプラス,1,,1,,cen for,,,,,,スキル,,,,習得者がフィールド上にいると特定のポジション（DFの位置）にいる選手複数人に補正が掛かる。補正はドリブル時テク値１．１倍。,"When the user is on the field, increases players\' placed in the DF zone dribbling power by 1.1.","Cuando el usuario está en el campo, aumenta el poder de regate de los jugadores en la zona de DF en 1,1."
 358,がくしゅう,1,,1,,,,,,,,スキル,,,,取得経験値５０％アップ。,Increases the amount experience points gained by the user by 50%.,Aumenta los puntos de experiencia obtenidos por el usuario en un 50%.
 359,キーパープラス,1,,1,,kee,,,,,,スキル,,,,キーパー時テク値１．１倍。,Increases the user\'s saving power when the user is placed in the GK zone by 1.1.,"Aumenta el poder de parada en 1,1 cuando el usuario está en la zona de PR."
 360,クリティカル！,1,,1,,,,,,,,スキル,,,,習得者は10％の確率でトータルテク値１．５倍。,The user has a 10% chance of increasing their power by 1.5.,"El usuario cuenta con un 10% de posibilidad de aumentar su poder en 1,5."
 361,こんしん!,1,,1,,,,,,,,スキル,,,,取得者はコマンドバトル時GPの消費量が10追加されるが、必殺技使用時のみトータルテク値１．２倍。,Increases the user\'s hissatsu technique power by 1.2 at the cost of decreasing their GP by 10 additional points on every duel.,"Aumenta el consumo de PE del usuario en 10 puntos durante los duelos pero a cambio aumenta el poder de las supertécnicas en 1,2. "
-362,シュートフォース,1,,1,,for,,,,,,スキル,,,,習得者がフィールド上にいるとき、チームメンバー全員のシュート時のテク値１．０５倍。,"When the user is on the field, increases all teammates\' shoot power by 1.05.","Cuando el usuario está en el campo, aumenta el poder de tiro de todos los miembros del equipo en 1,05."
-363,シュートプラス,1,,1,,,,,,,,スキル,,,,習得者がフィールド上にいると特定のポジション（FWの位置）にいる選手複数人に補正が掛かる。補正はシュート時テク値１．１倍。,"When the user is on the field, increases players\' placed in the FW zone shoot power by 1.1.","Cuando el usuario está en el campo, aumenta el poder de tiro de los jugadores en la zona de DL en 1,1."
+362,シュートフォース,1,,1,,,,,,,,スキル,,,,習得者がフィールド上にいるとき、チームメンバー全員のシュート時のテク値１．０５倍。,"When the user is on the field, increases all teammates\' shoot power by 1.05.","Cuando el usuario está en el campo, aumenta el poder de tiro de todos los miembros del equipo en 1,05."
+363,シュートプラス,1,,1,,for,,,,,,スキル,,,,習得者がフィールド上にいると特定のポジション（FWの位置）にいる選手複数人に補正が掛かる。補正はシュート時テク値１．１倍。,"When the user is on the field, increases players\' placed in the FW zone shoot power by 1.1.","Cuando el usuario está en el campo, aumenta el poder de tiro de los jugadores en la zona de DL en 1,1."
 364,スピードフォース,1,,1,,,,,,,,スキル,,,,習得者がフィールド上にいるとき、チームのメンバー全員の移動速度１．０５倍。,"When the user is on the field, increases all teammates\' speed by 1.05.","Cuando el usuario está en el campo, aumenta la rapidez de todos los miembros del equipo en 1,05."
 365,スピードプラス,1,,1,,,,,,,,スキル,,,,習得者がフィールド上にいると特定のポジション（装備者が現在所属の位置）にいる選手複数人に補正が掛かる。補正は移動速度時テク値１．１倍。,"When the user is on the field, increases players\' placed in the same zone as the user speed by 1.1.","Cuando el usuario está en el campo, aumenta la rapidez de los jugadores que pertenecen a la misma zona que el usuario en 1,1."
 366,セツヤク!,1,,1,,,,,,,,スキル,,,,習得者の、必殺技の消費TPを４分の３する,Reduces the TP consumption of the user\'s hissatsu techniques by 25%,Disminuye el consumo de TP de las supertécnicas del usuario en un 25%.
