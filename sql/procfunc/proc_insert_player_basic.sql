@@ -14,7 +14,7 @@ begin
     declare vRomanjiPreviousChar varchar(1) default '';
     declare vAttriId int default 0;
     declare vPositiId int default 0;
-    declare vGenreId int default 0;
+    declare vGenderId int default 0;
     declare vBodyId int default 0;
     declare vZoneId int default 0;
     declare vObtentionId int default 0;
@@ -143,32 +143,32 @@ begin
                 set vBodyId = vBodyTypeInt;         
             end if;
 
-            /*genre 
+            /*gender 
                 こうこ (first one is not female)
                 ファン (first one is female)
             */
             if vNameJa = 'こうこ' then
                 if vKoukoFound = 0 then
-                    set vGenreId = 1;
+                    set vGenderId = 1;
                     set vKoukoFound = 1;
                 else
-                    set vGenreId = 2;
+                    set vGenderId = 2;
                 end if;
             elseif vNameJa = 'ファン' then
                 if vFanFound = 0 then
-                    set vGenreId = 2;
+                    set vGenderId = 2;
                     set vFanFound = 1;
                 else
-                    set vGenreId = 1;
+                    set vGenderId = 1;
                 end if;
             else
                 set vAuxFemaleName = null;
-                set vGenreId = 1;
+                set vGenderId = 1;
                 select name_ja into vAuxFemaleName from aux_player_f
                     where name_ja = vNameJa;
                 set continueCur1 = 1;
                 if vAuxFemaleName is not null then
-                    set vGenreId = 2;  
+                    set vGenderId = 2;  
                 end if;
             end if;
 
@@ -187,7 +187,7 @@ begin
                 player_tp_99, player_kick_99, player_body_99, player_control_99,
                 player_guard_99, player_speed_99, player_stamina_99, 
                 player_guts_99, player_freedom_99, attri_id, positi_id, 
-                genre_id, body_type_id, player_obtention_method_id, 
+                gender_id, body_type_id, player_obtention_method_id, 
                 original_version) values (
                 i, vNameJa, null, 
                 null, vRomanjiFix, null, 
@@ -195,7 +195,7 @@ begin
                 vTp, vKick, vBody, vControl,
                 vGuard, vSpeed, vStamina, 
                 vGuts, vFreedom, vAttriId, vPositiId, 
-                vGenreId, vBodyId, vObtentionId, 
+                vGenderId, vBodyId, vObtentionId, 
                 null);
 
             insert into player_found_at_zone(player_id, zone_id, is_random, 

@@ -58,7 +58,7 @@ drop table if exists hissatsu_restricted_by_hissatsu_special_restriction;
 drop table if exists hissatsu_special_restriction;
 drop table if exists hissatsu_available_for_positi;
 drop table if exists hissatsu_constrained_by_body_type;
-drop table if exists hissatsu_limited_by_genre;
+drop table if exists hissatsu_limited_by_gender;
 drop table if exists hissatsu_evolves;
 drop table if exists growth_type_can_achieve_growth_rate;
 drop table if exists growth_rate;
@@ -98,7 +98,7 @@ drop table if exists passwd;
 drop table if exists attri;
 drop table if exists positi;
 drop table if exists body_type;
-drop table if exists genre;
+drop table if exists gender;
 drop table if exists training_method_focuses_on_stat;
 drop table if exists stat;
 drop table if exists training_method;
@@ -240,13 +240,13 @@ create table training_method_focuses_on_stat (
         references stat(stat_id) on delete cascade
 );
 /*page-player*/
-create table genre (
-    genre_id int not null auto_increment,
-    genre_name_ja varchar(32),
-    genre_name_en varchar(32),
-    genre_name_es varchar(32),
-    genre_symbol varchar(1),
-    constraint genre_pk primary key (genre_id)
+create table gender (
+    gender_id int not null auto_increment,
+    gender_name_ja varchar(32),
+    gender_name_en varchar(32),
+    gender_name_es varchar(32),
+    gender_symbol varchar(1),
+    constraint gender_pk primary key (gender_id)
 );
 
 create table body_type (
@@ -311,7 +311,7 @@ create table player (
     player_freedom_99 int,
     attri_id int,
     positi_id int,
-    genre_id int,
+    gender_id int,
     body_type_id int,
     player_obtention_method_id int,
     original_version int,
@@ -320,8 +320,8 @@ create table player (
         references attri(attri_id) on delete cascade,
     constraint player_fk_positi foreign key (positi_id) 
         references positi(positi_id) on delete cascade,
-    constraint player_fk_genre foreign key (genre_id) 
-        references genre(genre_id) on delete cascade,
+    constraint player_fk_gender foreign key (gender_id) 
+        references gender(gender_id) on delete cascade,
     constraint player_fk_body_type foreign key (body_type_id) 
         references body_type(body_type_id) on delete cascade,
     constraint player_fk_player_obtention_method 
@@ -681,16 +681,16 @@ create table hissatsu_evolves (
         references growth_rate(growth_rate_id) on delete cascade
 );
 
-create table hissatsu_limited_by_genre (
+create table hissatsu_limited_by_gender (
     item_hissatsu_id int not null,
-    genre_id int not null,
-    constraint hissatsu_limited_by_genre_pk primary key (item_hissatsu_id),
-    constraint hissatsu_limited_by_genre_fk_item_hissatsu 
+    gender_id int not null,
+    constraint hissatsu_limited_by_gender_pk primary key (item_hissatsu_id),
+    constraint hissatsu_limited_by_gender_fk_item_hissatsu 
         foreign key (item_hissatsu_id)
         references item_hissatsu(item_hissatsu_id) on delete cascade,
-    constraint hissatsu_limited_by_genre_fk_genre
-        foreign key (genre_id)
-        references genre(genre_id) on delete cascade
+    constraint hissatsu_limited_by_gender_fk_gender
+        foreign key (gender_id)
+        references gender(gender_id) on delete cascade
 );
 
 create table hissatsu_constrained_by_body_type (
@@ -1858,12 +1858,12 @@ insert into training_method_focuses_on_stat (
 (8, 6), (8, 4), (8, 9),
 (9, 6), (9, 4), (9, 7);
 
-insert into genre (    
-    genre_id,
-    genre_name_ja,
-    genre_name_en,
-    genre_name_es,
-    genre_symbol) values
+insert into gender (    
+    gender_id,
+    gender_name_ja,
+    gender_name_en,
+    gender_name_es,
+    gender_symbol) values
 (1, '男', 'Male', 'Hombre', '♂'),
 (2, '女', 'Female', 'Mujer', '♀');
 
@@ -3526,7 +3526,7 @@ hissatsu_skill
 hissatsu_evolves
 hissatsu_designed_for_attri
 hissatsu_evokes_attri
-hissatsu_limited_by_genre
+hissatsu_limited_by_gender
 hissatsu_constrained_by_body_type
 hissatsu_available_for_positi
 */

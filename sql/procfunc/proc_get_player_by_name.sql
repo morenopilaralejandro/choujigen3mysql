@@ -22,7 +22,7 @@ begin
 #######';
 	declare i int default 0;
     declare vAttri varchar(1);
-    declare vGenre varchar(1);
+    declare vGender varchar(1);
     declare vBody varchar(2);
     declare vPositi varchar(2);
     declare vObtention varchar(32);
@@ -53,7 +53,7 @@ begin
     declare playerFreedom99 int default 0;
     declare attriId int default 0;
     declare positiId int default 0;
-    declare genreId int default 0;
+    declare genderId int default 0;
     declare bodyTypeId int default 0;
     declare playerObtentionMethodId int default 0;
     declare originalVersion int default 0;
@@ -83,7 +83,7 @@ begin
             playerNameKanji, playerNameRomanji, playerNameEn, playerNameEnFull, 
             playerInitialLv, playerGp99, playerTp99, playerKick99, playerBody99, 
             playerControl99, playerGuard99, playerSpeed99, playerStamina99, 
-            playerGuts99, playerFreedom99, attriId, positiId, genreId, 
+            playerGuts99, playerFreedom99, attriId, positiId, genderId, 
             bodyTypeId, playerObtentionMethodId, originalVersion;
 
         if continueCur1 = 1 then
@@ -95,8 +95,8 @@ begin
             end if;
 
             set vZoneName = null;
-            select genre_name_ja into vGenre from genre 
-                where genre_id = genreId;
+            select gender_name_ja into vGender from gender 
+                where gender_id = genderId;
             select body_type_name_ja into vBody from body_type 
                 where body_type_id = bodyTypeId;
             select attri_name_ja into vAttri from attri
@@ -113,7 +113,7 @@ begin
 
             /*basic*/
             select playerId 'id', originalVersion 've', playerNameJa 'ja',
-                vAttri 'at', vPositi 'po', vGenre 'ge', vBody 'bo', 
+                vAttri 'at', vPositi 'po', vGender 'ge', vBody 'bo', 
                 playerInitialLv 'lv';
             /*stats*/
             select playerGp99 'gp', playerTp99 'tp', playerKick99 'ki', 

@@ -48,7 +48,7 @@ CREATE TABLE `player` (
   `player_freedom_99` int(11) DEFAULT NULL,
   `attri_id` int(11) DEFAULT NULL,
   `positi_id` int(11) DEFAULT NULL,
-  `genre_id` int(11) DEFAULT NULL,
+  `gender_id` int(11) DEFAULT NULL,
   `body_type_id` int(11) DEFAULT NULL,
   `player_obtention_method_id` int(11) DEFAULT NULL,
   `original_version` int(11) DEFAULT NULL
@@ -58,7 +58,7 @@ CREATE TABLE `player` (
 -- Dumping data for table `player`
 --
 
-INSERT INTO `player` (`player_id`, `player_name_ja`, `player_name_hiragana`, `player_name_kanji`, `player_name_romanji`, `player_name_en`, `player_name_en_full`, `player_initial_lv`, `player_gp_99`, `player_tp_99`, `player_kick_99`, `player_body_99`, `player_control_99`, `player_guard_99`, `player_speed_99`, `player_stamina_99`, `player_guts_99`, `player_freedom_99`, `attri_id`, `positi_id`, `genre_id`, `body_type_id`, `player_obtention_method_id`, `original_version`) VALUES
+INSERT INTO `player` (`player_id`, `player_name_ja`, `player_name_hiragana`, `player_name_kanji`, `player_name_romanji`, `player_name_en`, `player_name_en_full`, `player_initial_lv`, `player_gp_99`, `player_tp_99`, `player_kick_99`, `player_body_99`, `player_control_99`, `player_guard_99`, `player_speed_99`, `player_stamina_99`, `player_guts_99`, `player_freedom_99`, `attri_id`, `positi_id`, `gender_id`, `body_type_id`, `player_obtention_method_id`, `original_version`) VALUES
 (1, 'あいかた', NULL, NULL, 'aikata', NULL, NULL, 5, 126, 93, 57, 56, 54, 56, 56, 42, 51, 60, 2, 4, 1, 2, 7, NULL),
 (2, 'あいき', NULL, NULL, 'aiki', NULL, NULL, NULL, 93, 122, 51, 56, 54, 56, 51, 53, 51, 60, 2, 1, 1, 2, 7, NULL),
 (3, 'あいこう', NULL, NULL, 'aikou', NULL, NULL, NULL, 120, 95, 62, 53, 53, 55, 56, 62, 52, 22, 3, 1, 1, 2, 3, NULL),
@@ -492,7 +492,7 @@ INSERT INTO `player` (`player_id`, `player_name_ja`, `player_name_hiragana`, `pl
 (431, 'キラレア', NULL, NULL, 'kirarea', NULL, NULL, 14, 126, 120, 41, 64, 46, 69, 66, 44, 43, 52, 1, 2, 1, 2, 3, NULL),
 (432, 'きりあや', NULL, NULL, 'kiriaya', NULL, NULL, NULL, 119, 91, 50, 53, 57, 48, 55, 53, 56, 60, 4, 3, 1, 2, 3, NULL),
 (433, 'きわみち', NULL, NULL, 'kiwamichi', NULL, NULL, NULL, 101, 116, 45, 53, 57, 53, 60, 56, 56, 60, 3, 3, 1, 2, 3, NULL);
-INSERT INTO `player` (`player_id`, `player_name_ja`, `player_name_hiragana`, `player_name_kanji`, `player_name_romanji`, `player_name_en`, `player_name_en_full`, `player_initial_lv`, `player_gp_99`, `player_tp_99`, `player_kick_99`, `player_body_99`, `player_control_99`, `player_guard_99`, `player_speed_99`, `player_stamina_99`, `player_guts_99`, `player_freedom_99`, `attri_id`, `positi_id`, `genre_id`, `body_type_id`, `player_obtention_method_id`, `original_version`) VALUES
+INSERT INTO `player` (`player_id`, `player_name_ja`, `player_name_hiragana`, `player_name_kanji`, `player_name_romanji`, `player_name_en`, `player_name_en_full`, `player_initial_lv`, `player_gp_99`, `player_tp_99`, `player_kick_99`, `player_body_99`, `player_control_99`, `player_guard_99`, `player_speed_99`, `player_stamina_99`, `player_guts_99`, `player_freedom_99`, `attri_id`, `positi_id`, `gender_id`, `body_type_id`, `player_obtention_method_id`, `original_version`) VALUES
 (434, 'キング', NULL, NULL, 'kingu', NULL, NULL, NULL, 107, 123, 67, 65, 64, 66, 46, 48, 51, 13, 2, 1, 1, 2, 7, NULL),
 (435, 'きんこ', NULL, NULL, 'kinko', NULL, NULL, 5, 104, 118, 53, 57, 57, 56, 57, 53, 51, 41, 3, 1, 1, 2, 7, NULL),
 (436, 'きんたろう', NULL, NULL, 'kintarou', NULL, NULL, NULL, 115, 98, 54, 54, 56, 52, 53, 56, 51, 54, 4, 2, 1, 2, 7, NULL),
@@ -923,7 +923,7 @@ INSERT INTO `player` (`player_id`, `player_name_ja`, `player_name_hiragana`, `pl
 (861, 'たねだ', NULL, NULL, 'taneda', NULL, NULL, 16, 84, 124, 60, 51, 55, 52, 57, 62, 52, 21, 2, 2, 2, 2, 3, NULL),
 (862, 'たのくら', NULL, NULL, 'tanokura', NULL, NULL, NULL, 125, 93, 60, 51, 57, 51, 51, 56, 56, 41, 3, 1, 1, 2, 3, NULL),
 (863, 'たびもと', NULL, NULL, 'tabimoto', NULL, NULL, NULL, 103, 118, 44, 56, 65, 45, 53, 56, 57, 60, 1, 4, 1, 2, 3, NULL);
-INSERT INTO `player` (`player_id`, `player_name_ja`, `player_name_hiragana`, `player_name_kanji`, `player_name_romanji`, `player_name_en`, `player_name_en_full`, `player_initial_lv`, `player_gp_99`, `player_tp_99`, `player_kick_99`, `player_body_99`, `player_control_99`, `player_guard_99`, `player_speed_99`, `player_stamina_99`, `player_guts_99`, `player_freedom_99`, `attri_id`, `positi_id`, `genre_id`, `body_type_id`, `player_obtention_method_id`, `original_version`) VALUES
+INSERT INTO `player` (`player_id`, `player_name_ja`, `player_name_hiragana`, `player_name_kanji`, `player_name_romanji`, `player_name_en`, `player_name_en_full`, `player_initial_lv`, `player_gp_99`, `player_tp_99`, `player_kick_99`, `player_body_99`, `player_control_99`, `player_guard_99`, `player_speed_99`, `player_stamina_99`, `player_guts_99`, `player_freedom_99`, `attri_id`, `positi_id`, `gender_id`, `body_type_id`, `player_obtention_method_id`, `original_version`) VALUES
 (864, 'たま', NULL, NULL, 'tama', NULL, NULL, NULL, 134, 97, 54, 61, 48, 62, 56, 57, 56, 24, 2, 3, 1, 2, 7, NULL),
 (865, 'たまがわ', NULL, NULL, 'tamagawa', NULL, NULL, NULL, 94, 137, 48, 53, 56, 51, 62, 57, 53, 30, 1, 3, 1, 2, 3, NULL),
 (866, 'たまごろう', NULL, NULL, 'tamagorou', NULL, NULL, NULL, 126, 130, 45, 52, 62, 70, 64, 73, 74, 5, 1, 3, 1, 2, 16, NULL),
@@ -1351,7 +1351,7 @@ INSERT INTO `player` (`player_id`, `player_name_ja`, `player_name_hiragana`, `pl
 (1288, 'ヘッド', NULL, NULL, 'heddo', NULL, NULL, NULL, 130, 88, 66, 66, 53, 60, 62, 65, 66, 37, 3, 1, 1, 2, 5, NULL),
 (1289, 'ヘッドホン', NULL, NULL, 'heddohon', NULL, NULL, NULL, 96, 134, 48, 51, 53, 51, 65, 41, 51, 53, 1, 1, 1, 2, 3, NULL),
 (1290, 'へりかわ', NULL, NULL, 'herikawa', NULL, NULL, NULL, 119, 101, 60, 52, 51, 61, 36, 60, 56, 58, 2, 4, 1, 2, 3, NULL);
-INSERT INTO `player` (`player_id`, `player_name_ja`, `player_name_hiragana`, `player_name_kanji`, `player_name_romanji`, `player_name_en`, `player_name_en_full`, `player_initial_lv`, `player_gp_99`, `player_tp_99`, `player_kick_99`, `player_body_99`, `player_control_99`, `player_guard_99`, `player_speed_99`, `player_stamina_99`, `player_guts_99`, `player_freedom_99`, `attri_id`, `positi_id`, `genre_id`, `body_type_id`, `player_obtention_method_id`, `original_version`) VALUES
+INSERT INTO `player` (`player_id`, `player_name_ja`, `player_name_hiragana`, `player_name_kanji`, `player_name_romanji`, `player_name_en`, `player_name_en_full`, `player_initial_lv`, `player_gp_99`, `player_tp_99`, `player_kick_99`, `player_body_99`, `player_control_99`, `player_guard_99`, `player_speed_99`, `player_stamina_99`, `player_guts_99`, `player_freedom_99`, `attri_id`, `positi_id`, `gender_id`, `body_type_id`, `player_obtention_method_id`, `original_version`) VALUES
 (1291, 'ベルリン', NULL, NULL, 'berurin', NULL, NULL, NULL, 115, 118, 46, 55, 63, 46, 52, 51, 56, 62, 4, 4, 1, 2, 3, NULL),
 (1292, 'べんてん', NULL, NULL, 'benten', NULL, NULL, NULL, 117, 107, 56, 51, 56, 56, 53, 54, 54, 42, 1, 4, 1, 2, 4, NULL),
 (1293, 'ぼうさこ', NULL, NULL, 'bousako', NULL, NULL, NULL, 111, 103, 47, 56, 56, 47, 53, 55, 56, 62, 2, 4, 1, 2, 7, NULL),
@@ -1779,7 +1779,7 @@ INSERT INTO `player` (`player_id`, `player_name_ja`, `player_name_hiragana`, `pl
 (1715, 'ももち', NULL, NULL, 'momochi', NULL, NULL, NULL, 100, 138, 53, 59, 46, 73, 52, 55, 62, 16, 2, 4, 1, 2, 16, NULL),
 (1716, 'やぎゅう', NULL, NULL, 'yagyuu', NULL, NULL, NULL, 112, 121, 62, 60, 60, 60, 56, 60, 53, 15, 2, 1, 1, 2, 16, NULL),
 (1717, 'あやの', NULL, NULL, 'ayano', NULL, NULL, NULL, 128, 114, 50, 53, 60, 73, 53, 64, 77, 4, 3, 4, 1, 2, 16, NULL);
-INSERT INTO `player` (`player_id`, `player_name_ja`, `player_name_hiragana`, `player_name_kanji`, `player_name_romanji`, `player_name_en`, `player_name_en_full`, `player_initial_lv`, `player_gp_99`, `player_tp_99`, `player_kick_99`, `player_body_99`, `player_control_99`, `player_guard_99`, `player_speed_99`, `player_stamina_99`, `player_guts_99`, `player_freedom_99`, `attri_id`, `positi_id`, `genre_id`, `body_type_id`, `player_obtention_method_id`, `original_version`) VALUES
+INSERT INTO `player` (`player_id`, `player_name_ja`, `player_name_hiragana`, `player_name_kanji`, `player_name_romanji`, `player_name_en`, `player_name_en_full`, `player_initial_lv`, `player_gp_99`, `player_tp_99`, `player_kick_99`, `player_body_99`, `player_control_99`, `player_guard_99`, `player_speed_99`, `player_stamina_99`, `player_guts_99`, `player_freedom_99`, `attri_id`, `positi_id`, `gender_id`, `body_type_id`, `player_obtention_method_id`, `original_version`) VALUES
 (1718, 'いくい', NULL, NULL, 'ikui', NULL, NULL, NULL, 139, 104, 42, 55, 63, 76, 53, 60, 55, 5, 2, 2, 1, 2, 16, NULL),
 (1719, 'いぬかい', NULL, NULL, 'inukai', NULL, NULL, NULL, 131, 107, 48, 62, 57, 75, 54, 60, 56, 9, 1, 3, 1, 2, 16, NULL),
 (1720, 'おおごい', NULL, NULL, 'oogoi', NULL, NULL, NULL, 135, 108, 71, 40, 46, 72, 62, 66, 71, 3, 3, 2, 1, 2, 16, NULL),
@@ -2206,7 +2206,7 @@ INSERT INTO `player` (`player_id`, `player_name_ja`, `player_name_hiragana`, `pl
 (2141, 'レオーネ', NULL, NULL, 'reoone', NULL, NULL, NULL, 130, 120, 68, 58, 44, 68, 76, 41, 52, 30, 3, 1, 1, 2, 2, NULL),
 (2142, 'ロベルト', NULL, NULL, 'roberuto', NULL, NULL, NULL, 122, 108, 68, 60, 54, 65, 79, 62, 58, 3, 1, 2, 1, 2, 2, NULL),
 (2143, 'アレックス', NULL, NULL, 'arekkusu', NULL, NULL, NULL, 105, 114, 92, 76, 39, 47, 35, 32, 89, 16, 4, 4, 1, 2, 2, NULL);
-INSERT INTO `player` (`player_id`, `player_name_ja`, `player_name_hiragana`, `player_name_kanji`, `player_name_romanji`, `player_name_en`, `player_name_en_full`, `player_initial_lv`, `player_gp_99`, `player_tp_99`, `player_kick_99`, `player_body_99`, `player_control_99`, `player_guard_99`, `player_speed_99`, `player_stamina_99`, `player_guts_99`, `player_freedom_99`, `attri_id`, `positi_id`, `genre_id`, `body_type_id`, `player_obtention_method_id`, `original_version`) VALUES
+INSERT INTO `player` (`player_id`, `player_name_ja`, `player_name_hiragana`, `player_name_kanji`, `player_name_romanji`, `player_name_en`, `player_name_en_full`, `player_initial_lv`, `player_gp_99`, `player_tp_99`, `player_kick_99`, `player_body_99`, `player_control_99`, `player_guard_99`, `player_speed_99`, `player_stamina_99`, `player_guts_99`, `player_freedom_99`, `attri_id`, `positi_id`, `gender_id`, `body_type_id`, `player_obtention_method_id`, `original_version`) VALUES
 (2144, 'イチノセ', NULL, NULL, 'ichinose', NULL, NULL, 5, 130, 128, 79, 60, 72, 64, 63, 53, 71, 0, 2, 2, 1, 2, 2, NULL),
 (2145, 'エディ', NULL, NULL, 'edei', NULL, NULL, NULL, 128, 102, 59, 57, 63, 56, 56, 58, 52, 27, 3, 1, 1, 2, 2, NULL),
 (2146, 'キッド', NULL, NULL, 'kiddo', NULL, NULL, NULL, 100, 129, 72, 40, 44, 75, 75, 37, 67, 20, 2, 4, 1, 2, 2, NULL),
@@ -2403,7 +2403,7 @@ ALTER TABLE `player`
   ADD PRIMARY KEY (`player_id`),
   ADD KEY `player_fk_attri` (`attri_id`),
   ADD KEY `player_fk_positi` (`positi_id`),
-  ADD KEY `player_fk_genre` (`genre_id`),
+  ADD KEY `player_fk_gender` (`gender_id`),
   ADD KEY `player_fk_body_type` (`body_type_id`),
   ADD KEY `player_fk_player_obtention_method` (`player_obtention_method_id`),
   ADD KEY `player_fk_player` (`original_version`);

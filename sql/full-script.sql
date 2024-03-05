@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Mar 04, 2024 at 05:29 PM
+-- Generation Time: Mar 05, 2024 at 01:58 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -25,516 +25,6 @@ DELIMITER $$
 --
 -- Procedures
 --
-CREATE DEFINER=`root`@`localhost` PROCEDURE `proc_equipment_strengthens_stat` ()   begin
-	declare i int default 0;
-	declare statId int default 0;
-    declare statName varchar(32) default '';
-    declare amountVarchar varchar(32) default '';
-	declare amountInt int default 0;
-    declare cmd varchar(1000) default '';
-
-    
-    declare vItemId int default 0;
-    declare vEffect varchar(32) default '';
-
-    declare continueCur1 int default 1;
-    declare cur1 cursor for select item_id, effect from aux_equipment;
-	declare continue handler for SQLSTATE '02000' set continueCur1 = 0;
-
-    drop temporary table if exists res;
-    create temporary table res (
-        res_cmd varchar(1000)
-    );
-
-    open cur1;
-	while continueCur1=1 do
-        fetch cur1 into vItemId, vEffect;
-        set cmd = '';
-        if continueCur1 = 1 then
-            set amountVarchar = substring(vEffect, char_length(vEffect)-1, 2);
-            set amountInt = cast(amountVarchar as unsigned);
-
-            set statName = substring(vEffect, 1, char_length(vEffect)-3);
-            select stat_id into statId from stat 
-                where stat_name_ja like statName;
-
-            
-
-            set cmd = concat('(', vItemId);
-            set cmd = concat(cmd, ', ');
-            set cmd = concat(cmd, statId);
-            set cmd = concat(cmd, ', ');
-            set cmd = concat(cmd, amountInt);
-            set cmd = concat(cmd, '),');
-
-            insert into res values(cmd);
-        end if;
-	end while;
-	close cur1;
-    select * from res;
-    drop temporary table if exists res;
-    drop temporary table if exists aux_equipment;
-end$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `proc_generate_formation` ()   begin
-	declare i int default 0;
-    declare cmd varchar(1000) default '';
-    declare intOriginalVersion int default 0;
-    declare idType int default 0;
-    declare idScheme int default 0;
-
-    
-    declare itemFormationId int default 0;
-    declare itemFormationNameJa varchar(32) default '';
-    declare itemFormationNameEn varchar(32) default '';
-    declare itemFormationNameEs varchar(32) default '';
-    declare itemFormationType varchar(32) default '';
-    declare itemFormationScheme varchar(32) default '';
-    declare originalVersion varchar(32) default '';
-
-    declare continueCur1 int default 1;
-    declare cur1 cursor for select * from aux_formation;
-	declare continue handler for SQLSTATE '02000' set continueCur1 = 0;
-
-    drop temporary table if exists res;
-    create temporary table res (
-        res_cmd varchar(1000)
-    );
-
-    open cur1;
-	while continueCur1=1 do
-        fetch cur1 into itemFormationId, itemFormationNameJa,
-            itemFormationNameEn,itemFormationNameEs, itemFormationType, 
-            itemFormationScheme, originalVersion;
-        set cmd = '';
-        set intOriginalVersion = null;
-        if continueCur1 = 1 then
-            if originalVersion != 'original' then
-                set intOriginalVersion = cast(originalVersion as unsigned);
-            end if;
-
-            if itemFormationType = '対戦' then
-                set idType = 1;
-            else
-                set idType = 2;
-            end if;
-
-            select item_formation_scheme_id into idScheme from item_formation_scheme
-                where item_formation_scheme_name = itemFormationScheme;
-
-            set cmd = concat('(', itemFormationId);
-            set cmd = concat(cmd, ', ');
-            set cmd = concat(cmd, idType);
-            set cmd = concat(cmd, ', ');
-            set cmd = concat(cmd, idScheme);
-            set cmd = concat(cmd, ', ');
-            if intOriginalVersion > 0 then
-                set cmd = concat(cmd, intOriginalVersion);
-            else
-                set cmd = concat(cmd, 'null');
-            end if;
-            set cmd = concat(cmd, '),');
-
-            insert into res values(cmd);
-        end if;
-	end while;
-	close cur1;
-    select * from res;
-    drop temporary table if exists res;
-    drop temporary table if exists aux_formation;
-end$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `proc_get_hissatsu_by_name` (IN `name` VARCHAR(32))   begin
-    declare asciiStart varchar(200) default '
-  ######  
- ##    ## 
-##      ##
-##########
-##      ##
-##      ##';
-    declare asciiEnd varchar(200) default '
-#######  
-##     ## 
-##     ## 
-#######  
-##     ## 
-##     ## 
-#######';
-	declare i int default 0;
-    declare hissatsuTypeNameJa varchar(32) default '';
-    declare attriNameJa varchar(32) default '';
-    declare basePower int default 0;
-    declare tp int default 0;
-    declare participants int default 0;
-    declare additionalPower int default 0;
-    declare maxPower int default 0;
-    declare growthTypeNameJa varchar(32) default '';
-    declare growthRateNameJa varchar(32) default '';
-    declare foul int default 0;
-    declare isBlock int default 0;
-    declare shootPropertyJa varchar(32) default '';
-    declare catchTypeJa varchar(32) default '';
-    declare skillEffectJa varchar(400) default '';
-    declare skillEffectEn varchar(400) default '';
-    declare skillEffectEs varchar(400) default '';
-
-    
-    declare itemId int default 0;
-    declare itemNameJa varchar(32) default '';
-    declare itemNameEn varchar(32) default '';
-    declare itemNameEs varchar(32) default '';
-    declare hissatsuTypeId int default 0;
-
-    declare continueCur1 int default 1;
-    declare cur1 cursor for 
-        select
-            i.item_id,
-            i.item_name_ja,
-            i.item_name_en,
-            i.item_name_es,
-            h.hissatsu_type_id
-        from
-            item i
-        join item_hissatsu h on
-            i.item_id = h.item_hissatsu_id
-        where
-            i.item_name_ja = name or 
-            i.item_name_en = name or 
-            i.item_name_es = name;
-	declare continue handler for SQLSTATE '02000' set continueCur1 = 0;
-
-    open cur1;
-	while continueCur1=1 do
-        fetch cur1 into itemId, itemNameJa, itemNameEn, 
-            itemNameEs, hissatsuTypeId;
-
-        set hissatsuTypeNameJa = null;
-        set attriNameJa = null;
-        set basePower = null;
-        set tp = null;
-        set participants = null;
-        set additionalPower = null;
-        set maxPower = null;
-        set growthTypeNameJa = null;
-        set growthRateNameJa = null;
-        set foul = null;
-        set isBlock = null;
-        set shootPropertyJa = null;
-        set catchTypeJa = null;
-        set skillEffectJa = null;
-        set skillEffectEn = null;
-        set skillEffectEs = null;
-
-        if continueCur1 = 1 then
-            if i > 0 then
-                select '------------------------------------------------------' 
-                    as '------------------------------------------------------';
-            else
-                select asciiStart as 'start';
-            end if;
-
-            
-            select hissatsu_type_name_ja into hissatsuTypeNameJa 
-                from hissatsu_type
-                where hissatsu_type_id = hissatsuTypeId;
-            
-            select a.attri_name_ja into attriNameJa 
-                from hissatsu_evokes_attri het
-                join attri a on het.attri_id = a.attri_id
-                where het.item_hissatsu_id = itemId;
-            set continueCur1 = 1;
-
-            
-
-
-            
-            select itemId 'id', attriNameJa 'at', hissatsuTypeNameJa 'type', 
-                itemNameJa 'NameJa';
-
-            
-            case 
-                when hissatsuTypeId = 1 then
-                    select h.hissatsu_shoot_power, h.hissatsu_shoot_tp, 
-                        h.hissatsu_shoot_participants, achive.additional_power,
-                        gt.growth_type_name_ja, gr.growth_rate_name_ja
-                        into basePower, tp, participants, additionalPower,
-                        growthTypeNameJa, growthRateNameJa
-                        from hissatsu_shoot h
-                        join hissatsu_evolves he 
-                        on h.item_hissatsu_id = he.item_hissatsu_id
-                        join growth_type gt 
-                        on gt.growth_type_id = he.growth_type_id
-                        join growth_rate gr 
-                        on gr.growth_rate_id = he.growth_rate_id
-                        join growth_type_can_achieve_growth_rate achive 
-                        on achive.growth_type_id = gt.growth_type_id 
-                        and achive.growth_rate_id = gr.growth_rate_id
-                        where h.item_hissatsu_id = itemId;
-
-                    select p.shoot_special_property_name_ja
-                        into shootPropertyJa
-                        from hissatsu_shoot h
-                        join hissatsu_shoot_can_have_shoot_special_property can 
-                        on h.item_hissatsu_id = can.item_hissatsu_id
-                        join shoot_special_property p 
-                        on p.shoot_special_property_id = 
-                        can.shoot_special_property_id
-                        where h.item_hissatsu_id = itemId;
-                    set continueCur1 = 1;
-
-                    set maxPower = basePower + additionalPower;
-
-                    select basePower 'bs', maxPower 'mx', tp, participants 'pa',
-                        shootPropertyJa;
-                    select growthTypeNameJa 'ty', growthRateNameJa 'ra', 
-                        additionalPower 'ad';
-
-                when hissatsuTypeId = 2 then        
-                    select h.hissatsu_dribble_power, h.hissatsu_dribble_tp, 
-                        h.hissatsu_dribble_participants, achive.additional_power,
-                        gt.growth_type_name_ja, gr.growth_rate_name_ja
-                        into basePower, tp, participants, additionalPower,
-                        growthTypeNameJa, growthRateNameJa
-                        from hissatsu_dribble h
-                        join hissatsu_evolves he 
-                        on h.item_hissatsu_id = he.item_hissatsu_id
-                        join growth_type gt 
-                        on gt.growth_type_id = he.growth_type_id
-                        join growth_rate gr 
-                        on gr.growth_rate_id = he.growth_rate_id
-                        join growth_type_can_achieve_growth_rate achive 
-                        on achive.growth_type_id = gt.growth_type_id 
-                        and achive.growth_rate_id = gr.growth_rate_id
-                        where h.item_hissatsu_id = itemId; 
-
-                    select hissatsu_dribble_foul 
-                        into foul
-                        from hissatsu_dribble h 
-                        where h.item_hissatsu_id = itemId; 
-
-                    set maxPower = basePower + additionalPower;
-                    select basePower 'bs', maxPower 'mx', tp, participants 'pa',
-                        foul 'fo';
-                    select growthTypeNameJa 'ty', growthRateNameJa 'ra', 
-                        additionalPower 'ad';
-
-                when hissatsuTypeId = 3 then   
-                    select h.hissatsu_block_power, h.hissatsu_block_tp, 
-                        h.hissatsu_block_participants, achive.additional_power,
-                        gt.growth_type_name_ja, gr.growth_rate_name_ja
-                        into basePower, tp, participants, additionalPower,
-                        growthTypeNameJa, growthRateNameJa
-                        from hissatsu_block h
-                        join hissatsu_evolves he 
-                        on h.item_hissatsu_id = he.item_hissatsu_id
-                        join growth_type gt 
-                        on gt.growth_type_id = he.growth_type_id
-                        join growth_rate gr 
-                        on gr.growth_rate_id = he.growth_rate_id
-                        join growth_type_can_achieve_growth_rate achive 
-                        on achive.growth_type_id = gt.growth_type_id 
-                        and achive.growth_rate_id = gr.growth_rate_id
-                        where h.item_hissatsu_id = itemId;
-
-                    select hissatsu_block_foul, hissatsu_block_is_block
-                        into foul, isBlock
-                        from hissatsu_block h
-                        where h.item_hissatsu_id = itemId;
-
-                    set maxPower = basePower + additionalPower;
-                    select basePower 'bs', maxPower 'mx', tp, participants 'pa',
-                        foul 'fo', isBlock 'bo';
-                    select growthTypeNameJa 'ty', growthRateNameJa 'ra', 
-                        additionalPower 'ad';
-
-                when hissatsuTypeId = 4 then    
-                    select h.hissatsu_catch_power, h.hissatsu_catch_tp, 
-                        h.hissatsu_catch_participants, achive.additional_power,
-                        gt.growth_type_name_ja, gr.growth_rate_name_ja
-                        into basePower, tp, participants, additionalPower,
-                        growthTypeNameJa, growthRateNameJa
-                        from hissatsu_catch h
-                        join hissatsu_evolves he 
-                        on h.item_hissatsu_id = he.item_hissatsu_id
-                        join growth_type gt 
-                        on gt.growth_type_id = he.growth_type_id
-                        join growth_rate gr 
-                        on gr.growth_rate_id = he.growth_rate_id
-                        join growth_type_can_achieve_growth_rate achive 
-                        on achive.growth_type_id = gt.growth_type_id 
-                        and achive.growth_rate_id = gr.growth_rate_id
-                        where h.item_hissatsu_id = itemId;
-
-                    select ct.catch_type_name_ja
-                        into catchTypeJa
-                        from hissatsu_catch h 
-                        join catch_type ct on h.catch_type_id = ct.catch_type_id
-                        where h.item_hissatsu_id = itemId;
-
-                    set maxPower = basePower + additionalPower;
-                    select basePower 'bs', maxPower 'mx', tp, participants 'pa',
-                        catchTypeJa;
-                    select growthTypeNameJa 'ty', growthRateNameJa 'ra', 
-                        additionalPower 'ad';
-
-                when hissatsuTypeId = 5 then  
-                    select h.hissatsu_skill_effect_ja, 
-                        h.hissatsu_skill_effect_en, h.hissatsu_skill_effect_es
-                        into skillEffectJa, skillEffectEn, skillEffectEs
-                        from hissatsu_skill h 
-                        where h.item_hissatsu_id = itemId;
-
-                    select skillEffectJa;
-                    select skillEffectEn;
-                    select skillEffectEs;
-            end case;
-            set i = i + 1;
-        end if;
-	end while;
-	close cur1;
-    select asciiEnd as 'end';
-    select i as 'Total Rows'; 
-end$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `proc_get_player_by_name` (IN `name` VARCHAR(32))   begin
-    declare asciiStart varchar(200) default '
-  ######  
- ##    ## 
-##      ##
-##########
-##      ##
-##      ##';
-    declare asciiEnd varchar(200) default '
-#######  
-##     ## 
-##     ## 
-#######  
-##     ## 
-##     ## 
-#######';
-	declare i int default 0;
-    declare vAttri varchar(1);
-    declare vGenre varchar(1);
-    declare vBody varchar(2);
-    declare vPositi varchar(2);
-    declare vObtention varchar(32);
-    declare vZoneName varchar(32);
-    declare vHissatsu1 varchar(32);
-    declare vHissatsu2 varchar(32);
-    declare vHissatsu3 varchar(32);
-    declare vHissatsu4 varchar(32);
-
-    
-    declare playerId int default 0;
-    declare playerNameJa varchar(32) default '';
-    declare playerNameHiragana varchar(32) default '';
-    declare playerNameKanji varchar(32) default '';
-    declare playerNameRomanji varchar(32) default '';
-    declare playerNameEn varchar(32) default '';
-    declare playerNameEnFull varchar(32) default '';
-    declare playerInitialLv int default 0;
-    declare playerGp99 int default 0;
-    declare playerTp99 int default 0;
-    declare playerKick99 int default 0;
-    declare playerBody99 int default 0;
-    declare playerControl99 int default 0;
-    declare playerGuard99 int default 0;
-    declare playerSpeed99 int default 0;
-    declare playerStamina99 int default 0;
-    declare playerGuts99 int default 0;
-    declare playerFreedom99 int default 0;
-    declare attriId int default 0;
-    declare positiId int default 0;
-    declare genreId int default 0;
-    declare bodyTypeId int default 0;
-    declare playerObtentionMethodId int default 0;
-    declare originalVersion int default 0;
-
-    declare continueCur1 int default 1;
-    declare cur1 cursor for select * from player where 
-        player_name_ja = name or
-        player_name_hiragana = name or
-        player_name_kanji = name or
-        player_name_romanji = name or
-        player_name_en = name or
-        player_name_en_full  = name;
-    
-	declare continue handler for SQLSTATE '02000' set continueCur1 = 0;
-
-    open cur1;
-	while continueCur1=1 do
-        fetch cur1 into playerId, playerNameJa, playerNameHiragana, 
-            playerNameKanji, playerNameRomanji, playerNameEn, playerNameEnFull, 
-            playerInitialLv, playerGp99, playerTp99, playerKick99, playerBody99, 
-            playerControl99, playerGuard99, playerSpeed99, playerStamina99, 
-            playerGuts99, playerFreedom99, attriId, positiId, genreId, 
-            bodyTypeId, playerObtentionMethodId, originalVersion;
-
-        if continueCur1 = 1 then
-            if i > 0 then
-                select '------------------------------------------------------' 
-                    as '------------------------------------------------------';
-            else
-                select asciiStart as 'start';
-            end if;
-
-            set vZoneName = null;
-            select genre_name_ja into vGenre from genre 
-                where genre_id = genreId;
-            select body_type_name_ja into vBody from body_type 
-                where body_type_id = bodyTypeId;
-            select attri_name_ja into vAttri from attri
-                where attri_id = attriId;
-            select positi_name_ja into vPositi from positi
-                where positi_id = positiId;
-            select player_obtention_method_desc_ja into vObtention
-                from player_obtention_method
-                where player_obtention_method_id = playerObtentionMethodId;
-            select z.zone_name_ja into vZoneName from zone z
-                join player_found_at_zone pfz on z.zone_id = pfz.zone_id
-                where pfz.player_id = playerId;   
-            set continueCur1 = 1;
-
-            
-            select playerId 'id', originalVersion 've', playerNameJa 'ja',
-                vAttri 'at', vPositi 'po', vGenre 'ge', vBody 'bo', 
-                playerInitialLv 'lv';
-            
-            select playerGp99 'gp', playerTp99 'tp', playerKick99 'ki', 
-                playerBody99 'bo', playerControl99 'co', playerGuard99 'gd', 
-                playerSpeed99 'sp', playerStamina99 'st', playerGuts99 'gt', 
-                playerFreedom99 'fr';
-            
-            select vObtention 'ob', vZoneName 'zo';
-            
-            select i.item_name_ja into vHissatsu1 
-                from player_learns_hissatsu plh
-                join item i on i.item_id = plh.item_hissatsu_id
-                where plh.player_id = playerId and plh.learn_order = 1;
-            select i.item_name_ja into vHissatsu2 
-                from player_learns_hissatsu plh
-                join item i on i.item_id = plh.item_hissatsu_id
-                where plh.player_id = playerId and plh.learn_order = 2;
-            select i.item_name_ja into vHissatsu3 
-                from player_learns_hissatsu plh
-                join item i on i.item_id = plh.item_hissatsu_id
-                where plh.player_id = playerId and plh.learn_order = 3;
-            select i.item_name_ja into vHissatsu4 
-                from player_learns_hissatsu plh
-                join item i on i.item_id = plh.item_hissatsu_id
-                where plh.player_id = playerId and plh.learn_order = 4;
-            set continueCur1 = 1;
-
-            select vHissatsu1 'h1', vHissatsu2 'h2', vHissatsu3 'h3', 
-                vHissatsu4 'h4';
-            set i = i + 1;
-        end if;
-	end while;
-	close cur1;
-    select asciiEnd as 'end';
-    select i as 'Total Rows'; 
-end$$
-
 CREATE DEFINER=`root`@`localhost` PROCEDURE `proc_insert_hissatsu` ()   begin
 	declare i int default 0;
     declare intIsBlock int default 0;
@@ -712,11 +202,11 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `proc_insert_hissatsu` ()   begin
 
                 
                 if vLearners like '%男性%' then
-                    insert into hissatsu_limited_by_genre 
+                    insert into hissatsu_limited_by_gender 
                         values (vItemHissatsuId, 1);
                 end if;
                 if vLearners like '%女性%' then
-                    insert into hissatsu_limited_by_genre 
+                    insert into hissatsu_limited_by_gender 
                         values (vItemHissatsuId, 2);
                 end if;
 
@@ -760,663 +250,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `proc_insert_hissatsu` ()   begin
 	end while;
 	close cur1;
     drop temporary table if exists aux_hissatsu;
-end$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `proc_insert_player_basic` ()   begin
-	declare i int default 1;
-    declare vRomanjiFix varchar(32) default '';
-    declare vRomanjiLength int default 0;
-    declare vRomanjiCounter int default 0;
-    declare vRomanjiCurrentChar varchar(1) default '';
-    declare vRomanjiPreviousChar varchar(1) default '';
-    declare vAttriId int default 0;
-    declare vPositiId int default 0;
-    declare vGenreId int default 0;
-    declare vBodyId int default 0;
-    declare vZoneId int default 0;
-    declare vObtentionId int default 0;
-    declare vAuxFemaleName varchar(32) default '';
-    declare vKoukoFound int default 0;
-    declare vFanFound int default 0;
-    declare vLvInt int default 1;
-    declare vBodyTypeInt int default 1;
-    declare vHissatsuCounter int default 0;
-    declare vHissatsuNameAux varchar(32) default '';
-    declare vHissatsuLvAux int default 0;
-    declare vHissatsuIdAux int default 0;
-
-    
-    declare vPageOrder varchar(32) default '';
-    declare vNameJa varchar(32) default '';
-    declare vZoneName varchar(32) default '';
-    declare vObtentionDesc varchar(100) default '';
-    declare vAttri varchar(32) default '';
-    declare vPositi varchar(32) default '';
-    declare vLv varchar(32) default '';
-    declare vGp int default 0;
-    declare vTp int default 0;
-    declare vKick int default 0;
-    declare vBody int default 0;
-    declare vControl int default 0;
-    declare vGuard int default 0;
-    declare vSpeed int default 0;
-    declare vStamina int default 0;
-    declare vGuts int default 0;
-    declare vFreedom int default 0;
-    declare vH1 varchar(32) default '';
-    declare vH2 varchar(32) default '';
-    declare vH3 varchar(32) default '';
-    declare vH4 varchar(32) default '';
-    declare vNameRomanji varchar(32) default '';
-
-    declare vBodyType varchar(32) default '';
-    declare vFullJa varchar(32) default '';
-    declare vKanjiJa varchar(32) default '';
-    declare vNameEn varchar(32) default '';
-    declare vFullEn varchar(32) default '';
-
-    declare continueCur1 int default 1;
-    declare cur1 cursor for select * from aux_player;
-	declare continue handler for SQLSTATE '02000' set continueCur1 = 0;
-    
-    delete from player;
-    delete from player_found_at_zone;
-    delete from player_learns_hissatsu;
-    drop table if exists aux_hissatsu;
-    create temporary table aux_hissatsu (
-        hissatsu_name varchar(32),
-        learn_order int
-    ); 
-    open cur1;
-	while continueCur1=1 do
-        fetch cur1 into vPageOrder, vNameJa, vZoneName, vObtentionDesc, 
-            vAttri, vPositi, vLv, vGp, vTp, vKick, vBody, vControl, vGuard, 
-            vSpeed, vStamina, vGuts, vFreedom, vH1, vH2, vH3, vH4, vNameRomanji;
-        if continueCur1 = 1 then
-            
-            set vRomanjiFix = '';
-            set vRomanjiCounter = 1;
-            set vRomanjiCurrentChar = '';
-            set vRomanjiPreviousChar = '';
-            set vRomanjiLength = length(vNameRomanji);
-            while vRomanjiCounter <= vRomanjiLength do
-                set vRomanjiPreviousChar = vRomanjiCurrentChar;
-                set vRomanjiCurrentChar = substring(vNameRomanji, vRomanjiCounter, 1);
-                if vRomanjiCurrentChar = 'ー' then
-                    set vRomanjiFix = concat(vRomanjiFix, vRomanjiPreviousChar);
-                else
-                    set vRomanjiFix = concat(vRomanjiFix, vRomanjiCurrentChar);                
-                end if;
-                set vRomanjiCounter = vRomanjiCounter + 1;
-            end while;
-
-            
-            set vZoneId = 26; 
-            if vZoneName != '' then
-                select z.zone_id into vZoneId from zone z 
-                    join zone_outer zo on z.zone_id = zo.zone_outer_id 
-                    where z.zone_name_ja like concat(concat('%', vZoneName), '%');
-                set continueCur1 = 1;
-            end if;
-
-            
-            case
-                when vObtentionDesc like '%ストーリー%' then
-                    set vObtentionId = 1;
-                when vObtentionDesc like '%スカウト%' then
-                    set vObtentionId = 2;
-                when vObtentionDesc like '%ガチャ%' then
-                    set vObtentionId = 3;
-                when vObtentionDesc like '%人脈システム%' then
-                    set vObtentionId = 4;
-                when vObtentionDesc like '%Wi-Fi%' then
-                    set vObtentionId = 5;
-                when vObtentionDesc like '%パスワード%' then
-                    set vObtentionId = 6;
-                when vObtentionDesc like '%ミニバトル%' then
-                    set vObtentionId = 7;
-                when vObtentionDesc like '%プレミアムスカウト%' then
-                    set vObtentionId = 11;
-                when vObtentionDesc like '%オーガプレミアムリンク%' then
-                    set vObtentionId = 12;
-                else
-                    set vObtentionId = 16; 
-            end case;
-
-            
-            set vLv = concat('0', vLv);
-            set vLvInt = cast(vLv as unsigned);
-            if vLvInt = 0 then
-                set vLvInt = null;
-            end if;
-
-            
-            set vBodyType = '';             
-            set vBodyType = concat('0', vBodyType);
-            set vBodyTypeInt = cast(vBodyType as unsigned);
-            if vBodyTypeInt = 0 then
-                set vBodyId = 2;
-            else
-                set vBodyId = vBodyTypeInt;         
-            end if;
-
-            
-            if vNameJa = 'こうこ' then
-                if vKoukoFound = 0 then
-                    set vGenreId = 1;
-                    set vKoukoFound = 1;
-                else
-                    set vGenreId = 2;
-                end if;
-            elseif vNameJa = 'ファン' then
-                if vFanFound = 0 then
-                    set vGenreId = 2;
-                    set vFanFound = 1;
-                else
-                    set vGenreId = 1;
-                end if;
-            else
-                set vAuxFemaleName = null;
-                set vGenreId = 1;
-                select name_ja into vAuxFemaleName from aux_player_f
-                    where name_ja = vNameJa;
-                set continueCur1 = 1;
-                if vAuxFemaleName is not null then
-                    set vGenreId = 2;  
-                end if;
-            end if;
-
-            
-            select attri_id into vAttriId from attri 
-                where attri_name_ja = vAttri;            
-
-            
-            select positi_id into vPositiId from positi 
-                where positi_name_ja = vPositi;       
-
-             
-            insert into player(player_id, player_name_ja, player_name_hiragana, 
-                player_name_kanji, player_name_romanji, player_name_en, 
-                player_name_en_full, player_initial_lv, player_gp_99, 
-                player_tp_99, player_kick_99, player_body_99, player_control_99,
-                player_guard_99, player_speed_99, player_stamina_99, 
-                player_guts_99, player_freedom_99, attri_id, positi_id, 
-                genre_id, body_type_id, player_obtention_method_id, 
-                original_version) values (
-                i, vNameJa, null, 
-                null, vRomanjiFix, null, 
-                null, vLvInt, vGp, 
-                vTp, vKick, vBody, vControl,
-                vGuard, vSpeed, vStamina, 
-                vGuts, vFreedom, vAttriId, vPositiId, 
-                vGenreId, vBodyId, vObtentionId, 
-                null);
-
-            insert into player_found_at_zone(player_id, zone_id, is_random, 
-                hint_ja, hint_en, hint_es) values (
-                i, vZoneId, null, null,'null', null);
-     
-            
-            
-            delete from aux_hissatsu;
-            insert into aux_hissatsu values (vH1, 1);
-            insert into aux_hissatsu values (vH2, 2);
-            insert into aux_hissatsu values (vH3, 3);
-            insert into aux_hissatsu values (vH4, 4);
-
-            update aux_hissatsu set hissatsu_name = replace(hissatsu_name, '(B)', '');
-            update aux_hissatsu set hissatsu_name = replace(hissatsu_name, '(C)', '');
-            update aux_hissatsu set hissatsu_name = replace(hissatsu_name, '(L)', '');
-            update aux_hissatsu set hissatsu_name = replace(hissatsu_name, '改', '');
-            update aux_hissatsu set hissatsu_name = replace(hissatsu_name, '真', '');
-            update aux_hissatsu set hissatsu_name = replace(hissatsu_name, 'V2', '');
-            update aux_hissatsu set hissatsu_name = replace(hissatsu_name, 'V3', '');
-            update aux_hissatsu set hissatsu_name = replace(hissatsu_name, 'G2', '');
-            update aux_hissatsu set hissatsu_name = replace(hissatsu_name, 'G3', '');
-            update aux_hissatsu set hissatsu_name = replace(hissatsu_name, 'G4', '');
-            update aux_hissatsu set hissatsu_name = replace(hissatsu_name, 'G5', '');
-            update aux_hissatsu set hissatsu_name = replace(hissatsu_name, '(', '');
-            update aux_hissatsu set hissatsu_name = replace(hissatsu_name, ')', '');
-            update aux_hissatsu set hissatsu_name = replace(hissatsu_name, '\t', '');
-            update aux_hissatsu set hissatsu_name = replace(hissatsu_name, ' ', '');
-            update aux_hissatsu set hissatsu_name = replace(hissatsu_name, '･', '・');
-            update aux_hissatsu set hissatsu_name = replace(hissatsu_name, 'Ｖ', 'V');
-            update aux_hissatsu set hissatsu_name = replace(hissatsu_name, '―', 'ー');
-            update aux_hissatsu set hissatsu_name = replace(hissatsu_name, '－', 'ー');
-            update aux_hissatsu set hissatsu_name = replace(hissatsu_name, '!', '！');
-            update aux_hissatsu set hissatsu_name = replace(hissatsu_name, 'Ｕ', 'U');
-            update aux_hissatsu set hissatsu_name = replace(hissatsu_name, 'Ｐ', 'P');
-
-
-
-
-
-            update aux_hissatsu set hissatsu_name = trim(hissatsu_name);
-
-            select hissatsu_name into vH1 from aux_hissatsu where learn_order = 1;
-            select hissatsu_name into vH2 from aux_hissatsu where learn_order = 2;
-            select hissatsu_name into vH3 from aux_hissatsu where learn_order = 3;
-            select hissatsu_name into vH4 from aux_hissatsu where learn_order = 4;
-
-            
-            set vHissatsuCounter = 1;
-            while vHissatsuCounter <= 4 do
-                case 
-                    when vHissatsuCounter = 1 then
-                        set vHissatsuNameAux = vH1;
-                    when vHissatsuCounter = 2 then
-                        set vHissatsuNameAux = vH2;
-                    when vHissatsuCounter = 3 then
-                        set vHissatsuNameAux = vH3;
-                    when vHissatsuCounter = 4 then
-                        set vHissatsuNameAux = vH4;
-                end case;
-                
-                case
-                    when upper(vHissatsuNameAux) like '%LV.__' then
-                        set vHissatsuLvAux =  
-                            cast(substring(
-                                vHissatsuNameAux, 
-                                char_length(vHissatsuNameAux) - 1, 
-                                2
-                            ) as unsigned);
-                        set vHissatsuNameAux = 
-                            substring(
-                                vHissatsuNameAux, 
-                                1, 
-                                char_length(vHissatsuNameAux) - 5
-                            );
-                    when upper(vHissatsuNameAux) like '%LV__' then
-                        set vHissatsuLvAux =  
-                            cast(substring(
-                                vHissatsuNameAux, 
-                                char_length(vHissatsuNameAux) - 1, 
-                                2
-                            ) as unsigned);
-                        set vHissatsuNameAux = 
-                            substring(
-                                vHissatsuNameAux, 
-                                1, 
-                                char_length(vHissatsuNameAux) - 4
-                            );
-                    when upper(vHissatsuNameAux) like '%LV_' then
-                        set vHissatsuLvAux =  
-                            cast(substring(
-                                vHissatsuNameAux, 
-                                char_length(vHissatsuNameAux), 
-                                1
-                            ) as unsigned);
-                        set vHissatsuNameAux = 
-                            substring(
-                                vHissatsuNameAux, 
-                                1, 
-                                char_length(vHissatsuNameAux) - 3
-                            );    
-                    when upper(vHissatsuNameAux) like '%LV' then
-                        set vHissatsuLvAux = null;
-                        set vHissatsuNameAux = 
-                            substring(
-                                vHissatsuNameAux, 
-                                1, 
-                                char_length(vHissatsuNameAux) - 2
-                            );    
-                     when upper(vHissatsuNameAux) like '%L_' then
-                        set vHissatsuLvAux =  
-                            cast(substring(
-                                vHissatsuNameAux, 
-                                char_length(vHissatsuNameAux), 
-                                1
-                            ) as unsigned);
-                        set vHissatsuNameAux = 
-                            substring(
-                                vHissatsuNameAux, 
-                                1, 
-                                char_length(vHissatsuNameAux) - 2
-                            );   
-                     when upper(vHissatsuNameAux) like '%P' then
-                        set vHissatsuLvAux = null;
-                        set vHissatsuNameAux = 
-                            substring(
-                                vHissatsuNameAux, 
-                                1, 
-                                char_length(vHissatsuNameAux) - 1
-                            );  
-                    else
-                        set vHissatsuLvAux = null;
-                end case;
-
-                
-                set vHissatsuIdAux = 0;
-                case
-                     
-                    when vHissatsuNameAux like '%クロスファイア%' then
-                        if vAttri = '火' then
-                            set vHissatsuIdAux = 111;
-                        else
-                            set vHissatsuIdAux = 34;
-                        end if;
-                    when vHissatsuNameAux like '%ファイアブリザード%' then
-                        if vAttri = '火' then
-                            set vHissatsuIdAux = 108;
-                        else
-                            set vHissatsuIdAux = 33;
-                        end if;
-                    when vHissatsuNameAux like '%シャドウ・レイ%' then
-                        if vAttri = '山' then
-                            set vHissatsuIdAux = 141;
-                        else
-                            set vHissatsuIdAux = 72;
-                        end if;
-                    when vHissatsuNameAux like 'ゴッドハンド' then
-                        if vAttri = '林' then
-                            set vHissatsuIdAux = 301;
-                        else
-                            set vHissatsuIdAux = 336;
-                        end if;
-                    when vHissatsuNameAux like '%マジン・ザ・ハンド%' then
-                        if vAttri = '林' then
-                            set vHissatsuIdAux = 304;
-                        else
-                            set vHissatsuIdAux = 339;
-                        end if;
-                     
-                    when vHissatsuNameAux like 'ゴッドハンドX' then
-                        set vHissatsuIdAux = 326;
-                    when vHissatsuNameAux like 'しこふみ' then
-                        set vHissatsuIdAux = 259;
-                    when vHissatsuNameAux like 'パワーシールド' then
-                        set vHissatsuIdAux = 317;
-                    when vHissatsuNameAux like 'サイクロ' then
-                        set vHissatsuIdAux = 214;
-                    when vHissatsuNameAux like 'サイクロン' then
-                        set vHissatsuIdAux = 214;
-                    when vHissatsuNameAux like 'ジャッジスルー' then
-                        set vHissatsuIdAux = 182;
-                    when vHissatsuNameAux like 'ジャッジスルー' then
-                        set vHissatsuIdAux = 182;
-                    when vHissatsuNameAux like 'ジャッジスルー２' then
-                        set vHissatsuIdAux = 190;
-                    when vHissatsuNameAux like 'ジャッジスルー2' then
-                        set vHissatsuIdAux = 190;
-                    when vHissatsuNameAux like 'ジャッジスルー3' then
-                        set vHissatsuIdAux = 193;
-                    when vHissatsuNameAux like 'デスゾーン' then
-                        set vHissatsuIdAux = 59;
-                    when vHissatsuNameAux like 'デスゾーン2' then
-                        set vHissatsuIdAux = 68;
-                    when vHissatsuNameAux like 'イケイケ！' then
-                        set vHissatsuIdAux = 353;
-                    when vHissatsuNameAux like 'ツインブースト' then
-                        set vHissatsuIdAux = 84;
-                    when vHissatsuNameAux like 'イナズマ1ごう' then
-                        set vHissatsuIdAux = 12;
-                    when vHissatsuNameAux like 'イナズマ1号' then
-                        set vHissatsuIdAux = 12;
-                    when vHissatsuNameAux like 'つなみブースト' then
-                        set vHissatsuIdAux = 9;
-                    when vHissatsuNameAux like 'ひゃくれつショット' then
-                        set vHissatsuIdAux = 38;
-                    when vHissatsuNameAux like 'ツインブース' then
-                        set vHissatsuIdAux = 84;
-                    when vHissatsuNameAux like 'ツインブースト' then
-                        set vHissatsuIdAux = 84;
-                    when vHissatsuNameAux like 'パーフェクトタワー' then
-                        set vHissatsuIdAux = 224;
-                    when vHissatsuNameAux like 'U・ボート' then
-                        set vHissatsuIdAux = 204;
-                    when vHissatsuNameAux like 'U・ボード' then
-                        set vHissatsuIdAux = 204;
-                    when vHissatsuNameAux like 'U・ポート' then
-                        set vHissatsuIdAux = 204;
-                    when vHissatsuNameAux like 'シザーズ・ボム' then
-                        set vHissatsuIdAux = 201;
-                    when vHissatsuNameAux like 'イリュージンボール' then
-                        set vHissatsuIdAux = 165;
-                    when vHissatsuNameAux like 'グットスメル' then
-                        set vHissatsuIdAux = 235;
-                    when vHissatsuNameAux like 'イナズマ１ごう' then
-                        set vHissatsuIdAux = 12;
-                    when vHissatsuNameAux like 'トライアングルZ' then
-                        set vHissatsuIdAux = 99;
-                    when vHissatsuNameAux like 'こうていペンギン2ごう' then
-                        set vHissatsuIdAux = 58;
-                    when vHissatsuNameAux like 'こうていペンギン３ごう' then
-                        set vHissatsuIdAux = 70;
-                    when vHissatsuNameAux like 'こうていペンギンＸ' then
-                        set vHissatsuIdAux = 104;
-                    when vHissatsuNameAux like 'イナズマ１ごうおとし' then
-                        set vHissatsuIdAux = 29;
-                    when vHissatsuNameAux like 'Xブラスト' then
-                        set vHissatsuIdAux = 110;
-                    when vHissatsuNameAux like 'ツインブーストF' then
-                        set vHissatsuIdAux = 98;
-                    when vHissatsuNameAux like 'ユニコーンブースト ' then
-                        set vHissatsuIdAux = 136;
-                    when vHissatsuNameAux like 'ドッベルゲンガー' then
-                        set vHissatsuIdAux = 227;
-                    when vHissatsuNameAux like 'アースクエイク' then
-                        set vHissatsuIdAux = 263;
-                    when vHissatsuNameAux like 'キトルネードキャッチ' then
-                        set vHissatsuIdAux = 281;
-                    when vHissatsuNameAux like 'カポエイラスナッチ' then
-                        set vHissatsuIdAux = 345;
-                    when vHissatsuNameAux like 'サンダービーストE' then
-                        set vHissatsuIdAux = 17;
-                    when vHissatsuNameAux like 'ビックスパイダー' then
-                        set vHissatsuIdAux = 309;
-                    when vHissatsuNameAux like 'グラビティション' then
-                        set vHissatsuIdAux = 265;
-                    when vHissatsuNameAux like 'プロファイゾーン' then
-                        set vHissatsuIdAux = 215;
-                    when vHissatsuNameAux like 'どこんじょうバット' then
-                        set vHissatsuIdAux = 82;
-                    when vHissatsuNameAux like 'クリテイカル！' then
-                        set vHissatsuIdAux = 360;
-                    when vHissatsuNameAux like 'デモンズカット' then
-                        set vHissatsuIdAux = 242;
-                    when vHissatsuNameAux like 'ゴットハンド' then
-                        set vHissatsuIdAux = 336;
-                    when vHissatsuNameAux like 'ブレイブショット（L' then
-                        set vHissatsuIdAux = 140;
-                    when vHissatsuNameAux like 'ゴットノウズ' then
-                        set vHissatsuIdAux = 22;
-                    when vHissatsuNameAux like 'ガニメデプトロン' then
-                        set vHissatsuIdAux = 48;
-                    else
-                        if vHissatsuNameAux != 'スーパースキャン' then
-                            select h.item_hissatsu_id into vHissatsuIdAux
-                                from item_hissatsu h join item i 
-                                on h.item_hissatsu_id = i.item_id 
-                                where i.item_name_ja 
-                                like concat(concat('%', vHissatsuNameAux), '%');
-                        end if;
-                end case;
-                set continueCur1 = 1;
-                if vHissatsuIdAux > 0 then
-                    insert into player_learns_hissatsu(
-                        player_id, item_hissatsu_id, learn_lv, learn_order) 
-                    values (
-                        i, vHissatsuIdAux, vHissatsuLvAux, vHissatsuCounter);
-
-                end if;
-                set vHissatsuCounter = vHissatsuCounter + 1;
-            end while;
-        end if;
-        set i = i + 1;
-	end while;
-	close cur1;
-    drop table if exists aux_hissatsu;
-    
-    insert into player_learns_hissatsu values (20, 230, null, 2);
-    insert into player_learns_hissatsu values (21, 230, null, 1);
-    insert into player_learns_hissatsu values (21, 164, null, 3);
-    insert into player_learns_hissatsu values (35, 164, null, 1);
-    insert into player_learns_hissatsu values (93, 164, null, 1);
-    insert into player_learns_hissatsu values (136, 164, null, 2);
-    insert into player_learns_hissatsu values (168, 230, null, 1);
-    insert into player_learns_hissatsu values (187, 230, null, 1);
-    insert into player_learns_hissatsu values (203, 230, null, 2);
-    insert into player_learns_hissatsu values (203, 164, null, 3);
-    insert into player_learns_hissatsu values (208, 164, null, 2);
-    insert into player_learns_hissatsu values (291, 164, null, 1);
-    insert into player_learns_hissatsu values (294, 230, null, 1);
-    insert into player_learns_hissatsu values (347, 230, null, 1);
-    insert into player_learns_hissatsu values (351, 230, null, 1);
-    insert into player_learns_hissatsu values (357, 230, null, 1);
-    insert into player_learns_hissatsu values (357, 164, null, 3);
-    insert into player_learns_hissatsu values (373, 230, null, 3);
-    insert into player_learns_hissatsu values (386, 164, null, 4);
-    insert into player_learns_hissatsu values (464, 230, null, 1);
-    insert into player_learns_hissatsu values (488, 164, null, 2);
-    insert into player_learns_hissatsu values (490, 164, 22, 2);
-    insert into player_learns_hissatsu values (516, 164, null, 3);
-    insert into player_learns_hissatsu values (539, 164, null, 1);
-    insert into player_learns_hissatsu values (586, 230, null, 1);
-    insert into player_learns_hissatsu values (589, 230, null, 4);
-    insert into player_learns_hissatsu values (590, 164, null, 1);
-    insert into player_learns_hissatsu values (601, 230, null, 2);
-    insert into player_learns_hissatsu values (630, 230, null, 1);
-    insert into player_learns_hissatsu values (630, 164, null, 2);
-    insert into player_learns_hissatsu values (644, 230, null, 1);
-    insert into player_learns_hissatsu values (664, 164, null, 1);
-    insert into player_learns_hissatsu values (696, 230, null, 1);
-    insert into player_learns_hissatsu values (696, 164, null, 4);
-    insert into player_learns_hissatsu values (704, 164, null, 3);
-    insert into player_learns_hissatsu values (711, 230, null, 1);
-    insert into player_learns_hissatsu values (725, 164, null, 2);
-    insert into player_learns_hissatsu values (750, 164, null, 1);
-    insert into player_learns_hissatsu values (768, 230, null, 2);
-    insert into player_learns_hissatsu values (776, 230, null, 1);
-    insert into player_learns_hissatsu values (780, 230, null, 1);
-    insert into player_learns_hissatsu values (784, 230, null, 1);
-    insert into player_learns_hissatsu values (871, 230, null, 3);
-    insert into player_learns_hissatsu values (889, 164, null, 1);
-    insert into player_learns_hissatsu values (910, 164, null, 1);
-    insert into player_learns_hissatsu values (932, 164, null, 1);
-    insert into player_learns_hissatsu values (956, 164, null, 2);
-    insert into player_learns_hissatsu values (960, 230, null, 2);
-    insert into player_learns_hissatsu values (971, 164, null, 2);
-    insert into player_learns_hissatsu values (1007, 164, null, 3);
-    insert into player_learns_hissatsu values (1010, 164, null, 1);
-    insert into player_learns_hissatsu values (1010, 230, null, 2);
-    insert into player_learns_hissatsu values (1025, 230, null, 2);
-    insert into player_learns_hissatsu values (1067, 230, null, 2);
-    insert into player_learns_hissatsu values (1068, 230, null, 2);
-    insert into player_learns_hissatsu values (1070, 164, null, 1);
-    insert into player_learns_hissatsu values (1164, 230, null, 2);
-    insert into player_learns_hissatsu values (1171, 164, null, 2);
-    insert into player_learns_hissatsu values (1177, 164, null, 1);
-    insert into player_learns_hissatsu values (1177, 230, null, 2);
-    insert into player_learns_hissatsu values (1232, 164, null, 1);
-    insert into player_learns_hissatsu values (1232, 230, null, 2);
-    insert into player_learns_hissatsu values (1239, 230, null, 2);
-    insert into player_learns_hissatsu values (1255, 164, null, 2);
-    insert into player_learns_hissatsu values (1255, 230, null, 3);
-    insert into player_learns_hissatsu values (1277, 164, null, 2);
-    insert into player_learns_hissatsu values (1278, 164, null, 1);
-    insert into player_learns_hissatsu values (1278, 230, null, 2);
-    insert into player_learns_hissatsu values (1282, 164, null, 1);
-    insert into player_learns_hissatsu values (1301, 164, null, 2);
-    insert into player_learns_hissatsu values (1355, 164, null, 2);
-    insert into player_learns_hissatsu values (1365, 230, null, 1);
-    insert into player_learns_hissatsu values (1404, 230, null, 1);
-    insert into player_learns_hissatsu values (1404, 164, null, 2);
-    insert into player_learns_hissatsu values (1441, 164, null, 2);
-    insert into player_learns_hissatsu values (1453, 164, null, 1);
-    insert into player_learns_hissatsu values (1462, 230, null, 2);
-    insert into player_learns_hissatsu values (1490, 164, null, 2);
-    insert into player_learns_hissatsu values (1504, 230, null, 2);
-    insert into player_learns_hissatsu values (1583, 230, null, 2);
-    insert into player_learns_hissatsu values (1590, 164, null, 1);
-    insert into player_learns_hissatsu values (1590, 230, null, 2);
-    insert into player_learns_hissatsu values (1613, 164, null, 1);
-    insert into player_learns_hissatsu values (1621, 164, null, 2);
-    insert into player_learns_hissatsu values (1657, 164, null, 3);
-    insert into player_learns_hissatsu values (1658, 230, null, 1);
-    insert into player_learns_hissatsu values (1658, 164, null, 3);
-    insert into player_learns_hissatsu values (1659, 164, null, 1);
-    insert into player_learns_hissatsu values (1659, 230, null, 3);
-    insert into player_learns_hissatsu values (1660, 230, null, 1);
-    insert into player_learns_hissatsu values (1660, 164, null, 3);
-    insert into player_learns_hissatsu values (1661, 164, null, 2);
-    insert into player_learns_hissatsu values (1661, 230, null, 3);
-    insert into player_learns_hissatsu values (1663, 164, null, 1);
-    insert into player_learns_hissatsu values (1664, 230, null, 1);
-    insert into player_learns_hissatsu values (1664, 164, null, 2);
-    insert into player_learns_hissatsu values (1666, 230, null, 1);
-    insert into player_learns_hissatsu values (1666, 164, null, 2);
-    insert into player_learns_hissatsu values (1667, 164, null, 3);
-    insert into player_learns_hissatsu values (1668, 230, null, 3);
-    insert into player_learns_hissatsu values (1669, 164, null, 2);
-    insert into player_learns_hissatsu values (1669, 230, null, 3);
-    insert into player_learns_hissatsu values (1670, 230, null, 2);
-    insert into player_learns_hissatsu values (1671, 230, null, 1);
-    insert into player_learns_hissatsu values (1671, 164, null, 3);
-    insert into player_learns_hissatsu values (1674, 230, null, 2);
-    insert into player_learns_hissatsu values (1674, 164, null, 3);
-    insert into player_learns_hissatsu values (1679, 230, null, 3);
-    insert into player_learns_hissatsu values (1682, 164, null, 1);
-    insert into player_learns_hissatsu values (1690, 164, null, 3);
-    insert into player_learns_hissatsu values (1803, 230, null, 2);
-    insert into player_learns_hissatsu values (1811, 230, null, 2);
-    insert into player_learns_hissatsu values (1811, 164, null, 3);
-    insert into player_learns_hissatsu values (1902, 230, null, 1);
-    insert into player_learns_hissatsu values (1905, 164, null, 1);
-    insert into player_learns_hissatsu values (1908, 164, null, 1);
-    insert into player_learns_hissatsu values (1912, 164, null, 2);
-    insert into player_learns_hissatsu values (1948, 164, null, 2);
-    insert into player_learns_hissatsu values (1948, 230, null, 3);
-    insert into player_learns_hissatsu values (1981, 230, null, 1);
-    insert into player_learns_hissatsu values (1981, 164, null, 2);
-    insert into player_learns_hissatsu values (1982, 164, null, 1);
-    insert into player_learns_hissatsu values (2012, 164, null, 2);
-    insert into player_learns_hissatsu values (2063, 230, null, 3);
-    insert into player_learns_hissatsu values (2119, 164, null, 2);
-    insert into player_learns_hissatsu values (2175, 230, null, 2);
-    insert into player_learns_hissatsu values (2252, 230, null, 3);
-    insert into player_learns_hissatsu values (2321, 164, null, 3);
-end$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `proc_insert_player_team` ()   begin
-	declare i int default 1;
-    declare idTeam int default 0;
-    declare idPlayer int default 0;
-
-    
-    declare vTeam varchar(32) default '';
-    declare vPlayer varchar(32) default '';
-    declare vOff int default 0;
-    declare vPla int default 0;
-
-    declare continueCur1 int default 1;
-    declare cur1 cursor for select * from aux_player_team;
-	declare continue handler for SQLSTATE '02000' set continueCur1 = 0;
-
-    delete from player_is_part_of_team;    
-    delete from player_plays_during_story_team;
-    open cur1;
-	while continueCur1=1 do
-        fetch cur1 into vTeam, vPlayer, vOff, vPla;
-        if continueCur1 = 1 then
-            select team_id into idTeam from team 
-                where team_name_ja = vTeam;
-
-            
-            select player_id into idPlayer from player
-                where player_name_romanji = vPlayer limit 1 offset vOff;
-
-            if idPlayer is null then
-                select vTeam, vPlayer;
-            end if;
-
-
-
-
-        end if;
-        set i = i + 1;
-	end while;
-	close cur1;
-    drop table if exists aux_player_team;
 end$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `proc_insert_team_player` ()   begin
@@ -1468,165 +301,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `proc_insert_team_player` ()   begin
 	end while;
 	close cur1;
     drop table if exists aux_team_player;
-end$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `proc_insert_team_tactic` ()   begin
-	declare i int default 0;
-    declare cmd varchar(1000) default '';
-    declare idTeam int default 0;
-    declare idTactic  int default 0;
-
-    
-    declare vTeam varchar(32) default '';
-    declare vTactic varchar(32) default '';
-
-    declare continueCur1 int default 1;
-    declare cur1 cursor for select * from aux_team_tactic;
-	declare continue handler for SQLSTATE '02000' set continueCur1 = 0;
-
-    drop temporary table if exists res;
-    create temporary table res (
-        res_cmd varchar(1000)
-    );
-
-    open cur1;
-	while continueCur1=1 do
-        fetch cur1 into vTeam, vTactic;
-        set cmd = '';
-        if continueCur1 = 1 then
-            select team_id into idTeam from team 
-                where team_name_ja = vTeam;
-
-            case 
-                when vTactic = 'Route of Sky' then
-                    set idTactic = 716;
-                when vTactic = 'Dancing Ball Escape' then
-                    set idTactic = 717;
-                when vTactic = 'Dual Typhoon' then
-                    set idTactic = 718;
-                when vTactic = 'Engetsu no Jin' then
-                    set idTactic = 719;
-                when vTactic = 'Muteki no Yari' then
-                    set idTactic = 720;
-                when vTactic = 'Rolling Thunder' then
-                    set idTactic = 721;
-                when vTactic = 'Emperor Road' then
-                    set idTactic = 722;
-                when vTactic = 'Amazon River Wave' then
-                    set idTactic = 723;
-                when vTactic = 'Banana Shoot' then
-                    set idTactic = 724;
-                when vTactic = 'The Tube' then
-                    set idTactic = 725;
-                when vTactic = 'Box Lock Defense' then
-                    set idTactic = 726;
-                when vTactic = 'Absolute Knights' then
-                    set idTactic = 727;
-                when vTactic = 'Andes no Arijigoku' then
-                    set idTactic = 728;
-                when vTactic = 'Perfect Zone Press' then
-                    set idTactic = 729;
-                when vTactic = 'Catenaccio Counter' then
-                    set idTactic = 730;
-                when vTactic = 'Circle Play Drive' then
-                    set idTactic = 731;
-                when vTactic = 'Ghost Lock' then
-                    set idTactic = 732;
-                when vTactic = 'Saint Flash' then
-                    set idTactic = 733;
-                when vTactic = 'Black Thunder' then
-                    set idTactic = 734;
-                when vTactic = 'Quick Time' then
-                    set idTactic = 735;
-                when vTactic = 'Slow Time' then
-                    set idTactic = 736;
-                else
-                    set idTactic = null;
-            end case;
-            set continueCur1 = 1;
-
-            set cmd = concat('(', idTactic);
-            set cmd = concat(cmd, ', ');
-            set cmd = concat(cmd, idTeam);
-            set cmd = concat(cmd, '),');
-
-            insert into res values(cmd);
-        end if;
-	end while;
-	close cur1;
-    select * from res;
-    drop temporary table if exists res;
-    drop temporary table if exists aux_team_tactic;
-end$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `proc_set_player_version` ()   begin
-	declare i int default 0;
-    declare vOriginalId int default 0;
-    declare vCurrentName varchar(32) default '';
-    declare vPreviousName varchar(32) default '';
-
-    
-    declare playerId int default 0;
-    declare playerNameJa varchar(32) default '';
-    declare playerNameHiragana varchar(32) default '';
-    declare playerNameKanji varchar(32) default '';
-    declare playerNameRomanji varchar(32) default '';
-    declare playerNameEn varchar(32) default '';
-    declare playerNameEnFull varchar(32) default '';
-    declare playerInitialLv int default 0;
-    declare playerGp99 int default 0;
-    declare playerTp99 int default 0;
-    declare playerKick99 int default 0;
-    declare playerBody99 int default 0;
-    declare playerControl99 int default 0;
-    declare playerGuard99 int default 0;
-    declare playerSpeed99 int default 0;
-    declare playerStamina99 int default 0;
-    declare playerGuts99 int default 0;
-    declare playerFreedom99 int default 0;
-    declare attriId int default 0;
-    declare positiId int default 0;
-    declare genreId int default 0;
-    declare bodyTypeId int default 0;
-    declare playerObtentionMethodId int default 0;
-    declare originalVersion int default 0;
-
-    declare continueCur1 int default 1;
-    declare cur1 cursor for select * from player 
-        where player_name_ja like '% 2' order by player_name_ja;
-	declare continue handler for SQLSTATE '02000' set continueCur1 = 0;
-
-    open cur1;
-	while continueCur1=1 do
-        fetch cur1 into playerId, playerNameJa, playerNameHiragana, 
-            playerNameKanji, playerNameRomanji, playerNameEn, playerNameEnFull, 
-            playerInitialLv, playerGp99, playerTp99, playerKick99, playerBody99, 
-            playerControl99, playerGuard99, playerSpeed99, playerStamina99, 
-            playerGuts99, playerFreedom99, attriId, positiId, genreId, 
-            bodyTypeId, playerObtentionMethodId, originalVersion;
-
-        if continueCur1 = 1 then
-            set vPreviousName = vCurrentName; 
-            set vCurrentName = 
-                substring(playerNameJa, 1, char_length(playerNameJa) - 2);
-            if vCurrentName != vPreviousName then
-                select player_id into vOriginalId from player 
-                    where player_name_ja = vCurrentName limit 1;
-                set continueCur1 = 1;
-            end if;
-            
-            update player set 
-                player_name_ja = vCurrentName, 
-                original_version = vOriginalId
-                where player_id = playerId;
-            set i = i + 1;
-        end if;
-	end while;
-	close cur1;
-    
-    update player set original_version = 1396 where player_id = 1896;
-    
-    update player set original_version = 1217 where player_id = 1868;
 end$$
 
 DELIMITER ;
@@ -2002,22 +676,22 @@ CREATE TABLE `gacha_yields` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `genre`
+-- Table structure for table `gender`
 --
 
-CREATE TABLE `genre` (
-  `genre_id` int(11) NOT NULL,
-  `genre_name_ja` varchar(32) DEFAULT NULL,
-  `genre_name_en` varchar(32) DEFAULT NULL,
-  `genre_name_es` varchar(32) DEFAULT NULL,
-  `genre_symbol` varchar(1) DEFAULT NULL
+CREATE TABLE `gender` (
+  `gender_id` int(11) NOT NULL,
+  `gender_name_ja` varchar(32) DEFAULT NULL,
+  `gender_name_en` varchar(32) DEFAULT NULL,
+  `gender_name_es` varchar(32) DEFAULT NULL,
+  `gender_symbol` varchar(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `genre`
+-- Dumping data for table `gender`
 --
 
-INSERT INTO `genre` (`genre_id`, `genre_name_ja`, `genre_name_en`, `genre_name_es`, `genre_symbol`) VALUES
+INSERT INTO `gender` (`gender_id`, `gender_name_ja`, `gender_name_en`, `gender_name_es`, `gender_symbol`) VALUES
 (1, '男', 'Male', 'Hombre', '♂'),
 (2, '女', 'Female', 'Mujer', '♀');
 
@@ -3257,19 +1931,19 @@ INSERT INTO `hissatsu_helped_by_attri` (`item_hissatsu_id`, `attri_id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `hissatsu_limited_by_genre`
+-- Table structure for table `hissatsu_limited_by_gender`
 --
 
-CREATE TABLE `hissatsu_limited_by_genre` (
+CREATE TABLE `hissatsu_limited_by_gender` (
   `item_hissatsu_id` int(11) NOT NULL,
-  `genre_id` int(11) NOT NULL
+  `gender_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `hissatsu_limited_by_genre`
+-- Dumping data for table `hissatsu_limited_by_gender`
 --
 
-INSERT INTO `hissatsu_limited_by_genre` (`item_hissatsu_id`, `genre_id`) VALUES
+INSERT INTO `hissatsu_limited_by_gender` (`item_hissatsu_id`, `gender_id`) VALUES
 (354, 1),
 (129, 2),
 (150, 2),
@@ -5864,7 +4538,7 @@ CREATE TABLE `player` (
   `player_freedom_99` int(11) DEFAULT NULL,
   `attri_id` int(11) DEFAULT NULL,
   `positi_id` int(11) DEFAULT NULL,
-  `genre_id` int(11) DEFAULT NULL,
+  `gender_id` int(11) DEFAULT NULL,
   `body_type_id` int(11) DEFAULT NULL,
   `player_obtention_method_id` int(11) DEFAULT NULL,
   `original_version` int(11) DEFAULT NULL
@@ -5874,7 +4548,7 @@ CREATE TABLE `player` (
 -- Dumping data for table `player`
 --
 
-INSERT INTO `player` (`player_id`, `player_name_ja`, `player_name_hiragana`, `player_name_kanji`, `player_name_romanji`, `player_name_en`, `player_name_en_full`, `player_initial_lv`, `player_gp_99`, `player_tp_99`, `player_kick_99`, `player_body_99`, `player_control_99`, `player_guard_99`, `player_speed_99`, `player_stamina_99`, `player_guts_99`, `player_freedom_99`, `attri_id`, `positi_id`, `genre_id`, `body_type_id`, `player_obtention_method_id`, `original_version`) VALUES
+INSERT INTO `player` (`player_id`, `player_name_ja`, `player_name_hiragana`, `player_name_kanji`, `player_name_romanji`, `player_name_en`, `player_name_en_full`, `player_initial_lv`, `player_gp_99`, `player_tp_99`, `player_kick_99`, `player_body_99`, `player_control_99`, `player_guard_99`, `player_speed_99`, `player_stamina_99`, `player_guts_99`, `player_freedom_99`, `attri_id`, `positi_id`, `gender_id`, `body_type_id`, `player_obtention_method_id`, `original_version`) VALUES
 (1, 'あいかた', NULL, NULL, 'aikata', NULL, NULL, 5, 126, 93, 57, 56, 54, 56, 56, 42, 51, 60, 2, 4, 1, 2, 7, NULL),
 (2, 'あいき', NULL, NULL, 'aiki', NULL, NULL, NULL, 93, 122, 51, 56, 54, 56, 51, 53, 51, 60, 2, 1, 1, 2, 7, NULL),
 (3, 'あいこう', NULL, NULL, 'aikou', NULL, NULL, NULL, 120, 95, 62, 53, 53, 55, 56, 62, 52, 22, 3, 1, 1, 2, 3, NULL),
@@ -6308,7 +4982,7 @@ INSERT INTO `player` (`player_id`, `player_name_ja`, `player_name_hiragana`, `pl
 (431, 'キラレア', NULL, NULL, 'kirarea', NULL, NULL, 14, 126, 120, 41, 64, 46, 69, 66, 44, 43, 52, 1, 2, 1, 2, 3, NULL),
 (432, 'きりあや', NULL, NULL, 'kiriaya', NULL, NULL, NULL, 119, 91, 50, 53, 57, 48, 55, 53, 56, 60, 4, 3, 1, 2, 3, NULL),
 (433, 'きわみち', NULL, NULL, 'kiwamichi', NULL, NULL, NULL, 101, 116, 45, 53, 57, 53, 60, 56, 56, 60, 3, 3, 1, 2, 3, NULL);
-INSERT INTO `player` (`player_id`, `player_name_ja`, `player_name_hiragana`, `player_name_kanji`, `player_name_romanji`, `player_name_en`, `player_name_en_full`, `player_initial_lv`, `player_gp_99`, `player_tp_99`, `player_kick_99`, `player_body_99`, `player_control_99`, `player_guard_99`, `player_speed_99`, `player_stamina_99`, `player_guts_99`, `player_freedom_99`, `attri_id`, `positi_id`, `genre_id`, `body_type_id`, `player_obtention_method_id`, `original_version`) VALUES
+INSERT INTO `player` (`player_id`, `player_name_ja`, `player_name_hiragana`, `player_name_kanji`, `player_name_romanji`, `player_name_en`, `player_name_en_full`, `player_initial_lv`, `player_gp_99`, `player_tp_99`, `player_kick_99`, `player_body_99`, `player_control_99`, `player_guard_99`, `player_speed_99`, `player_stamina_99`, `player_guts_99`, `player_freedom_99`, `attri_id`, `positi_id`, `gender_id`, `body_type_id`, `player_obtention_method_id`, `original_version`) VALUES
 (434, 'キング', NULL, NULL, 'kingu', NULL, NULL, NULL, 107, 123, 67, 65, 64, 66, 46, 48, 51, 13, 2, 1, 1, 2, 7, NULL),
 (435, 'きんこ', NULL, NULL, 'kinko', NULL, NULL, 5, 104, 118, 53, 57, 57, 56, 57, 53, 51, 41, 3, 1, 1, 2, 7, NULL),
 (436, 'きんたろう', NULL, NULL, 'kintarou', NULL, NULL, NULL, 115, 98, 54, 54, 56, 52, 53, 56, 51, 54, 4, 2, 1, 2, 7, NULL),
@@ -6739,7 +5413,7 @@ INSERT INTO `player` (`player_id`, `player_name_ja`, `player_name_hiragana`, `pl
 (861, 'たねだ', NULL, NULL, 'taneda', NULL, NULL, 16, 84, 124, 60, 51, 55, 52, 57, 62, 52, 21, 2, 2, 2, 2, 3, NULL),
 (862, 'たのくら', NULL, NULL, 'tanokura', NULL, NULL, NULL, 125, 93, 60, 51, 57, 51, 51, 56, 56, 41, 3, 1, 1, 2, 3, NULL),
 (863, 'たびもと', NULL, NULL, 'tabimoto', NULL, NULL, NULL, 103, 118, 44, 56, 65, 45, 53, 56, 57, 60, 1, 4, 1, 2, 3, NULL);
-INSERT INTO `player` (`player_id`, `player_name_ja`, `player_name_hiragana`, `player_name_kanji`, `player_name_romanji`, `player_name_en`, `player_name_en_full`, `player_initial_lv`, `player_gp_99`, `player_tp_99`, `player_kick_99`, `player_body_99`, `player_control_99`, `player_guard_99`, `player_speed_99`, `player_stamina_99`, `player_guts_99`, `player_freedom_99`, `attri_id`, `positi_id`, `genre_id`, `body_type_id`, `player_obtention_method_id`, `original_version`) VALUES
+INSERT INTO `player` (`player_id`, `player_name_ja`, `player_name_hiragana`, `player_name_kanji`, `player_name_romanji`, `player_name_en`, `player_name_en_full`, `player_initial_lv`, `player_gp_99`, `player_tp_99`, `player_kick_99`, `player_body_99`, `player_control_99`, `player_guard_99`, `player_speed_99`, `player_stamina_99`, `player_guts_99`, `player_freedom_99`, `attri_id`, `positi_id`, `gender_id`, `body_type_id`, `player_obtention_method_id`, `original_version`) VALUES
 (864, 'たま', NULL, NULL, 'tama', NULL, NULL, NULL, 134, 97, 54, 61, 48, 62, 56, 57, 56, 24, 2, 3, 1, 2, 7, NULL),
 (865, 'たまがわ', NULL, NULL, 'tamagawa', NULL, NULL, NULL, 94, 137, 48, 53, 56, 51, 62, 57, 53, 30, 1, 3, 1, 2, 3, NULL),
 (866, 'たまごろう', NULL, NULL, 'tamagorou', NULL, NULL, NULL, 126, 130, 45, 52, 62, 70, 64, 73, 74, 5, 1, 3, 1, 2, 16, NULL),
@@ -7167,7 +5841,7 @@ INSERT INTO `player` (`player_id`, `player_name_ja`, `player_name_hiragana`, `pl
 (1288, 'ヘッド', NULL, NULL, 'heddo', NULL, NULL, NULL, 130, 88, 66, 66, 53, 60, 62, 65, 66, 37, 3, 1, 1, 2, 5, NULL),
 (1289, 'ヘッドホン', NULL, NULL, 'heddohon', NULL, NULL, NULL, 96, 134, 48, 51, 53, 51, 65, 41, 51, 53, 1, 1, 1, 2, 3, NULL),
 (1290, 'へりかわ', NULL, NULL, 'herikawa', NULL, NULL, NULL, 119, 101, 60, 52, 51, 61, 36, 60, 56, 58, 2, 4, 1, 2, 3, NULL);
-INSERT INTO `player` (`player_id`, `player_name_ja`, `player_name_hiragana`, `player_name_kanji`, `player_name_romanji`, `player_name_en`, `player_name_en_full`, `player_initial_lv`, `player_gp_99`, `player_tp_99`, `player_kick_99`, `player_body_99`, `player_control_99`, `player_guard_99`, `player_speed_99`, `player_stamina_99`, `player_guts_99`, `player_freedom_99`, `attri_id`, `positi_id`, `genre_id`, `body_type_id`, `player_obtention_method_id`, `original_version`) VALUES
+INSERT INTO `player` (`player_id`, `player_name_ja`, `player_name_hiragana`, `player_name_kanji`, `player_name_romanji`, `player_name_en`, `player_name_en_full`, `player_initial_lv`, `player_gp_99`, `player_tp_99`, `player_kick_99`, `player_body_99`, `player_control_99`, `player_guard_99`, `player_speed_99`, `player_stamina_99`, `player_guts_99`, `player_freedom_99`, `attri_id`, `positi_id`, `gender_id`, `body_type_id`, `player_obtention_method_id`, `original_version`) VALUES
 (1291, 'ベルリン', NULL, NULL, 'berurin', NULL, NULL, NULL, 115, 118, 46, 55, 63, 46, 52, 51, 56, 62, 4, 4, 1, 2, 3, NULL),
 (1292, 'べんてん', NULL, NULL, 'benten', NULL, NULL, NULL, 117, 107, 56, 51, 56, 56, 53, 54, 54, 42, 1, 4, 1, 2, 4, NULL),
 (1293, 'ぼうさこ', NULL, NULL, 'bousako', NULL, NULL, NULL, 111, 103, 47, 56, 56, 47, 53, 55, 56, 62, 2, 4, 1, 2, 7, NULL),
@@ -7595,7 +6269,7 @@ INSERT INTO `player` (`player_id`, `player_name_ja`, `player_name_hiragana`, `pl
 (1715, 'ももち', NULL, NULL, 'momochi', NULL, NULL, NULL, 100, 138, 53, 59, 46, 73, 52, 55, 62, 16, 2, 4, 1, 2, 16, NULL),
 (1716, 'やぎゅう', NULL, NULL, 'yagyuu', NULL, NULL, NULL, 112, 121, 62, 60, 60, 60, 56, 60, 53, 15, 2, 1, 1, 2, 16, NULL),
 (1717, 'あやの', NULL, NULL, 'ayano', NULL, NULL, NULL, 128, 114, 50, 53, 60, 73, 53, 64, 77, 4, 3, 4, 1, 2, 16, NULL);
-INSERT INTO `player` (`player_id`, `player_name_ja`, `player_name_hiragana`, `player_name_kanji`, `player_name_romanji`, `player_name_en`, `player_name_en_full`, `player_initial_lv`, `player_gp_99`, `player_tp_99`, `player_kick_99`, `player_body_99`, `player_control_99`, `player_guard_99`, `player_speed_99`, `player_stamina_99`, `player_guts_99`, `player_freedom_99`, `attri_id`, `positi_id`, `genre_id`, `body_type_id`, `player_obtention_method_id`, `original_version`) VALUES
+INSERT INTO `player` (`player_id`, `player_name_ja`, `player_name_hiragana`, `player_name_kanji`, `player_name_romanji`, `player_name_en`, `player_name_en_full`, `player_initial_lv`, `player_gp_99`, `player_tp_99`, `player_kick_99`, `player_body_99`, `player_control_99`, `player_guard_99`, `player_speed_99`, `player_stamina_99`, `player_guts_99`, `player_freedom_99`, `attri_id`, `positi_id`, `gender_id`, `body_type_id`, `player_obtention_method_id`, `original_version`) VALUES
 (1718, 'いくい', NULL, NULL, 'ikui', NULL, NULL, NULL, 139, 104, 42, 55, 63, 76, 53, 60, 55, 5, 2, 2, 1, 2, 16, NULL),
 (1719, 'いぬかい', NULL, NULL, 'inukai', NULL, NULL, NULL, 131, 107, 48, 62, 57, 75, 54, 60, 56, 9, 1, 3, 1, 2, 16, NULL),
 (1720, 'おおごい', NULL, NULL, 'oogoi', NULL, NULL, NULL, 135, 108, 71, 40, 46, 72, 62, 66, 71, 3, 3, 2, 1, 2, 16, NULL),
@@ -8022,7 +6696,7 @@ INSERT INTO `player` (`player_id`, `player_name_ja`, `player_name_hiragana`, `pl
 (2141, 'レオーネ', NULL, NULL, 'reoone', NULL, NULL, NULL, 130, 120, 68, 58, 44, 68, 76, 41, 52, 30, 3, 1, 1, 2, 2, NULL),
 (2142, 'ロベルト', NULL, NULL, 'roberuto', NULL, NULL, NULL, 122, 108, 68, 60, 54, 65, 79, 62, 58, 3, 1, 2, 1, 2, 2, NULL),
 (2143, 'アレックス', NULL, NULL, 'arekkusu', NULL, NULL, NULL, 105, 114, 92, 76, 39, 47, 35, 32, 89, 16, 4, 4, 1, 2, 2, NULL);
-INSERT INTO `player` (`player_id`, `player_name_ja`, `player_name_hiragana`, `player_name_kanji`, `player_name_romanji`, `player_name_en`, `player_name_en_full`, `player_initial_lv`, `player_gp_99`, `player_tp_99`, `player_kick_99`, `player_body_99`, `player_control_99`, `player_guard_99`, `player_speed_99`, `player_stamina_99`, `player_guts_99`, `player_freedom_99`, `attri_id`, `positi_id`, `genre_id`, `body_type_id`, `player_obtention_method_id`, `original_version`) VALUES
+INSERT INTO `player` (`player_id`, `player_name_ja`, `player_name_hiragana`, `player_name_kanji`, `player_name_romanji`, `player_name_en`, `player_name_en_full`, `player_initial_lv`, `player_gp_99`, `player_tp_99`, `player_kick_99`, `player_body_99`, `player_control_99`, `player_guard_99`, `player_speed_99`, `player_stamina_99`, `player_guts_99`, `player_freedom_99`, `attri_id`, `positi_id`, `gender_id`, `body_type_id`, `player_obtention_method_id`, `original_version`) VALUES
 (2144, 'イチノセ', NULL, NULL, 'ichinose', NULL, NULL, 5, 130, 128, 79, 60, 72, 64, 63, 53, 71, 0, 2, 2, 1, 2, 2, NULL),
 (2145, 'エディ', NULL, NULL, 'edei', NULL, NULL, NULL, 128, 102, 59, 57, 63, 56, 56, 58, 52, 27, 3, 1, 1, 2, 2, NULL),
 (2146, 'キッド', NULL, NULL, 'kiddo', NULL, NULL, NULL, 100, 129, 72, 40, 44, 75, 75, 37, 67, 20, 2, 4, 1, 2, 2, NULL),
@@ -22285,10 +20959,10 @@ ALTER TABLE `gacha_yields`
   ADD KEY `gacha_yields_fk_item_currency` (`item_currency_id`);
 
 --
--- Indexes for table `genre`
+-- Indexes for table `gender`
 --
-ALTER TABLE `genre`
-  ADD PRIMARY KEY (`genre_id`);
+ALTER TABLE `gender`
+  ADD PRIMARY KEY (`gender_id`);
 
 --
 -- Indexes for table `growth_rate`
@@ -22379,11 +21053,11 @@ ALTER TABLE `hissatsu_helped_by_attri`
   ADD KEY `hissatsu_helped_by_attri_fk_attri` (`attri_id`);
 
 --
--- Indexes for table `hissatsu_limited_by_genre`
+-- Indexes for table `hissatsu_limited_by_gender`
 --
-ALTER TABLE `hissatsu_limited_by_genre`
+ALTER TABLE `hissatsu_limited_by_gender`
   ADD PRIMARY KEY (`item_hissatsu_id`),
-  ADD KEY `hissatsu_limited_by_genre_fk_genre` (`genre_id`);
+  ADD KEY `hissatsu_limited_by_gender_fk_gender` (`gender_id`);
 
 --
 -- Indexes for table `hissatsu_restricted_by_hissatsu_special_restriction`
@@ -22601,7 +21275,7 @@ ALTER TABLE `player`
   ADD PRIMARY KEY (`player_id`),
   ADD KEY `player_fk_attri` (`attri_id`),
   ADD KEY `player_fk_positi` (`positi_id`),
-  ADD KEY `player_fk_genre` (`genre_id`),
+  ADD KEY `player_fk_gender` (`gender_id`),
   ADD KEY `player_fk_body_type` (`body_type_id`),
   ADD KEY `player_fk_player_obtention_method` (`player_obtention_method_id`),
   ADD KEY `player_fk_player` (`original_version`);
@@ -22964,10 +21638,10 @@ ALTER TABLE `gacha`
   MODIFY `gacha_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `genre`
+-- AUTO_INCREMENT for table `gender`
 --
-ALTER TABLE `genre`
-  MODIFY `genre_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+ALTER TABLE `gender`
+  MODIFY `gender_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `growth_rate`
@@ -23294,11 +21968,11 @@ ALTER TABLE `hissatsu_helped_by_attri`
   ADD CONSTRAINT `hissatsu_helped_by_attri_fk_item_hissatsu` FOREIGN KEY (`item_hissatsu_id`) REFERENCES `item_hissatsu` (`item_hissatsu_id`) ON DELETE CASCADE;
 
 --
--- Constraints for table `hissatsu_limited_by_genre`
+-- Constraints for table `hissatsu_limited_by_gender`
 --
-ALTER TABLE `hissatsu_limited_by_genre`
-  ADD CONSTRAINT `hissatsu_limited_by_genre_fk_genre` FOREIGN KEY (`genre_id`) REFERENCES `genre` (`genre_id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `hissatsu_limited_by_genre_fk_item_hissatsu` FOREIGN KEY (`item_hissatsu_id`) REFERENCES `item_hissatsu` (`item_hissatsu_id`) ON DELETE CASCADE;
+ALTER TABLE `hissatsu_limited_by_gender`
+  ADD CONSTRAINT `hissatsu_limited_by_gender_fk_gender` FOREIGN KEY (`gender_id`) REFERENCES `gender` (`gender_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `hissatsu_limited_by_gender_fk_item_hissatsu` FOREIGN KEY (`item_hissatsu_id`) REFERENCES `item_hissatsu` (`item_hissatsu_id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `hissatsu_restricted_by_hissatsu_special_restriction`

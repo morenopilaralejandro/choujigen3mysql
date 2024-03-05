@@ -42,7 +42,7 @@ begin
     declare playerFreedom99 int default 0;
     declare attriId int default 0;
     declare positiId int default 0;
-    declare genreId int default 0;
+    declare genderId int default 0;
     declare bodyTypeId int default 0;
     declare playerObtentionMethodId int default 0;
     declare originalVersion int default 0;
@@ -58,7 +58,7 @@ begin
             playerNameKanji, playerNameRomanji, playerNameEn, playerNameEnFull, 
             playerInitialLv, playerGp99, playerTp99, playerKick99, playerBody99, 
             playerControl99, playerGuard99, playerSpeed99, playerStamina99, 
-            playerGuts99, playerFreedom99, attriId, positiId, genreId, 
+            playerGuts99, playerFreedom99, attriId, positiId, genderId, 
             bodyTypeId, playerObtentionMethodId, originalVersion;
 
         if continueCur1 = 1 then

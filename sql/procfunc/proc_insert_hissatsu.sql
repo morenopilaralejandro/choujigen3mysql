@@ -212,13 +212,13 @@ begin
                         values (vItemHissatsuId, 4);
                 end if;
 
-                /*insert restriction genre*/
+                /*insert restriction gender*/
                 if vLearners like '%男性%' then
-                    insert into hissatsu_limited_by_genre 
+                    insert into hissatsu_limited_by_gender 
                         values (vItemHissatsuId, 1);
                 end if;
                 if vLearners like '%女性%' then
-                    insert into hissatsu_limited_by_genre 
+                    insert into hissatsu_limited_by_gender 
                         values (vItemHissatsuId, 2);
                 end if;
 
