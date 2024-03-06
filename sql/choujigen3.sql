@@ -43,8 +43,8 @@ drop table if exists player_is_part_of_team;
 drop table if exists team;
 drop table if exists item_formation_organized_as_positi;
 drop table if exists item_formation;
-drop table if exists item_formation_scheme;
-drop table if exists item_formation_type;
+drop table if exists formation_scheme;
+drop table if exists formation_type;
 drop table if exists player_decrypted_with_passwd;
 drop table if exists player_has_recommended_routine_tm;
 drop table if exists player_has_recommended_gear_equipment;
@@ -852,35 +852,35 @@ create table player_decrypted_with_passwd (
         references passwd(passwd_id) on delete cascade
 );
 /*page-team*/
-create table item_formation_type (
-    item_formation_type_id int not null auto_increment,
-    item_formation_type_name_ja varchar(32),
-    item_formation_type_name_en varchar(32),
-    item_formation_type_name_es varchar(32),
-    constraint item_formation_type_pk primary key (item_formation_type_id)
+create table formation_type (
+    formation_type_id int not null auto_increment,
+    formation_type_name_ja varchar(32),
+    formation_type_name_en varchar(32),
+    formation_type_name_es varchar(32),
+    constraint formation_type_pk primary key (formation_type_id)
 );
 
-create table item_formation_scheme (
-    item_formation_scheme_id int not null auto_increment,
-    item_formation_scheme_name varchar(32),
-    constraint item_formation_scheme_pk primary key (item_formation_scheme_id)
+create table formation_scheme (
+    formation_scheme_id int not null auto_increment,
+    formation_scheme_name varchar(32),
+    constraint formation_scheme_pk primary key (formation_scheme_id)
 );
 
 create table item_formation (
     item_formation_id int not null auto_increment,
-    item_formation_type_id int,
-    item_formation_scheme_id int,
+    formation_type_id int,
+    formation_scheme_id int,
     original_version int,
     constraint item_formation_pk primary key (item_formation_id),
     constraint item_formation_fk_item_formation  foreign key (original_version)
         references item_formation(item_formation_id) on delete cascade,
-    constraint item_formation_fk_item_formation_type 
-        foreign key (item_formation_type_id)
-        references item_formation_type(item_formation_type_id) 
+    constraint item_formation_fk_formation_type 
+        foreign key (formation_type_id)
+        references formation_type(formation_type_id) 
         on delete cascade,
-    constraint item_formation_fk_item_formation_scheme
-        foreign key (item_formation_scheme_id)
-        references item_formation_scheme(item_formation_scheme_id) 
+    constraint item_formation_fk_formation_scheme
+        foreign key (formation_scheme_id)
+        references formation_scheme(formation_scheme_id) 
         on delete cascade,
     constraint item_formation_fk_item foreign key (item_formation_id)
         references item(item_id) on delete cascade
@@ -3667,18 +3667,18 @@ insert into player_decrypted_with_passwd (
 (1405, 21),
 (1354, 21);
 
-insert into item_formation_type (
-    item_formation_type_id,
-    item_formation_type_name_ja,
-    item_formation_type_name_en,
-    item_formation_type_name_es
+insert into formation_type (
+    formation_type_id,
+    formation_type_name_ja,
+    formation_type_name_en,
+    formation_type_name_es
 ) values
 (1, '対戦', 'Match', 'Partido'),
 (2, 'ミニバトル', 'Random Battle', 'Pachanga');
 
-insert into item_formation_scheme (
-    item_formation_scheme_id,
-    item_formation_scheme_name
+insert into formation_scheme (
+    formation_scheme_id,
+    formation_scheme_name
 ) values
 (1, '4-4-2'),
 (2, '5-3-2'),
@@ -3701,8 +3701,8 @@ insert into item_formation_scheme (
 
 insert into item_formation (
     item_formation_id,
-    item_formation_type_id,
-    item_formation_scheme_id,
+    formation_type_id,
+    formation_scheme_id,
     original_version
 ) values
 (737, 1, 1, null), 
