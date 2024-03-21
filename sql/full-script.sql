@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Mar 05, 2024 at 01:58 PM
+-- Generation Time: Mar 21, 2024 at 03:02 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -649,6 +649,267 @@ CREATE TABLE `extra_battle_route` (
   `extra_battle_route_name_es` varchar(32) DEFAULT NULL,
   `npc_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `formation_organized_as_positi`
+--
+
+CREATE TABLE `formation_organized_as_positi` (
+  `item_formation_id` int(11) NOT NULL,
+  `positi_id` int(11) NOT NULL,
+  `place` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `formation_organized_as_positi`
+--
+
+INSERT INTO `formation_organized_as_positi` (`item_formation_id`, `positi_id`, `place`) VALUES
+(737, 1, 6),
+(737, 1, 10),
+(737, 1, 11),
+(737, 2, 7),
+(737, 2, 8),
+(737, 2, 9),
+(737, 3, 2),
+(737, 3, 3),
+(737, 3, 4),
+(737, 3, 5),
+(737, 4, 1),
+(748, 1, 9),
+(748, 1, 11),
+(748, 2, 4),
+(748, 2, 6),
+(748, 2, 7),
+(748, 2, 8),
+(748, 2, 10),
+(748, 3, 2),
+(748, 3, 3),
+(748, 3, 5),
+(748, 4, 1),
+(759, 1, 7),
+(759, 1, 8),
+(759, 1, 11),
+(759, 2, 6),
+(759, 2, 9),
+(759, 2, 10),
+(759, 3, 2),
+(759, 3, 3),
+(759, 3, 4),
+(759, 3, 5),
+(759, 4, 1),
+(760, 1, 6),
+(760, 1, 9),
+(760, 1, 10),
+(760, 1, 11),
+(760, 2, 2),
+(760, 2, 5),
+(760, 2, 7),
+(760, 2, 8),
+(760, 3, 3),
+(760, 3, 4),
+(760, 4, 1),
+(761, 1, 7),
+(761, 1, 8),
+(761, 1, 9),
+(761, 1, 11),
+(761, 2, 6),
+(761, 2, 10),
+(761, 3, 2),
+(761, 3, 3),
+(761, 3, 4),
+(761, 3, 5),
+(761, 4, 1),
+(764, 1, 7),
+(764, 1, 8),
+(764, 1, 9),
+(764, 1, 11),
+(764, 2, 6),
+(764, 2, 10),
+(764, 3, 2),
+(764, 3, 3),
+(764, 3, 4),
+(764, 3, 5),
+(764, 4, 1),
+(765, 1, 6),
+(765, 1, 7),
+(765, 1, 9),
+(765, 1, 10),
+(765, 1, 11),
+(765, 2, 3),
+(765, 2, 4),
+(765, 2, 8),
+(765, 3, 2),
+(765, 3, 5),
+(765, 4, 1),
+(766, 1, 9),
+(766, 1, 10),
+(766, 1, 11),
+(766, 2, 6),
+(766, 2, 7),
+(766, 2, 8),
+(766, 3, 2),
+(766, 3, 3),
+(766, 3, 4),
+(766, 3, 5),
+(766, 4, 1),
+(767, 1, 9),
+(767, 1, 10),
+(767, 1, 11),
+(767, 2, 6),
+(767, 2, 7),
+(767, 2, 8),
+(767, 3, 2),
+(767, 3, 3),
+(767, 3, 4),
+(767, 3, 5),
+(767, 4, 1),
+(771, 1, 9),
+(771, 1, 10),
+(771, 1, 11),
+(771, 2, 6),
+(771, 2, 7),
+(771, 2, 8),
+(771, 3, 2),
+(771, 3, 3),
+(771, 3, 4),
+(771, 3, 5),
+(771, 4, 1),
+(772, 1, 9),
+(772, 1, 10),
+(772, 1, 11),
+(772, 2, 6),
+(772, 2, 7),
+(772, 2, 8),
+(772, 3, 2),
+(772, 3, 3),
+(772, 3, 4),
+(772, 3, 5),
+(772, 4, 1),
+(773, 1, 6),
+(773, 1, 8),
+(773, 1, 9),
+(773, 2, 7),
+(773, 2, 10),
+(773, 2, 11),
+(773, 3, 2),
+(773, 3, 3),
+(773, 3, 4),
+(773, 3, 5),
+(773, 4, 1),
+(775, 1, 7),
+(775, 1, 9),
+(775, 1, 11),
+(775, 2, 8),
+(775, 2, 10),
+(775, 3, 2),
+(775, 3, 3),
+(775, 3, 4),
+(775, 3, 5),
+(775, 3, 6),
+(775, 4, 1),
+(777, 1, 9),
+(777, 1, 10),
+(777, 1, 11),
+(777, 2, 5),
+(777, 2, 6),
+(777, 2, 7),
+(777, 2, 8),
+(777, 3, 2),
+(777, 3, 3),
+(777, 3, 4),
+(777, 4, 1),
+(778, 1, 10),
+(778, 2, 6),
+(778, 2, 7),
+(778, 2, 8),
+(778, 2, 9),
+(778, 2, 11),
+(778, 3, 2),
+(778, 3, 3),
+(778, 3, 4),
+(778, 3, 5),
+(778, 4, 1),
+(779, 1, 9),
+(779, 1, 11),
+(779, 2, 5),
+(779, 2, 6),
+(779, 2, 7),
+(779, 2, 8),
+(779, 2, 10),
+(779, 3, 2),
+(779, 3, 3),
+(779, 3, 4),
+(779, 4, 1),
+(780, 1, 9),
+(780, 1, 11),
+(780, 2, 6),
+(780, 2, 7),
+(780, 2, 8),
+(780, 2, 10),
+(780, 3, 2),
+(780, 3, 3),
+(780, 3, 4),
+(780, 3, 5),
+(780, 4, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `formation_scheme`
+--
+
+CREATE TABLE `formation_scheme` (
+  `formation_scheme_id` int(11) NOT NULL,
+  `formation_scheme_name` varchar(32) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `formation_scheme`
+--
+
+INSERT INTO `formation_scheme` (`formation_scheme_id`, `formation_scheme_name`) VALUES
+(1, '4-4-2'),
+(2, '5-3-2'),
+(3, '4-5-1'),
+(4, '3-4-3'),
+(5, '2-3-5'),
+(6, '4-3-2-1'),
+(7, '4-3-3'),
+(8, '5-4-1'),
+(9, '3-1-3-3'),
+(10, '3-2-2-1-2'),
+(11, '1-0-2'),
+(12, '3-0-0'),
+(13, '0-2-1'),
+(14, '0-0-3'),
+(15, '0-1-2'),
+(16, '1-1-1'),
+(17, '0-0-0'),
+(18, '2-0-1');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `formation_type`
+--
+
+CREATE TABLE `formation_type` (
+  `formation_type_id` int(11) NOT NULL,
+  `formation_type_name_ja` varchar(32) DEFAULT NULL,
+  `formation_type_name_en` varchar(32) DEFAULT NULL,
+  `formation_type_name_es` varchar(32) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `formation_type`
+--
+
+INSERT INTO `formation_type` (`formation_type_id`, `formation_type_name_ja`, `formation_type_name_en`, `formation_type_name_es`) VALUES
+(1, '対戦', 'Match', 'Partido'),
+(2, 'ミニバトル', 'Random Battle', 'Pachanga');
 
 -- --------------------------------------------------------
 
@@ -3334,8 +3595,8 @@ INSERT INTO `item_equipment` (`item_equipment_id`, `equipment_type_id`) VALUES
 
 CREATE TABLE `item_formation` (
   `item_formation_id` int(11) NOT NULL,
-  `item_formation_type_id` int(11) DEFAULT NULL,
-  `item_formation_scheme_id` int(11) DEFAULT NULL,
+  `formation_type_id` int(11) DEFAULT NULL,
+  `formation_scheme_id` int(11) DEFAULT NULL,
   `original_version` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -3343,7 +3604,7 @@ CREATE TABLE `item_formation` (
 -- Dumping data for table `item_formation`
 --
 
-INSERT INTO `item_formation` (`item_formation_id`, `item_formation_type_id`, `item_formation_scheme_id`, `original_version`) VALUES
+INSERT INTO `item_formation` (`item_formation_id`, `formation_type_id`, `formation_scheme_id`, `original_version`) VALUES
 (737, 1, 1, NULL),
 (738, 1, 1, 737),
 (739, 1, 1, 737),
@@ -3399,267 +3660,6 @@ INSERT INTO `item_formation` (`item_formation_id`, `item_formation_type_id`, `it
 (789, 2, 17, NULL),
 (790, 2, 15, NULL),
 (791, 2, 18, NULL);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `item_formation_organized_as_positi`
---
-
-CREATE TABLE `item_formation_organized_as_positi` (
-  `item_formation_id` int(11) NOT NULL,
-  `positi_id` int(11) NOT NULL,
-  `place` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `item_formation_organized_as_positi`
---
-
-INSERT INTO `item_formation_organized_as_positi` (`item_formation_id`, `positi_id`, `place`) VALUES
-(737, 1, 6),
-(737, 1, 10),
-(737, 1, 11),
-(737, 2, 7),
-(737, 2, 8),
-(737, 2, 9),
-(737, 3, 2),
-(737, 3, 3),
-(737, 3, 4),
-(737, 3, 5),
-(737, 4, 1),
-(748, 1, 9),
-(748, 1, 11),
-(748, 2, 4),
-(748, 2, 6),
-(748, 2, 7),
-(748, 2, 8),
-(748, 2, 10),
-(748, 3, 2),
-(748, 3, 3),
-(748, 3, 5),
-(748, 4, 1),
-(759, 1, 7),
-(759, 1, 8),
-(759, 1, 11),
-(759, 2, 6),
-(759, 2, 9),
-(759, 2, 10),
-(759, 3, 2),
-(759, 3, 3),
-(759, 3, 4),
-(759, 3, 5),
-(759, 4, 1),
-(760, 1, 6),
-(760, 1, 9),
-(760, 1, 10),
-(760, 1, 11),
-(760, 2, 2),
-(760, 2, 5),
-(760, 2, 7),
-(760, 2, 8),
-(760, 3, 3),
-(760, 3, 4),
-(760, 4, 1),
-(761, 1, 7),
-(761, 1, 8),
-(761, 1, 9),
-(761, 1, 11),
-(761, 2, 6),
-(761, 2, 10),
-(761, 3, 2),
-(761, 3, 3),
-(761, 3, 4),
-(761, 3, 5),
-(761, 4, 1),
-(764, 1, 7),
-(764, 1, 8),
-(764, 1, 9),
-(764, 1, 11),
-(764, 2, 6),
-(764, 2, 10),
-(764, 3, 2),
-(764, 3, 3),
-(764, 3, 4),
-(764, 3, 5),
-(764, 4, 1),
-(765, 1, 6),
-(765, 1, 7),
-(765, 1, 9),
-(765, 1, 10),
-(765, 1, 11),
-(765, 2, 3),
-(765, 2, 4),
-(765, 2, 8),
-(765, 3, 2),
-(765, 3, 5),
-(765, 4, 1),
-(766, 1, 9),
-(766, 1, 10),
-(766, 1, 11),
-(766, 2, 6),
-(766, 2, 7),
-(766, 2, 8),
-(766, 3, 2),
-(766, 3, 3),
-(766, 3, 4),
-(766, 3, 5),
-(766, 4, 1),
-(767, 1, 9),
-(767, 1, 10),
-(767, 1, 11),
-(767, 2, 6),
-(767, 2, 7),
-(767, 2, 8),
-(767, 3, 2),
-(767, 3, 3),
-(767, 3, 4),
-(767, 3, 5),
-(767, 4, 1),
-(771, 1, 9),
-(771, 1, 10),
-(771, 1, 11),
-(771, 2, 6),
-(771, 2, 7),
-(771, 2, 8),
-(771, 3, 2),
-(771, 3, 3),
-(771, 3, 4),
-(771, 3, 5),
-(771, 4, 1),
-(772, 1, 9),
-(772, 1, 10),
-(772, 1, 11),
-(772, 2, 6),
-(772, 2, 7),
-(772, 2, 8),
-(772, 3, 2),
-(772, 3, 3),
-(772, 3, 4),
-(772, 3, 5),
-(772, 4, 1),
-(773, 1, 6),
-(773, 1, 8),
-(773, 1, 9),
-(773, 2, 7),
-(773, 2, 10),
-(773, 2, 11),
-(773, 3, 2),
-(773, 3, 3),
-(773, 3, 4),
-(773, 3, 5),
-(773, 4, 1),
-(775, 1, 7),
-(775, 1, 9),
-(775, 1, 11),
-(775, 2, 8),
-(775, 2, 10),
-(775, 3, 2),
-(775, 3, 3),
-(775, 3, 4),
-(775, 3, 5),
-(775, 3, 6),
-(775, 4, 1),
-(777, 1, 9),
-(777, 1, 10),
-(777, 1, 11),
-(777, 2, 5),
-(777, 2, 6),
-(777, 2, 7),
-(777, 2, 8),
-(777, 3, 2),
-(777, 3, 3),
-(777, 3, 4),
-(777, 4, 1),
-(778, 1, 10),
-(778, 2, 6),
-(778, 2, 7),
-(778, 2, 8),
-(778, 2, 9),
-(778, 2, 11),
-(778, 3, 2),
-(778, 3, 3),
-(778, 3, 4),
-(778, 3, 5),
-(778, 4, 1),
-(779, 1, 9),
-(779, 1, 11),
-(779, 2, 5),
-(779, 2, 6),
-(779, 2, 7),
-(779, 2, 8),
-(779, 2, 10),
-(779, 3, 2),
-(779, 3, 3),
-(779, 3, 4),
-(779, 4, 1),
-(780, 1, 9),
-(780, 1, 11),
-(780, 2, 6),
-(780, 2, 7),
-(780, 2, 8),
-(780, 2, 10),
-(780, 3, 2),
-(780, 3, 3),
-(780, 3, 4),
-(780, 3, 5),
-(780, 4, 1);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `item_formation_scheme`
---
-
-CREATE TABLE `item_formation_scheme` (
-  `item_formation_scheme_id` int(11) NOT NULL,
-  `item_formation_scheme_name` varchar(32) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `item_formation_scheme`
---
-
-INSERT INTO `item_formation_scheme` (`item_formation_scheme_id`, `item_formation_scheme_name`) VALUES
-(1, '4-4-2'),
-(2, '5-3-2'),
-(3, '4-5-1'),
-(4, '3-4-3'),
-(5, '2-3-5'),
-(6, '4-3-2-1'),
-(7, '4-3-3'),
-(8, '5-4-1'),
-(9, '3-1-3-3'),
-(10, '3-2-2-1-2'),
-(11, '1-0-2'),
-(12, '3-0-0'),
-(13, '0-2-1'),
-(14, '0-0-3'),
-(15, '0-1-2'),
-(16, '1-1-1'),
-(17, '0-0-0'),
-(18, '2-0-1');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `item_formation_type`
---
-
-CREATE TABLE `item_formation_type` (
-  `item_formation_type_id` int(11) NOT NULL,
-  `item_formation_type_name_ja` varchar(32) DEFAULT NULL,
-  `item_formation_type_name_en` varchar(32) DEFAULT NULL,
-  `item_formation_type_name_es` varchar(32) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `item_formation_type`
---
-
-INSERT INTO `item_formation_type` (`item_formation_type_id`, `item_formation_type_name_ja`, `item_formation_type_name_en`, `item_formation_type_name_es`) VALUES
-(1, '対戦', 'Match', 'Partido'),
-(2, 'ミニバトル', 'Random Battle', 'Pachanga');
 
 -- --------------------------------------------------------
 
@@ -4187,6 +4187,7 @@ CREATE TABLE `item_sold_at_stor` (
 CREATE TABLE `item_tactic` (
   `item_tactic_id` int(11) NOT NULL,
   `item_tactic_ttp` int(11) DEFAULT NULL,
+  `item_tactic_power` int(11) DEFAULT NULL,
   `item_tactic_effect_ja` varchar(200) DEFAULT NULL,
   `item_tactic_effect_en` varchar(200) DEFAULT NULL,
   `item_tactic_effect_es` varchar(200) DEFAULT NULL,
@@ -4198,28 +4199,28 @@ CREATE TABLE `item_tactic` (
 -- Dumping data for table `item_tactic`
 --
 
-INSERT INTO `item_tactic` (`item_tactic_id`, `item_tactic_ttp`, `item_tactic_effect_ja`, `item_tactic_effect_en`, `item_tactic_effect_es`, `tactic_type_id`, `tactic_side_id`) VALUES
-(716, 40, '前線までボールをダイレクトパス(相手サイドの左右どちらかに移動する)。', 'A simple tactic using high passing to bring the ball to the centre of the pitch.', 'Alcanza la portería sin dejar caer la pelota', 1, 1),
-(717, 40, 'しばらくの間そばの敵を止める(４人)。', 'Stuns 4 nearby opponents.', 'Deja extenuados a 4 rivales cercanos', 1, 2),
-(718, 45, 'ボールを前に運ぶ。', 'Forms twin twisters to carry the ball forward.', 'Ábrete paso con dos tifones imparables', 1, 1),
-(719, 50, '7人でボールを前へ運ぶ。', 'Seven players carry the ball forward.', 'Genera un taladro de arena imparable', 1, 1),
-(720, 50, '4人でボールを前へ運ぶ。', 'Four players carry the ball forward.', 'Avanza con una formación en punta de lanza', 1, 1),
-(721, 50, '4人でボールを前に運ぶ。', 'Blast forward like a four-man thunderstorm.', 'Tormenta de disparos con cuatro jugadores', 1, 3),
-(722, 50, '敵のフォーメーションを左右に崩す。', 'Clear the way for a red carpet route to goal.', 'Despeja la senda hasta el área del adversario', 1, 3),
-(723, 55, '敵全員を止めつつ前進する。', 'Flood forward in a stunning surge.', 'Ábrete camino con una ola descomunal', 1, 1),
-(724, 40, 'バナナのように反り返るシュート。', 'Bend it like a banana.', 'Chuta el balón con efecto como un plátano', 4, 4),
-(725, 40, '波にのせてカーブするシュート。', 'A gnarly curve shot that rides the waves.', 'Chuta el balón con efecto como una ola', 4, 4),
-(726, 40, '4人で囲んでボールを奪う。', 'Four players mark their opponent in a circle to get the ball in a moment.', 'Cuatro jugadores rodean al rival en forma de cuadrado', 2, 1),
-(727, 40, '次々におそいかかりボールをうばう。', 'Strike in succession to reclaim the ball.', 'Apodérate del esférico en fila india', 2, 3),
-(728, 50, '敵をさそいこんでボールをうばう。', 'Lure the enemy in,  then steal the ball.', 'Recupera el esférico con una trampa de arena', 2, 1),
-(729, 50, '炎のうずをおこしボールをうばう。', 'Steal the ball with a cyclone of fire.', 'Roba ek balón con una espiral incandescente', 2, 3),
-(730, 55, 'ボールをうばいすかさず前へロングパス。', 'This shock move turns a tackle into an attack.', 'Desconcierta al rival con un contraataque', 2, 1),
-(731, 60, '８人で敵をゴール前へ運ぶ。', 'An eight-man cyclone forces the enemy back.', 'Detén al contrario con la fuerza de un ciclón', 2, 1),
-(732, 60, 'しばらくの間敵全員を止める。', 'Supernatural forces stop all enemy movement.', 'Inmoviliza al enemigo con poderes hipnóticos', 3, 3),
-(733, 60, 'しばらくの間味方全員を速くする。', 'Call down a divine light to increase your team\'s speed for ten seconds.', 'La velocidad de todos los jugadores del equipo aumentara temporalmente', 3, 3),
-(734, 60, 'しばらくの間敵全員を遅くする。', 'Slow the enemy with a flash of black lightning.', 'Ralentiza a todos los jugadores contrarios por un tiempo', 3, 3),
-(735, 65, 'しばらくの間時間を早くする。', 'Briefly speeds up match time.', 'Acelera el tiempo durante unos instantes', 3, 3),
-(736, 65, 'しばらくの間時間を遅くする。', 'Briefly slows down match time.', 'Ralentiza el tiempo durante unos instantes', 3, 3);
+INSERT INTO `item_tactic` (`item_tactic_id`, `item_tactic_ttp`, `item_tactic_power`, `item_tactic_effect_ja`, `item_tactic_effect_en`, `item_tactic_effect_es`, `tactic_type_id`, `tactic_side_id`) VALUES
+(716, 40, 20, '前線までボールをダイレクトパス(相手サイドの左右どちらかに移動する)。', 'A simple tactic using high passing to bring the ball to the centre of the pitch.', 'Alcanza la portería sin dejar caer la pelota.', 1, 1),
+(717, 40, 35, 'しばらくの間そばの敵を止める(４人)。', 'Stuns 4 nearby opponents.', 'Deja extenuados a 4 rivales cercanos.', 1, 2),
+(718, 45, 28, 'ボールを前に運ぶ。', 'Forms twin twisters to carry the ball forward.', 'Ábrete paso con dos tifones imparables.', 1, 1),
+(719, 50, 35, '7人でボールを前へ運ぶ。', 'Seven players carry the ball forward.', 'Genera un taladro de arena imparable.', 1, 1),
+(720, 50, 40, '4人でボールを前へ運ぶ。', 'Four players carry the ball forward.', 'Avanza con una formación en punta de lanza.', 1, 1),
+(721, 50, 24, '4人でボールを前に運ぶ。', 'Blast forward like a four-man thunderstorm.', 'Tormenta de disparos con cuatro jugadores.', 1, 3),
+(722, 50, 28, '敵のフォーメーションを左右に崩す。', 'Clear the way for a red carpet route to goal.', 'Despeja la senda hasta el área del adversario.', 1, 3),
+(723, 55, 38, '敵全員を止めつつ前進する。', 'Flood forward in a stunning surge.', 'Ábrete camino con una ola descomunal.', 1, 1),
+(724, 40, 60, 'バナナのように反り返るシュート。', 'Bend it like a banana.', 'Chuta el balón con efecto como un plátano.', 4, 4),
+(725, 40, 67, '波にのせてカーブするシュート。', 'A gnarly curve shot that rides the waves.', 'Chuta el balón con efecto como una ola.', 4, 4),
+(726, 40, 40, '4人で囲んでボールを奪う。', 'Four players mark their opponent in a circle to get the ball in a moment.', 'Cuatro jugadores rodean al rival en forma de cuadrado.', 2, 1),
+(727, 40, 25, '次々におそいかかりボールをうばう。', 'Strike in succession to reclaim the ball.', 'Apodérate del esférico en fila india.', 2, 3),
+(728, 50, 45, '敵をさそいこんでボールをうばう。', 'Lure the enemy in,  then steal the ball.', 'Recupera el esférico con una trampa de arena.', 2, 1),
+(729, 50, 35, '炎のうずをおこしボールをうばう。', 'Steal the ball with a cyclone of fire.', 'Roba ek balón con una espiral incandescente.', 2, 3),
+(730, 55, 36, 'ボールをうばいすかさず前へロングパス。', 'This shock move turns a tackle into an attack.', 'Desconcierta al rival con un contraataque.', 2, 1),
+(731, 60, 33, '８人で敵をゴール前へ運ぶ。', 'An eight-man cyclone forces the enemy back.', 'Detén al contrario con la fuerza de un ciclón.', 2, 1),
+(732, 60, 20, 'しばらくの間敵全員を止める。', 'Supernatural forces stop all enemy movement.', 'Inmoviliza al enemigo con poderes hipnóticos.', 3, 3),
+(733, 60, 18, 'しばらくの間味方全員を速くする。', 'Call down a divine light to increase your team\'s speed for ten seconds.', 'La velocidad de todos los jugadores del equipo aumentara temporalmente.', 3, 3),
+(734, 60, 18, 'しばらくの間敵全員を遅くする。', 'Slow the enemy with a flash of black lightning.', 'Ralentiza a todos los jugadores contrarios por un tiempo.', 3, 3),
+(735, 65, 18, 'しばらくの間時間を早くする。', 'Briefly speeds up match time.', 'Acelera el tiempo durante unos instantes.', 3, 3),
+(736, 65, 18, 'しばらくの間時間を遅くする。', 'Briefly slows down match time.', 'Ralentiza el tiempo durante unos instantes.', 3, 3);
 
 -- --------------------------------------------------------
 
@@ -20944,6 +20945,25 @@ ALTER TABLE `extra_battle_route`
   ADD KEY `extra_battle_route_fk_npc` (`npc_id`);
 
 --
+-- Indexes for table `formation_organized_as_positi`
+--
+ALTER TABLE `formation_organized_as_positi`
+  ADD PRIMARY KEY (`item_formation_id`,`positi_id`,`place`),
+  ADD KEY `formation_organized_as_positi_fk_positi` (`positi_id`);
+
+--
+-- Indexes for table `formation_scheme`
+--
+ALTER TABLE `formation_scheme`
+  ADD PRIMARY KEY (`formation_scheme_id`);
+
+--
+-- Indexes for table `formation_type`
+--
+ALTER TABLE `formation_type`
+  ADD PRIMARY KEY (`formation_type_id`);
+
+--
 -- Indexes for table `gacha`
 --
 ALTER TABLE `gacha`
@@ -21123,27 +21143,8 @@ ALTER TABLE `item_equipment`
 ALTER TABLE `item_formation`
   ADD PRIMARY KEY (`item_formation_id`),
   ADD KEY `item_formation_fk_item_formation` (`original_version`),
-  ADD KEY `item_formation_fk_item_formation_type` (`item_formation_type_id`),
-  ADD KEY `item_formation_fk_item_formation_scheme` (`item_formation_scheme_id`);
-
---
--- Indexes for table `item_formation_organized_as_positi`
---
-ALTER TABLE `item_formation_organized_as_positi`
-  ADD PRIMARY KEY (`item_formation_id`,`positi_id`,`place`),
-  ADD KEY `item_formation_organized_as_positi_fk_positi` (`positi_id`);
-
---
--- Indexes for table `item_formation_scheme`
---
-ALTER TABLE `item_formation_scheme`
-  ADD PRIMARY KEY (`item_formation_scheme_id`);
-
---
--- Indexes for table `item_formation_type`
---
-ALTER TABLE `item_formation_type`
-  ADD PRIMARY KEY (`item_formation_type_id`);
+  ADD KEY `item_formation_fk_formation_type` (`formation_type_id`),
+  ADD KEY `item_formation_fk_formation_scheme` (`formation_scheme_id`);
 
 --
 -- Indexes for table `item_gifted_during_story`
@@ -21632,6 +21633,18 @@ ALTER TABLE `extra_battle_route`
   MODIFY `extra_battle_route_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `formation_scheme`
+--
+ALTER TABLE `formation_scheme`
+  MODIFY `formation_scheme_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+
+--
+-- AUTO_INCREMENT for table `formation_type`
+--
+ALTER TABLE `formation_type`
+  MODIFY `formation_type_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `gacha`
 --
 ALTER TABLE `gacha`
@@ -21678,18 +21691,6 @@ ALTER TABLE `item`
 --
 ALTER TABLE `item_formation`
   MODIFY `item_formation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=792;
-
---
--- AUTO_INCREMENT for table `item_formation_scheme`
---
-ALTER TABLE `item_formation_scheme`
-  MODIFY `item_formation_scheme_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
-
---
--- AUTO_INCREMENT for table `item_formation_type`
---
-ALTER TABLE `item_formation_type`
-  MODIFY `item_formation_type_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `item_type`
@@ -21878,6 +21879,13 @@ ALTER TABLE `extra_battle_route`
   ADD CONSTRAINT `extra_battle_route_fk_npc` FOREIGN KEY (`npc_id`) REFERENCES `npc` (`npc_id`) ON DELETE CASCADE;
 
 --
+-- Constraints for table `formation_organized_as_positi`
+--
+ALTER TABLE `formation_organized_as_positi`
+  ADD CONSTRAINT `formation_organized_as_positi_fk_item_formation` FOREIGN KEY (`item_formation_id`) REFERENCES `item_formation` (`item_formation_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `formation_organized_as_positi_fk_positi` FOREIGN KEY (`positi_id`) REFERENCES `positi` (`positi_id`) ON DELETE CASCADE;
+
+--
 -- Constraints for table `gacha`
 --
 ALTER TABLE `gacha`
@@ -22023,17 +22031,10 @@ ALTER TABLE `item_equipment`
 -- Constraints for table `item_formation`
 --
 ALTER TABLE `item_formation`
+  ADD CONSTRAINT `item_formation_fk_formation_scheme` FOREIGN KEY (`formation_scheme_id`) REFERENCES `formation_scheme` (`formation_scheme_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `item_formation_fk_formation_type` FOREIGN KEY (`formation_type_id`) REFERENCES `formation_type` (`formation_type_id`) ON DELETE CASCADE,
   ADD CONSTRAINT `item_formation_fk_item` FOREIGN KEY (`item_formation_id`) REFERENCES `item` (`item_id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `item_formation_fk_item_formation` FOREIGN KEY (`original_version`) REFERENCES `item_formation` (`item_formation_id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `item_formation_fk_item_formation_scheme` FOREIGN KEY (`item_formation_scheme_id`) REFERENCES `item_formation_scheme` (`item_formation_scheme_id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `item_formation_fk_item_formation_type` FOREIGN KEY (`item_formation_type_id`) REFERENCES `item_formation_type` (`item_formation_type_id`) ON DELETE CASCADE;
-
---
--- Constraints for table `item_formation_organized_as_positi`
---
-ALTER TABLE `item_formation_organized_as_positi`
-  ADD CONSTRAINT `item_formation_organized_as_positi_fk_item_formation` FOREIGN KEY (`item_formation_id`) REFERENCES `item_formation` (`item_formation_id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `item_formation_organized_as_positi_fk_positi` FOREIGN KEY (`positi_id`) REFERENCES `positi` (`positi_id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `item_formation_fk_item_formation` FOREIGN KEY (`original_version`) REFERENCES `item_formation` (`item_formation_id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `item_gifted_during_story`
