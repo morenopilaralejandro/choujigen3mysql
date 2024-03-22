@@ -20040,7 +20040,7 @@ INSERT INTO `team` (`team_id`, `team_name_ja`, `team_name_en`, `team_name_es`, `
 (179, '真･パイレーツ', 'Rip Curlers Redux', 'Los Surfieras Redux', 749, 685),
 (180, 'ブリザードボンバー', 'Blizzard Bomber', 'Ventisca Explosiva', 766, 690),
 (181, 'ダークエンジェル２', 'Dark Angel 2', 'Ángel Oscuro 2', 738, 665),
-(182, 'ゴッドエンジェル', 'ゴッドエンジェル', 'Equipo Celestial', 760, 663),
+(182, 'ゴッドエンジェル', 'The God Squad', 'Equipo Celestial', 760, 663),
 (183, 'カオスエンジェルス', 'Chaos Angels', 'Ángeles del Caos', 738, 645),
 (184, 'ファイアスパーク', 'The Firestorm Bolts', 'Rayo de Fuego', 765, 691),
 (185, 'リアル・イナズマ', 'The Real Inazuma', 'Mega Inazuma Eleven', 779, 646);
