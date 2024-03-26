@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Feb 11, 2024 at 08:34 PM
+-- Generation Time: Mar 25, 2024 at 08:55 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -1930,7 +1930,7 @@ INSERT INTO `player` (`player_id`, `player_name_ja`, `player_name_hiragana`, `pl
 (1865, 'ディアム', NULL, NULL, 'diamu', NULL, NULL, NULL, 119, 115, 73, 59, 59, 50, 52, 54, 52, 38, 2, 1, 1, 2, 16, NULL),
 (1866, 'パンドラ', NULL, NULL, 'pandora', NULL, NULL, NULL, 105, 129, 58, 59, 67, 54, 58, 56, 54, 26, 1, 2, 2, 2, 16, NULL),
 (1867, 'リーム', NULL, NULL, 'riimu', NULL, NULL, NULL, 112, 124, 60, 54, 58, 49, 62, 63, 57, 29, 2, 1, 2, 2, 16, NULL),
-(1868, 'レーゼ', NULL, NULL, 'reeze', NULL, NULL, NULL, 108, 104, 63, 55, 73, 52, 71, 51, 60, 23, 2, 2, 1, 2, 16, 1217),
+(1868, 'レーゼ', NULL, NULL, 'reeze', NULL, NULL, NULL, 108, 104, 63, 55, 73, 52, 71, 51, 60, 23, 2, 2, 1, 2, 16, 1396),
 (1869, 'クリプト', NULL, NULL, 'kuriputo', NULL, NULL, NULL, 107, 129, 59, 62, 58, 56, 65, 53, 56, 19, 1, 2, 2, 2, 16, NULL),
 (1870, 'ケイソン', NULL, NULL, 'keison', NULL, NULL, NULL, 103, 112, 62, 65, 58, 60, 59, 56, 55, 6, 1, 3, 1, 2, 16, NULL),
 (1871, 'ケンビル', NULL, NULL, 'kenbiru', NULL, NULL, NULL, 107, 115, 59, 53, 64, 52, 64, 60, 60, 17, 3, 3, 1, 2, 16, NULL),
@@ -1958,7 +1958,7 @@ INSERT INTO `player` (`player_id`, `player_name_ja`, `player_name_hiragana`, `pl
 (1893, 'ウルビダ', NULL, NULL, 'urubida', NULL, NULL, NULL, 112, 130, 64, 60, 69, 55, 62, 55, 60, 17, 1, 2, 2, 2, 16, NULL),
 (1894, 'キーブ', NULL, NULL, 'kiibu', NULL, NULL, NULL, 120, 136, 56, 63, 77, 54, 62, 57, 58, 4, 3, 3, 2, 2, 16, NULL),
 (1895, 'クィール', NULL, NULL, 'kyiiru', NULL, NULL, NULL, 115, 135, 58, 58, 68, 57, 60, 59, 61, 10, 2, 2, 2, 2, 16, NULL),
-(1896, 'グラン', NULL, NULL, 'guran', NULL, NULL, NULL, 125, 128, 71, 71, 63, 64, 61, 62, 61, 6, 3, 1, 1, 2, 16, 1396),
+(1896, 'グラン', NULL, NULL, 'guran', NULL, NULL, NULL, 125, 128, 71, 71, 63, 64, 61, 62, 61, 6, 3, 1, 1, 2, 16, 1217),
 (1897, 'ゲイル', NULL, NULL, 'geiru', NULL, NULL, NULL, 117, 118, 57, 53, 60, 55, 79, 60, 56, 24, 1, 3, 1, 2, 16, NULL),
 (1898, 'コーマ', NULL, NULL, 'kooma', NULL, NULL, NULL, 125, 121, 57, 61, 72, 58, 62, 52, 57, 24, 3, 2, 1, 2, 16, NULL),
 (1899, 'ゾーハン', NULL, NULL, 'zoohan', NULL, NULL, NULL, 115, 118, 68, 76, 53, 70, 53, 56, 56, 10, 4, 3, 1, 2, 16, NULL),
@@ -2121,7 +2121,7 @@ INSERT INTO `player` (`player_id`, `player_name_ja`, `player_name_hiragana`, `pl
 (2056, 'メッサー', NULL, NULL, 'messaa', NULL, NULL, 5, 130, 112, 57, 54, 58, 62, 48, 86, 52, 28, 4, 2, 1, 2, 2, NULL),
 (2057, 'ユスフ', NULL, NULL, 'yusufu', NULL, NULL, 5, 131, 110, 62, 67, 63, 57, 48, 80, 60, 24, 1, 2, 1, 2, 2, NULL),
 (2058, 'ラジャブ', NULL, NULL, 'rajabu', NULL, NULL, 5, 123, 115, 50, 56, 54, 72, 56, 79, 59, 16, 3, 2, 1, 2, 2, NULL),
-(2059, 'アフロディ', NULL, NULL, 'afurodei', NULL, NULL, 5, 130, 130, 63, 60, 77, 59, 61, 59, 58, 22, 2, 2, 1, 2, 2, NULL),
+(2059, 'アフロディ', NULL, NULL, 'afurodi', NULL, NULL, 5, 130, 130, 63, 60, 77, 59, 61, 59, 58, 22, 2, 2, 1, 2, 2, NULL),
 (2060, 'ウミャン', NULL, NULL, 'umyan', NULL, NULL, NULL, 133, 110, 52, 54, 65, 70, 66, 55, 64, 14, 1, 3, 1, 2, 2, NULL),
 (2061, 'ウンヨン', NULL, NULL, 'un\'yon', NULL, NULL, NULL, 108, 117, 48, 76, 48, 77, 46, 40, 45, 23, 4, 2, 1, 2, 2, NULL),
 (2062, 'ガゼル', NULL, NULL, 'gazeru', NULL, NULL, 5, 129, 118, 65, 65, 65, 68, 66, 57, 60, 9, 1, 1, 1, 2, 2, NULL),

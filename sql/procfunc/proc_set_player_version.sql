@@ -80,9 +80,9 @@ begin
 	end while;
 	close cur1;
     /*midorikawa*/
-    update player set original_version = 1396 where player_id = 1896;
+    update player set original_version = 1217 where player_id = 1896;
     /*gran*/
-    update player set original_version = 1217 where player_id = 1868;
+    update player set original_version = 1396 where player_id = 1868;
 end
 &&
 delimiter ;
