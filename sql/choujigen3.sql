@@ -4090,7 +4090,7 @@ insert into team (
 (89, 'スーパーアニマルズ', 'The Zoo Keepers', 'Los Superadorables', 749, null),
 (90, 'FF地区選抜B', 'FF Regional Pick B', 'Fase Previa FF B', 759, 707),
 (91, 'FF全国選抜B', 'FF National Pick B', 'Fase Nacional FF B', 773, 695),
-(92, '全国チーム選抜B', 'National Team B', 'Selección Nacional B', 778, 704),
+(92, '全国チーム選抜Ｂ', 'National Team B', 'Selección Nacional B', 778, 704),
 (93, 'チーム東日本', 'E. Japan Orient', 'Japón Este', 749, 711),
 (94, '日本代表候補B', 'FFI Trials Team B', 'Pruebas de Selección - Equipo B', 749, 646),
 (95, 'ファースト雷門', 'Raimon I', 'Raimon 1', 737, 617),
