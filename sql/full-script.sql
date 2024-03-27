@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Mar 27, 2024 at 09:11 PM
+-- Generation Time: Mar 27, 2024 at 09:22 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -20630,11 +20630,11 @@ INSERT INTO `team` (`team_id`, `team_name_ja`, `team_name_en`, `team_name_es`, `
 (84, 'エイリアA', 'Alius A', 'Alius A', 754, 633),
 (85, 'エイリアB', 'Alius B', 'Alius B', 776, 633),
 (86, '神と宇宙', 'Gods and Aliens', 'Divinidades y Alienígenas', 773, 685),
-(87, 'キャッピキャピA', 'Cutesy A', 'Chavalillas A', 737, 681),
+(87, 'キャッピキャピＡ', 'Cutesy A', 'Chavalillas A', 737, 681),
 (88, 'リトルチーム', 'Little Team', 'Chiquis', 760, 693),
 (89, 'スーパーアニマルズ', 'The Zoo Keepers', 'Los Superadorables', 749, NULL),
-(90, 'FF地区選抜B', 'FF Regional Pick B', 'Fase Previa FF B', 759, 707),
-(91, 'FF全国選抜B', 'FF National Pick B', 'Fase Nacional FF B', 773, 695),
+(90, 'FF地区選抜Ｂ', 'FF Regional Pick B', 'Fase Previa FF B', 759, 707),
+(91, 'FF全国選抜Ｂ', 'FF National Pick B', 'Fase Nacional FF B', 773, 695),
 (92, '全国チーム選抜Ｂ', 'National Team B', 'Selección Nacional B', 778, 704),
 (93, 'チーム東日本', 'E. Japan Orient', 'Japón Este', 749, 711),
 (94, '日本代表候補B', 'FFI Trials Team B', 'Pruebas de Selección - Equipo B', 749, 646),
