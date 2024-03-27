@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Mar 25, 2024 at 09:00 PM
+-- Generation Time: Mar 27, 2024 at 08:55 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -252,6 +252,621 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `proc_insert_hissatsu` ()   begin
     drop temporary table if exists aux_hissatsu;
 end$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `proc_insert_player_basic` ()   begin
+	declare i int default 1;
+    declare vRomanjiFix varchar(32) default '';
+    declare vRomanjiLength int default 0;
+    declare vRomanjiCounter int default 0;
+    declare vRomanjiCurrentChar varchar(1) default '';
+    declare vRomanjiPreviousChar varchar(1) default '';
+    declare vAttriId int default 0;
+    declare vPositiId int default 0;
+    declare vGenderId int default 0;
+    declare vBodyId int default 0;
+    declare vZoneId int default 0;
+    declare vObtentionId int default 0;
+    declare vAuxFemaleName varchar(32) default '';
+    declare vKoukoFound int default 0;
+    declare vFanFound int default 0;
+    declare vLvInt int default 1;
+    declare vBodyTypeInt int default 1;
+    declare vHissatsuCounter int default 0;
+    declare vHissatsuNameAux varchar(32) default '';
+    declare vHissatsuLvAux int default 0;
+    declare vHissatsuIdAux int default 0;
+
+    
+    declare vPageOrder varchar(32) default '';
+    declare vNameJa varchar(32) default '';
+    declare vZoneName varchar(32) default '';
+    declare vObtentionDesc varchar(100) default '';
+    declare vAttri varchar(32) default '';
+    declare vPositi varchar(32) default '';
+    declare vLv varchar(32) default '';
+    declare vGp int default 0;
+    declare vTp int default 0;
+    declare vKick int default 0;
+    declare vBody int default 0;
+    declare vControl int default 0;
+    declare vGuard int default 0;
+    declare vSpeed int default 0;
+    declare vStamina int default 0;
+    declare vGuts int default 0;
+    declare vFreedom int default 0;
+    declare vH1 varchar(32) default '';
+    declare vH2 varchar(32) default '';
+    declare vH3 varchar(32) default '';
+    declare vH4 varchar(32) default '';
+    declare vNameRomanji varchar(32) default '';
+
+    declare vBodyType varchar(32) default '';
+    declare vFullJa varchar(32) default '';
+    declare vKanjiJa varchar(32) default '';
+    declare vNameEn varchar(32) default '';
+    declare vFullEn varchar(32) default '';
+
+    declare continueCur1 int default 1;
+    declare cur1 cursor for select * from aux_player;
+	declare continue handler for SQLSTATE '02000' set continueCur1 = 0;
+    
+    delete from player;
+    delete from player_found_at_zone;
+    delete from player_learns_hissatsu;
+    drop table if exists aux_hissatsu;
+    create temporary table aux_hissatsu (
+        hissatsu_name varchar(32),
+        learn_order int
+    ); 
+    open cur1;
+	while continueCur1=1 do
+        fetch cur1 into vPageOrder, vNameJa, vZoneName, vObtentionDesc, 
+            vAttri, vPositi, vLv, vGp, vTp, vKick, vBody, vControl, vGuard, 
+            vSpeed, vStamina, vGuts, vFreedom, vH1, vH2, vH3, vH4, vNameRomanji;
+        if continueCur1 = 1 then
+            
+            set vRomanjiFix = '';
+            set vRomanjiCounter = 1;
+            set vRomanjiCurrentChar = '';
+            set vRomanjiPreviousChar = '';
+            set vRomanjiLength = length(vNameRomanji);
+            while vRomanjiCounter <= vRomanjiLength do
+                set vRomanjiPreviousChar = vRomanjiCurrentChar;
+                set vRomanjiCurrentChar = substring(vNameRomanji, vRomanjiCounter, 1);
+                if vRomanjiCurrentChar = 'ー' then
+                    set vRomanjiFix = concat(vRomanjiFix, vRomanjiPreviousChar);
+                else
+                    set vRomanjiFix = concat(vRomanjiFix, vRomanjiCurrentChar);                
+                end if;
+                set vRomanjiCounter = vRomanjiCounter + 1;
+            end while;
+
+            
+            set vZoneId = 26; 
+            if vZoneName != '' then
+                select z.zone_id into vZoneId from zone z 
+                    join zone_outer zo on z.zone_id = zo.zone_outer_id 
+                    where z.zone_name_ja like concat(concat('%', vZoneName), '%');
+                set continueCur1 = 1;
+            end if;
+
+            
+            case
+                when vObtentionDesc like '%ストーリー%' then
+                    set vObtentionId = 1;
+                when vObtentionDesc like '%スカウト%' then
+                    set vObtentionId = 2;
+                when vObtentionDesc like '%ガチャ%' then
+                    set vObtentionId = 3;
+                when vObtentionDesc like '%人脈システム%' then
+                    set vObtentionId = 4;
+                when vObtentionDesc like '%Wi-Fi%' then
+                    set vObtentionId = 5;
+                when vObtentionDesc like '%パスワード%' then
+                    set vObtentionId = 6;
+                when vObtentionDesc like '%ミニバトル%' then
+                    set vObtentionId = 7;
+                when vObtentionDesc like '%プレミアムスカウト%' then
+                    set vObtentionId = 11;
+                when vObtentionDesc like '%オーガプレミアムリンク%' then
+                    set vObtentionId = 12;
+                else
+                    set vObtentionId = 16; 
+            end case;
+
+            
+            set vLv = concat('0', vLv);
+            set vLvInt = cast(vLv as unsigned);
+            if vLvInt = 0 then
+                set vLvInt = null;
+            end if;
+
+            
+            set vBodyType = '';             
+            set vBodyType = concat('0', vBodyType);
+            set vBodyTypeInt = cast(vBodyType as unsigned);
+            if vBodyTypeInt = 0 then
+                set vBodyId = 2;
+            else
+                set vBodyId = vBodyTypeInt;         
+            end if;
+
+            
+            if vNameJa = 'こうこ' then
+                if vKoukoFound = 0 then
+                    set vGenderId = 1;
+                    set vKoukoFound = 1;
+                else
+                    set vGenderId = 2;
+                end if;
+            elseif vNameJa = 'ファン' then
+                if vFanFound = 0 then
+                    set vGenderId = 2;
+                    set vFanFound = 1;
+                else
+                    set vGenderId = 1;
+                end if;
+            else
+                set vAuxFemaleName = null;
+                set vGenderId = 1;
+                select name_ja into vAuxFemaleName from aux_player_f
+                    where name_ja = vNameJa;
+                set continueCur1 = 1;
+                if vAuxFemaleName is not null then
+                    set vGenderId = 2;  
+                end if;
+            end if;
+
+            
+            select attri_id into vAttriId from attri 
+                where attri_name_ja = vAttri;            
+
+            
+            select positi_id into vPositiId from positi 
+                where positi_name_ja = vPositi;       
+
+             
+            insert into player(player_id, player_name_ja, player_name_hiragana, 
+                player_name_kanji, player_name_romanji, player_name_en, 
+                player_name_en_full, player_initial_lv, player_gp_99, 
+                player_tp_99, player_kick_99, player_body_99, player_control_99,
+                player_guard_99, player_speed_99, player_stamina_99, 
+                player_guts_99, player_freedom_99, attri_id, positi_id, 
+                gender_id, body_type_id, player_obtention_method_id, 
+                original_version) values (
+                i, vNameJa, null, 
+                null, vRomanjiFix, null, 
+                null, vLvInt, vGp, 
+                vTp, vKick, vBody, vControl,
+                vGuard, vSpeed, vStamina, 
+                vGuts, vFreedom, vAttriId, vPositiId, 
+                vGenderId, vBodyId, vObtentionId, 
+                null);
+
+            insert into player_found_at_zone(player_id, zone_id, is_random, 
+                hint_ja, hint_en, hint_es) values (
+                i, vZoneId, null, null,'null', null);
+     
+            
+            
+            delete from aux_hissatsu;
+            insert into aux_hissatsu values (vH1, 1);
+            insert into aux_hissatsu values (vH2, 2);
+            insert into aux_hissatsu values (vH3, 3);
+            insert into aux_hissatsu values (vH4, 4);
+
+            update aux_hissatsu set hissatsu_name = replace(hissatsu_name, '(B)', '');
+            update aux_hissatsu set hissatsu_name = replace(hissatsu_name, '(C)', '');
+            update aux_hissatsu set hissatsu_name = replace(hissatsu_name, '(L)', '');
+            update aux_hissatsu set hissatsu_name = replace(hissatsu_name, '改', '');
+            update aux_hissatsu set hissatsu_name = replace(hissatsu_name, '真', '');
+            update aux_hissatsu set hissatsu_name = replace(hissatsu_name, 'V2', '');
+            update aux_hissatsu set hissatsu_name = replace(hissatsu_name, 'V3', '');
+            update aux_hissatsu set hissatsu_name = replace(hissatsu_name, 'G2', '');
+            update aux_hissatsu set hissatsu_name = replace(hissatsu_name, 'G3', '');
+            update aux_hissatsu set hissatsu_name = replace(hissatsu_name, 'G4', '');
+            update aux_hissatsu set hissatsu_name = replace(hissatsu_name, 'G5', '');
+            update aux_hissatsu set hissatsu_name = replace(hissatsu_name, '(', '');
+            update aux_hissatsu set hissatsu_name = replace(hissatsu_name, ')', '');
+            update aux_hissatsu set hissatsu_name = replace(hissatsu_name, '\t', '');
+            update aux_hissatsu set hissatsu_name = replace(hissatsu_name, ' ', '');
+            update aux_hissatsu set hissatsu_name = replace(hissatsu_name, '･', '・');
+            update aux_hissatsu set hissatsu_name = replace(hissatsu_name, 'Ｖ', 'V');
+            update aux_hissatsu set hissatsu_name = replace(hissatsu_name, '―', 'ー');
+            update aux_hissatsu set hissatsu_name = replace(hissatsu_name, '－', 'ー');
+            update aux_hissatsu set hissatsu_name = replace(hissatsu_name, '!', '！');
+            update aux_hissatsu set hissatsu_name = replace(hissatsu_name, 'Ｕ', 'U');
+            update aux_hissatsu set hissatsu_name = replace(hissatsu_name, 'Ｐ', 'P');
+
+
+
+
+
+            update aux_hissatsu set hissatsu_name = trim(hissatsu_name);
+
+            select hissatsu_name into vH1 from aux_hissatsu where learn_order = 1;
+            select hissatsu_name into vH2 from aux_hissatsu where learn_order = 2;
+            select hissatsu_name into vH3 from aux_hissatsu where learn_order = 3;
+            select hissatsu_name into vH4 from aux_hissatsu where learn_order = 4;
+
+            
+            set vHissatsuCounter = 1;
+            while vHissatsuCounter <= 4 do
+                case 
+                    when vHissatsuCounter = 1 then
+                        set vHissatsuNameAux = vH1;
+                    when vHissatsuCounter = 2 then
+                        set vHissatsuNameAux = vH2;
+                    when vHissatsuCounter = 3 then
+                        set vHissatsuNameAux = vH3;
+                    when vHissatsuCounter = 4 then
+                        set vHissatsuNameAux = vH4;
+                end case;
+                
+                case
+                    when upper(vHissatsuNameAux) like '%LV.__' then
+                        set vHissatsuLvAux =  
+                            cast(substring(
+                                vHissatsuNameAux, 
+                                char_length(vHissatsuNameAux) - 1, 
+                                2
+                            ) as unsigned);
+                        set vHissatsuNameAux = 
+                            substring(
+                                vHissatsuNameAux, 
+                                1, 
+                                char_length(vHissatsuNameAux) - 5
+                            );
+                    when upper(vHissatsuNameAux) like '%LV__' then
+                        set vHissatsuLvAux =  
+                            cast(substring(
+                                vHissatsuNameAux, 
+                                char_length(vHissatsuNameAux) - 1, 
+                                2
+                            ) as unsigned);
+                        set vHissatsuNameAux = 
+                            substring(
+                                vHissatsuNameAux, 
+                                1, 
+                                char_length(vHissatsuNameAux) - 4
+                            );
+                    when upper(vHissatsuNameAux) like '%LV_' then
+                        set vHissatsuLvAux =  
+                            cast(substring(
+                                vHissatsuNameAux, 
+                                char_length(vHissatsuNameAux), 
+                                1
+                            ) as unsigned);
+                        set vHissatsuNameAux = 
+                            substring(
+                                vHissatsuNameAux, 
+                                1, 
+                                char_length(vHissatsuNameAux) - 3
+                            );    
+                    when upper(vHissatsuNameAux) like '%LV' then
+                        set vHissatsuLvAux = null;
+                        set vHissatsuNameAux = 
+                            substring(
+                                vHissatsuNameAux, 
+                                1, 
+                                char_length(vHissatsuNameAux) - 2
+                            );    
+                     when upper(vHissatsuNameAux) like '%L_' then
+                        set vHissatsuLvAux =  
+                            cast(substring(
+                                vHissatsuNameAux, 
+                                char_length(vHissatsuNameAux), 
+                                1
+                            ) as unsigned);
+                        set vHissatsuNameAux = 
+                            substring(
+                                vHissatsuNameAux, 
+                                1, 
+                                char_length(vHissatsuNameAux) - 2
+                            );   
+                     when upper(vHissatsuNameAux) like '%P' then
+                        set vHissatsuLvAux = null;
+                        set vHissatsuNameAux = 
+                            substring(
+                                vHissatsuNameAux, 
+                                1, 
+                                char_length(vHissatsuNameAux) - 1
+                            );  
+                    else
+                        set vHissatsuLvAux = null;
+                end case;
+
+                
+                set vHissatsuIdAux = 0;
+                case
+                     
+                    when vHissatsuNameAux like '%クロスファイア%' then
+                        if vAttri = '火' then
+                            set vHissatsuIdAux = 111;
+                        else
+                            set vHissatsuIdAux = 34;
+                        end if;
+                    when vHissatsuNameAux like '%ファイアブリザード%' then
+                        if vAttri = '火' then
+                            set vHissatsuIdAux = 108;
+                        else
+                            set vHissatsuIdAux = 33;
+                        end if;
+                    when vHissatsuNameAux like '%シャドウ・レイ%' then
+                        if vAttri = '山' then
+                            set vHissatsuIdAux = 141;
+                        else
+                            set vHissatsuIdAux = 72;
+                        end if;
+                    when vHissatsuNameAux like 'ゴッドハンド' then
+                        if vAttri = '林' then
+                            set vHissatsuIdAux = 301;
+                        else
+                            set vHissatsuIdAux = 336;
+                        end if;
+                    when vHissatsuNameAux like '%マジン・ザ・ハンド%' then
+                        if vAttri = '林' then
+                            set vHissatsuIdAux = 304;
+                        else
+                            set vHissatsuIdAux = 339;
+                        end if;
+                     
+                    when vHissatsuNameAux like 'ゴッドハンドX' then
+                        set vHissatsuIdAux = 326;
+                    when vHissatsuNameAux like 'しこふみ' then
+                        set vHissatsuIdAux = 259;
+                    when vHissatsuNameAux like 'パワーシールド' then
+                        set vHissatsuIdAux = 317;
+                    when vHissatsuNameAux like 'サイクロ' then
+                        set vHissatsuIdAux = 214;
+                    when vHissatsuNameAux like 'サイクロン' then
+                        set vHissatsuIdAux = 214;
+                    when vHissatsuNameAux like 'ジャッジスルー' then
+                        set vHissatsuIdAux = 182;
+                    when vHissatsuNameAux like 'ジャッジスルー' then
+                        set vHissatsuIdAux = 182;
+                    when vHissatsuNameAux like 'ジャッジスルー２' then
+                        set vHissatsuIdAux = 190;
+                    when vHissatsuNameAux like 'ジャッジスルー2' then
+                        set vHissatsuIdAux = 190;
+                    when vHissatsuNameAux like 'ジャッジスルー3' then
+                        set vHissatsuIdAux = 193;
+                    when vHissatsuNameAux like 'デスゾーン' then
+                        set vHissatsuIdAux = 59;
+                    when vHissatsuNameAux like 'デスゾーン2' then
+                        set vHissatsuIdAux = 68;
+                    when vHissatsuNameAux like 'イケイケ！' then
+                        set vHissatsuIdAux = 353;
+                    when vHissatsuNameAux like 'ツインブースト' then
+                        set vHissatsuIdAux = 84;
+                    when vHissatsuNameAux like 'イナズマ1ごう' then
+                        set vHissatsuIdAux = 12;
+                    when vHissatsuNameAux like 'イナズマ1号' then
+                        set vHissatsuIdAux = 12;
+                    when vHissatsuNameAux like 'つなみブースト' then
+                        set vHissatsuIdAux = 9;
+                    when vHissatsuNameAux like 'ひゃくれつショット' then
+                        set vHissatsuIdAux = 38;
+                    when vHissatsuNameAux like 'ツインブース' then
+                        set vHissatsuIdAux = 84;
+                    when vHissatsuNameAux like 'ツインブースト' then
+                        set vHissatsuIdAux = 84;
+                    when vHissatsuNameAux like 'パーフェクトタワー' then
+                        set vHissatsuIdAux = 224;
+                    when vHissatsuNameAux like 'U・ボート' then
+                        set vHissatsuIdAux = 204;
+                    when vHissatsuNameAux like 'U・ボード' then
+                        set vHissatsuIdAux = 204;
+                    when vHissatsuNameAux like 'U・ポート' then
+                        set vHissatsuIdAux = 204;
+                    when vHissatsuNameAux like 'シザーズ・ボム' then
+                        set vHissatsuIdAux = 201;
+                    when vHissatsuNameAux like 'イリュージンボール' then
+                        set vHissatsuIdAux = 165;
+                    when vHissatsuNameAux like 'グットスメル' then
+                        set vHissatsuIdAux = 235;
+                    when vHissatsuNameAux like 'イナズマ１ごう' then
+                        set vHissatsuIdAux = 12;
+                    when vHissatsuNameAux like 'トライアングルZ' then
+                        set vHissatsuIdAux = 99;
+                    when vHissatsuNameAux like 'こうていペンギン2ごう' then
+                        set vHissatsuIdAux = 58;
+                    when vHissatsuNameAux like 'こうていペンギン３ごう' then
+                        set vHissatsuIdAux = 70;
+                    when vHissatsuNameAux like 'こうていペンギンＸ' then
+                        set vHissatsuIdAux = 104;
+                    when vHissatsuNameAux like 'イナズマ１ごうおとし' then
+                        set vHissatsuIdAux = 29;
+                    when vHissatsuNameAux like 'Xブラスト' then
+                        set vHissatsuIdAux = 110;
+                    when vHissatsuNameAux like 'ツインブーストF' then
+                        set vHissatsuIdAux = 98;
+                    when vHissatsuNameAux like 'ユニコーンブースト ' then
+                        set vHissatsuIdAux = 136;
+                    when vHissatsuNameAux like 'ドッベルゲンガー' then
+                        set vHissatsuIdAux = 227;
+                    when vHissatsuNameAux like 'アースクエイク' then
+                        set vHissatsuIdAux = 263;
+                    when vHissatsuNameAux like 'キトルネードキャッチ' then
+                        set vHissatsuIdAux = 281;
+                    when vHissatsuNameAux like 'カポエイラスナッチ' then
+                        set vHissatsuIdAux = 345;
+                    when vHissatsuNameAux like 'サンダービーストE' then
+                        set vHissatsuIdAux = 17;
+                    when vHissatsuNameAux like 'ビックスパイダー' then
+                        set vHissatsuIdAux = 309;
+                    when vHissatsuNameAux like 'グラビティション' then
+                        set vHissatsuIdAux = 265;
+                    when vHissatsuNameAux like 'プロファイゾーン' then
+                        set vHissatsuIdAux = 215;
+                    when vHissatsuNameAux like 'どこんじょうバット' then
+                        set vHissatsuIdAux = 82;
+                    when vHissatsuNameAux like 'クリテイカル！' then
+                        set vHissatsuIdAux = 360;
+                    when vHissatsuNameAux like 'デモンズカット' then
+                        set vHissatsuIdAux = 242;
+                    when vHissatsuNameAux like 'ゴットハンド' then
+                        set vHissatsuIdAux = 336;
+                    when vHissatsuNameAux like 'ブレイブショット（L' then
+                        set vHissatsuIdAux = 140;
+                    when vHissatsuNameAux like 'ゴットノウズ' then
+                        set vHissatsuIdAux = 22;
+                    when vHissatsuNameAux like 'ガニメデプトロン' then
+                        set vHissatsuIdAux = 48;
+                    else
+                        if vHissatsuNameAux != 'スーパースキャン' then
+                            select h.item_hissatsu_id into vHissatsuIdAux
+                                from item_hissatsu h join item i 
+                                on h.item_hissatsu_id = i.item_id 
+                                where i.item_name_ja 
+                                like concat(concat('%', vHissatsuNameAux), '%');
+                        end if;
+                end case;
+                set continueCur1 = 1;
+                if vHissatsuIdAux > 0 then
+                    insert into player_learns_hissatsu(
+                        player_id, item_hissatsu_id, learn_lv, learn_order) 
+                    values (
+                        i, vHissatsuIdAux, vHissatsuLvAux, vHissatsuCounter);
+
+                end if;
+                set vHissatsuCounter = vHissatsuCounter + 1;
+            end while;
+        end if;
+        set i = i + 1;
+	end while;
+	close cur1;
+    drop table if exists aux_hissatsu;
+    
+    insert into player_learns_hissatsu values (20, 230, null, 2);
+    insert into player_learns_hissatsu values (21, 230, null, 1);
+    insert into player_learns_hissatsu values (21, 164, null, 3);
+    insert into player_learns_hissatsu values (35, 164, null, 1);
+    insert into player_learns_hissatsu values (93, 164, null, 1);
+    insert into player_learns_hissatsu values (136, 164, null, 2);
+    insert into player_learns_hissatsu values (168, 230, null, 1);
+    insert into player_learns_hissatsu values (187, 230, null, 1);
+    insert into player_learns_hissatsu values (203, 230, null, 2);
+    insert into player_learns_hissatsu values (203, 164, null, 3);
+    insert into player_learns_hissatsu values (208, 164, null, 2);
+    insert into player_learns_hissatsu values (291, 164, null, 1);
+    insert into player_learns_hissatsu values (294, 230, null, 1);
+    insert into player_learns_hissatsu values (347, 230, null, 1);
+    insert into player_learns_hissatsu values (351, 230, null, 1);
+    insert into player_learns_hissatsu values (357, 230, null, 1);
+    insert into player_learns_hissatsu values (357, 164, null, 3);
+    insert into player_learns_hissatsu values (373, 230, null, 3);
+    insert into player_learns_hissatsu values (386, 164, null, 4);
+    insert into player_learns_hissatsu values (464, 230, null, 1);
+    insert into player_learns_hissatsu values (488, 164, null, 2);
+    insert into player_learns_hissatsu values (490, 164, 22, 2);
+    insert into player_learns_hissatsu values (516, 164, null, 3);
+    insert into player_learns_hissatsu values (539, 164, null, 1);
+    insert into player_learns_hissatsu values (586, 230, null, 1);
+    insert into player_learns_hissatsu values (589, 230, null, 4);
+    insert into player_learns_hissatsu values (590, 164, null, 1);
+    insert into player_learns_hissatsu values (601, 230, null, 2);
+    insert into player_learns_hissatsu values (630, 230, null, 1);
+    insert into player_learns_hissatsu values (630, 164, null, 2);
+    insert into player_learns_hissatsu values (644, 230, null, 1);
+    insert into player_learns_hissatsu values (664, 164, null, 1);
+    insert into player_learns_hissatsu values (696, 230, null, 1);
+    insert into player_learns_hissatsu values (696, 164, null, 4);
+    insert into player_learns_hissatsu values (704, 164, null, 3);
+    insert into player_learns_hissatsu values (711, 230, null, 1);
+    insert into player_learns_hissatsu values (725, 164, null, 2);
+    insert into player_learns_hissatsu values (750, 164, null, 1);
+    insert into player_learns_hissatsu values (768, 230, null, 2);
+    insert into player_learns_hissatsu values (776, 230, null, 1);
+    insert into player_learns_hissatsu values (780, 230, null, 1);
+    insert into player_learns_hissatsu values (784, 230, null, 1);
+    insert into player_learns_hissatsu values (871, 230, null, 3);
+    insert into player_learns_hissatsu values (889, 164, null, 1);
+    insert into player_learns_hissatsu values (910, 164, null, 1);
+    insert into player_learns_hissatsu values (932, 164, null, 1);
+    insert into player_learns_hissatsu values (956, 164, null, 2);
+    insert into player_learns_hissatsu values (960, 230, null, 2);
+    insert into player_learns_hissatsu values (971, 164, null, 2);
+    insert into player_learns_hissatsu values (1007, 164, null, 3);
+    insert into player_learns_hissatsu values (1010, 164, null, 1);
+    insert into player_learns_hissatsu values (1010, 230, null, 2);
+    insert into player_learns_hissatsu values (1025, 230, null, 2);
+    insert into player_learns_hissatsu values (1067, 230, null, 2);
+    insert into player_learns_hissatsu values (1068, 230, null, 2);
+    insert into player_learns_hissatsu values (1070, 164, null, 1);
+    insert into player_learns_hissatsu values (1164, 230, null, 2);
+    insert into player_learns_hissatsu values (1171, 164, null, 2);
+    insert into player_learns_hissatsu values (1177, 164, null, 1);
+    insert into player_learns_hissatsu values (1177, 230, null, 2);
+    insert into player_learns_hissatsu values (1232, 164, null, 1);
+    insert into player_learns_hissatsu values (1232, 230, null, 2);
+    insert into player_learns_hissatsu values (1239, 230, null, 2);
+    insert into player_learns_hissatsu values (1255, 164, null, 2);
+    insert into player_learns_hissatsu values (1255, 230, null, 3);
+    insert into player_learns_hissatsu values (1277, 164, null, 2);
+    insert into player_learns_hissatsu values (1278, 164, null, 1);
+    insert into player_learns_hissatsu values (1278, 230, null, 2);
+    insert into player_learns_hissatsu values (1282, 164, null, 1);
+    insert into player_learns_hissatsu values (1301, 164, null, 2);
+    insert into player_learns_hissatsu values (1355, 164, null, 2);
+    insert into player_learns_hissatsu values (1365, 230, null, 1);
+    insert into player_learns_hissatsu values (1404, 230, null, 1);
+    insert into player_learns_hissatsu values (1404, 164, null, 2);
+    insert into player_learns_hissatsu values (1441, 164, null, 2);
+    insert into player_learns_hissatsu values (1453, 164, null, 1);
+    insert into player_learns_hissatsu values (1462, 230, null, 2);
+    insert into player_learns_hissatsu values (1490, 164, null, 2);
+    insert into player_learns_hissatsu values (1504, 230, null, 2);
+    insert into player_learns_hissatsu values (1583, 230, null, 2);
+    insert into player_learns_hissatsu values (1590, 164, null, 1);
+    insert into player_learns_hissatsu values (1590, 230, null, 2);
+    insert into player_learns_hissatsu values (1613, 164, null, 1);
+    insert into player_learns_hissatsu values (1621, 164, null, 2);
+    insert into player_learns_hissatsu values (1657, 164, null, 3);
+    insert into player_learns_hissatsu values (1658, 230, null, 1);
+    insert into player_learns_hissatsu values (1658, 164, null, 3);
+    insert into player_learns_hissatsu values (1659, 164, null, 1);
+    insert into player_learns_hissatsu values (1659, 230, null, 3);
+    insert into player_learns_hissatsu values (1660, 230, null, 1);
+    insert into player_learns_hissatsu values (1660, 164, null, 3);
+    insert into player_learns_hissatsu values (1661, 164, null, 2);
+    insert into player_learns_hissatsu values (1661, 230, null, 3);
+    insert into player_learns_hissatsu values (1663, 164, null, 1);
+    insert into player_learns_hissatsu values (1664, 230, null, 1);
+    insert into player_learns_hissatsu values (1664, 164, null, 2);
+    insert into player_learns_hissatsu values (1666, 230, null, 1);
+    insert into player_learns_hissatsu values (1666, 164, null, 2);
+    insert into player_learns_hissatsu values (1667, 164, null, 3);
+    insert into player_learns_hissatsu values (1668, 230, null, 3);
+    insert into player_learns_hissatsu values (1669, 164, null, 2);
+    insert into player_learns_hissatsu values (1669, 230, null, 3);
+    insert into player_learns_hissatsu values (1670, 230, null, 2);
+    insert into player_learns_hissatsu values (1671, 230, null, 1);
+    insert into player_learns_hissatsu values (1671, 164, null, 3);
+    insert into player_learns_hissatsu values (1674, 230, null, 2);
+    insert into player_learns_hissatsu values (1674, 164, null, 3);
+    insert into player_learns_hissatsu values (1679, 230, null, 3);
+    insert into player_learns_hissatsu values (1682, 164, null, 1);
+    insert into player_learns_hissatsu values (1690, 164, null, 3);
+    insert into player_learns_hissatsu values (1803, 230, null, 2);
+    insert into player_learns_hissatsu values (1811, 230, null, 2);
+    insert into player_learns_hissatsu values (1811, 164, null, 3);
+    insert into player_learns_hissatsu values (1902, 230, null, 1);
+    insert into player_learns_hissatsu values (1905, 164, null, 1);
+    insert into player_learns_hissatsu values (1908, 164, null, 1);
+    insert into player_learns_hissatsu values (1912, 164, null, 2);
+    insert into player_learns_hissatsu values (1948, 164, null, 2);
+    insert into player_learns_hissatsu values (1948, 230, null, 3);
+    insert into player_learns_hissatsu values (1981, 230, null, 1);
+    insert into player_learns_hissatsu values (1981, 164, null, 2);
+    insert into player_learns_hissatsu values (1982, 164, null, 1);
+    insert into player_learns_hissatsu values (2012, 164, null, 2);
+    insert into player_learns_hissatsu values (2063, 230, null, 3);
+    insert into player_learns_hissatsu values (2119, 164, null, 2);
+    insert into player_learns_hissatsu values (2175, 230, null, 2);
+    insert into player_learns_hissatsu values (2252, 230, null, 3);
+    insert into player_learns_hissatsu values (2321, 164, null, 3);
+end$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `proc_insert_team_player` ()   begin
 	declare i int default 1;
     declare idTeam int default 0;
@@ -301,6 +916,76 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `proc_insert_team_player` ()   begin
 	end while;
 	close cur1;
     drop table if exists aux_team_player;
+end$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `proc_set_player_version` ()   begin
+	declare i int default 0;
+    declare vOriginalId int default 0;
+    declare vCurrentName varchar(32) default '';
+    declare vPreviousName varchar(32) default '';
+
+    
+    declare playerId int default 0;
+    declare playerNameJa varchar(32) default '';
+    declare playerNameHiragana varchar(32) default '';
+    declare playerNameKanji varchar(32) default '';
+    declare playerNameRomanji varchar(32) default '';
+    declare playerNameEn varchar(32) default '';
+    declare playerNameEnFull varchar(32) default '';
+    declare playerInitialLv int default 0;
+    declare playerGp99 int default 0;
+    declare playerTp99 int default 0;
+    declare playerKick99 int default 0;
+    declare playerBody99 int default 0;
+    declare playerControl99 int default 0;
+    declare playerGuard99 int default 0;
+    declare playerSpeed99 int default 0;
+    declare playerStamina99 int default 0;
+    declare playerGuts99 int default 0;
+    declare playerFreedom99 int default 0;
+    declare attriId int default 0;
+    declare positiId int default 0;
+    declare genderId int default 0;
+    declare bodyTypeId int default 0;
+    declare playerObtentionMethodId int default 0;
+    declare originalVersion int default 0;
+
+    declare continueCur1 int default 1;
+    declare cur1 cursor for select * from player 
+        where player_name_ja like '% 2' order by player_name_ja;
+	declare continue handler for SQLSTATE '02000' set continueCur1 = 0;
+
+    open cur1;
+	while continueCur1=1 do
+        fetch cur1 into playerId, playerNameJa, playerNameHiragana, 
+            playerNameKanji, playerNameRomanji, playerNameEn, playerNameEnFull, 
+            playerInitialLv, playerGp99, playerTp99, playerKick99, playerBody99, 
+            playerControl99, playerGuard99, playerSpeed99, playerStamina99, 
+            playerGuts99, playerFreedom99, attriId, positiId, genderId, 
+            bodyTypeId, playerObtentionMethodId, originalVersion;
+
+        if continueCur1 = 1 then
+            set vPreviousName = vCurrentName; 
+            set vCurrentName = 
+                substring(playerNameJa, 1, char_length(playerNameJa) - 2);
+            if vCurrentName != vPreviousName then
+                select player_id into vOriginalId from player 
+                    where player_name_ja = vCurrentName limit 1;
+                set continueCur1 = 1;
+            end if;
+            
+            update player set 
+                player_name_ja = vCurrentName, 
+                original_version = vOriginalId
+                where player_id = playerId;
+            set i = i + 1;
+        end if;
+	end while;
+	close cur1;
+    
+    update player set original_version = 1217 where player_id = 1896;
+    
+    update player set original_version = 1396 where player_id = 1868;
 end$$
 
 DELIMITER ;
@@ -3640,7 +4325,7 @@ INSERT INTO `item_formation` (`item_formation_id`, `formation_type_id`, `formati
 (769, 1, 7, 767),
 (770, 1, 7, 767),
 (771, 1, 7, NULL),
-(772, 1, 7, 771),
+(772, 1, 7, NULL),
 (773, 1, 1, NULL),
 (774, 1, 1, 773),
 (775, 1, 8, NULL),
@@ -5032,7 +5717,7 @@ INSERT INTO `player` (`player_id`, `player_name_ja`, `player_name_hiragana`, `pl
 (479, 'クローバー', NULL, NULL, 'kuroobaa', NULL, NULL, NULL, 101, 97, 48, 45, 54, 84, 56, 56, 57, 47, 2, 3, 1, 2, 5, NULL),
 (480, 'くろかわ', NULL, NULL, 'kurokawa', NULL, NULL, NULL, 133, 100, 56, 56, 57, 56, 51, 54, 51, 27, 3, 4, 1, 2, 3, NULL),
 (481, 'クロブタ', NULL, NULL, 'kurobuta', NULL, NULL, 8, 92, 117, 46, 46, 44, 46, 45, 47, 52, 95, 2, 1, 1, 2, 3, NULL),
-(482, 'くろまじょ', NULL, NULL, 'kuromajo', NULL, NULL, NULL, 92, 122, 50, 51, 52, 51, 48, 51, 63, 56, 3, 2, 1, 2, 3, NULL),
+(482, 'くろまじょ', NULL, NULL, 'kuromajo', NULL, NULL, NULL, 92, 122, 50, 51, 52, 51, 48, 51, 63, 56, 3, 2, 2, 2, 3, NULL),
 (483, 'くろまめ', NULL, NULL, 'kuromame', NULL, NULL, NULL, 94, 124, 60, 58, 59, 62, 60, 43, 48, 49, 1, 3, 1, 2, 3, NULL),
 (484, 'くわがた', NULL, NULL, 'kuwagata', NULL, NULL, 5, 121, 105, 56, 59, 54, 60, 53, 53, 57, 25, 1, 3, 1, 2, 7, NULL),
 (485, 'くわはら', NULL, NULL, 'kuwahara', NULL, NULL, NULL, 128, 101, 39, 62, 38, 66, 41, 67, 38, 74, 2, 3, 1, 2, 3, NULL),
@@ -7017,14 +7702,9 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (52, 141, 12),
 (54, 152, 1),
 (63, 172, 15),
-(63, 176, 16),
-(67, 152, 7),
+(63, 176, 12),
+(67, 152, 6),
 (68, 159, 16),
-(69, 11, 6),
-(69, 52, 8),
-(69, 129, 5),
-(69, 162, 6),
-(69, 175, 7),
 (72, 82, 4),
 (84, 67, 1),
 (84, 75, 7),
@@ -7034,18 +7714,14 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (86, 67, 13),
 (86, 164, 1),
 (95, 177, 13),
-(98, 167, 16),
+(98, 167, 5),
 (102, 140, 12),
 (106, 146, 16),
 (113, 140, 6),
-(116, 40, 7),
 (116, 60, 13),
-(116, 64, 7),
-(116, 103, 14),
-(116, 121, 9),
+(116, 121, 7),
 (116, 123, 10),
 (116, 155, 13),
-(116, 161, 8),
 (127, 107, 9),
 (129, 139, 7),
 (133, 130, 12),
@@ -7058,7 +7734,7 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (163, 126, 10),
 (165, 169, 3),
 (173, 154, 6),
-(201, 169, 14),
+(201, 169, 15),
 (202, 99, 2),
 (211, 116, 2),
 (216, 99, 6),
@@ -7068,19 +7744,15 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (220, 95, 1),
 (220, 121, 1),
 (220, 148, 1),
-(220, 158, 1),
-(220, 160, 1),
-(220, 176, 1),
-(220, 185, 1),
-(224, 144, 8),
+(224, 144, 6),
 (224, 146, 15),
 (224, 150, 7),
-(227, 169, 13),
+(227, 169, 14),
 (230, 112, 9),
 (231, 140, 14),
 (231, 177, 1),
 (242, 125, 9),
-(242, 135, 13),
+(242, 135, 2),
 (243, 140, 7),
 (244, 124, 2),
 (248, 106, 6),
@@ -7090,40 +7762,38 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (273, 156, 2),
 (274, 139, 10),
 (281, 101, 7),
-(282, 111, 8),
+(282, 111, 9),
 (282, 163, 5),
 (282, 172, 4),
-(282, 176, 5),
-(286, 156, 15),
+(282, 176, 3),
+(286, 156, 16),
 (290, 101, 13),
 (290, 102, 2),
 (291, 124, 8),
 (293, 179, 7),
 (295, 26, 2),
-(295, 61, 2),
-(295, 79, 2),
 (300, 154, 14),
 (301, 140, 3),
 (301, 146, 4),
 (301, 147, 16),
 (303, 127, 4),
-(303, 143, 2),
+(303, 143, 5),
 (303, 155, 4),
 (304, 100, 10),
 (304, 145, 9),
-(304, 159, 10),
+(304, 159, 11),
 (306, 112, 10),
 (308, 120, 8),
-(308, 147, 7),
+(308, 147, 6),
 (309, 179, 8),
 (316, 151, 2),
-(316, 171, 5),
+(316, 171, 2),
 (317, 80, 1),
 (318, 153, 4),
 (324, 172, 11),
-(324, 176, 13),
+(324, 176, 15),
 (325, 94, 3),
-(325, 105, 9),
+(325, 105, 11),
 (325, 172, 13),
 (327, 62, 2),
 (327, 63, 2),
@@ -7132,10 +7802,7 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (327, 95, 2),
 (327, 135, 10),
 (327, 148, 5),
-(327, 152, 2),
-(327, 158, 6),
-(327, 160, 2),
-(327, 185, 2),
+(327, 152, 7),
 (328, 130, 15),
 (336, 141, 4),
 (344, 106, 4),
@@ -7143,38 +7810,34 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (346, 141, 14),
 (352, 75, 10),
 (352, 160, 9),
-(352, 176, 11),
+(352, 176, 10),
 (356, 130, 9),
-(356, 171, 16),
+(356, 171, 9),
 (358, 134, 15),
 (359, 82, 7),
 (360, 106, 11),
-(361, 62, 3),
+(361, 62, 4),
 (361, 95, 3),
-(361, 121, 2),
+(361, 121, 3),
 (361, 147, 2),
-(361, 148, 2),
-(361, 158, 3),
-(361, 160, 3),
-(361, 185, 3),
+(361, 148, 3),
 (364, 140, 16),
 (367, 142, 14),
 (370, 143, 4),
 (373, 143, 3),
 (374, 12, 14),
-(374, 117, 4),
 (375, 89, 3),
 (375, 154, 4),
 (377, 130, 14),
-(381, 151, 1),
+(381, 151, 12),
 (381, 153, 1),
 (383, 100, 11),
 (384, 141, 1),
 (385, 168, 10),
 (388, 89, 11),
-(390, 105, 2),
+(390, 105, 12),
 (391, 127, 10),
-(391, 170, 11),
+(391, 170, 10),
 (392, 107, 6),
 (393, 131, 10),
 (395, 89, 4),
@@ -7183,19 +7846,15 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (400, 166, 12),
 (414, 6, 10),
 (414, 58, 9),
-(414, 62, 6),
-(414, 63, 5),
+(414, 62, 8),
+(414, 63, 6),
 (414, 83, 10),
-(414, 94, 11),
+(414, 94, 9),
 (414, 97, 6),
-(414, 121, 13),
-(414, 155, 14),
-(414, 160, 13),
-(414, 163, 12),
+(414, 155, 7),
 (414, 172, 5),
-(414, 176, 14),
-(414, 185, 13),
-(415, 63, 6),
+(415, 63, 5),
+(415, 121, 8),
 (416, 111, 1),
 (416, 123, 1),
 (416, 165, 4),
@@ -7206,10 +7865,10 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (423, 80, 15),
 (423, 100, 9),
 (423, 102, 14),
-(423, 156, 10),
-(423, 173, 9),
+(423, 156, 14),
+(423, 173, 13),
 (423, 179, 11),
-(424, 134, 12),
+(424, 134, 1),
 (425, 145, 13),
 (426, 82, 2),
 (427, 106, 2),
@@ -7220,20 +7879,20 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (437, 150, 6),
 (438, 76, 1),
 (438, 123, 9),
-(438, 145, 6),
+(438, 145, 11),
 (439, 123, 2),
-(439, 166, 3),
+(439, 166, 5),
 (451, 120, 2),
 (452, 177, 7),
 (455, 153, 5),
-(456, 151, 9),
+(456, 151, 10),
 (457, 130, 11),
 (461, 112, 2),
 (464, 128, 3),
 (467, 67, 2),
 (467, 127, 2),
 (467, 164, 4),
-(467, 171, 4),
+(467, 171, 5),
 (468, 67, 4),
 (468, 75, 2),
 (469, 67, 3),
@@ -7251,31 +7910,22 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (482, 142, 7),
 (485, 127, 3),
 (486, 93, 4),
-(488, 160, 11),
+(488, 160, 12),
 (493, 144, 16),
 (494, 99, 11),
 (495, 143, 11),
 (498, 100, 7),
-(498, 155, 16),
+(498, 155, 8),
 (501, 58, 12),
-(501, 62, 10),
-(501, 94, 10),
+(501, 62, 11),
+(501, 94, 11),
 (501, 95, 10),
 (501, 110, 6),
 (501, 121, 10),
 (501, 153, 10),
-(501, 160, 10),
-(501, 163, 10),
-(501, 176, 10),
-(501, 185, 9),
 (502, 132, 10),
 (502, 179, 9),
 (503, 14, 2),
-(503, 52, 3),
-(503, 74, 2),
-(503, 87, 2),
-(503, 106, 8),
-(503, 142, 4),
 (505, 112, 15),
 (512, 178, 11),
 (516, 132, 5),
@@ -7287,19 +7937,17 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (524, 62, 13),
 (524, 64, 4),
 (524, 94, 4),
-(524, 121, 3),
-(524, 158, 2),
-(524, 185, 5),
+(524, 121, 2),
 (525, 88, 5),
 (525, 102, 4),
 (525, 129, 9),
-(525, 134, 10),
+(525, 134, 11),
 (526, 143, 9),
 (528, 141, 8),
 (531, 141, 13),
 (531, 179, 16),
-(538, 126, 11),
-(548, 105, 11),
+(538, 126, 13),
+(548, 105, 15),
 (557, 80, 4),
 (557, 88, 4),
 (563, 93, 8),
@@ -7308,42 +7956,35 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (569, 88, 9),
 (569, 129, 13),
 (571, 134, 14),
-(572, 169, 9),
+(572, 169, 8),
 (574, 112, 16),
 (578, 106, 14),
 (579, 177, 10),
 (581, 141, 7),
 (581, 168, 8),
 (582, 141, 10),
-(583, 151, 12),
+(583, 151, 1),
 (585, 6, 11),
 (585, 62, 15),
 (585, 73, 5),
 (585, 152, 13),
-(585, 163, 7),
-(585, 173, 11),
-(585, 185, 15),
 (587, 131, 2),
 (596, 82, 8),
 (598, 140, 4),
-(603, 169, 12),
-(605, 33, 10),
-(605, 53, 8),
-(605, 133, 8),
-(609, 169, 16),
+(603, 169, 1),
+(609, 169, 6),
 (618, 131, 11),
-(619, 166, 4),
+(619, 166, 3),
 (623, 131, 12),
 (627, 150, 2),
 (628, 134, 7),
 (628, 154, 7),
 (629, 82, 5),
-(629, 126, 9),
+(629, 126, 5),
 (631, 169, 11),
 (632, 177, 9),
-(635, 126, 6),
-(636, 144, 3),
-(636, 162, 7),
+(635, 126, 9),
+(636, 144, 5),
 (637, 112, 14),
 (638, 73, 15),
 (638, 144, 14),
@@ -7353,13 +7994,13 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (643, 135, 3),
 (645, 93, 11),
 (645, 128, 10),
-(650, 171, 12),
+(650, 171, 1),
 (652, 101, 3),
 (660, 112, 11),
-(671, 144, 11),
 (671, 152, 14),
 (671, 168, 3),
 (671, 179, 2),
+(672, 144, 9),
 (673, 94, 6),
 (673, 101, 11),
 (673, 135, 9),
@@ -7368,9 +8009,9 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (677, 150, 15),
 (683, 120, 11),
 (688, 150, 1),
-(689, 144, 9),
+(689, 144, 11),
 (689, 146, 14),
-(691, 105, 12),
+(691, 105, 6),
 (698, 88, 2),
 (698, 95, 7),
 (698, 135, 7),
@@ -7380,7 +8021,7 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (708, 116, 8),
 (712, 95, 4),
 (712, 135, 4),
-(712, 152, 4),
+(712, 152, 2),
 (714, 128, 11),
 (717, 178, 1),
 (719, 177, 12),
@@ -7394,11 +8035,11 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (732, 155, 5),
 (735, 129, 11),
 (736, 123, 7),
-(738, 171, 2),
+(738, 171, 3),
 (738, 179, 5),
 (740, 101, 8),
 (745, 106, 1),
-(746, 151, 13),
+(746, 151, 11),
 (751, 140, 5),
 (752, 101, 10),
 (754, 142, 6),
@@ -7421,33 +8062,29 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (789, 135, 11),
 (789, 148, 10),
 (789, 152, 11),
-(789, 158, 9),
-(789, 185, 12),
 (792, 106, 12),
 (793, 132, 1),
-(794, 156, 5),
+(794, 156, 7),
 (797, 100, 5),
 (797, 143, 15),
 (803, 107, 4),
 (803, 132, 7),
-(805, 151, 11),
+(805, 151, 14),
 (805, 153, 13),
-(805, 155, 11),
+(805, 155, 16),
 (812, 82, 9),
 (817, 139, 8),
 (818, 151, 16),
 (819, 106, 7),
 (827, 177, 11),
 (829, 134, 6),
-(841, 170, 12),
-(847, 126, 12),
+(841, 170, 1),
+(847, 126, 1),
 (849, 15, 1),
 (849, 62, 12),
 (849, 94, 1),
 (849, 102, 1),
 (849, 121, 12),
-(849, 163, 1),
-(849, 185, 11),
 (866, 88, 1),
 (866, 135, 1),
 (866, 178, 12),
@@ -7462,93 +8099,81 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (889, 93, 7),
 (889, 178, 14),
 (894, 145, 16),
-(896, 167, 4),
+(896, 167, 3),
 (897, 106, 16),
 (898, 131, 13),
 (899, 107, 2),
 (899, 141, 15),
 (901, 107, 8),
 (908, 16, 4),
-(908, 62, 4),
+(908, 62, 5),
 (908, 121, 5),
 (908, 154, 2),
-(908, 163, 3),
-(908, 185, 4),
-(916, 167, 15),
+(916, 167, 6),
 (920, 152, 12),
 (923, 139, 4),
-(924, 171, 14),
+(924, 171, 15),
 (927, 106, 10),
 (929, 179, 13),
 (931, 144, 15),
 (931, 146, 13),
 (941, 131, 5),
-(942, 134, 11),
-(943, 126, 13),
+(942, 134, 10),
+(943, 126, 15),
 (945, 146, 3),
-(958, 126, 4),
+(958, 126, 2),
 (962, 112, 5),
 (963, 101, 2),
 (964, 124, 1),
 (967, 93, 6),
-(969, 145, 3),
+(969, 145, 5),
 (970, 62, 14),
 (970, 141, 2),
 (970, 155, 2),
-(970, 160, 4),
-(970, 163, 4),
-(970, 185, 14),
 (973, 129, 8),
-(974, 126, 1),
-(977, 40, 5),
+(974, 126, 14),
 (977, 60, 16),
-(977, 103, 3),
 (977, 121, 4),
 (977, 123, 8),
 (977, 133, 5),
-(977, 161, 5),
-(977, 170, 2),
 (979, 107, 10),
-(979, 156, 8),
+(979, 156, 13),
 (979, 170, 9),
 (980, 80, 13),
-(981, 62, 8),
+(981, 62, 7),
 (981, 79, 10),
 (981, 94, 7),
-(981, 160, 6),
-(981, 163, 8),
-(981, 185, 10),
-(985, 147, 6),
+(985, 147, 10),
 (988, 99, 9),
 (989, 147, 9),
 (989, 150, 9),
 (991, 129, 14),
 (991, 151, 5),
-(992, 171, 13),
+(992, 171, 14),
 (1000, 112, 1),
 (1003, 106, 5),
-(1006, 156, 16),
+(1006, 156, 10),
 (1019, 128, 12),
 (1019, 168, 1),
 (1022, 146, 1),
-(1024, 167, 13),
+(1024, 167, 16),
 (1025, 134, 8),
-(1027, 111, 11),
-(1027, 167, 10),
-(1031, 166, 13),
+(1027, 111, 10),
+(1027, 167, 15),
+(1031, 166, 15),
 (1034, 139, 2),
 (1034, 177, 14),
 (1035, 142, 15),
 (1036, 154, 16),
 (1039, 177, 4),
-(1044, 169, 15),
-(1050, 173, 1),
+(1044, 169, 16),
+(1050, 173, 12),
 (1051, 93, 1),
 (1062, 116, 11),
 (1062, 130, 16),
 (1069, 143, 6),
 (1069, 178, 6),
-(1072, 134, 1),
+(1072, 134, 12),
 (1081, 178, 13),
 (1082, 89, 6),
 (1085, 101, 9),
@@ -7561,25 +8186,25 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (1110, 89, 15),
 (1120, 80, 3),
 (1120, 125, 2),
-(1120, 126, 2),
+(1120, 126, 3),
 (1120, 156, 3),
 (1125, 131, 7),
-(1125, 144, 6),
+(1125, 144, 3),
 (1125, 146, 8),
 (1127, 101, 15),
 (1129, 144, 1),
 (1138, 125, 5),
-(1138, 171, 3),
+(1138, 171, 4),
 (1141, 139, 5),
 (1156, 89, 16),
 (1160, 140, 13),
 (1161, 95, 6),
 (1161, 135, 6),
-(1161, 148, 7),
+(1161, 148, 8),
 (1164, 134, 3),
 (1165, 80, 16),
 (1165, 126, 16),
-(1166, 126, 8),
+(1166, 126, 12),
 (1167, 89, 14),
 (1168, 150, 5),
 (1169, 99, 3),
@@ -7591,8 +8216,8 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (1174, 125, 1),
 (1174, 128, 1),
 (1174, 142, 12),
-(1174, 156, 1),
-(1174, 167, 1),
+(1174, 156, 12),
+(1174, 167, 12),
 (1175, 125, 11),
 (1175, 128, 7),
 (1175, 142, 10),
@@ -7615,13 +8240,8 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (1213, 106, 13),
 (1214, 99, 7),
 (1216, 178, 8),
-(1217, 61, 1),
-(1217, 62, 9),
+(1217, 62, 6),
 (1217, 63, 7),
-(1217, 79, 12),
-(1217, 158, 10),
-(1217, 160, 7),
-(1217, 185, 16),
 (1219, 67, 8),
 (1219, 75, 8),
 (1219, 127, 8),
@@ -7640,34 +8260,28 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (1245, 89, 5),
 (1249, 140, 9),
 (1253, 168, 5),
-(1254, 126, 15),
+(1254, 126, 6),
 (1256, 146, 7),
 (1256, 177, 16),
-(1259, 62, 5),
+(1259, 62, 9),
 (1259, 94, 8),
-(1259, 163, 6),
-(1259, 169, 8),
-(1259, 173, 10),
-(1259, 185, 7),
+(1259, 169, 10),
+(1259, 173, 6),
 (1260, 150, 8),
-(1260, 170, 16),
-(1261, 171, 9),
-(1264, 62, 11),
-(1264, 63, 3),
-(1264, 80, 9),
-(1264, 102, 15),
-(1264, 121, 11),
-(1264, 158, 5),
-(1264, 160, 5),
-(1264, 176, 4),
-(1264, 185, 8),
-(1265, 63, 9),
+(1260, 170, 8),
+(1261, 171, 13),
+(1264, 63, 9),
+(1264, 176, 13),
+(1265, 62, 10),
+(1265, 80, 9),
+(1265, 102, 15),
+(1265, 121, 11),
 (1266, 172, 8),
-(1266, 176, 12),
+(1266, 176, 14),
 (1268, 155, 3),
 (1269, 111, 3),
 (1270, 164, 2),
-(1275, 145, 11),
+(1275, 145, 6),
 (1277, 67, 7),
 (1277, 127, 9),
 (1277, 164, 7),
@@ -7677,7 +8291,7 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (1279, 164, 5),
 (1281, 179, 12),
 (1284, 101, 6),
-(1285, 159, 12),
+(1285, 159, 1),
 (1288, 141, 11),
 (1288, 155, 15),
 (1310, 179, 1),
@@ -7687,18 +8301,18 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (1320, 99, 13),
 (1325, 177, 6),
 (1329, 76, 10),
-(1329, 126, 7),
+(1329, 126, 8),
 (1330, 99, 15),
 (1330, 125, 6),
 (1335, 120, 3),
-(1339, 151, 14),
+(1339, 151, 9),
 (1341, 102, 9),
 (1341, 164, 9),
-(1341, 176, 8),
+(1341, 176, 9),
 (1348, 95, 9),
 (1348, 135, 8),
 (1348, 148, 9),
-(1353, 156, 9),
+(1353, 156, 11),
 (1362, 143, 8),
 (1366, 170, 4),
 (1366, 177, 2),
@@ -7711,8 +8325,8 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (1386, 154, 8),
 (1388, 139, 13),
 (1394, 128, 9),
-(1395, 63, 10),
-(1395, 94, 9),
+(1396, 63, 10),
+(1396, 94, 10),
 (1403, 93, 3),
 (1406, 112, 3),
 (1407, 66, 6),
@@ -7720,17 +8334,17 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (1413, 156, 6),
 (1413, 170, 7),
 (1420, 134, 4),
-(1425, 167, 14),
-(1427, 126, 3),
+(1425, 167, 10),
+(1427, 126, 4),
 (1427, 129, 15),
 (1427, 150, 3),
 (1428, 95, 12),
-(1428, 105, 8),
+(1428, 105, 9),
 (1428, 111, 13),
-(1428, 121, 8),
+(1428, 121, 13),
 (1428, 124, 7),
 (1428, 148, 13),
-(1428, 160, 12),
+(1428, 160, 13),
 (1428, 172, 14),
 (1431, 107, 7),
 (1431, 141, 16),
@@ -7749,27 +8363,25 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (1483, 151, 6),
 (1489, 125, 3),
 (1489, 141, 5),
-(1494, 133, 13),
+(1494, 133, 6),
 (1494, 150, 11),
 (1504, 128, 4),
 (1507, 151, 8),
-(1508, 126, 14),
+(1508, 126, 11),
 (1508, 167, 7),
 (1509, 99, 12),
 (1511, 172, 1),
-(1511, 176, 15),
+(1511, 176, 16),
 (1515, 164, 3),
 (1516, 123, 4),
 (1517, 88, 10),
 (1527, 178, 3),
-(1528, 173, 3),
+(1528, 173, 2),
 (1534, 107, 1),
-(1537, 167, 12),
+(1537, 167, 1),
 (1538, 151, 3),
-(1539, 62, 7),
-(1539, 158, 4),
-(1539, 164, 6),
-(1539, 185, 6),
+(1540, 62, 3),
+(1540, 164, 6),
 (1541, 151, 15),
 (1542, 82, 6),
 (1542, 130, 8),
@@ -7781,7 +8393,7 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (1556, 99, 5),
 (1558, 43, 15),
 (1562, 131, 1),
-(1563, 144, 5),
+(1563, 144, 4),
 (1563, 146, 9),
 (1565, 150, 13),
 (1567, 171, 6),
@@ -7790,8 +8402,8 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (1572, 151, 4),
 (1574, 107, 12),
 (1575, 82, 11),
-(1575, 173, 14),
-(1576, 151, 10),
+(1575, 173, 15),
+(1576, 151, 13),
 (1577, 140, 1),
 (1578, 67, 10),
 (1578, 75, 9),
@@ -7800,16 +8412,7 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (1579, 75, 11),
 (1580, 67, 15),
 (1580, 164, 10),
-(1586, 43, 1),
-(1586, 66, 11),
-(1586, 70, 1),
-(1586, 71, 13),
-(1586, 72, 1),
 (1586, 79, 1),
-(1586, 103, 12),
-(1586, 148, 12),
-(1586, 161, 1),
-(1586, 165, 7),
 (1589, 127, 5),
 (1591, 132, 9),
 (1591, 179, 6),
@@ -7843,7 +8446,7 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (1622, 1, 5),
 (1623, 1, 10),
 (1623, 78, 6),
-(1623, 157, 8),
+(1623, 157, 9),
 (1624, 2, 15),
 (1624, 119, 11),
 (1625, 2, 2),
@@ -7856,7 +8459,7 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (1628, 2, 14),
 (1629, 2, 13),
 (1630, 2, 12),
-(1630, 113, 5),
+(1630, 113, 4),
 (1631, 2, 5),
 (1631, 170, 3),
 (1632, 2, 11),
@@ -7870,7 +8473,7 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (1637, 2, 3),
 (1637, 90, 5),
 (1638, 2, 9),
-(1638, 35, 8),
+(1638, 35, 6),
 (1638, 54, 9),
 (1638, 157, 11),
 (1639, 2, 6),
@@ -7907,7 +8510,7 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (1655, 108, 7),
 (1655, 157, 6),
 (1656, 4, 11),
-(1656, 35, 6),
+(1656, 35, 7),
 (1656, 54, 6),
 (1656, 108, 6),
 (1656, 157, 10),
@@ -7950,34 +8553,34 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (1674, 152, 15),
 (1675, 5, 13),
 (1676, 5, 9),
-(1676, 105, 10),
+(1676, 105, 14),
 (1676, 109, 9),
 (1677, 5, 5),
-(1677, 105, 3),
+(1677, 105, 5),
 (1677, 109, 5),
 (1678, 5, 7),
-(1678, 105, 4),
+(1678, 105, 10),
 (1678, 109, 7),
 (1678, 116, 7),
 (1679, 5, 15),
 (1679, 119, 2),
 (1680, 5, 2),
 (1680, 90, 2),
-(1680, 105, 13),
+(1680, 105, 8),
 (1680, 109, 2),
 (1681, 5, 12),
 (1681, 115, 11),
 (1682, 5, 16),
-(1682, 113, 4),
+(1682, 113, 5),
 (1683, 5, 3),
-(1683, 105, 6),
+(1683, 105, 3),
 (1683, 108, 3),
 (1683, 109, 3),
 (1683, 124, 9),
 (1683, 157, 2),
 (1683, 168, 4),
 (1684, 5, 4),
-(1684, 105, 14),
+(1684, 105, 4),
 (1684, 108, 11),
 (1684, 109, 4),
 (1684, 178, 15),
@@ -7986,7 +8589,7 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (1686, 5, 10),
 (1686, 73, 4),
 (1686, 90, 9),
-(1686, 105, 15),
+(1686, 105, 7),
 (1686, 109, 10),
 (1686, 124, 11),
 (1687, 5, 8),
@@ -8005,7 +8608,7 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (1691, 169, 7),
 (1692, 6, 15),
 (1693, 6, 9),
-(1693, 35, 5),
+(1693, 35, 4),
 (1693, 54, 2),
 (1693, 83, 9),
 (1693, 108, 9),
@@ -8021,7 +8624,7 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (1695, 90, 8),
 (1695, 168, 15),
 (1696, 6, 4),
-(1696, 35, 2),
+(1696, 35, 5),
 (1696, 54, 5),
 (1696, 122, 4),
 (1696, 169, 2),
@@ -8040,11 +8643,11 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (1703, 115, 1),
 (1703, 120, 16),
 (1704, 7, 11),
-(1704, 35, 7),
+(1704, 35, 8),
 (1704, 54, 8),
 (1704, 120, 10),
 (1704, 138, 11),
-(1704, 170, 8),
+(1704, 170, 16),
 (1705, 7, 7),
 (1705, 91, 7),
 (1705, 120, 7),
@@ -8068,7 +8671,7 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (1713, 7, 6),
 (1713, 91, 10),
 (1713, 120, 6),
-(1713, 166, 15),
+(1713, 166, 8),
 (1714, 7, 2),
 (1714, 157, 3),
 (1715, 7, 1),
@@ -8113,7 +8716,7 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (1733, 9, 16),
 (1733, 118, 5),
 (1734, 9, 5),
-(1734, 110, 5),
+(1734, 110, 3),
 (1734, 138, 5),
 (1734, 157, 4),
 (1735, 9, 12),
@@ -8135,7 +8738,7 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (1741, 102, 5),
 (1741, 110, 2),
 (1741, 123, 3),
-(1741, 135, 2),
+(1741, 135, 13),
 (1742, 9, 13),
 (1743, 9, 9),
 (1743, 91, 6),
@@ -8147,7 +8750,7 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (1745, 110, 4),
 (1745, 138, 2),
 (1746, 9, 3),
-(1746, 110, 3),
+(1746, 110, 5),
 (1747, 9, 8),
 (1747, 110, 8),
 (1748, 9, 7),
@@ -8158,17 +8761,12 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (1750, 10, 8),
 (1750, 55, 8),
 (1751, 10, 10),
-(1751, 53, 9),
 (1751, 55, 10),
-(1751, 64, 8),
-(1751, 72, 14),
 (1751, 86, 9),
 (1751, 91, 9),
 (1751, 97, 11),
 (1751, 102, 8),
-(1751, 103, 8),
-(1751, 155, 10),
-(1751, 159, 14),
+(1751, 155, 9),
 (1751, 182, 9),
 (1752, 10, 2),
 (1752, 55, 2),
@@ -8177,8 +8775,8 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (1752, 182, 3),
 (1753, 10, 6),
 (1753, 55, 6),
-(1753, 143, 5),
-(1753, 182, 5),
+(1753, 143, 2),
+(1753, 182, 2),
 (1754, 10, 4),
 (1754, 55, 4),
 (1754, 97, 2),
@@ -8228,6 +8826,11 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (1764, 10, 16),
 (1764, 55, 16),
 (1764, 118, 8),
+(1765, 11, 6),
+(1765, 52, 8),
+(1765, 129, 5),
+(1765, 162, 6),
+(1765, 175, 7),
 (1766, 11, 7),
 (1767, 11, 3),
 (1768, 11, 11),
@@ -8247,7 +8850,8 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (1775, 66, 8),
 (1775, 92, 1),
 (1776, 11, 9),
-(1776, 176, 9),
+(1776, 63, 3),
+(1776, 176, 4),
 (1777, 11, 2),
 (1777, 52, 2),
 (1777, 92, 4),
@@ -8280,6 +8884,7 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (1787, 12, 10),
 (1787, 122, 10),
 (1787, 175, 11),
+(1788, 117, 4),
 (1789, 12, 15),
 (1789, 113, 6),
 (1790, 12, 6),
@@ -8309,17 +8914,15 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (1798, 13, 12),
 (1798, 113, 1),
 (1799, 13, 1),
-(1799, 35, 1),
-(1799, 54, 1),
-(1799, 122, 1),
-(1799, 165, 12),
+(1799, 83, 1),
 (1800, 13, 4),
-(1800, 35, 4),
+(1800, 35, 3),
 (1800, 54, 4),
 (1800, 83, 3),
 (1800, 149, 13),
 (1801, 13, 11),
 (1801, 83, 11),
+(1801, 173, 14),
 (1802, 13, 5),
 (1803, 13, 14),
 (1803, 117, 3),
@@ -8329,13 +8932,13 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (1805, 83, 5),
 (1806, 13, 8),
 (1806, 52, 11),
-(1806, 76, 12),
+(1806, 76, 11),
 (1806, 97, 8),
 (1806, 125, 7),
 (1807, 13, 9),
 (1807, 97, 9),
 (1808, 13, 7),
-(1808, 144, 4),
+(1808, 144, 8),
 (1809, 13, 10),
 (1809, 83, 6),
 (1809, 97, 10),
@@ -8353,7 +8956,12 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (1814, 74, 1),
 (1814, 87, 1),
 (1814, 142, 1),
-(1814, 147, 12),
+(1814, 147, 1),
+(1815, 52, 3),
+(1815, 74, 2),
+(1815, 87, 2),
+(1815, 106, 8),
+(1815, 142, 4),
 (1816, 14, 12),
 (1816, 52, 12),
 (1816, 118, 1),
@@ -8369,7 +8977,7 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (1820, 74, 4),
 (1821, 14, 13),
 (1821, 52, 5),
-(1821, 105, 7),
+(1821, 105, 2),
 (1821, 114, 2),
 (1822, 14, 6),
 (1822, 52, 9),
@@ -8390,8 +8998,8 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (1826, 14, 10),
 (1826, 52, 10),
 (1826, 74, 10),
-(1826, 121, 7),
-(1826, 158, 12),
+(1826, 121, 9),
+(1826, 158, 10),
 (1826, 167, 11),
 (1827, 14, 11),
 (1827, 74, 11),
@@ -8410,12 +9018,13 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (1833, 15, 4),
 (1833, 175, 3),
 (1834, 15, 6),
+(1834, 162, 7),
 (1835, 15, 15),
 (1835, 113, 7),
 (1836, 15, 2),
 (1836, 175, 5),
 (1837, 15, 10),
-(1837, 170, 10),
+(1837, 170, 11),
 (1837, 175, 10),
 (1838, 15, 14),
 (1838, 115, 6),
@@ -8489,27 +9098,23 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (1866, 84, 5),
 (1866, 96, 5),
 (1867, 17, 9),
-(1867, 76, 11),
+(1867, 76, 12),
 (1867, 84, 9),
 (1867, 152, 9),
 (1867, 162, 10),
-(1867, 173, 15),
+(1867, 173, 11),
 (1868, 17, 10),
 (1868, 63, 8),
 (1868, 85, 9),
 (1868, 96, 13),
 (1869, 18, 7),
-(1869, 19, 7),
 (1869, 76, 6),
 (1869, 85, 6),
 (1869, 136, 6),
 (1870, 18, 4),
-(1870, 19, 4),
 (1871, 18, 2),
-(1871, 19, 2),
 (1871, 84, 2),
 (1872, 18, 8),
-(1872, 19, 8),
 (1872, 85, 8),
 (1873, 18, 11),
 (1873, 35, 11),
@@ -8517,9 +9122,7 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (1873, 80, 11),
 (1873, 84, 11),
 (1873, 96, 11),
-(1873, 165, 9),
 (1874, 18, 5),
-(1874, 19, 5),
 (1875, 18, 1),
 (1875, 63, 11),
 (1875, 85, 1),
@@ -8527,29 +9130,35 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (1875, 136, 1),
 (1875, 165, 8),
 (1876, 18, 6),
-(1876, 19, 6),
 (1876, 84, 6),
 (1876, 96, 6),
 (1877, 18, 9),
-(1877, 19, 9),
 (1877, 76, 9),
 (1877, 136, 9),
-(1877, 162, 9),
 (1878, 18, 10),
-(1878, 19, 10),
 (1878, 168, 11),
 (1879, 18, 3),
-(1879, 19, 3),
 (1879, 64, 2),
 (1879, 76, 2),
 (1879, 85, 3),
 (1879, 96, 3),
 (1879, 142, 2),
+(1880, 19, 7),
+(1881, 19, 4),
+(1882, 19, 2),
+(1883, 19, 8),
 (1884, 19, 1),
+(1884, 165, 9),
+(1885, 19, 5),
 (1886, 19, 11),
+(1887, 19, 6),
+(1888, 19, 9),
+(1888, 162, 9),
+(1889, 19, 10),
+(1890, 19, 3),
 (1891, 20, 8),
 (1891, 85, 10),
-(1891, 136, 8),
+(1891, 136, 7),
 (1892, 20, 9),
 (1892, 35, 9),
 (1892, 54, 10),
@@ -8563,7 +9172,7 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (1893, 84, 10),
 (1893, 86, 8),
 (1893, 96, 8),
-(1893, 136, 10),
+(1893, 136, 11),
 (1894, 20, 3),
 (1894, 76, 16),
 (1894, 84, 4),
@@ -8582,23 +9191,23 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (1896, 86, 6),
 (1896, 96, 14),
 (1896, 102, 13),
-(1896, 136, 11),
+(1896, 136, 10),
 (1897, 20, 2),
 (1897, 86, 3),
 (1897, 136, 2),
 (1898, 20, 6),
 (1898, 84, 7),
-(1898, 136, 7),
+(1898, 136, 8),
 (1899, 20, 4),
-(1899, 35, 3),
+(1899, 35, 2),
 (1899, 54, 3),
 (1899, 86, 4),
 (1899, 136, 3),
 (1900, 20, 1),
 (1900, 96, 1),
 (1900, 136, 12),
-(1900, 170, 1),
-(1900, 171, 1),
+(1900, 170, 12),
+(1900, 171, 12),
 (1901, 20, 5),
 (1901, 86, 5),
 (1901, 136, 4),
@@ -8616,7 +9225,7 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (1912, 21, 4),
 (1913, 22, 10),
 (1913, 63, 13),
-(1913, 111, 9),
+(1913, 111, 8),
 (1914, 22, 5),
 (1914, 111, 12),
 (1915, 22, 3),
@@ -8628,7 +9237,7 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (1918, 111, 2),
 (1919, 22, 11),
 (1919, 63, 15),
-(1919, 111, 10),
+(1919, 111, 11),
 (1920, 22, 1),
 (1920, 63, 16),
 (1921, 22, 2),
@@ -8640,14 +9249,14 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (1924, 25, 1),
 (1924, 165, 3),
 (1924, 183, 12),
-(1924, 184, 12),
+(1924, 184, 1),
 (1925, 23, 9),
 (1925, 98, 11),
-(1925, 184, 13),
+(1925, 184, 15),
 (1926, 23, 4),
 (1926, 98, 4),
-(1926, 137, 14),
-(1926, 184, 14),
+(1926, 137, 5),
+(1926, 184, 16),
 (1927, 23, 11),
 (1927, 25, 10),
 (1927, 96, 15),
@@ -8659,34 +9268,31 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (1928, 76, 3),
 (1928, 153, 2),
 (1928, 183, 16),
-(1928, 184, 16),
+(1928, 184, 3),
 (1929, 23, 10),
 (1929, 25, 9),
-(1929, 53, 14),
-(1929, 73, 10),
-(1929, 153, 11),
+(1929, 96, 9),
+(1929, 102, 11),
 (1929, 171, 10),
-(1929, 183, 9),
-(1929, 184, 11),
 (1930, 23, 3),
 (1930, 98, 3),
-(1930, 137, 15),
-(1930, 173, 13),
+(1930, 137, 16),
+(1930, 173, 9),
 (1930, 184, 8),
 (1931, 23, 6),
 (1931, 25, 6),
 (1931, 35, 12),
 (1931, 54, 12),
-(1931, 155, 8),
-(1931, 166, 16),
-(1931, 183, 13),
+(1931, 155, 10),
+(1931, 166, 7),
+(1931, 183, 14),
 (1932, 23, 8),
 (1932, 98, 8),
-(1932, 167, 5),
+(1932, 167, 14),
 (1933, 23, 5),
 (1933, 25, 5),
-(1933, 183, 3),
-(1933, 184, 15),
+(1933, 183, 4),
+(1933, 184, 2),
 (1934, 23, 7),
 (1934, 76, 8),
 (1934, 98, 7),
@@ -8695,49 +9301,45 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (1934, 184, 4),
 (1935, 24, 2),
 (1935, 98, 2),
-(1935, 137, 4),
+(1935, 137, 2),
 (1935, 172, 2),
 (1935, 176, 2),
-(1935, 180, 4),
+(1935, 180, 2),
 (1936, 24, 5),
 (1936, 76, 14),
 (1936, 98, 5),
 (1936, 102, 6),
 (1936, 137, 7),
-(1936, 167, 3),
+(1936, 167, 13),
 (1936, 172, 3),
-(1936, 176, 3),
-(1936, 180, 16),
+(1936, 176, 5),
+(1936, 180, 8),
 (1937, 24, 10),
 (1937, 25, 11),
-(1937, 53, 15),
-(1937, 73, 12),
-(1937, 80, 14),
-(1937, 154, 10),
+(1937, 96, 10),
+(1937, 102, 10),
 (1937, 171, 11),
-(1937, 180, 13),
-(1937, 183, 14),
 (1938, 24, 3),
 (1938, 25, 3),
 (1938, 76, 4),
-(1938, 180, 5),
-(1938, 183, 6),
+(1938, 180, 3),
+(1938, 183, 13),
 (1939, 24, 4),
 (1939, 25, 4),
-(1939, 183, 2),
+(1939, 183, 3),
 (1940, 24, 7),
 (1940, 25, 7),
 (1940, 183, 15),
 (1941, 24, 6),
 (1941, 98, 6),
-(1941, 137, 16),
+(1941, 137, 8),
 (1941, 173, 5),
 (1942, 24, 9),
 (1942, 98, 9),
 (1942, 154, 13),
 (1943, 24, 11),
 (1943, 98, 10),
-(1943, 180, 14),
+(1943, 180, 9),
 (1944, 24, 1),
 (1944, 98, 1),
 (1944, 137, 1),
@@ -8748,7 +9350,7 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (1945, 76, 15),
 (1945, 80, 6),
 (1945, 96, 16),
-(1945, 180, 15),
+(1945, 180, 7),
 (1946, 26, 13),
 (1946, 79, 6),
 (1947, 26, 14),
@@ -8760,6 +9362,8 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (1949, 26, 12),
 (1949, 79, 16),
 (1949, 115, 3),
+(1950, 61, 2),
+(1950, 79, 2),
 (1951, 26, 5),
 (1951, 61, 5),
 (1951, 79, 4),
@@ -8779,6 +9383,8 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (1955, 79, 14),
 (1956, 26, 15),
 (1957, 26, 1),
+(1957, 61, 1),
+(1957, 79, 12),
 (1958, 26, 11),
 (1958, 52, 14),
 (1958, 61, 11),
@@ -8786,7 +9392,7 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (1958, 79, 11),
 (1958, 87, 10),
 (1958, 129, 10),
-(1958, 156, 11),
+(1958, 156, 9),
 (1959, 26, 10),
 (1959, 61, 10),
 (1959, 79, 8),
@@ -8863,7 +9469,7 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (1988, 81, 4),
 (1988, 102, 7),
 (1988, 121, 6),
-(1988, 158, 8),
+(1988, 158, 5),
 (1989, 28, 13),
 (1989, 118, 2),
 (1990, 28, 3),
@@ -8871,8 +9477,8 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (1991, 28, 7),
 (1991, 52, 16),
 (1991, 77, 10),
-(1991, 156, 7),
-(1991, 167, 6),
+(1991, 156, 5),
+(1991, 167, 4),
 (1992, 28, 16),
 (1992, 117, 5),
 (1993, 28, 15),
@@ -8887,19 +9493,18 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (2000, 29, 1),
 (2000, 132, 12),
 (2001, 29, 11),
-(2001, 147, 10),
+(2001, 147, 7),
 (2002, 29, 8),
-(2002, 152, 5),
+(2002, 152, 4),
 (2003, 29, 6),
 (2004, 29, 10),
 (2004, 64, 16),
-(2004, 166, 14),
+(2004, 166, 16),
 (2005, 30, 4),
 (2005, 147, 14),
 (2006, 30, 7),
-(2006, 157, 9),
 (2007, 30, 2),
-(2007, 152, 6),
+(2007, 152, 5),
 (2008, 30, 3),
 (2009, 30, 10),
 (2009, 153, 16),
@@ -8912,6 +9517,7 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (2015, 30, 9),
 (2016, 31, 4),
 (2017, 31, 7),
+(2017, 157, 8),
 (2018, 31, 2),
 (2019, 31, 3),
 (2020, 31, 10),
@@ -8951,17 +9557,20 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (2038, 103, 6),
 (2038, 133, 14),
 (2038, 154, 9),
-(2038, 166, 10),
+(2038, 166, 9),
 (2039, 32, 15),
 (2040, 32, 3),
 (2040, 56, 5),
 (2041, 32, 16),
 (2042, 32, 10),
 (2042, 53, 11),
-(2042, 73, 8),
+(2042, 73, 6),
 (2042, 104, 9),
-(2042, 159, 11),
+(2042, 159, 9),
 (2043, 33, 16),
+(2044, 33, 10),
+(2044, 53, 8),
+(2044, 133, 10),
 (2045, 33, 4),
 (2045, 56, 2),
 (2045, 65, 4),
@@ -8984,7 +9593,7 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (2053, 56, 6),
 (2054, 33, 11),
 (2054, 56, 11),
-(2054, 171, 15),
+(2054, 171, 16),
 (2055, 33, 5),
 (2056, 33, 9),
 (2056, 56, 7),
@@ -8994,6 +9603,11 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (2058, 81, 6),
 (2058, 103, 7),
 (2059, 34, 9),
+(2059, 53, 9),
+(2059, 64, 8),
+(2059, 72, 14),
+(2059, 103, 8),
+(2059, 159, 10),
 (2060, 34, 2),
 (2060, 53, 13),
 (2060, 104, 3),
@@ -9001,8 +9615,12 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (2061, 56, 13),
 (2061, 146, 6),
 (2062, 34, 11),
-(2062, 96, 10),
-(2062, 102, 10),
+(2062, 53, 15),
+(2062, 73, 12),
+(2062, 80, 14),
+(2062, 154, 10),
+(2062, 180, 10),
+(2062, 183, 6),
 (2063, 34, 16),
 (2064, 34, 1),
 (2064, 56, 1),
@@ -9023,8 +9641,11 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (2070, 34, 3),
 (2070, 53, 16),
 (2071, 34, 10),
-(2071, 96, 9),
-(2071, 102, 11),
+(2071, 53, 14),
+(2071, 73, 10),
+(2071, 153, 11),
+(2071, 183, 8),
+(2071, 184, 11),
 (2072, 34, 13),
 (2072, 149, 6),
 (2073, 34, 7),
@@ -9033,12 +9654,15 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (2074, 34, 4),
 (2074, 56, 14),
 (2076, 6, 1),
-(2076, 83, 1),
+(2076, 35, 1),
+(2076, 54, 1),
+(2076, 122, 1),
+(2076, 165, 12),
 (2077, 35, 10),
 (2077, 54, 7),
 (2077, 63, 4),
-(2077, 156, 14),
-(2079, 36, 3),
+(2077, 156, 8),
+(2079, 36, 2),
 (2079, 103, 2),
 (2079, 149, 14),
 (2080, 36, 5),
@@ -9053,56 +9677,56 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (2085, 81, 10),
 (2085, 103, 15),
 (2085, 104, 10),
-(2085, 155, 9),
-(2085, 173, 8),
-(2086, 36, 4),
+(2085, 155, 11),
+(2085, 173, 10),
+(2086, 36, 3),
 (2087, 36, 13),
 (2088, 36, 11),
 (2089, 36, 9),
 (2089, 170, 6),
-(2090, 36, 6),
+(2090, 36, 7),
 (2090, 64, 5),
 (2091, 36, 14),
 (2092, 36, 16),
-(2093, 36, 2),
-(2094, 36, 7),
-(2094, 173, 6),
+(2093, 36, 4),
+(2094, 36, 6),
+(2094, 173, 7),
 (2095, 37, 6),
 (2096, 37, 15),
-(2097, 37, 9),
-(2098, 37, 10),
-(2098, 159, 13),
+(2097, 37, 8),
+(2098, 37, 11),
+(2098, 159, 15),
 (2099, 37, 12),
 (2100, 37, 2),
-(2100, 169, 6),
+(2100, 169, 13),
 (2101, 37, 14),
-(2102, 37, 11),
+(2102, 37, 10),
 (2103, 37, 13),
 (2104, 37, 5),
 (2105, 37, 16),
-(2105, 159, 15),
+(2105, 159, 4),
 (2106, 37, 4),
 (2106, 64, 13),
 (2107, 37, 1),
-(2107, 159, 1),
-(2107, 169, 1),
+(2107, 159, 12),
+(2107, 169, 12),
 (2108, 37, 7),
 (2109, 37, 3),
 (2109, 103, 5),
 (2109, 139, 3),
 (2109, 168, 6),
-(2110, 37, 8),
+(2110, 37, 9),
 (2111, 38, 5),
-(2112, 38, 10),
+(2112, 38, 11),
 (2112, 58, 10),
 (2112, 64, 10),
 (2112, 69, 10),
 (2112, 72, 11),
 (2112, 73, 9),
 (2112, 103, 10),
-(2112, 133, 10),
-(2112, 158, 11),
-(2112, 161, 10),
+(2112, 133, 9),
+(2112, 158, 9),
+(2112, 161, 9),
 (2112, 166, 11),
 (2113, 38, 9),
 (2114, 38, 12),
@@ -9112,19 +9736,19 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (2116, 130, 4),
 (2117, 38, 3),
 (2117, 57, 2),
-(2117, 105, 5),
+(2117, 105, 13),
 (2117, 149, 7),
-(2117, 173, 2),
+(2117, 173, 4),
 (2118, 38, 14),
 (2119, 38, 6),
 (2120, 38, 16),
-(2121, 38, 11),
+(2121, 38, 10),
 (2121, 58, 7),
 (2121, 65, 10),
 (2121, 69, 11),
 (2122, 38, 1),
 (2122, 57, 1),
-(2122, 156, 12),
+(2122, 156, 1),
 (2123, 38, 8),
 (2123, 57, 5),
 (2124, 38, 13),
@@ -9145,7 +9769,7 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (2129, 75, 6),
 (2130, 39, 7),
 (2130, 68, 8),
-(2131, 39, 11),
+(2131, 39, 10),
 (2131, 59, 7),
 (2131, 60, 11),
 (2132, 39, 2),
@@ -9154,7 +9778,7 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (2132, 68, 6),
 (2132, 72, 5),
 (2132, 103, 4),
-(2132, 133, 2),
+(2132, 133, 4),
 (2132, 149, 3),
 (2132, 161, 3),
 (2132, 163, 2),
@@ -9178,14 +9802,18 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (2139, 59, 1),
 (2140, 39, 16),
 (2140, 59, 8),
-(2141, 39, 10),
+(2141, 39, 11),
 (2141, 60, 8),
 (2141, 68, 7),
 (2142, 39, 8),
 (2142, 68, 5),
-(2142, 147, 13),
+(2142, 147, 5),
 (2143, 40, 12),
 (2143, 165, 10),
+(2144, 40, 7),
+(2144, 64, 7),
+(2144, 103, 14),
+(2144, 161, 8),
 (2145, 40, 16),
 (2146, 40, 1),
 (2147, 40, 15),
@@ -9194,11 +9822,11 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (2149, 40, 6),
 (2149, 169, 5),
 (2150, 40, 4),
-(2151, 40, 10),
+(2151, 40, 11),
 (2151, 58, 13),
 (2151, 60, 10),
 (2151, 104, 7),
-(2151, 133, 9),
+(2151, 133, 11),
 (2151, 161, 11),
 (2151, 163, 11),
 (2152, 40, 2),
@@ -9207,6 +9835,10 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (2153, 60, 4),
 (2153, 133, 15),
 (2153, 149, 8),
+(2154, 40, 5),
+(2154, 103, 3),
+(2154, 161, 5),
+(2154, 170, 2),
 (2155, 40, 14),
 (2156, 40, 9),
 (2156, 58, 8),
@@ -9216,19 +9848,19 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (2156, 133, 7),
 (2156, 161, 13),
 (2156, 163, 9),
-(2157, 40, 11),
+(2157, 40, 10),
 (2157, 60, 9),
 (2158, 40, 13),
 (2159, 41, 14),
-(2160, 41, 6),
+(2160, 41, 7),
 (2160, 57, 4),
 (2160, 80, 7),
-(2160, 126, 5),
+(2160, 126, 7),
 (2160, 159, 7),
 (2161, 41, 13),
-(2162, 41, 3),
+(2162, 41, 2),
 (2162, 57, 3),
-(2163, 41, 4),
+(2163, 41, 3),
 (2163, 57, 6),
 (2163, 149, 4),
 (2164, 41, 16),
@@ -9236,40 +9868,40 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (2164, 64, 14),
 (2164, 81, 11),
 (2165, 41, 15),
-(2166, 41, 8),
+(2166, 41, 6),
 (2166, 145, 7),
 (2167, 41, 12),
-(2168, 41, 9),
+(2168, 41, 8),
 (2168, 81, 1),
 (2168, 146, 5),
-(2169, 41, 7),
-(2169, 155, 7),
-(2170, 41, 10),
+(2169, 41, 10),
+(2169, 155, 14),
+(2170, 41, 9),
 (2170, 58, 11),
 (2170, 64, 11),
 (2170, 69, 7),
 (2170, 72, 9),
 (2170, 103, 11),
 (2170, 158, 7),
-(2170, 160, 8),
-(2170, 161, 9),
-(2170, 166, 9),
+(2170, 160, 11),
+(2170, 161, 10),
+(2170, 166, 10),
 (2171, 41, 1),
 (2171, 58, 15),
 (2171, 66, 13),
 (2171, 69, 1),
 (2171, 72, 15),
 (2171, 103, 1),
-(2171, 133, 12),
+(2171, 133, 13),
 (2171, 165, 15),
-(2172, 41, 2),
-(2172, 133, 4),
-(2172, 161, 7),
+(2172, 41, 4),
+(2172, 133, 2),
+(2172, 161, 6),
 (2173, 41, 5),
 (2173, 58, 6),
 (2173, 69, 4),
 (2173, 104, 16),
-(2173, 166, 5),
+(2173, 166, 4),
 (2174, 41, 11),
 (2174, 65, 11),
 (2174, 69, 14),
@@ -9300,49 +9932,49 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (2183, 60, 14),
 (2183, 68, 16),
 (2183, 165, 11),
-(2184, 42, 5),
+(2184, 42, 4),
 (2184, 68, 14),
-(2185, 42, 6),
+(2185, 42, 7),
 (2185, 68, 13),
 (2185, 130, 7),
-(2186, 42, 7),
+(2186, 42, 6),
 (2186, 59, 9),
 (2186, 70, 7),
-(2187, 42, 4),
+(2187, 42, 5),
 (2187, 59, 5),
 (2187, 60, 5),
 (2187, 104, 6),
 (2187, 149, 9),
 (2188, 42, 2),
 (2188, 68, 15),
-(2189, 42, 9),
+(2189, 42, 10),
 (2189, 60, 7),
 (2189, 68, 12),
-(2189, 133, 6),
-(2189, 161, 6),
-(2189, 166, 7),
-(2190, 42, 10),
+(2189, 133, 8),
+(2189, 161, 7),
+(2189, 166, 13),
+(2190, 42, 9),
 (2190, 60, 12),
 (2190, 68, 9),
 (2190, 70, 10),
 (2190, 72, 8),
-(2190, 73, 7),
-(2190, 133, 11),
+(2190, 73, 8),
+(2190, 133, 12),
 (2190, 171, 8),
 (2191, 43, 2),
 (2191, 70, 2),
 (2191, 71, 2),
 (2191, 103, 13),
-(2191, 148, 4),
+(2191, 148, 2),
 (2191, 149, 11),
 (2192, 43, 3),
 (2192, 65, 3),
-(2192, 148, 3),
-(2193, 43, 8),
+(2192, 148, 4),
+(2193, 43, 9),
 (2194, 43, 12),
 (2194, 64, 12),
 (2194, 166, 1),
-(2195, 43, 10),
+(2195, 43, 11),
 (2195, 153, 9),
 (2196, 43, 4),
 (2196, 71, 3),
@@ -9353,16 +9985,16 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (2197, 148, 6),
 (2198, 43, 16),
 (2198, 154, 11),
-(2199, 43, 11),
+(2199, 43, 10),
 (2199, 70, 12),
 (2199, 71, 10),
-(2199, 73, 6),
+(2199, 73, 7),
 (2199, 103, 16),
 (2199, 104, 11),
 (2199, 148, 11),
-(2200, 43, 9),
+(2200, 43, 8),
 (2200, 71, 7),
-(2200, 148, 8),
+(2200, 148, 7),
 (2201, 43, 13),
 (2202, 43, 5),
 (2202, 71, 14),
@@ -9372,39 +10004,48 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (2204, 43, 7),
 (2204, 64, 15),
 (2204, 71, 15),
-(2207, 44, 4),
-(2207, 174, 4),
+(2206, 43, 1),
+(2206, 66, 11),
+(2206, 70, 1),
+(2206, 71, 13),
+(2206, 72, 1),
+(2206, 103, 12),
+(2206, 148, 12),
+(2206, 161, 1),
+(2206, 165, 7),
+(2207, 44, 5),
+(2207, 174, 3),
 (2208, 44, 7),
 (2208, 57, 12),
-(2208, 174, 7),
+(2208, 174, 13),
 (2209, 44, 13),
-(2209, 174, 13),
+(2209, 174, 10),
 (2210, 44, 15),
-(2210, 174, 15),
-(2211, 44, 5),
+(2210, 174, 7),
+(2211, 44, 3),
 (2211, 149, 15),
 (2211, 161, 14),
-(2211, 174, 5),
-(2212, 44, 10),
+(2211, 174, 4),
+(2212, 44, 9),
 (2212, 69, 9),
 (2212, 70, 9),
 (2212, 104, 13),
-(2212, 174, 10),
-(2213, 44, 11),
+(2212, 174, 9),
+(2213, 44, 10),
 (2213, 57, 11),
-(2213, 174, 11),
+(2213, 174, 14),
 (2214, 44, 12),
 (2214, 66, 12),
-(2214, 174, 12),
+(2214, 174, 1),
 (2215, 44, 16),
 (2215, 174, 16),
 (2216, 44, 1),
 (2216, 69, 13),
 (2216, 70, 13),
 (2216, 133, 1),
-(2216, 174, 1),
-(2217, 44, 9),
-(2217, 174, 9),
+(2216, 174, 12),
+(2217, 44, 11),
+(2217, 174, 11),
 (2218, 44, 6),
 (2218, 57, 13),
 (2218, 174, 6),
@@ -9416,10 +10057,10 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (2220, 72, 12),
 (2220, 174, 8),
 (2221, 44, 14),
-(2221, 174, 14),
-(2222, 44, 3),
-(2222, 174, 3),
-(2223, 45, 11),
+(2221, 174, 15),
+(2222, 44, 4),
+(2222, 174, 5),
+(2223, 45, 10),
 (2223, 57, 8),
 (2224, 45, 13),
 (2225, 45, 12),
@@ -9427,25 +10068,25 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (2225, 145, 1),
 (2225, 165, 14),
 (2226, 45, 15),
-(2227, 45, 5),
+(2227, 45, 2),
 (2227, 152, 8),
-(2228, 45, 10),
+(2228, 45, 11),
 (2228, 130, 13),
 (2229, 45, 14),
-(2230, 45, 9),
+(2230, 45, 7),
 (2230, 69, 8),
 (2230, 70, 15),
 (2230, 72, 13),
 (2230, 145, 10),
-(2230, 166, 8),
-(2231, 45, 8),
+(2230, 166, 14),
+(2231, 45, 9),
 (2231, 145, 14),
-(2232, 45, 2),
+(2232, 45, 5),
 (2232, 69, 2),
 (2232, 70, 4),
 (2232, 104, 12),
-(2232, 145, 2),
-(2232, 159, 4),
+(2232, 145, 4),
+(2232, 159, 13),
 (2232, 161, 4),
 (2233, 45, 4),
 (2234, 45, 3),
@@ -9458,187 +10099,231 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (2237, 45, 6),
 (2237, 69, 12),
 (2237, 70, 5),
-(2237, 145, 4),
+(2237, 145, 2),
 (2237, 159, 8),
-(2238, 45, 7),
+(2238, 45, 8),
 (2238, 57, 16),
 (2238, 81, 14),
-(2238, 145, 5),
+(2238, 145, 3),
 (2238, 159, 6),
-(2239, 46, 2),
+(2239, 46, 3),
 (2239, 69, 6),
 (2239, 70, 3),
 (2239, 72, 3),
 (2239, 161, 15),
-(2239, 173, 4),
+(2239, 173, 3),
 (2240, 46, 14),
 (2241, 46, 13),
 (2241, 173, 16),
 (2242, 46, 15),
-(2242, 173, 7),
-(2243, 46, 4),
+(2242, 173, 8),
+(2243, 46, 2),
 (2244, 46, 12),
 (2244, 66, 9),
-(2245, 46, 6),
+(2245, 46, 8),
 (2245, 65, 16),
 (2246, 46, 1),
 (2246, 66, 1),
 (2246, 104, 14),
-(2247, 46, 8),
+(2247, 46, 6),
 (2247, 57, 10),
-(2248, 46, 3),
-(2248, 173, 12),
+(2248, 46, 4),
+(2248, 173, 1),
 (2249, 46, 11),
 (2249, 57, 9),
 (2249, 73, 3),
-(2250, 46, 10),
+(2250, 46, 9),
 (2250, 57, 15),
 (2251, 46, 16),
-(2252, 46, 7),
-(2253, 46, 9),
+(2252, 46, 10),
+(2253, 46, 7),
 (2253, 69, 16),
 (2253, 70, 6),
-(2253, 156, 13),
+(2253, 156, 15),
 (2254, 46, 5),
 (2254, 69, 5),
 (2254, 70, 14),
 (2254, 132, 3),
-(2255, 47, 6),
-(2255, 71, 9),
-(2256, 47, 7),
-(2256, 71, 8),
+(2255, 47, 7),
+(2255, 71, 8),
+(2256, 47, 6),
+(2256, 71, 9),
 (2256, 104, 15),
 (2257, 47, 5),
 (2257, 71, 5),
 (2258, 47, 12),
-(2259, 47, 3),
+(2259, 47, 2),
 (2260, 47, 8),
 (2261, 47, 1),
 (2261, 66, 15),
 (2261, 71, 1),
-(2262, 47, 2),
+(2262, 47, 4),
 (2263, 47, 16),
-(2264, 47, 10),
+(2264, 47, 9),
 (2264, 73, 2),
 (2265, 47, 15),
 (2265, 66, 10),
 (2266, 47, 14),
 (2266, 71, 12),
-(2267, 47, 4),
+(2267, 47, 3),
 (2267, 71, 4),
 (2267, 72, 4),
 (2267, 161, 2),
 (2268, 47, 13),
 (2269, 47, 11),
 (2269, 71, 11),
-(2270, 47, 9),
+(2270, 47, 10),
 (2270, 71, 16),
 (2270, 81, 15),
-(2271, 48, 9),
-(2271, 137, 8),
+(2271, 48, 6),
+(2271, 137, 9),
 (2271, 181, 6),
 (2271, 182, 6),
-(2271, 184, 2),
-(2272, 48, 7),
-(2272, 50, 9),
-(2272, 137, 5),
+(2271, 184, 13),
+(2272, 48, 10),
+(2272, 50, 8),
+(2272, 137, 12),
 (2272, 182, 13),
 (2272, 184, 7),
-(2273, 48, 4),
+(2273, 48, 2),
 (2273, 181, 2),
-(2274, 48, 8),
+(2274, 48, 7),
 (2274, 137, 6),
 (2274, 181, 11),
 (2274, 182, 8),
-(2274, 184, 3),
+(2274, 184, 14),
 (2275, 48, 1),
-(2275, 137, 12),
+(2275, 137, 14),
 (2275, 181, 1),
 (2275, 182, 12),
-(2275, 184, 1),
+(2275, 184, 12),
 (2276, 48, 5),
 (2276, 50, 5),
 (2276, 182, 4),
 (2276, 183, 5),
-(2277, 48, 10),
-(2277, 50, 8),
+(2277, 48, 9),
+(2277, 50, 9),
 (2277, 150, 10),
 (2277, 182, 10),
 (2277, 183, 7),
 (2277, 184, 9),
-(2278, 48, 3),
+(2278, 48, 4),
 (2278, 181, 3),
 (2278, 182, 15),
 (2278, 184, 5),
-(2279, 48, 6),
+(2279, 48, 8),
 (2279, 181, 7),
 (2280, 48, 11),
-(2280, 50, 11),
+(2280, 50, 10),
 (2280, 182, 11),
 (2280, 183, 11),
 (2280, 184, 10),
-(2281, 48, 2),
+(2281, 48, 3),
 (2281, 50, 4),
-(2281, 182, 2),
+(2281, 182, 5),
 (2282, 49, 1),
 (2282, 50, 1),
 (2282, 180, 1),
 (2282, 183, 1),
-(2283, 49, 3),
+(2283, 49, 2),
 (2283, 181, 4),
-(2284, 49, 9),
-(2284, 180, 9),
+(2284, 49, 8),
+(2284, 180, 6),
 (2284, 181, 10),
-(2285, 49, 7),
-(2285, 137, 13),
-(2285, 180, 3),
+(2285, 49, 6),
+(2285, 137, 15),
+(2285, 180, 5),
 (2285, 181, 9),
-(2286, 49, 10),
+(2286, 49, 9),
 (2286, 50, 7),
 (2286, 146, 11),
-(2286, 180, 11),
-(2286, 183, 8),
+(2286, 180, 16),
+(2286, 183, 9),
 (2287, 49, 11),
-(2287, 50, 10),
-(2287, 180, 10),
+(2287, 50, 11),
+(2287, 180, 11),
 (2287, 183, 10),
-(2288, 49, 8),
-(2288, 137, 9),
+(2288, 49, 10),
+(2288, 137, 13),
 (2288, 150, 16),
-(2288, 180, 7),
+(2288, 180, 14),
 (2288, 181, 8),
-(2289, 49, 4),
+(2289, 49, 3),
 (2289, 50, 2),
-(2289, 137, 2),
-(2289, 180, 2),
+(2289, 137, 3),
+(2289, 180, 4),
 (2290, 49, 5),
-(2290, 137, 3),
+(2290, 137, 4),
 (2290, 159, 3),
 (2290, 181, 5),
-(2291, 49, 2),
+(2291, 49, 4),
 (2291, 50, 3),
-(2291, 180, 8),
-(2291, 183, 4),
-(2292, 49, 6),
+(2291, 180, 15),
+(2291, 183, 2),
+(2292, 49, 7),
 (2292, 50, 6),
 (2292, 159, 2),
-(2292, 180, 6),
+(2292, 180, 13),
 (2294, 51, 1),
-(2294, 147, 1),
+(2294, 147, 12),
 (2295, 51, 2),
 (2295, 133, 3),
 (2296, 51, 3),
 (2297, 51, 4),
 (2298, 51, 5),
-(2299, 51, 6),
-(2300, 51, 7),
-(2300, 147, 5),
-(2301, 51, 8),
+(2299, 51, 7),
+(2300, 51, 8),
+(2300, 147, 13),
+(2301, 51, 6),
 (2302, 51, 9),
 (2303, 51, 10),
 (2304, 51, 11),
-(2304, 159, 9),
-(2304, 169, 10),
+(2304, 159, 14),
+(2304, 169, 9),
+(2305, 158, 1),
+(2305, 160, 1),
+(2305, 176, 1),
+(2305, 185, 1),
+(2306, 158, 6),
+(2306, 160, 2),
+(2306, 185, 5),
+(2307, 158, 3),
+(2307, 160, 3),
+(2307, 185, 2),
+(2308, 163, 3),
+(2308, 185, 4),
+(2309, 158, 2),
+(2309, 185, 3),
+(2310, 160, 4),
+(2310, 163, 4),
+(2310, 185, 15),
+(2311, 163, 12),
+(2311, 185, 8),
+(2312, 158, 11),
+(2312, 160, 5),
+(2312, 185, 9),
+(2313, 160, 10),
+(2313, 163, 10),
+(2313, 176, 11),
+(2313, 185, 11),
+(2314, 160, 6),
+(2314, 163, 8),
+(2314, 185, 12),
+(2315, 158, 4),
+(2315, 185, 6),
+(2316, 160, 8),
+(2316, 163, 6),
+(2316, 176, 8),
+(2316, 185, 10),
+(2317, 158, 8),
+(2317, 160, 7),
+(2317, 185, 7),
+(2318, 163, 1),
+(2318, 185, 13),
+(2319, 163, 7),
+(2319, 185, 16),
+(2320, 158, 12),
+(2320, 185, 14),
 (2321, 30, 12),
 (2322, 30, 13),
 (2323, 30, 14),
@@ -19044,8 +19729,8 @@ INSERT INTO `player_plays_during_story_team` (`player_id`, `team_id`) VALUES
 (2040, 32),
 (2041, 32),
 (2042, 32),
-(605, 33),
 (2043, 33),
+(2044, 33),
 (2045, 33),
 (2046, 33),
 (2047, 33),
@@ -19085,12 +19770,12 @@ INSERT INTO `player_plays_during_story_team` (`player_id`, `team_id`) VALUES
 (1736, 35),
 (1758, 35),
 (1760, 35),
-(1799, 35),
 (1800, 35),
 (1873, 35),
 (1892, 35),
 (1899, 35),
 (1931, 35),
+(2076, 35),
 (2077, 35),
 (2079, 36),
 (2080, 36),
@@ -19156,9 +19841,8 @@ INSERT INTO `player_plays_during_story_team` (`player_id`, `team_id`) VALUES
 (2140, 39),
 (2141, 39),
 (2142, 39),
-(116, 40),
-(977, 40),
 (2143, 40),
+(2144, 40),
 (2145, 40),
 (2146, 40),
 (2147, 40),
@@ -19168,6 +19852,7 @@ INSERT INTO `player_plays_during_story_team` (`player_id`, `team_id`) VALUES
 (2151, 40),
 (2152, 40),
 (2153, 40),
+(2154, 40),
 (2155, 40),
 (2156, 40),
 (2157, 40),
@@ -19205,7 +19890,6 @@ INSERT INTO `player_plays_during_story_team` (`player_id`, `team_id`) VALUES
 (2189, 42),
 (2190, 42),
 (1558, 43),
-(1586, 43),
 (2191, 43),
 (2192, 43),
 (2193, 43),
@@ -19220,6 +19904,7 @@ INSERT INTO `player_plays_during_story_team` (`player_id`, `team_id`) VALUES
 (2202, 43),
 (2203, 43),
 (2204, 43),
+(2206, 43),
 (2207, 44),
 (2208, 44),
 (2209, 44),

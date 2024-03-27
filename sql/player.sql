@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Mar 25, 2024 at 08:55 PM
+-- Generation Time: Mar 27, 2024 at 08:48 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -541,7 +541,7 @@ INSERT INTO `player` (`player_id`, `player_name_ja`, `player_name_hiragana`, `pl
 (479, 'クローバー', NULL, NULL, 'kuroobaa', NULL, NULL, NULL, 101, 97, 48, 45, 54, 84, 56, 56, 57, 47, 2, 3, 1, 2, 5, NULL),
 (480, 'くろかわ', NULL, NULL, 'kurokawa', NULL, NULL, NULL, 133, 100, 56, 56, 57, 56, 51, 54, 51, 27, 3, 4, 1, 2, 3, NULL),
 (481, 'クロブタ', NULL, NULL, 'kurobuta', NULL, NULL, 8, 92, 117, 46, 46, 44, 46, 45, 47, 52, 95, 2, 1, 1, 2, 3, NULL),
-(482, 'くろまじょ', NULL, NULL, 'kuromajo', NULL, NULL, NULL, 92, 122, 50, 51, 52, 51, 48, 51, 63, 56, 3, 2, 1, 2, 3, NULL),
+(482, 'くろまじょ', NULL, NULL, 'kuromajo', NULL, NULL, NULL, 92, 122, 50, 51, 52, 51, 48, 51, 63, 56, 3, 2, 2, 2, 3, NULL),
 (483, 'くろまめ', NULL, NULL, 'kuromame', NULL, NULL, NULL, 94, 124, 60, 58, 59, 62, 60, 43, 48, 49, 1, 3, 1, 2, 3, NULL),
 (484, 'くわがた', NULL, NULL, 'kuwagata', NULL, NULL, 5, 121, 105, 56, 59, 54, 60, 53, 53, 57, 25, 1, 3, 1, 2, 7, NULL),
 (485, 'くわはら', NULL, NULL, 'kuwahara', NULL, NULL, NULL, 128, 101, 39, 62, 38, 66, 41, 67, 38, 74, 2, 3, 1, 2, 3, NULL),
