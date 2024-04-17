@@ -52,11 +52,12 @@ begin
     declare vH4 varchar(32) default '';
     declare vNameRomanji varchar(32) default '';
 
-    declare vBodyType varchar(32) default '';
+    declare vBodyType varchar(1) default '';
     declare vFullJa varchar(32) default '';
     declare vKanjiJa varchar(32) default '';
     declare vNameEn varchar(32) default '';
     declare vFullEn varchar(32) default '';
+    declare vId int default 0;
 
     declare continueCur1 int default 1;
     declare cur1 cursor for select * from aux_player;
@@ -74,7 +75,8 @@ begin
 	while continueCur1=1 do
         fetch cur1 into vPageOrder, vNameJa, vZoneName, vObtentionDesc, 
             vAttri, vPositi, vLv, vGp, vTp, vKick, vBody, vControl, vGuard, 
-            vSpeed, vStamina, vGuts, vFreedom, vH1, vH2, vH3, vH4, vNameRomanji;
+            vSpeed, vStamina, vGuts, vFreedom, vH1, vH2, vH3, vH4, vNameRomanji,
+            vBodyType, vFullJa, vKanjiJa, vNameEn, vFullEn, vId;
         if continueCur1 = 1 then
             /*romanji name*/
             set vRomanjiFix = '';
@@ -189,13 +191,13 @@ begin
                 player_guts_99, player_freedom_99, attri_id, positi_id, 
                 gender_id, body_type_id, player_obtention_method_id, 
                 original_version) values (
-                i, vNameJa, null, 
-                null, vRomanjiFix, null, 
-                null, vLvInt, vGp, 
+                i, vNameJa, vFullJa, 
+                vKanjiJa, vRomanjiFix, vNameEn, 
+                vFullEn, vLvInt, vGp, 
                 vTp, vKick, vBody, vControl,
                 vGuard, vSpeed, vStamina, 
                 vGuts, vFreedom, vAttriId, vPositiId, 
-                vGenderId, vBodyId, vObtentionId, 
+                vGenderId, vBodyId, vObtentionId,
                 null);
 
             insert into player_found_at_zone(player_id, zone_id, is_random, 
