@@ -21,7 +21,13 @@ create temporary table aux_player (
     h2 varchar(32),
     h3 varchar(32),
     h4 varchar(32),
-    name_romanji varchar(32)
+    name_romanji varchar(32), 
+    body_type varchar(1),
+    full_ja varchar(32),
+    kanji_ja varchar(32),
+    name_en varchar(32),
+    full_en varchar(32),
+    id int
 );
 
 load data infile '/home/alejandro/Desktop/projects/choujigen3mysql/csv/a.csv'
@@ -32,142 +38,157 @@ lines terminated by '\n'
 ignore 1 lines
 (page_order, name_ja, zone_name, obtention_desc, attri, positi, lv, gp, tp,
     kick, body, control, guard, speed, stamina, guts, freedom, h1, h2, h3, 
-    h4, name_romanji);
+    h4, name_romanji, body_type, full_ja, kanji_ja, name_en, full_en, id);
 
 load data infile '/home/alejandro/Desktop/projects/choujigen3mysql/csv/ka.csv'
 into table aux_player 
 fields terminated by ',' 
 enclosed by '"'
 lines terminated by '\n'
+ignore 1 lines
 (page_order, name_ja, zone_name, obtention_desc, attri, positi, lv, gp, tp,
     kick, body, control, guard, speed, stamina, guts, freedom, h1, h2, h3, 
-    h4, name_romanji);
+    h4, name_romanji, body_type, full_ja, kanji_ja, name_en, full_en, id);
 
 load data infile '/home/alejandro/Desktop/projects/choujigen3mysql/csv/sa.csv'
 into table aux_player 
 fields terminated by ',' 
 enclosed by '"'
 lines terminated by '\n'
+ignore 1 lines
 (page_order, name_ja, zone_name, obtention_desc, attri, positi, lv, gp, tp,
     kick, body, control, guard, speed, stamina, guts, freedom, h1, h2, h3, 
-    h4, name_romanji);
+    h4, name_romanji, body_type, full_ja, kanji_ja, name_en, full_en, id);
 
 load data infile '/home/alejandro/Desktop/projects/choujigen3mysql/csv/ta.csv'
 into table aux_player 
 fields terminated by ',' 
 enclosed by '"'
 lines terminated by '\n'
+ignore 1 lines
 (page_order, name_ja, zone_name, obtention_desc, attri, positi, lv, gp, tp,
     kick, body, control, guard, speed, stamina, guts, freedom, h1, h2, h3, 
-    h4, name_romanji);
+    h4, name_romanji, body_type, full_ja, kanji_ja, name_en, full_en, id);
 
 load data infile '/home/alejandro/Desktop/projects/choujigen3mysql/csv/na.csv'
 into table aux_player 
 fields terminated by ',' 
 enclosed by '"'
 lines terminated by '\n'
+ignore 1 lines
 (page_order, name_ja, zone_name, obtention_desc, attri, positi, lv, gp, tp,
     kick, body, control, guard, speed, stamina, guts, freedom, h1, h2, h3, 
-    h4, name_romanji);
+    h4, name_romanji, body_type, full_ja, kanji_ja, name_en, full_en, id);
 
 load data infile '/home/alejandro/Desktop/projects/choujigen3mysql/csv/ha.csv'
 into table aux_player 
 fields terminated by ',' 
 enclosed by '"'
 lines terminated by '\n'
+ignore 1 lines
 (page_order, name_ja, zone_name, obtention_desc, attri, positi, lv, gp, tp,
     kick, body, control, guard, speed, stamina, guts, freedom, h1, h2, h3, 
-    h4, name_romanji);
+    h4, name_romanji, body_type, full_ja, kanji_ja, name_en, full_en, id);
 
 load data infile '/home/alejandro/Desktop/projects/choujigen3mysql/csv/ma.csv'
 into table aux_player 
 fields terminated by ',' 
 enclosed by '"'
 lines terminated by '\n'
+ignore 1 lines
 (page_order, name_ja, zone_name, obtention_desc, attri, positi, lv, gp, tp,
     kick, body, control, guard, speed, stamina, guts, freedom, h1, h2, h3, 
-    h4, name_romanji);
+    h4, name_romanji, body_type, full_ja, kanji_ja, name_en, full_en, id);
 
 load data infile '/home/alejandro/Desktop/projects/choujigen3mysql/csv/ya.csv'
 into table aux_player 
 fields terminated by ',' 
 enclosed by '"'
 lines terminated by '\n'
+ignore 1 lines
 (page_order, name_ja, zone_name, obtention_desc, attri, positi, lv, gp, tp,
     kick, body, control, guard, speed, stamina, guts, freedom, h1, h2, h3, 
-    h4, name_romanji);
+    h4, name_romanji, body_type, full_ja, kanji_ja, name_en, full_en, id);
 
 load data infile '/home/alejandro/Desktop/projects/choujigen3mysql/csv/ra.csv'
 into table aux_player 
 fields terminated by ',' 
 enclosed by '"'
 lines terminated by '\n'
+ignore 1 lines
 (page_order, name_ja, zone_name, obtention_desc, attri, positi, lv, gp, tp,
     kick, body, control, guard, speed, stamina, guts, freedom, h1, h2, h3, 
-    h4, name_romanji);
+    h4, name_romanji, body_type, full_ja, kanji_ja, name_en, full_en, id);
 
 load data infile '/home/alejandro/Desktop/projects/choujigen3mysql/csv/wa.csv'
 into table aux_player 
 fields terminated by ',' 
 enclosed by '"'
 lines terminated by '\n'
+ignore 1 lines
 (page_order, name_ja, zone_name, obtention_desc, attri, positi, lv, gp, tp,
     kick, body, control, guard, speed, stamina, guts, freedom, h1, h2, h3, 
-    h4, name_romanji);
+    h4, name_romanji, body_type, full_ja, kanji_ja, name_en, full_en, id);
 
 load data infile '/home/alejandro/Desktop/projects/choujigen3mysql/csv/ff.csv'
 into table aux_player 
 fields terminated by ',' 
 enclosed by '"'
 lines terminated by '\n'
+ignore 1 lines
 (page_order, name_ja, zone_name, obtention_desc, attri, positi, lv, gp, tp,
     kick, body, control, guard, speed, stamina, guts, freedom, h1, h2, h3, 
-    h4, name_romanji);
+    h4, name_romanji, body_type, full_ja, kanji_ja, name_en, full_en, id);
 
 load data infile '/home/alejandro/Desktop/projects/choujigen3mysql/csv/national.csv'
 into table aux_player 
 fields terminated by ',' 
 enclosed by '"'
 lines terminated by '\n'
+ignore 1 lines
 (page_order, name_ja, zone_name, obtention_desc, attri, positi, lv, gp, tp,
     kick, body, control, guard, speed, stamina, guts, freedom, h1, h2, h3, 
-    h4, name_romanji);
+    h4, name_romanji, body_type, full_ja, kanji_ja, name_en, full_en, id);
 
 load data infile '/home/alejandro/Desktop/projects/choujigen3mysql/csv/eilia.csv'
 into table aux_player 
 fields terminated by ',' 
 enclosed by '"'
 lines terminated by '\n'
+ignore 1 lines
 (page_order, name_ja, zone_name, obtention_desc, attri, positi, lv, gp, tp,
     kick, body, control, guard, speed, stamina, guts, freedom, h1, h2, h3, 
-    h4, name_romanji);
+    h4, name_romanji, body_type, full_ja, kanji_ja, name_en, full_en, id);
 
 load data infile '/home/alejandro/Desktop/projects/choujigen3mysql/csv/other.csv'
 into table aux_player 
 fields terminated by ',' 
 enclosed by '"'
 lines terminated by '\n'
+ignore 1 lines
 (page_order, name_ja, zone_name, obtention_desc, attri, positi, lv, gp, tp,
     kick, body, control, guard, speed, stamina, guts, freedom, h1, h2, h3, 
-    h4, name_romanji);
+    h4, name_romanji, body_type, full_ja, kanji_ja, name_en, full_en, id);
 
 load data infile '/home/alejandro/Desktop/projects/choujigen3mysql/csv/ffi1.csv'
 into table aux_player 
 fields terminated by ',' 
 enclosed by '"'
 lines terminated by '\n'
+ignore 1 lines
 (page_order, name_ja, zone_name, obtention_desc, attri, positi, lv, gp, tp,
     kick, body, control, guard, speed, stamina, guts, freedom, h1, h2, h3, 
-    h4, name_romanji);
+    h4, name_romanji, body_type, full_ja, kanji_ja, name_en, full_en, id);
 
 load data infile '/home/alejandro/Desktop/projects/choujigen3mysql/csv/ffi2.csv'
 into table aux_player 
 fields terminated by ',' 
 enclosed by '"'
 lines terminated by '\n'
+ignore 1 lines
 (page_order, name_ja, zone_name, obtention_desc, attri, positi, lv, gp, tp,
     kick, body, control, guard, speed, stamina, guts, freedom, h1, h2, h3, 
-    h4, name_romanji);
+    h4, name_romanji, body_type, full_ja, kanji_ja, name_en, full_en, id);
 
 load data infile '/home/alejandro/Desktop/projects/choujigen3mysql/csv/ogre.csv'
 into table aux_player 
@@ -177,7 +198,7 @@ lines terminated by '\n'
 ignore 1 lines
 (page_order, name_ja, zone_name, obtention_desc, attri, positi, lv, gp, tp,
     kick, body, control, guard, speed, stamina, guts, freedom, h1, h2, h3, 
-    h4, name_romanji);
+    h4, name_romanji, body_type, full_ja, kanji_ja, name_en, full_en, id);
 
 /*
 -------------------------------------------------------------------------------
