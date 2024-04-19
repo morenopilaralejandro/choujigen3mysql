@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Feb 11, 2024 at 08:35 PM
+-- Generation Time: Apr 19, 2024 at 07:58 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -8338,10 +8338,10 @@ INSERT INTO `player_learns_hissatsu` (`player_id`, `item_hissatsu_id`, `learn_lv
 (2074, 229, NULL, 2),
 (2074, 249, NULL, 3),
 (2074, 251, NULL, 1),
-(2075, 48, NULL, 2),
-(2075, 69, NULL, 4),
-(2075, 254, NULL, 3),
-(2075, 368, NULL, 1),
+(2075, 182, NULL, 2),
+(2075, 213, NULL, 4),
+(2075, 229, NULL, 1),
+(2075, 261, NULL, 3),
 (2076, 328, NULL, 4),
 (2076, 349, NULL, 3),
 (2076, 360, NULL, 1),
@@ -8350,10 +8350,10 @@ INSERT INTO `player_learns_hissatsu` (`player_id`, `item_hissatsu_id`, `learn_lv
 (2077, 25, NULL, 4),
 (2077, 156, NULL, 2),
 (2077, 165, NULL, 1),
-(2078, 48, NULL, 1),
-(2078, 99, NULL, 3),
-(2078, 123, NULL, 2),
-(2078, 307, NULL, 4),
+(2078, 149, NULL, 1),
+(2078, 252, NULL, 2),
+(2078, 260, NULL, 3),
+(2078, 299, NULL, 4),
 (2079, 229, NULL, 1),
 (2079, 256, NULL, 4),
 (2079, 265, NULL, 2),
@@ -9210,10 +9210,10 @@ INSERT INTO `player_learns_hissatsu` (`player_id`, `item_hissatsu_id`, `learn_lv
 (2292, 190, 72, 3),
 (2292, 242, NULL, 2),
 (2292, 356, NULL, 4),
-(2293, 12, NULL, 1),
-(2293, 20, NULL, 4),
-(2293, 118, NULL, 2),
-(2293, 271, NULL, 3),
+(2293, 40, NULL, 1),
+(2293, 161, NULL, 4),
+(2293, 168, NULL, 3),
+(2293, 187, NULL, 2),
 (2294, 292, NULL, 2),
 (2294, 293, NULL, 3),
 (2294, 298, NULL, 1),
@@ -9333,23 +9333,7 @@ INSERT INTO `player_learns_hissatsu` (`player_id`, `item_hissatsu_id`, `learn_lv
 (2323, 116, NULL, 2),
 (2323, 146, NULL, 1),
 (2323, 192, NULL, 4),
-(2323, 203, NULL, 3),
-(2324, 182, NULL, 2),
-(2324, 213, NULL, 4),
-(2324, 229, NULL, 1),
-(2324, 261, NULL, 3),
-(2325, 149, NULL, 1),
-(2325, 252, NULL, 2),
-(2325, 260, NULL, 3),
-(2325, 299, NULL, 4),
-(2326, 170, NULL, 3),
-(2326, 210, NULL, 1),
-(2326, 214, NULL, 2),
-(2326, 236, NULL, 4),
-(2327, 40, NULL, 1),
-(2327, 161, NULL, 4),
-(2327, 168, NULL, 3),
-(2327, 187, NULL, 2);
+(2323, 203, NULL, 3);
 
 --
 -- Indexes for dumped tables
@@ -9361,17 +9345,6 @@ INSERT INTO `player_learns_hissatsu` (`player_id`, `item_hissatsu_id`, `learn_lv
 ALTER TABLE `player_learns_hissatsu`
   ADD PRIMARY KEY (`player_id`,`item_hissatsu_id`),
   ADD KEY `player_learns_hissatsu_fk_item_hissatsu` (`item_hissatsu_id`);
-
---
--- Constraints for dumped tables
---
-
---
--- Constraints for table `player_learns_hissatsu`
---
-ALTER TABLE `player_learns_hissatsu`
-  ADD CONSTRAINT `player_learns_hissatsu_fk_item_hissatsu` FOREIGN KEY (`item_hissatsu_id`) REFERENCES `item_hissatsu` (`item_hissatsu_id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `player_learns_hissatsu_fk_player` FOREIGN KEY (`player_id`) REFERENCES `player` (`player_id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
