@@ -52,7 +52,7 @@ begin
     declare vH4 varchar(32) default '';
     declare vNameRomanji varchar(32) default '';
 
-    declare vBodyType varchar(1) default '';
+    declare vBodyType varchar(32) default '';
     declare vFullJa varchar(32) default '';
     declare vKanjiJa varchar(32) default '';
     declare vNameEn varchar(32) default '';
@@ -135,8 +135,7 @@ begin
                 set vLvInt = null;
             end if;
 
-            /*body*/
-            set vBodyType = '';             
+            /*body*/       
             set vBodyType = concat('0', vBodyType);
             set vBodyTypeInt = cast(vBodyType as unsigned);
             if vBodyTypeInt = 0 then

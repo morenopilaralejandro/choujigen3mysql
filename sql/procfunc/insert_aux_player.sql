@@ -22,7 +22,7 @@ create temporary table aux_player (
     h3 varchar(32),
     h4 varchar(32),
     name_romanji varchar(32), 
-    body_type varchar(1),
+    body_type varchar(32),
     full_ja varchar(32),
     kanji_ja varchar(32),
     name_en varchar(32),
