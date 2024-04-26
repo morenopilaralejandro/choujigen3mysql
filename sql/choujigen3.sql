@@ -2043,7 +2043,7 @@ insert into item (
 (13, 'メガロドン', 'Megalodon', 'Megalodón', 2600, null, 1),
 (14, 'ディバインアロー', 'Divine Arrow', 'Flecha Divina', 3600, null, 1),
 (15, 'ザ・タイフーン', 'The Typhoon', 'Gran Tifón', 3600, null, 1),
-(16, 'レボリューションV', ' Revolution V', 'Remate en V', 4200, null, 1),
+(16, 'レボリューションV', 'Revolution V', 'Remate en V', 4200, null, 1),
 (17, 'サンダービースト', 'Thunder Beast', 'Bestia del Trueno', 4200, null, 1),
 (18, 'たつまきおとし', 'Whirlwind Drop', 'Torbellino Trampolín', 4200, null, 1),
 (19, 'イナズマブレイク', 'Inazuma Break', 'Ruptura Relámpago', 10000, null, 1),

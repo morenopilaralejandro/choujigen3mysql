@@ -13,6 +13,7 @@ Online version: [diagrams.net](https://drive.google.com/file/d/1rL1mgbhukqdM4S3P
 - Hissatsu
 - Hissatsu Tactics
 - Player stats and hissatsu
+- Player names
 - Teams
 - Formations
 ## WIP

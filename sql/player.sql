@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Apr 19, 2024 at 02:48 PM
+-- Generation Time: Apr 26, 2024 at 07:33 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -926,7 +926,7 @@ INSERT INTO `player` (`player_id`, `player_name_ja`, `player_name_hiragana`, `pl
 (863, 'たびもと', 'たびもと あきひろ', '旅本 明宏', 'tabimoto', 'Boardman', 'Kevin Boardman', NULL, 103, 118, 44, 56, 65, 45, 53, 56, 57, 60, 1, 4, 1, 3, 3, NULL),
 (864, 'たま', 'たまい おういち', '玉井 央一', 'tama', 'Ball', 'Onslow Ball', NULL, 134, 97, 54, 61, 48, 62, 56, 57, 56, 24, 2, 3, 1, 4, 7, NULL),
 (865, 'たまがわ', 'たまがわ あたる', '玉川 当', 'tamagawa', 'Bramel', 'Nigel Bramel', NULL, 94, 137, 48, 53, 56, 51, 62, 57, 53, 30, 1, 3, 1, 1, 3, NULL),
-(866, 'たまごろう', 'たまの ごろう', '多摩野 五郎', 'tamagorou', 'Paul', 'Paul Peabody', NULL, 126, 130, 45, 52, 62, 70, 64, 73, 74, 5, 1, 3, 1, 1, 16, NULL),
+(866, 'たまごろう', 'たまの ごろう', '多摩野 五郎', 'tamagorou', 'Peabody', 'Paul Peabody', NULL, 126, 130, 45, 52, 62, 70, 64, 73, 74, 5, 1, 3, 1, 1, 16, NULL),
 (867, 'たまだ', 'たまだ やすふみ', '玉田 康文', 'tamada', 'Bernoulli', 'Theo Bernoulli', NULL, 122, 98, 56, 62, 50, 60, 53, 62, 53, 25, 2, 2, 1, 2, 3, NULL),
 (868, 'たまつき', 'たまつき しゅん', '玉月 瞬', 'tamatsuki', 'Yards', 'Bill Yards', NULL, 124, 92, 56, 53, 48, 47, 46, 54, 56, 67, 2, 4, 1, 2, 3, NULL),
 (869, 'たまみ', 'こかど たまみ', '小門 珠美', 'tamami', 'Stratio', 'Minnie Stratio', NULL, 96, 128, 44, 53, 59, 50, 51, 54, 53, 47, 4, 4, 2, 2, 3, NULL),
