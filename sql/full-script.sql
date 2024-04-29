@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Apr 26, 2024 at 07:50 PM
+-- Generation Time: Apr 29, 2024 at 04:14 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -917,6 +917,185 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `proc_insert_team_player` ()   begin
 	end while;
 	close cur1;
     drop table if exists aux_team_player;
+end$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `proc_insert_team_tactic` ()   begin
+	declare i int default 0;
+    declare cmd varchar(1000) default '';
+    declare idTeam int default 0;
+    declare idTactic  int default 0;
+
+    
+    declare vTeam varchar(32) default '';
+    declare vTactic varchar(32) default '';
+
+    declare continueCur1 int default 1;
+    declare cur1 cursor for select * from aux_team_tactic;
+	declare continue handler for SQLSTATE '02000' set continueCur1 = 0;
+
+    drop temporary table if exists res;
+    create temporary table res (
+        res_cmd varchar(1000)
+    );
+
+    open cur1;
+	while continueCur1=1 do
+        fetch cur1 into vTeam, vTactic;
+        set cmd = '';
+        if continueCur1 = 1 then
+            select team_id into idTeam from team 
+                where team_name_ja = vTeam;
+
+            case 
+                when vTactic = 'Route of Sky' then
+                    set idTactic = 716;
+                when vTactic = 'Dancing Ball Escape' then
+                    set idTactic = 717;
+                when vTactic = 'Dual Typhoon' then
+                    set idTactic = 718;
+                when vTactic = 'Engetsu no Jin' then
+                    set idTactic = 719;
+                when vTactic = 'Muteki no Yari' then
+                    set idTactic = 720;
+                when vTactic = 'Rolling Thunder' then
+                    set idTactic = 721;
+                when vTactic = 'Emperor Road' then
+                    set idTactic = 722;
+                when vTactic = 'Amazon River Wave' then
+                    set idTactic = 723;
+                when vTactic = 'Banana Shoot' then
+                    set idTactic = 724;
+                when vTactic = 'The Tube' then
+                    set idTactic = 725;
+                when vTactic = 'Box Lock Defense' then
+                    set idTactic = 726;
+                when vTactic = 'Absolute Knights' then
+                    set idTactic = 727;
+                when vTactic = 'Andes no Arijigoku' then
+                    set idTactic = 728;
+                when vTactic = 'Perfect Zone Press' then
+                    set idTactic = 729;
+                when vTactic = 'Catenaccio Counter' then
+                    set idTactic = 730;
+                when vTactic = 'Circle Play Drive' then
+                    set idTactic = 731;
+                when vTactic = 'Ghost Lock' then
+                    set idTactic = 732;
+                when vTactic = 'Saint Flash' then
+                    set idTactic = 733;
+                when vTactic = 'Black Thunder' then
+                    set idTactic = 734;
+                when vTactic = 'Quick Time' then
+                    set idTactic = 735;
+                when vTactic = 'Slow Time' then
+                    set idTactic = 736;
+                else
+                    set idTactic = null;
+            end case;
+            set continueCur1 = 1;
+
+            set cmd = concat('(', idTactic);
+            set cmd = concat(cmd, ', ');
+            set cmd = concat(cmd, idTeam);
+            set cmd = concat(cmd, '),');
+
+            insert into res values(cmd);
+        end if;
+	end while;
+	close cur1;
+    select * from res;
+    drop temporary table if exists res;
+    drop temporary table if exists aux_team_tactic;
+end$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `proc_insert_tournament_drop` ()   begin
+	declare i int default 1;
+    declare idItem int default 0;
+
+    
+    declare vTournamentRankId int default 0;
+    declare vItemId varchar(32) default '';
+    declare vAmount int default 0;
+    declare vSelectionRate int default 0;
+    declare vDropRate int default 0;
+    declare vNoRecoverRate int default 0;
+
+    declare continueCur1 int default 1;
+    declare cur1 cursor for select * from aux_tournament_drop;
+	declare continue handler for SQLSTATE '02000' set continueCur1 = 0;
+
+    delete from tournament_rank_may_drop_item;    
+    open cur1;
+	while continueCur1=1 do
+        fetch cur1 into vTournamentRankId, vItemId, vAmount, 
+            vSelectionRate, vDropRate, vNoRecoverRate;
+        set idItem = null;
+        if continueCur1 = 1 then
+            if vItemId = 'ゴッドハンド' then
+                set idItem = 336;
+            elseif vItemId = 'ファイアブリザード1' then
+                set idItem = 33;
+            elseif vItemId = 'ファイアブリザード2' then
+                set idItem = 108;
+            elseif vItemId = 'クロスファイア1' then
+                set idItem = 34;
+            elseif vItemId = 'クロスファイア2' then
+                set idItem = 111;
+            else 
+                select item_id into idItem from item 
+                    where item_name_ja = vItemId;      
+            end if;         
+
+            if idItem is null then
+                select vItemId;
+            end if;
+
+            insert into tournament_rank_may_drop_item(
+                tournament_rank_id, item_id, amount,
+                selection_rate, drop_rate, no_recover_rate)
+                values (vTournamentRankId, idItem, vAmount, 
+                vSelectionRate, vDropRate, vNoRecoverRate);
+        end if;
+        set i = i + 1;
+	end while;
+	close cur1;
+    drop table if exists aux_tournament_drop;
+end$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `proc_insert_tournament_team` ()   begin
+	declare i int default 1;
+    declare idTeam int default 0;
+
+    
+    declare vTournamentRankId int default 0;
+    declare vTeamId varchar(32) default '';
+    declare vTeamLv int default 0;
+
+    declare continueCur1 int default 1;
+    declare cur1 cursor for select * from aux_tournament_team;
+	declare continue handler for SQLSTATE '02000' set continueCur1 = 0;
+
+    delete from tournament_rank_disputed_by_team;    
+    open cur1;
+	while continueCur1=1 do
+        fetch cur1 into vTournamentRankId, vTeamId, vTeamLv;
+        set idTeam = null;
+        if continueCur1 = 1 then
+            select team_id into idTeam from team 
+                where team_name_es = vTeamId;         
+
+            if idTeam is null then
+                select vTeamId;
+            end if;
+
+            insert into tournament_rank_disputed_by_team(
+                tournament_rank_id, team_id, team_lv)
+                values (vTournamentRankId, idTeam, vTeamLv);
+        end if;
+        set i = i + 1;
+	end while;
+	close cur1;
+    drop table if exists aux_tournament_team;
 end$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `proc_set_player_version` ()   begin
@@ -3375,7 +3554,7 @@ INSERT INTO `item` (`item_id`, `item_name_ja`, `item_name_en`, `item_name_es`, `
 (108, 'ファイアブリザード', 'Fire Blizzard', 'Ventisca de Fuego', 16000, NULL, 1),
 (109, 'グランドファイア', 'Grand Fire', 'Fuego Total', 16000, NULL, 1),
 (110, 'Ｘブラスト', 'X-Blast', 'Disparo X', 18000, NULL, 1),
-(111, 'クロスファイア', 'Crossfire', 'Fuego Helado', 18000, NULL, 1),
+(111, 'クロスファイア', 'Crossfire', 'Fuego Cruzado', 18000, NULL, 1),
 (112, 'ビッグバン', 'Big Bang', 'Big Bang', 18000, NULL, 1),
 (113, 'スネークショット', 'Snake Shot', 'Remate Serpiente', 400, NULL, 1),
 (114, 'ターザンキック', 'Tarzan Kick', 'Remate Tarzán', 400, NULL, 1),
@@ -7696,6 +7875,7 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (33, 140, 8),
 (35, 124, 6),
 (38, 168, 2),
+(48, 186, 8),
 (50, 129, 6),
 (52, 141, 12),
 (54, 152, 1),
@@ -7722,6 +7902,7 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (116, 155, 13),
 (127, 107, 9),
 (129, 139, 7),
+(130, 186, 2),
 (133, 130, 12),
 (135, 179, 14),
 (136, 93, 10),
@@ -7984,11 +8165,13 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (632, 177, 9),
 (635, 126, 9),
 (636, 144, 5),
+(636, 186, 11),
 (637, 112, 14),
 (638, 73, 15),
 (638, 144, 14),
 (638, 146, 10),
 (638, 150, 14),
+(642, 186, 1),
 (643, 95, 8),
 (643, 135, 3),
 (645, 93, 11),
@@ -8028,6 +8211,7 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (726, 123, 5),
 (727, 132, 15),
 (727, 168, 16),
+(727, 186, 6),
 (731, 82, 1),
 (732, 100, 8),
 (732, 102, 3),
@@ -8075,6 +8259,7 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (817, 139, 8),
 (818, 151, 16),
 (819, 106, 7),
+(820, 186, 10),
 (827, 177, 11),
 (829, 134, 6),
 (841, 170, 1),
@@ -8175,8 +8360,10 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (1072, 134, 12),
 (1081, 178, 13),
 (1082, 89, 6),
+(1082, 186, 5),
 (1085, 101, 9),
 (1092, 134, 5),
+(1094, 186, 4),
 (1097, 123, 11),
 (1103, 100, 4),
 (1103, 143, 12),
@@ -8333,6 +8520,7 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (1413, 156, 6),
 (1413, 170, 7),
 (1420, 134, 4),
+(1423, 186, 3),
 (1425, 167, 10),
 (1427, 126, 4),
 (1427, 129, 15),
@@ -8420,6 +8608,7 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (1597, 112, 7),
 (1599, 134, 13),
 (1605, 168, 13),
+(1605, 186, 9),
 (1607, 89, 13),
 (1608, 1, 15),
 (1609, 1, 7),
@@ -8455,6 +8644,7 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (1626, 108, 1),
 (1626, 143, 1),
 (1627, 2, 10),
+(1627, 187, 5),
 (1628, 2, 14),
 (1629, 2, 13),
 (1630, 2, 12),
@@ -8738,6 +8928,7 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (1741, 110, 2),
 (1741, 123, 3),
 (1741, 135, 13),
+(1741, 187, 2),
 (1742, 9, 13),
 (1743, 9, 9),
 (1743, 91, 6),
@@ -8938,6 +9129,7 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (1807, 97, 9),
 (1808, 13, 7),
 (1808, 144, 8),
+(1808, 186, 7),
 (1809, 13, 10),
 (1809, 83, 6),
 (1809, 97, 10),
@@ -9052,6 +9244,7 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (1849, 88, 8),
 (1849, 92, 6),
 (1849, 125, 8),
+(1849, 187, 16),
 (1850, 16, 9),
 (1850, 92, 10),
 (1851, 16, 16),
@@ -9151,6 +9344,7 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (1885, 19, 5),
 (1886, 19, 11),
 (1887, 19, 6),
+(1887, 187, 6),
 (1888, 19, 9),
 (1888, 162, 9),
 (1889, 19, 10),
@@ -9292,6 +9486,7 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (1933, 25, 5),
 (1933, 183, 4),
 (1933, 184, 2),
+(1933, 187, 7),
 (1934, 23, 7),
 (1934, 76, 8),
 (1934, 98, 7),
@@ -9443,6 +9638,7 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (1977, 87, 7),
 (1978, 28, 9),
 (1978, 77, 11),
+(1978, 187, 14),
 (1979, 28, 11),
 (1979, 77, 9),
 (1980, 28, 6),
@@ -9570,6 +9766,7 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (2044, 33, 10),
 (2044, 53, 8),
 (2044, 133, 10),
+(2044, 187, 11),
 (2045, 33, 4),
 (2045, 56, 2),
 (2045, 65, 4),
@@ -9645,6 +9842,7 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (2071, 153, 11),
 (2071, 183, 8),
 (2071, 184, 11),
+(2071, 187, 10),
 (2072, 34, 13),
 (2072, 149, 6),
 (2073, 34, 7),
@@ -9658,6 +9856,7 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (2076, 54, 1),
 (2076, 122, 1),
 (2076, 165, 12),
+(2076, 187, 13),
 (2077, 35, 10),
 (2077, 54, 7),
 (2077, 63, 4),
@@ -9783,6 +9982,7 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (2132, 149, 3),
 (2132, 161, 3),
 (2132, 163, 2),
+(2132, 187, 3),
 (2133, 39, 9),
 (2133, 60, 6),
 (2133, 68, 4),
@@ -9794,6 +9994,7 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (2136, 60, 1),
 (2136, 68, 1),
 (2136, 104, 1),
+(2136, 187, 1),
 (2137, 39, 13),
 (2137, 59, 10),
 (2138, 39, 5),
@@ -9830,12 +10031,14 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (2151, 133, 11),
 (2151, 161, 11),
 (2151, 163, 11),
+(2151, 187, 9),
 (2152, 40, 2),
 (2153, 40, 3),
 (2153, 58, 14),
 (2153, 60, 4),
 (2153, 133, 15),
 (2153, 149, 8),
+(2153, 187, 15),
 (2154, 40, 5),
 (2154, 103, 3),
 (2154, 161, 5),
@@ -9962,6 +10165,7 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (2190, 73, 8),
 (2190, 133, 12),
 (2190, 171, 8),
+(2190, 187, 8),
 (2191, 43, 2),
 (2191, 70, 2),
 (2191, 71, 2),
@@ -9977,6 +10181,7 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (2194, 166, 1),
 (2195, 43, 11),
 (2195, 153, 9),
+(2195, 187, 12),
 (2196, 43, 4),
 (2196, 71, 3),
 (2196, 72, 16),
@@ -9997,6 +10202,7 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (2200, 71, 7),
 (2200, 148, 7),
 (2201, 43, 13),
+(2201, 187, 4),
 (2202, 43, 5),
 (2202, 71, 14),
 (2202, 148, 16),
@@ -20361,6 +20567,7 @@ INSERT INTO `tactic_executed_by_team` (`item_tactic_id`, `team_id`) VALUES
 (724, 170),
 (724, 172),
 (724, 182),
+(724, 187),
 (725, 92),
 (726, 32),
 (726, 56),
@@ -20397,6 +20604,7 @@ INSERT INTO `tactic_executed_by_team` (`item_tactic_id`, `team_id`) VALUES
 (729, 153),
 (729, 184),
 (729, 185),
+(729, 187),
 (730, 41),
 (730, 59),
 (730, 64),
@@ -20458,7 +20666,8 @@ INSERT INTO `tactic_executed_by_team` (`item_tactic_id`, `team_id`) VALUES
 (736, 105),
 (736, 147),
 (736, 169),
-(736, 182);
+(736, 182),
+(736, 186);
 
 -- --------------------------------------------------------
 
@@ -20535,7 +20744,7 @@ INSERT INTO `team` (`team_id`, `team_name_ja`, `team_name_en`, `team_name_es`, `
 (7, '戦国伊賀島', 'Shuriken Junior High', 'Instituto Shuriken', 764, 623),
 (8, '千羽山', 'Farm Junior High', 'Instituto Farm', 766, 624),
 (9, '木戸川清修', 'Kirkwood Junior High', 'Instituto Kirkwood', 767, 625),
-(10, '世宇子', 'Zeus', 'Zeus', 773, 626),
+(10, '世宇子', 'Zeus Junior High', 'Instituto Zeus', 773, 626),
 (11, '白恋', 'Alpine', 'Alpino', 737, 635),
 (12, '漫遊寺', 'Cloister Divinity', 'Claustro Sagrado', 750, 636),
 (13, '真・帝国学園', 'Royal Academy Redux', 'Royal Academy Redux', 748, 637),
@@ -20555,7 +20764,7 @@ INSERT INTO `team` (`team_id`, `team_name_ja`, `team_name_en`, `team_name_es`, `
 (27, '一番街サリーズ', 'Street Sally\'s', 'Sallys', 748, 630),
 (28, 'SPフィクサーズ', 'Secret Service', 'Servicio Secreto', 737, 634),
 (29, '樹海チーム', 'Forest Team', 'Mar de Árboles', 737, 689),
-(30, '雷門OB', 'Veterans', 'Los Veteranos del Raimon', 751, 629),
+(30, '雷門OB', 'Veterans', 'Inazuma Eleven', 751, 629),
 (31, 'ヤングイナズマイレブン', 'Young Inazuma', 'Jóvenes Inazuma', 751, NULL),
 (32, 'ビッグウェイブス', 'Big Waves', 'Big Waves', 740, 647),
 (33, 'デザートライオン', 'Desert Lions', 'Leones del Desierto', 741, 648),
@@ -20710,7 +20919,9 @@ INSERT INTO `team` (`team_id`, `team_name_ja`, `team_name_en`, `team_name_es`, `
 (182, 'ゴッドエンジェル', 'The God Squad', 'Equipo Celestial', 760, 663),
 (183, 'カオスエンジェルス', 'Chaos Angels', 'Ángeles del Caos', 738, 645),
 (184, 'ファイアスパーク', 'The Firestorm Bolts', 'Rayo de Fuego', 765, 691),
-(185, 'リアル・イナズマ', 'The Real Inazuma', 'Mega Inazuma Eleven', 779, 646);
+(185, 'リアル・イナズマ', 'The Real Inazuma', 'Mega Inazuma Eleven', 779, 646),
+(186, 'あやしいやつら', 'Strange Guys', 'Sospechosos', 777, 712),
+(187, 'ザ・ファイアーズ', 'The Fires', 'Ardientes', 749, 707);
 
 -- --------------------------------------------------------
 
@@ -20726,6 +20937,60 @@ CREATE TABLE `tournament_name` (
   `tournament_rank_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `tournament_name`
+--
+
+INSERT INTO `tournament_name` (`tournament_name_id`, `tournament_name_ja`, `tournament_name_en`, `tournament_name_es`, `tournament_rank_id`) VALUES
+(1, 'ライモンタウンカップ', 'Raimon Town Cup', 'Copa Ciudad Inazuma', 1),
+(2, 'ファイアトルネードカップ', 'Fire Tornado Cup', 'Copa Tornado de Fuego', 1),
+(3, 'ゴッドハンドカップ', 'God Hand Cup', 'Copa Mano Celestial', 1),
+(4, 'オカルトカップ', 'Occult Cup', 'Copa Occult', 2),
+(5, 'トライアングルカップ', 'Triangle Cup', 'Copa Triángulo Z', 2),
+(6, 'デスゾーンカップ', 'Death Zone Cup', 'Copa Triángulo Letal', 2),
+(7, 'エターナルカップ', 'Eternal Cup', 'Copa Ventisca Eterna', 3),
+(8, 'ツナミブーストカップ', 'Tsunami Boost Cup', 'Copa Remate Tsunami', 3),
+(9, 'ムゲンカップ', 'Mugen Cup', 'Copa Manos Infintas', 3),
+(10, 'ゴッドノウズカップ', 'God Knows Cup', 'Copa Sabiduría Divina', 4),
+(11, 'ザ・タワーカップ', 'The Tower Cup', 'Copa Torre Inexpugnable', 4),
+(12, 'デスゾーン２カップ', 'Death Zone 2 Cup', 'Copa Triángulo Letal 2', 4),
+(13, 'ファイアカップ', 'Fire Cup', 'Copa Fuego', 5),
+(14, 'ブリザードカップ', 'Blizzard Cup', 'Copa Ventisca', 5),
+(15, 'ＦＦジャパンカップ', 'FF Japan Cup', 'Copa FF Japón', 5),
+(16, 'プロミネンスカップ', 'Prominence Cup', 'Copa Prominence', 6),
+(17, 'ダイヤモンドカップ', 'Diamond Cup', 'Copa Polvo de Diamantes', 6),
+(18, 'ガイアカップ', 'Gaia Cup', 'Copa Gaia', 6),
+(19, 'ドラゴンカップ', 'Dragon Cup', 'Copa Dragones de Fuego', 7),
+(20, 'デザートカップ', 'Desert Cup', 'Copa Leones del Desierto', 7),
+(21, 'オーシャンカップ', 'Ocean Cup', 'Copa Big Waves', 7),
+(22, 'エクスカリバーカップ', 'Excalibur Cup', 'Copa Knights of Queen', 8),
+(23, 'オーディーンカップ', 'Gran Fenrir Cup', 'Copa Unicorn', 8),
+(24, 'グランフェンリルカップ', 'Odin Cup', 'Copa Orfeo', 8),
+(25, 'ローズスプラッシュカップ', 'Rose Splash Cup', 'Copa Grifos de la Rosa', 9),
+(26, 'ブロッケンカップ', 'Brocken Cup', 'Copa Brocken Brigade', 9),
+(27, 'マタドールカップ', 'Matador Cup', 'Copa Los Rojos', 9),
+(28, 'スパークカップ', 'Spark Cup', 'Copa Rayo Celeste', 10),
+(29, 'ボンバーカップ', 'Bomber Cup', 'Copa Fuego Explosivo', 10),
+(30, 'ハリケーンカップ', 'Hurricane Cup', 'Copa La Amenaza del Ogro', 10),
+(31, 'ジェットストリームカップ', 'Jet Stream Cup', 'Copa Liocott', 11),
+(32, 'ビッグバンカップ', 'Big Bang Cup', 'Copa Monumental', 11),
+(33, 'ゴッドブレイクカップ', 'God Break Cup', 'Copa Caimanes del Cabo', 11),
+(34, 'デスブレイクカップ', 'Death Break Cup', 'Copa Os Reis', 12),
+(35, 'ハイボルテージカップ', 'High Voltage Cup', 'Copa Los Emperadores', 12),
+(36, 'エレキトラップカップ', 'Electric Trap Cup', 'Copa Pequeños Gigantes', 12),
+(37, 'ペンギンズカップ', 'Penguins Cup', 'Copa Pingüino Emperador', 13),
+(38, 'チャンピオンカップ', 'Champion Cup', 'Copa Campeones', 13),
+(39, 'パイレーツカップ', 'Pirates Cup', 'Copa Torneo Especial', 13),
+(40, 'フェニックスカップ', 'Phoenix Cup', 'Copa Fénix', 14),
+(41, 'ギャラクシーカップ', 'Galaxy Cup', 'Copa Tiro Galáctico', 14),
+(42, 'ジ・アースカップ', 'The Earth Cup', 'Copa Tierra', 14),
+(43, 'まおうカップ', 'Maou Cup', 'Copa Mano Diabólica', 15),
+(44, 'タマシイカップ', 'Tamashii Cup', 'Copa Mano Espiritual', 15),
+(45, 'オメガカップ', 'Omega Cup', 'Copa Mano Omega', 15),
+(46, 'エンジェルカップ', 'Angel Cup', 'Copa Balón Angelical', 16),
+(47, 'カオスカップ', 'Chaos Cup', 'Copa Caos', 16),
+(48, 'オーガカップ', 'Ogre Cup', 'Copa Ogro', 16);
+
 -- --------------------------------------------------------
 
 --
@@ -20737,6 +21002,28 @@ CREATE TABLE `tournament_rank` (
   `tournament_rank_lv_range` varchar(5) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `tournament_rank`
+--
+
+INSERT INTO `tournament_rank` (`tournament_rank_id`, `tournament_rank_lv_range`) VALUES
+(1, '01-15'),
+(2, '16-25'),
+(3, '26-35'),
+(4, '36-45'),
+(5, '46-55'),
+(6, '56-65'),
+(7, '66-75'),
+(8, '76-80'),
+(9, '81-85'),
+(10, '86-90'),
+(11, '91-93'),
+(12, '94-96'),
+(13, '97-99'),
+(14, '97-99'),
+(15, '97-99'),
+(16, '97-99');
+
 -- --------------------------------------------------------
 
 --
@@ -20745,8 +21032,270 @@ CREATE TABLE `tournament_rank` (
 
 CREATE TABLE `tournament_rank_disputed_by_team` (
   `tournament_rank_id` int(11) NOT NULL,
-  `team_id` int(11) NOT NULL
+  `team_id` int(11) NOT NULL,
+  `team_lv` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tournament_rank_disputed_by_team`
+--
+
+INSERT INTO `tournament_rank_disputed_by_team` (`tournament_rank_id`, `team_id`, `team_lv`) VALUES
+(1, 1, 13),
+(1, 2, 13),
+(1, 3, 15),
+(1, 4, 15),
+(1, 5, 20),
+(1, 6, 20),
+(1, 26, 5),
+(1, 27, 6),
+(1, 78, 7),
+(1, 79, 8),
+(1, 93, 10),
+(1, 95, 20),
+(1, 105, 9),
+(1, 106, 10),
+(1, 107, 25),
+(1, 108, 25),
+(2, 6, 30),
+(2, 7, 10),
+(2, 8, 11),
+(2, 9, 12),
+(2, 10, 30),
+(2, 30, 15),
+(2, 88, 25),
+(2, 90, 25),
+(2, 107, 25),
+(2, 109, 13),
+(2, 110, 14),
+(2, 111, 15),
+(2, 112, 18),
+(2, 113, 18),
+(2, 114, 20),
+(2, 115, 20),
+(3, 11, 20),
+(3, 12, 21),
+(3, 13, 25),
+(3, 14, 24),
+(3, 15, 22),
+(3, 16, 23),
+(3, 28, 25),
+(3, 87, 35),
+(3, 116, 28),
+(3, 117, 28),
+(3, 118, 30),
+(3, 119, 30),
+(3, 120, 35),
+(3, 121, 35),
+(3, 122, 40),
+(3, 123, 40),
+(4, 2, 30),
+(4, 3, 31),
+(4, 4, 32),
+(4, 5, 33),
+(4, 6, 38),
+(4, 7, 34),
+(4, 8, 35),
+(4, 9, 35),
+(4, 10, 38),
+(4, 11, 40),
+(4, 12, 40),
+(4, 13, 50),
+(4, 14, 45),
+(4, 15, 45),
+(4, 16, 45),
+(4, 28, 50),
+(5, 31, 55),
+(5, 55, 55),
+(5, 67, 44),
+(5, 122, 50),
+(5, 123, 60),
+(5, 124, 40),
+(5, 125, 41),
+(5, 126, 43),
+(5, 127, 45),
+(5, 128, 45),
+(5, 129, 48),
+(5, 130, 48),
+(5, 131, 50),
+(5, 132, 50),
+(5, 133, 60),
+(5, 186, 42),
+(6, 17, 44),
+(6, 18, 45),
+(6, 19, 55),
+(6, 20, 58),
+(6, 21, 43),
+(6, 23, 65),
+(6, 24, 65),
+(6, 25, 70),
+(6, 29, 70),
+(6, 84, 58),
+(6, 85, 60),
+(6, 96, 60),
+(6, 134, 41),
+(6, 135, 42),
+(6, 136, 55),
+(6, 137, 65),
+(7, 14, 49),
+(7, 35, 50),
+(7, 52, 46),
+(7, 53, 60),
+(7, 54, 60),
+(7, 56, 63),
+(7, 63, 65),
+(7, 76, 90),
+(7, 91, 48),
+(7, 102, 65),
+(7, 138, 47),
+(7, 139, 63),
+(7, 140, 70),
+(7, 141, 75),
+(7, 142, 80),
+(7, 143, 85),
+(8, 36, 85),
+(8, 77, 65),
+(8, 89, 68),
+(8, 97, 90),
+(8, 105, 80),
+(8, 113, 51),
+(8, 114, 52),
+(8, 115, 53),
+(8, 117, 54),
+(8, 118, 55),
+(8, 119, 65),
+(8, 144, 68),
+(8, 145, 70),
+(8, 146, 70),
+(8, 147, 75),
+(8, 148, 95),
+(9, 44, 75),
+(9, 45, 73),
+(9, 46, 70),
+(9, 47, 73),
+(9, 64, 60),
+(9, 65, 70),
+(9, 66, 59),
+(9, 73, 53),
+(9, 81, 58),
+(9, 149, 57),
+(9, 150, 75),
+(9, 151, 80),
+(9, 152, 85),
+(9, 153, 90),
+(9, 154, 95),
+(9, 155, 99),
+(10, 29, 89),
+(10, 53, 99),
+(10, 55, 80),
+(10, 59, 70),
+(10, 68, 57),
+(10, 69, 58),
+(10, 70, 65),
+(10, 71, 55),
+(10, 72, 60),
+(10, 82, 85),
+(10, 100, 95),
+(10, 156, 75),
+(10, 157, 78),
+(10, 158, 78),
+(10, 159, 90),
+(10, 160, 99),
+(11, 10, 90),
+(11, 31, 85),
+(11, 44, 99),
+(11, 45, 99),
+(11, 46, 95),
+(11, 47, 99),
+(11, 57, 70),
+(11, 58, 60),
+(11, 59, 70),
+(11, 60, 65),
+(11, 70, 62),
+(11, 86, 85),
+(11, 122, 83),
+(11, 161, 75),
+(11, 162, 80),
+(11, 163, 83),
+(12, 14, 99),
+(12, 48, 80),
+(12, 49, 85),
+(12, 50, 88),
+(12, 66, 99),
+(12, 73, 90),
+(12, 75, 68),
+(12, 80, 65),
+(12, 81, 90),
+(12, 83, 99),
+(12, 97, 99),
+(12, 103, 75),
+(12, 149, 95),
+(12, 164, 70),
+(12, 181, 88),
+(12, 187, 67),
+(13, 82, 95),
+(13, 100, 99),
+(13, 147, 90),
+(13, 152, 88),
+(13, 159, 99),
+(13, 165, 65),
+(13, 166, 67),
+(13, 167, 68),
+(13, 168, 70),
+(13, 169, 75),
+(13, 170, 80),
+(13, 171, 85),
+(13, 172, 90),
+(13, 173, 99),
+(13, 174, 99),
+(13, 179, 88),
+(14, 57, 80),
+(14, 58, 70),
+(14, 60, 75),
+(14, 68, 90),
+(14, 69, 93),
+(14, 70, 72),
+(14, 71, 85),
+(14, 72, 93),
+(14, 75, 99),
+(14, 92, 95),
+(14, 161, 99),
+(14, 175, 95),
+(14, 176, 99),
+(14, 177, 99),
+(14, 178, 99),
+(15, 64, 85),
+(15, 65, 95),
+(15, 80, 80),
+(15, 82, 99),
+(15, 100, 99),
+(15, 145, 98),
+(15, 156, 99),
+(15, 159, 99),
+(15, 165, 75),
+(15, 166, 77),
+(15, 167, 78),
+(15, 169, 99),
+(15, 173, 99),
+(15, 174, 99),
+(15, 179, 97),
+(15, 187, 90),
+(16, 17, 90),
+(16, 18, 95),
+(16, 20, 98),
+(16, 48, 99),
+(16, 49, 99),
+(16, 50, 99),
+(16, 51, 99),
+(16, 86, 99),
+(16, 136, 98),
+(16, 137, 99),
+(16, 180, 75),
+(16, 181, 77),
+(16, 182, 78),
+(16, 183, 80),
+(16, 184, 85),
+(16, 185, 99);
 
 -- --------------------------------------------------------
 
@@ -20757,11 +21306,273 @@ CREATE TABLE `tournament_rank_disputed_by_team` (
 CREATE TABLE `tournament_rank_may_drop_item` (
   `tournament_rank_id` int(11) NOT NULL,
   `item_id` int(11) NOT NULL,
-  `amount` int(11) DEFAULT NULL,
+  `amount` int(11) NOT NULL,
   `selection_rate` int(11) DEFAULT NULL,
   `drop_rate` int(11) DEFAULT NULL,
   `no_recover_rate` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tournament_rank_may_drop_item`
+--
+
+INSERT INTO `tournament_rank_may_drop_item` (`tournament_rank_id`, `item_id`, `amount`, `selection_rate`, `drop_rate`, `no_recover_rate`) VALUES
+(1, 35, 1, 40, 40, 0),
+(1, 89, 1, 40, 40, 0),
+(1, 127, 1, 40, 40, 0),
+(1, 149, 1, 40, 40, 0),
+(1, 178, 1, 40, 40, 0),
+(1, 227, 1, 40, 40, 0),
+(1, 250, 1, 20, 20, 0),
+(1, 280, 1, 40, 40, 0),
+(1, 319, 1, 40, 40, 0),
+(1, 371, 1, 20, 3, 0),
+(1, 425, 1, 20, 20, 0),
+(1, 523, 1, 20, 20, 0),
+(1, 554, 100, 60, 60, 0),
+(1, 555, 150, 60, 60, 0),
+(1, 559, 1, 20, 3, 0),
+(1, 598, 1, 60, 60, 0),
+(2, 36, 1, 40, 40, 0),
+(2, 87, 1, 40, 40, 0),
+(2, 130, 1, 40, 40, 0),
+(2, 147, 1, 40, 40, 0),
+(2, 183, 1, 40, 40, 0),
+(2, 217, 1, 20, 20, 0),
+(2, 260, 1, 40, 40, 0),
+(2, 299, 1, 40, 40, 0),
+(2, 302, 1, 40, 40, 0),
+(2, 358, 1, 5, 30, 50),
+(2, 390, 1, 20, 20, 0),
+(2, 524, 1, 20, 20, 0),
+(2, 553, 200, 60, 60, 0),
+(2, 555, 200, 60, 60, 0),
+(2, 559, 1, 3, 30, 50),
+(2, 598, 1, 60, 60, 0),
+(3, 3, 1, 40, 40, 0),
+(3, 14, 1, 40, 40, 0),
+(3, 99, 1, 40, 40, 0),
+(3, 181, 1, 40, 40, 0),
+(3, 194, 1, 40, 40, 0),
+(3, 226, 1, 40, 40, 0),
+(3, 239, 1, 20, 20, 0),
+(3, 303, 1, 40, 40, 0),
+(3, 315, 1, 40, 40, 0),
+(3, 371, 1, 5, 40, 50),
+(3, 428, 1, 20, 20, 0),
+(3, 525, 1, 20, 20, 0),
+(3, 554, 250, 10, 80, 0),
+(3, 555, 250, 70, 70, 25),
+(3, 559, 1, 3, 30, 50),
+(3, 598, 1, 60, 60, 0),
+(4, 76, 1, 40, 40, 0),
+(4, 125, 1, 40, 40, 0),
+(4, 131, 1, 40, 40, 0),
+(4, 148, 1, 40, 40, 0),
+(4, 171, 1, 40, 40, 0),
+(4, 229, 1, 40, 40, 0),
+(4, 271, 1, 10, 20, 25),
+(4, 306, 1, 40, 40, 0),
+(4, 336, 1, 40, 40, 0),
+(4, 358, 1, 5, 30, 50),
+(4, 396, 1, 20, 20, 0),
+(4, 535, 1, 20, 20, 0),
+(4, 553, 600, 60, 60, 50),
+(4, 555, 500, 10, 80, 100),
+(4, 559, 1, 3, 30, 50),
+(4, 598, 1, 10, 80, 0),
+(5, 38, 0, 20, 40, 0),
+(5, 125, 0, 10, 40, 0),
+(5, 126, 0, 10, 40, 0),
+(5, 180, 0, 20, 40, 0),
+(5, 186, 0, 20, 40, 0),
+(5, 248, 0, 20, 40, 0),
+(5, 255, 0, 10, 20, 0),
+(5, 281, 0, 20, 40, 0),
+(5, 292, 0, 10, 20, 0),
+(5, 353, 0, 5, 25, 50),
+(5, 435, 0, 20, 20, 0),
+(5, 536, 0, 20, 40, 0),
+(5, 554, 150, 60, 60, 50),
+(5, 555, 800, 10, 80, 100),
+(5, 559, 0, 3, 30, 0),
+(5, 598, 0, 10, 80, 0),
+(6, 43, 0, 20, 10, 0),
+(6, 63, 0, 10, 5, 0),
+(6, 133, 0, 15, 15, 0),
+(6, 173, 0, 20, 40, 0),
+(6, 200, 0, 20, 40, 0),
+(6, 246, 0, 20, 40, 0),
+(6, 270, 0, 10, 10, 0),
+(6, 290, 0, 20, 40, 0),
+(6, 337, 0, 20, 40, 0),
+(6, 352, 0, 5, 30, 50),
+(6, 440, 0, 20, 40, 0),
+(6, 537, 0, 20, 40, 0),
+(6, 553, 900, 50, 50, 50),
+(6, 555, 500, 50, 50, 50),
+(6, 559, 0, 3, 30, 0),
+(6, 603, 0, 10, 80, 0),
+(7, 7, 0, 20, 40, 0),
+(7, 26, 0, 15, 5, 50),
+(7, 133, 0, 10, 5, 50),
+(7, 156, 0, 20, 40, 0),
+(7, 201, 0, 20, 40, 0),
+(7, 211, 0, 20, 40, 0),
+(7, 254, 0, 10, 10, 0),
+(7, 305, 0, 20, 40, 0),
+(7, 345, 0, 10, 20, 0),
+(7, 378, 0, 5, 30, 10),
+(7, 402, 0, 20, 40, 0),
+(7, 538, 0, 20, 40, 0),
+(7, 554, 200, 50, 50, 10),
+(7, 555, 600, 50, 50, 10),
+(7, 559, 0, 3, 30, 100),
+(7, 603, 0, 10, 80, 0),
+(8, 64, 0, 3, 25, 50),
+(8, 110, 0, 10, 5, 100),
+(8, 152, 0, 20, 40, 0),
+(8, 170, 0, 20, 40, 0),
+(8, 210, 0, 20, 40, 0),
+(8, 275, 0, 5, 20, 0),
+(8, 345, 0, 3, 25, 50),
+(8, 354, 0, 15, 30, 100),
+(8, 355, 0, 15, 30, 100),
+(8, 445, 0, 20, 40, 0),
+(8, 526, 0, 20, 40, 0),
+(8, 551, 0, 10, 20, 10),
+(8, 553, 1100, 50, 50, 10),
+(8, 555, 700, 50, 50, 10),
+(8, 559, 0, 3, 30, 100),
+(8, 603, 0, 10, 80, 0),
+(9, 137, 0, 3, 5, 100),
+(9, 139, 0, 3, 10, 100),
+(9, 170, 0, 3, 25, 0),
+(9, 175, 0, 20, 40, 0),
+(9, 256, 0, 5, 20, 0),
+(9, 274, 0, 20, 30, 0),
+(9, 330, 0, 3, 25, 50),
+(9, 354, 0, 5, 40, 100),
+(9, 355, 0, 5, 40, 100),
+(9, 446, 0, 20, 40, 0),
+(9, 527, 0, 20, 40, 0),
+(9, 549, 0, 10, 20, 10),
+(9, 554, 280, 50, 50, 10),
+(9, 555, 800, 50, 50, 10),
+(9, 559, 0, 3, 30, 0),
+(9, 603, 0, 10, 80, 0),
+(10, 95, 0, 5, 10, 100),
+(10, 160, 0, 5, 10, 50),
+(10, 175, 0, 10, 20, 50),
+(10, 274, 0, 5, 50, 50),
+(10, 277, 0, 5, 20, 0),
+(10, 313, 0, 5, 10, 100),
+(10, 330, 0, 5, 10, 50),
+(10, 373, 0, 5, 10, 100),
+(10, 376, 0, 5, 10, 100),
+(10, 407, 0, 20, 40, 0),
+(10, 528, 0, 20, 40, 0),
+(10, 552, 0, 10, 20, 10),
+(10, 553, 1300, 50, 50, 10),
+(10, 555, 900, 50, 50, 10),
+(10, 555, 1800, 5, 80, 75),
+(10, 604, 0, 10, 80, 0),
+(11, 33, 0, 5, 10, 100),
+(11, 108, 0, 5, 10, 100),
+(11, 160, 0, 10, 10, 100),
+(11, 207, 0, 5, 10, 100),
+(11, 274, 0, 5, 20, 0),
+(11, 313, 0, 5, 10, 100),
+(11, 350, 0, 5, 10, 100),
+(11, 360, 0, 5, 40, 100),
+(11, 377, 0, 5, 40, 100),
+(11, 449, 0, 20, 40, 0),
+(11, 539, 0, 20, 40, 0),
+(11, 549, 0, 10, 20, 10),
+(11, 554, 320, 50, 50, 15),
+(11, 555, 1000, 50, 50, 15),
+(11, 555, 2000, 5, 80, 75),
+(11, 604, 0, 10, 80, 0),
+(12, 21, 0, 5, 10, 100),
+(12, 161, 0, 5, 25, 100),
+(12, 207, 0, 5, 25, 100),
+(12, 224, 0, 10, 20, 50),
+(12, 240, 0, 5, 20, 0),
+(12, 297, 0, 5, 25, 100),
+(12, 366, 0, 5, 10, 100),
+(12, 372, 0, 5, 40, 100),
+(12, 374, 0, 5, 40, 100),
+(12, 448, 0, 20, 40, 0),
+(12, 540, 0, 20, 40, 0),
+(12, 549, 0, 10, 20, 100),
+(12, 553, 1500, 50, 50, 20),
+(12, 555, 1100, 50, 50, 20),
+(12, 555, 2200, 5, 80, 75),
+(12, 605, 0, 10, 80, 0),
+(13, 34, 0, 5, 10, 100),
+(13, 111, 0, 5, 10, 100),
+(13, 161, 0, 10, 10, 100),
+(13, 224, 0, 10, 20, 0),
+(13, 297, 0, 5, 15, 100),
+(13, 350, 0, 5, 15, 100),
+(13, 356, 0, 5, 40, 50),
+(13, 361, 0, 10, 25, 100),
+(13, 372, 0, 5, 40, 50),
+(13, 410, 0, 20, 40, 0),
+(13, 541, 0, 20, 40, 0),
+(13, 549, 0, 5, 50, 75),
+(13, 552, 0, 5, 50, 75),
+(13, 554, 360, 50, 50, 25),
+(13, 555, 1200, 50, 50, 25),
+(13, 605, 0, 10, 80, 0),
+(14, 109, 0, 5, 10, 100),
+(14, 177, 0, 5, 15, 100),
+(14, 191, 0, 5, 15, 100),
+(14, 278, 0, 10, 20, 100),
+(14, 279, 0, 10, 10, 100),
+(14, 333, 0, 5, 10, 100),
+(14, 361, 0, 10, 25, 100),
+(14, 369, 0, 10, 30, 100),
+(14, 375, 0, 10, 25, 100),
+(14, 411, 0, 10, 30, 50),
+(14, 530, 0, 10, 30, 50),
+(14, 549, 0, 5, 50, 100),
+(14, 552, 0, 5, 50, 100),
+(14, 553, 1700, 50, 50, 25),
+(14, 555, 1300, 50, 50, 25),
+(14, 605, 0, 10, 80, 0),
+(15, 31, 0, 5, 5, 100),
+(15, 177, 0, 5, 15, 100),
+(15, 192, 0, 5, 15, 100),
+(15, 225, 0, 10, 10, 100),
+(15, 279, 0, 10, 10, 100),
+(15, 351, 0, 5, 5, 100),
+(15, 362, 0, 10, 25, 100),
+(15, 367, 0, 10, 25, 100),
+(15, 375, 0, 10, 25, 100),
+(15, 414, 0, 5, 25, 75),
+(15, 529, 0, 5, 25, 75),
+(15, 549, 0, 5, 50, 100),
+(15, 552, 0, 5, 50, 100),
+(15, 554, 400, 50, 50, 50),
+(15, 555, 1400, 50, 50, 50),
+(15, 605, 0, 10, 80, 0),
+(16, 31, 0, 5, 5, 100),
+(16, 109, 0, 5, 5, 100),
+(16, 192, 0, 10, 10, 100),
+(16, 225, 0, 10, 10, 100),
+(16, 298, 0, 5, 10, 100),
+(16, 351, 0, 5, 10, 100),
+(16, 364, 0, 10, 25, 100),
+(16, 367, 0, 10, 25, 100),
+(16, 368, 0, 10, 25, 100),
+(16, 453, 0, 5, 20, 100),
+(16, 531, 0, 5, 20, 100),
+(16, 549, 0, 5, 50, 100),
+(16, 552, 0, 5, 50, 100),
+(16, 553, 1900, 60, 60, 50),
+(16, 555, 1500, 60, 60, 50),
+(16, 605, 0, 10, 80, 50);
 
 -- --------------------------------------------------------
 
@@ -20773,6 +21584,58 @@ CREATE TABLE `tournament_rank_requires_player` (
   `tournament_rank_id` int(11) NOT NULL,
   `player_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tournament_rank_requires_player`
+--
+
+INSERT INTO `tournament_rank_requires_player` (`tournament_rank_id`, `player_id`) VALUES
+(14, 220),
+(14, 327),
+(14, 361),
+(14, 414),
+(14, 501),
+(14, 585),
+(14, 673),
+(14, 789),
+(14, 866),
+(14, 1161),
+(14, 1650),
+(14, 1662),
+(14, 1704),
+(14, 1751),
+(14, 1974),
+(14, 2076),
+(15, 524),
+(15, 849),
+(15, 908),
+(15, 1265),
+(15, 1765),
+(15, 1784),
+(15, 1809),
+(15, 1837),
+(15, 1849),
+(15, 1867),
+(15, 1893),
+(15, 1913),
+(15, 1938),
+(15, 1988),
+(16, 242),
+(16, 352),
+(16, 1217),
+(16, 1269),
+(16, 1395),
+(16, 1428),
+(16, 2077),
+(16, 2085),
+(16, 2112),
+(16, 2132),
+(16, 2156),
+(16, 2169),
+(16, 2170),
+(16, 2190),
+(16, 2206),
+(16, 2303);
 
 -- --------------------------------------------------------
 
@@ -22149,7 +23012,7 @@ ALTER TABLE `tournament_rank_disputed_by_team`
 -- Indexes for table `tournament_rank_may_drop_item`
 --
 ALTER TABLE `tournament_rank_may_drop_item`
-  ADD PRIMARY KEY (`tournament_rank_id`,`item_id`),
+  ADD PRIMARY KEY (`tournament_rank_id`,`item_id`,`amount`),
   ADD KEY `tournament_rank_may_drop_item_fk_item` (`item_id`);
 
 --
@@ -22471,19 +23334,19 @@ ALTER TABLE `tactic_type`
 -- AUTO_INCREMENT for table `team`
 --
 ALTER TABLE `team`
-  MODIFY `team_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=186;
+  MODIFY `team_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=188;
 
 --
 -- AUTO_INCREMENT for table `tournament_name`
 --
 ALTER TABLE `tournament_name`
-  MODIFY `tournament_name_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `tournament_name_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- AUTO_INCREMENT for table `tournament_rank`
 --
 ALTER TABLE `tournament_rank`
-  MODIFY `tournament_rank_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `tournament_rank_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `training_method`

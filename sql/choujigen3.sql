@@ -1064,6 +1064,7 @@ create table tournament_rank_requires_player (
 create table tournament_rank_disputed_by_team (
     tournament_rank_id int not null,
     team_id int not null,
+    team_lv int,
     constraint tournament_rank_disputed_by_team_pk 
         primary key (tournament_rank_id, team_id),
     constraint tournament_rank_disputed_by_team_fk_tournament_rank 
@@ -1082,7 +1083,7 @@ create table tournament_rank_may_drop_item (
     drop_rate int,
     no_recover_rate int,
     constraint tournament_rank_may_drop_item_pk 
-        primary key (tournament_rank_id, item_id),
+        primary key (tournament_rank_id, item_id, amount),
     constraint tournament_rank_may_drop_item_fk_tournament_rank 
         foreign key (tournament_rank_id)
         references tournament_rank(tournament_rank_id) on delete cascade,
@@ -2138,7 +2139,7 @@ insert into item (
 (108, 'ファイアブリザード', 'Fire Blizzard', 'Ventisca de Fuego', 16000, null, 1),
 (109, 'グランドファイア', 'Grand Fire', 'Fuego Total', 16000, null, 1),
 (110, 'Ｘブラスト', 'X-Blast', 'Disparo X', 18000, null, 1),
-(111, 'クロスファイア', 'Crossfire', 'Fuego Helado', 18000, null, 1),
+(111, 'クロスファイア', 'Crossfire', 'Fuego Cruzado', 18000, null, 1),
 (112, 'ビッグバン', 'Big Bang', 'Big Bang', 18000, null, 1),
 (113, 'スネークショット', 'Snake Shot', 'Remate Serpiente', 400, null, 1),
 (114, 'ターザンキック', 'Tarzan Kick', 'Remate Tarzán', 400, null, 1),
@@ -4002,7 +4003,7 @@ insert into team (
 (7, '戦国伊賀島', 'Shuriken Junior High', 'Instituto Shuriken', 764, 623),
 (8, '千羽山', 'Farm Junior High', 'Instituto Farm', 766, 624),
 (9, '木戸川清修', 'Kirkwood Junior High', 'Instituto Kirkwood', 767, 625),
-(10, '世宇子', 'Zeus', 'Zeus', 773, 626),
+(10, '世宇子', 'Zeus Junior High', 'Instituto Zeus', 773, 626),
 /*全国チーム*/
 (11, '白恋', 'Alpine', 'Alpino', 737, 635),
 (12, '漫遊寺', 'Cloister Divinity', 'Claustro Sagrado', 750, 636),
@@ -4025,7 +4026,7 @@ insert into team (
 (27, '一番街サリーズ', 'Street Sally\'s', 'Sallys', 748, 630),
 (28, 'SPフィクサーズ', 'Secret Service', 'Servicio Secreto', 737, 634),
 (29, '樹海チーム', 'Forest Team', 'Mar de Árboles', 737, 689),
-(30, '雷門OB', 'Veterans', 'Los Veteranos del Raimon', 751, 629),
+(30, '雷門OB', 'Veterans', 'Inazuma Eleven', 751, 629),
 (31, 'ヤングイナズマイレブン', 'Young Inazuma', 'Jóvenes Inazuma', 751, null),
 /*FFIチーム1*/
 (32, 'ビッグウェイブス', 'Big Waves', 'Big Waves', 740, 647),
@@ -4199,9 +4200,13 @@ insert into team (
 (182, 'ゴッドエンジェル', 'The God Squad', 'Equipo Celestial', 760, 663),
 (183, 'カオスエンジェルス', 'Chaos Angels', 'Ángeles del Caos', 738, 645),
 (184, 'ファイアスパーク', 'The Firestorm Bolts', 'Rayo de Fuego', 765, 691),
-(185, 'リアル・イナズマ', 'The Real Inazuma', 'Mega Inazuma Eleven', 779, 646);
+(185, 'リアル・イナズマ', 'The Real Inazuma', 'Mega Inazuma Eleven', 779, 646),
+/*misc*/
+(186, 'あやしいやつら', 'Strange Guys', 'Sospechosos', 777, 712),
+(187, 'ザ・ファイアーズ', 'The Fires', 'Ardientes', 749, 707);
 
 source /home/alejandro/Desktop/projects/choujigen3mysql/sql/procfunc/proc_insert_team_player.sql
+
 /*
 player_is_part_of_team
 player_plays_during_story_team
@@ -4386,7 +4391,10 @@ insert into tactic_executed_by_team (
 (729, 184), 
 (733, 184), 
 (723, 185), 
-(729, 185);
+(729, 185),
+(736, 186),
+(724, 187),
+(729, 187);
 
 /*
 insert into asd (
@@ -4399,13 +4407,161 @@ practice_game
 practice_game_dictated_by_pgc
 item_vscard
 practice_game_can_drop_item
+*/
 
-tournament_rank
-tournament_name
-tournament_rank_requires_player
-tournament_rank_disputed_by_team
-tournament_rank_may_drop_item
+/*tournament-page*/
+insert into tournament_rank (
+    tournament_rank_id,
+    tournament_rank_lv_range
+) values
+(1, '01-15'),
+(2, '16-25'),
+(3, '26-35'),
+(4, '36-45'),
+(5, '46-55'),
+(6, '56-65'),
+(7, '66-75'),
+(8, '76-80'),
+(9, '81-85'),
+(10, '86-90'),
+(11, '91-93'),
+(12, '94-96'),
+(13, '97-99'),
+(14, '97-99'),
+(15, '97-99'),
+(16, '97-99');
 
+insert into tournament_name (
+    tournament_name_id,
+    tournament_name_ja,
+    tournament_name_en,
+    tournament_name_es,
+    tournament_rank_id
+) values
+/*rank1*/
+(1, 'ライモンタウンカップ', 'Raimon Town Cup', 'Copa Ciudad Inazuma', 1),
+(2, 'ファイアトルネードカップ', 'Fire Tornado Cup', 'Copa Tornado de Fuego', 1),
+(3, 'ゴッドハンドカップ', 'God Hand Cup', 'Copa Mano Celestial', 1),
+/*rank2*/
+(4, 'オカルトカップ', 'Occult Cup', 'Copa Occult', 2),
+(5, 'トライアングルカップ', 'Triangle Cup', 'Copa Triángulo Z', 2),
+(6, 'デスゾーンカップ', 'Death Zone Cup', 'Copa Triángulo Letal', 2),
+/*rank3*/
+(7, 'エターナルカップ', 'Eternal Cup', 'Copa Ventisca Eterna', 3),
+(8, 'ツナミブーストカップ', 'Tsunami Boost Cup', 'Copa Remate Tsunami', 3),
+(9, 'ムゲンカップ', 'Mugen Cup', 'Copa Manos Infintas', 3),
+/*rank4*/
+(10, 'ゴッドノウズカップ', 'God Knows Cup', 'Copa Sabiduría Divina', 4),
+(11, 'ザ・タワーカップ', 'The Tower Cup', 'Copa Torre Inexpugnable', 4),
+(12, 'デスゾーン２カップ', 'Death Zone 2 Cup', 'Copa Triángulo Letal 2', 4),
+/*rank5*/
+(13, 'ファイアカップ', 'Fire Cup', 'Copa Fuego', 5),
+(14, 'ブリザードカップ', 'Blizzard Cup', 'Copa Ventisca', 5),
+(15, 'ＦＦジャパンカップ', 'FF Japan Cup', 'Copa FF Japón', 5),
+/*rank6*/		
+(16, 'プロミネンスカップ', 'Prominence Cup', 'Copa Prominence', 6),
+(17, 'ダイヤモンドカップ', 'Diamond Cup', 'Copa Polvo de Diamantes', 6),
+(18, 'ガイアカップ', 'Gaia Cup', 'Copa Gaia', 6),
+/*rank7*/
+(19, 'ドラゴンカップ', 'Dragon Cup', 'Copa Dragones de Fuego', 7),
+(20, 'デザートカップ', 'Desert Cup', 'Copa Leones del Desierto', 7),
+(21, 'オーシャンカップ', 'Ocean Cup', 'Copa Big Waves', 7),
+/*rank8*/
+(22, 'エクスカリバーカップ', 'Excalibur Cup', 'Copa Knights of Queen', 8),
+(23, 'オーディーンカップ', 'Gran Fenrir Cup', 'Copa Unicorn', 8),
+(24, 'グランフェンリルカップ', 'Odin Cup', 'Copa Orfeo', 8),
+/*rank9*/		
+(25, 'ローズスプラッシュカップ', 'Rose Splash Cup', 'Copa Grifos de la Rosa', 9),
+(26, 'ブロッケンカップ', 'Brocken Cup', 'Copa Brocken Brigade', 9),
+(27, 'マタドールカップ', 'Matador Cup', 'Copa Los Rojos', 9),
+/*rank10*/	
+(28, 'スパークカップ', 'Spark Cup', 'Copa Rayo Celeste', 10),
+(29, 'ボンバーカップ', 'Bomber Cup', 'Copa Fuego Explosivo', 10),
+(30, 'ハリケーンカップ', 'Hurricane Cup', 'Copa La Amenaza del Ogro', 10),
+/*rank11*/
+(31, 'ジェットストリームカップ', 'Jet Stream Cup', 'Copa Liocott', 11),
+(32, 'ビッグバンカップ', 'Big Bang Cup', 'Copa Monumental', 11),
+(33, 'ゴッドブレイクカップ', 'God Break Cup', 'Copa Caimanes del Cabo', 11),
+/*rank12*/
+(34, 'デスブレイクカップ', 'Death Break Cup', 'Copa Os Reis', 12),
+(35, 'ハイボルテージカップ', 'High Voltage Cup', 'Copa Los Emperadores', 12),
+(36, 'エレキトラップカップ', 'Electric Trap Cup', 'Copa Pequeños Gigantes', 12),
+/*rank13*/
+(37, 'ペンギンズカップ', 'Penguins Cup', 'Copa Pingüino Emperador', 13),
+(38, 'チャンピオンカップ', 'Champion Cup', 'Copa Campeones', 13),
+(39, 'パイレーツカップ', 'Pirates Cup', 'Copa Torneo Especial', 13),
+/*rank14*/
+(40, 'フェニックスカップ', 'Phoenix Cup', 'Copa Fénix', 14),
+(41, 'ギャラクシーカップ', 'Galaxy Cup', 'Copa Tiro Galáctico', 14),
+(42, 'ジ・アースカップ', 'The Earth Cup', 'Copa Tierra', 14),
+/*rank15*/
+(43, 'まおうカップ', 'Maou Cup', 'Copa Mano Diabólica', 15),
+(44, 'タマシイカップ', 'Tamashii Cup', 'Copa Mano Espiritual', 15),
+(45, 'オメガカップ', 'Omega Cup', 'Copa Mano Omega', 15),
+/*rank16*/
+(46, 'エンジェルカップ', 'Angel Cup', 'Copa Balón Angelical', 16),
+(47, 'カオスカップ', 'Chaos Cup', 'Copa Caos', 16),
+(48, 'オーガカップ', 'Ogre Cup', 'Copa Ogro', 16);
+
+insert into tournament_rank_requires_player (
+    tournament_rank_id,
+    player_id
+) values
+/*rank14*/
+(14, 220),
+(14, 361),
+(14, 1161),
+(14, 501),
+(14, 789),
+(14, 327),
+(14, 2076),
+(14, 414),
+(14, 585),
+(14, 1650),
+(14, 1662),
+(14, 1704),
+(14, 1751),
+(14, 1974),
+(14, 866),
+(14, 673),
+/*rank15*/
+(15, 1867),
+(15, 1893),
+(15, 1938),
+(15, 1988),
+(15, 1765),
+(15, 1265),
+(15, 1784),
+(15, 524),
+(15, 1809),
+(15, 849),
+(15, 1837),
+(15, 908),
+(15, 1849),
+(15, 1913),
+/*rank16*/
+(16, 242),
+(16, 352),
+(16, 2169),
+(16, 2303),
+(16, 1269),
+(16, 1217),
+(16, 1395),
+(16, 2077),
+(16, 2112),
+(16, 2085),
+(16, 2132),
+(16, 2156),
+(16, 2170),
+(16, 2190),
+(16, 2206),
+(16, 1428);
+
+source /home/alejandro/Desktop/projects/choujigen3mysql/sql/procfunc/proc_insert_tournament_team.sql
+
+source /home/alejandro/Desktop/projects/choujigen3mysql/sql/procfunc/proc_insert_tournament_drop.sql
+
+/*
 gacha
 gacha_yields
 old_pin_badge_exchange
