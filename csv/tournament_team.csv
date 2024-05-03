@@ -1,0 +1,256 @@
+tournament_rank_id,team_id,team_lv
+1,Inazuma Kids FC,5
+1,Sallys,6
+1,Ciudad Inazuma,7
+1,Los Alevines,8
+1,Horda de Frikis,9
+1,Japón Este,10
+1,Los Chicos del Bate,10
+1,Instituto Umbrella,13
+1,Instituto Occult,13
+1,Instituto Wild,15
+1,Instituto Brain,15
+1,Instituto Otaku,20
+1,Royal Academy,20
+1,Raimon 1,20
+1,Fundidores del Asfalto,25
+1,Fase Previa FF A,25
+2,Instituto Shuriken,10
+2,Instituto Farm,11
+2,Instituto Kirkwood,12
+2,Súper Otaku,13
+2,Antiguo Kirkwood,14
+2,Inazuma Eleven,15
+2,Ultra Raimon A,15
+2,Japón Oeste,18
+2,Chupabanquillos 1,18
+2,Chupabanquillos 2,20
+2,Chupabanquillos 3,20
+2,Chiquis,25
+2,Fase Previa FF B,25
+2,Fundidores del Asfalto,25
+2,Royal Academy,30
+2,Instituto Zeus,30
+3,Alpino,20
+3,Claustro Sagrado,21
+3,Fauxshore,22
+3,Mary Times,23
+3,CCC de Osaka,24
+3,Royal Academy Redux,25
+3,Servicio Secreto,25
+3,Gafitas B,28
+3,Chupabanquillos 4,28
+3,Chupabanquillos 5,30
+3,Chupabanquillos 6,30
+3,Chavalillas A,35
+3,Ninjas a Gogó,35
+3,Raimon II,35
+3,Royal Claustro A,40
+3,Alumnos de Intercambio,40
+4,Instituto Occult,30
+4,Instituto Wild,31
+4,Instituto Brain,32
+4,Instituto Otaku,33
+4,Instituto Shuriken,34
+4,Instituto Farm,35
+4,Instituto Kirkwood,35
+4,Royal Academy,38
+4,Instituto Zeus,38
+4,Alpino,40
+4,Claustro Sagrado,40
+4,CCC de Osaka,45
+4,Fauxshore,45
+4,Mary Times,45
+4,Royal Academy Redux,50
+4,Servicio Secreto,50
+5,Gafitas A,40
+5,Chavalillas B,41
+5,Sospechosos,42
+5,Mangapichichis,43
+5,Ultrapatrulla Omega,44
+5,Enmascarados A,45
+5,Los Payasetes,45
+5,Las Peques,48
+5,Los Cabezahuevo,48
+5,Estrellas de China,50
+5,Los Cara Oculta,50
+5,Royal Claustro A,50
+5,Jóvenes Inazuma,55
+5,Ultra Zeus,55
+5,Alumnos de Intercambio,60
+5,El Equipo Definitivo,60
+6,Cadetes Espaciales,41
+6,Memos Imperiales,42
+6,Robots Guardias,43
+6,Tormenta de Géminis,44
+6,Épsilon,45
+6,Épsilon Plus,55
+6,Gaia,55
+6,Génesis,58
+6,Alius A,58
+6,Alius B,60
+6,Atlético Alius,60
+6,Equipo de Ensueño,65
+6,Polvo de Diamantes,65
+6,Prominence,65
+6,Caos,70
+6,Mar de Árboles,70
+7,Estrellas Femeninas,46
+7,Fase Nacional FF A,47
+7,Fase Nacional FF B,48
+7,CCC de Osaka,49
+7,Neo Japón,50
+7,Neo Japón Plus,60
+7,Ases Asiáticos,60
+7,Astros Asiáticos,63
+7,Los Calebmaníacos,63
+7,Los Impostores,65
+7,Los Campeones,65
+7,Los Supermachos,70
+7,Los Chungoleadores,75
+7,Las Guapetonas,80
+7,Enmascarados Osados,85
+7,Reinas del Hielo,90
+8,Chupabanquillos 1,51
+8,Chupabanquillos 2,52
+8,Chupabanquillos 3,53
+8,Chupabanquillos 4,54
+8,Chupabanquillos 5,55
+8,Chupabanquillos 6,65
+8,Equipo de Adultos,65
+8,Los Superadorables,68
+8,Los Goles Fantasma,68
+8,Los Caviar,70
+8,Los Preciosos,70
+8,Gigantes Bondadosos,75
+8,Horda de Frikis,80
+8,Equipo D,85
+8,Ray Dark All Stars,90
+8,Raimon Costaleño,95
+9,Delanteros Relámpagos,53
+9,Defensas Adamantinos,57
+9,Medios Sorprendentes,58
+9,Porteros Imbatibles,59
+9,Guardabosques,60
+9,Brocken Brigade,70
+9,Montañeros,70
+9,Caimanes del Cabo,73
+9,Grifos de la Rosa,73
+9,Los Rojos,75
+9,Criaturas Legendarias,75
+9,Las Voces de Oro,80
+9,Los Caleidoscopios,85
+9,Balones Ardientes,90
+9,Fútbol Líquido,95
+9,Leyendas de Antaño,99
+10,Ases Africanos,55
+10,Ases Sudamericanos,57
+10,Ases Europeos,58
+10,Ases Internacionales,60
+10,Astros del Grupo B,65
+10,Astros Sudamericanos,70
+10,Level Flyve,75
+10,Ases de Inazuma,78
+10,Los Once de Mark,78
+10,Ultra Zeus,80
+10,Astros del Firmamento,85
+10,Mar de Árboles,89
+10,Los Guays,90
+10,Los Cuatro Magníficos,95
+10,Ases Asiáticos,99
+10,Neo Raimon,99
+11,Astros del Grupo A,60
+11,Astros del Grupo B,62
+11,Astros Americanos,65
+11,Astros Europeos,70
+11,Astros Sudamericanos,70
+11,Selección Mundial Redux,75
+11,Ases del Inazuma 2,80
+11,La Panda de Jude,83
+11,Royal Claustro A,83
+11,Divinidades y Alienígenas,85
+11,Jóvenes Inazuma,85
+11,Instituto Zeus,90
+11,Brocken Brigade,95
+11,Caimanes del Cabo,99
+11,Los Rojos,99
+11,Grifos de la Rosa,99
+12,Airosos,65
+12,Ardientes,67
+12,Equipo Canon,68
+12,Equipo Blaze,70
+12,Ases del Inazuma 3,75
+12,Sky Team,80
+12,Dark Team,85
+12,Ángel Oscuro,88
+12,Ángel Oscuro 2,88
+12,Delanteros Relámpagos,90
+12,Medios Sorprendentes,90
+12,Defensas Adamantinos,95
+12,Neo Royal Academy,99
+12,Porteros Imbatibles,99
+12,CCC de Osaka,99
+12,Ray Dark All Stars,99
+13,Porteros Delanteros,65
+13,Galanes Electrizantes,67
+13,Chicas Explosivas,68
+13,Calamidad Eleven,70
+13,Los Malcarados,75
+13,Maestros del Tiki-Taka,80
+13,Los Elementalistas,85
+13,Los Surfieras Redux,88
+13,Los Caleidoscopios,88
+13,Gigantes Bondadosos,90
+13,Hermanos del Regate,90
+13,Astros del Firmamento,95
+13,Los Guays,99
+13,Pingüinos Emperadores,99
+13,Los Cuatro Magníficos,99
+13,Campeones de 2010,99
+14,Astros del Grupo A,70
+14,Astros del Grupo B,72
+14,Astros Americanos,75
+14,Astros Europeos,80
+14,Ases Africanos,85
+14,Ases Sudamericanos,90
+14,Ases Europeos,93
+14,Ases Internacionales,93
+14,Selección Nacional A,95
+14,Selección Nacional B,95
+14,Equipo Canon,99
+14,Chicharros en Familia,99
+14,Los Especialistas,99
+14,Caja de Sorpresas,99
+14,Selección Mundial Redux,99
+15,Porteros Delanteros,75
+15,Galanes Electrizantes,77
+15,Chicas Explosivas,78
+15,Airosos,80
+15,Guardabosques,85
+15,Ardientes,90
+15,Montañeros,95
+15,Los Surfieras Redux,97
+15,Los Caviar,98
+15,Astros del Firmamento,99
+15,Campeones de 2010,99
+15,Level Flyve,99
+15,Los Guays,99
+15,Los Malcarados,99
+15,Pingüinos Emperadores,99
+15,Los Cuatro Magníficos,99
+16,Ventisca Explosiva,75
+16,Ángel Oscuro 2,77
+16,Equipo Celestial,78
+16,Ángeles del Caos,80
+16,Rayo de Fuego,85
+16,Tormenta de Géminis,90
+16,Épsilon,95
+16,Gaia,98
+16,Génesis,98
+16,Sky Team,99
+16,Dark Team,99
+16,Equipo de Ensueño,99
+16,Equipo Ogro,99
+16,Mega Inazuma Eleven,99
+16,Divinidades y Alienígenas,99
+16,Ángel Oscuro,99

@@ -508,6 +508,7 @@ create table npc (
     npc_id int not null auto_increment,
     npc_name_ja varchar(32),
     npc_name_en varchar(32),
+    npc_name_es varchar(32),
     zone_id int,
     constraint npc_pk primary key (npc_id),
     constraint npc_fk_zone foreign key (zone_id)
@@ -988,21 +989,13 @@ create table practice_game (
     practice_game_order int,
     route_path_id int,
     team_id int,
+    practice_game_condition_id int,
     constraint practice_game_pk primary key (practice_game_id),
     constraint practice_game_fk_route_path foreign key (route_path_id)
         references route_path(route_path_id) on delete cascade,
     constraint practice_game_fk_team foreign key (team_id)
-        references team(team_id) on delete cascade
-);
-
-create table practice_game_dictated_by_pgc (
-    practice_game_id int not null,
-    practice_game_condition_id int not null,
-    constraint practice_game_dictated_by_pgc_pk primary key (practice_game_id),
-    constraint practice_game_dictated_by_pgc_fk_practice_game 
-        foreign key (practice_game_id)
-        references practice_game(practice_game_id) on delete cascade,
-    constraint practice_game_dictated_by_pgc_fk_pgc 
+        references team(team_id) on delete cascade,
+    constraint practice_game_fk_condition 
         foreign key (practice_game_condition_id)
         references practice_game_condition(practice_game_condition_id) 
         on delete cascade
@@ -1018,6 +1011,18 @@ create table item_vscard (
         references practice_game(practice_game_id) on delete cascade
 );
 
+create table practice_game_initiated_by_npc (
+    practice_game_id int not null,
+    npc_id int not null,
+    constraint practice_game_initiated_by_npc_pk 
+        primary key (practice_game_id, npc_id),
+    constraint practice_game_initiated_by_npc_fk_practice_game 
+        foreign key (practice_game_id)
+        references practice_game(practice_game_id) on delete cascade,
+    constraint practice_game_initiated_by_npc_fk_npc foreign key (npc_id)
+        references npc(npc_id) on delete cascade
+);
+
 create table practice_game_can_drop_item (
     practice_game_id int not null,
     item_id int not null,
@@ -1030,6 +1035,7 @@ create table practice_game_can_drop_item (
     constraint practice_game_can_drop_item_fk_item foreign key (item_id)
         references item(item_id) on delete cascade
 );
+
 /*page-tournament-rank*/
 create table tournament_rank (
     tournament_rank_id int not null auto_increment,
@@ -2122,7 +2128,7 @@ insert into item (
 (91, 'ヘルファイア', 'Hellfire', 'Llamarada Infernal', 3600, null, 1),
 (92, 'りゅうせいブレード', 'Meteor Blade', 'Cañón de Meteoritos', 4200, null, 1),
 (93, 'ほのおのかざみどり', 'Fire Rooster', 'Pájaro de Fuego', 10000, null, 1),
-(94, 'デスレイン', 'Doom Rain', 'Lluvia Letal', 10000, null, 1),
+(94, 'デスレイン', 'Doom Rain', 'Diluvio Letal', 10000, null, 1),
 (95, 'アトミックフレア', 'Atomic Flare', 'Llamarada Atómica', 10000, null, 1),
 (96, 'ばくねつスクリュー', 'Fireball Screw', 'Torbellino de Fuego', 10000, null, 1),
 (97, 'ザ・フェニックス', 'The Phoenix', 'Fénix', 10000, null, 1),
@@ -2403,7 +2409,7 @@ insert into item (
 (372, 'ネバーギブアップ', 'Never Give Up!', 'Siempre a Muerte', 0, null, 1),
 (373, 'ふっかつ！', 'Comeback Kid!', '¡Que no Decaiga!', 0, null, 1),
 (374, 'みんなイケイケ！', 'Everyone Move It!', '¡Vamos Todos!', 0, null, 1),
-(375, 'むぞくせい', 'No Element', 'Anti-Afinidades', 0, null, 1),
+(375, 'むぞくせい', 'No Element', 'Antiafinidades', 0, null, 1),
 (376, 'やくびょうがみ', 'Jinx', 'Gafe', 0, null, 1),
 (377, 'ラッキー！', 'Lucky!', 'Suerte', 0, null, 1),
 (378, 'リカバリー', 'Recovery', 'Recobro', 0, null, 1),
@@ -2599,12 +2605,12 @@ insert into item (
 282
 416
 */
-(560, 'たまごろう', 'Tamagoro', 'Peabody', null, null, 4),
-(561, 'マックス', 'Makkusu', 'Max', null, null, 4),
-(562, 'なつみ', 'Natsumi', 'Nelly', null, null, 4),
-(563, 'ふゆか', 'Fuyuka', 'Cammy', null, null, 4),
-(564, 'おとなし', 'Otonashi', 'Celia', null, null, 4),
-(565, 'きの', 'Kino', 'Silvia', null, null, 4),
+(560, 'たまごろう', 'Peabody', 'Peabody', null, null, 4),
+(561, 'マックス', 'Max', 'Max', null, null, 4),
+(562, 'なつみ', 'Nelly', 'Nelly', null, null, 4),
+(563, 'ふゆか', 'Cammy', 'Cammy', null, null, 4),
+(564, 'おとなし', 'Celia', 'Celia', null, null, 4),
+(565, 'きの', 'Silvia', 'Silvia', null, null, 4),
 /*マップチケット*/
 (566, '福岡のチケット', 'Fukuoka Map', 'Mapa de Fukuoka', null, null, 5),
 (567, '奈良のチケット', 'Nara Map', 'Mapa de Nara', null, null, 5),
@@ -2849,7 +2855,9 @@ insert into item (
 (788, 'B-ライトウィング', 'B-Right Wing', 'Ala derecha', null, null, 12),
 (789, 'B-トレイン', 'B-Train', 'Torre', null, null, 12),
 (790, 'B-トライアングル', 'B-Triangle', 'Pachanga total', null, null, 12),
-(791, 'B-ランス', 'B-Lance', 'Lanza', null, null, 12);
+(791, 'B-ランス', 'B-Lance', 'Lanza', null, null, 12),
+/*misc*/
+(792, 'ロココ', 'Helio', 'Helio', null, null, 4);
 
 insert into tactic_type (
     tactic_type_id,
@@ -3108,7 +3116,8 @@ insert into item_reward_player (
 (562, 1027),
 (563, 1269),
 (564, 282),
-(565, 416);
+(565, 416),
+(792, 1586);
 
 insert into item_map (
     item_map_id,
@@ -3266,8 +3275,50 @@ insert into item_wear (
 (714, '15121f'),
 (715, 'bbb2ac');
 
+insert into npc (
+    npc_id,
+    npc_name_ja,
+    npc_name_en,
+    npc_name_es,
+    zone_id) values
+/*start-route*/
+(1, '火来 伸蔵', 'Mr. Firewill', 'Sr. Firewill', 105),
+(2, 'ロボット', 'Robot', 'Robot', 111),
+(3, 'マシン', 'Machine', 'Robot', 115),
+(4, '瞳子', 'Lina', 'Lina', 175),
+(5, '雷門', 'Raimon', 'Raimon', 110),
+(6, 'ダイスケ', 'David', 'David', 245),
+(7, 'ロボット', 'Robot', 'Robot', 108),
+(8, '鬼瓦', 'Smith', 'Smith', 114),
+(9, '夕香', 'Julia', 'Julia', 118),
+(10, 'ルシェ', 'Lizzy', 'Lizzy', 190),
+/*start-match*/
+(11, '千羽山選手', 'Farm', 'Jugador del Farm', 100),
+(12, '真二屋', 'Artic', 'Artic', 159),
+(13, '伊賀島', 'Igajima', 'Igajima', 130),
+(14, '傘美野選手', 'Umbrella player', 'Jugador del Umbrella', 131),
+(15, '監督', 'Coach', 'Entrenador', 171),
+(16, '野生選手', 'Wild player', 'Jugador del Wild', 162),
+(17, ' 御影専農選手', 'Brain player', 'Jugador del Brain', 137),
+(18, '監督', 'Coach', 'Entrenador', 150),
+(19, '尾刈斗選手', 'Occult player', 'Jugador del Occult', 155),
+(20, '漫遊寺選手', 'Cloister Divinity player', 'Jugador del Claustro Sagrado', 161),
+(21, '帝国選手', 'Royal Academy player', 'Jugador de la Royal Academy', 133),
+(22, '校長', 'Principal', 'Director', 165),
+(23, '木戸川選手', 'Kirkwood player', 'Jugador del Kirkwood', 174),
+(24, 'ロボット', 'Robot', 'Robot', 180),
+(25, 'ロボット', 'Robot', 'Robot', 134),
+(26, 'ロボット', 'Robot', 'Robot', 173),
+(27, 'ロボット', 'Robot', 'Robot', 247),
+(28, 'ロボット', 'Robot', 'Robot', 258),
+(29, 'ロボット', 'Robot', 'Robot', 242),
+(30, 'ロボット', 'Robot', 'Robot', 144),
+(31, 'ロボット', 'Robot', 'Robot', 213),
+(32, 'ロボット', 'Robot', 'Robot', 213),
+(33, 'ロボット', 'Robot', 'Robot', 206),
+(34, 'ロボット', 'Robot', 'Robot', 206);
+
 /*
-npc
 chest
 item_sold_at_stor
 player_found_at_zone
@@ -4396,17 +4447,302 @@ insert into tactic_executed_by_team (
 (724, 187),
 (729, 187);
 
+insert into extra_battle_route (
+    extra_battle_route_id,
+    extra_battle_route_name_ja,
+    extra_battle_route_name_en,
+    extra_battle_route_name_es,
+    npc_id
+) values
+(1, '火来校長のエクストラ対戦ルート', 'Mr Firewill\'s competition route', 'Cadena extra de partidos del Sr. Firewill', 1),
+(2, 'エキシビション対戦ルート', 'Exhibition route', 'Cadena de amistosos', 2),
+(3, 'ナゾのエクストラ対戦ルート', 'Secret competition route', 'Cadena secreta de partidos', 3),
+(4, '瞳子の超次元トーナメント ', 'Lina\'s hyperdimensional tournament', 'Torneo especial de Lina', 4),
+(5, '総一郎の超次元トーナメント -', 'Sonny\'s hyperdimensional tournament', 'Torneo especial de Sonny', 5),
+(6, 'ダイスケの超次元トーナメント', 'David\'s hyperdimensional tournament', 'Torneo especial de David Evans', 6),
+(7, 'ドリーム超次元トーナメント', 'Dream hyperdimensional tournament', 'Torneo especial mágico', 7),
+(8, '鬼瓦刑事の超次元トーナメント', 'Detective Smith\'s hyperdimensional tournament', 'Torneo especial del detective Smith', 8),
+(9, '夕香の超次元トーナメント', 'Jilia\'s hyperdimensional tournament', 'Torneo especial de Julia Blaze', 9),
+(10, 'ルシェの超次元トーナメント', 'Lizzy\'s hyperdimensional tournament', 'Torneo especial de Lizzy', 10);
+
+/*route_path_order 3 中 1 上 2 下*/
+insert into route_path (
+    route_path_id,
+    route_path_order,
+    extra_battle_route_id,
+    reward_n,
+    reward_s
+) values
+(1, 3, 1, 572, 560),
+(2, 1, 1, 729, 561),
+(3, 2, 1, 723, 731),
+(4, 1, 2, 177, 360),
+(5, 2, 2, 573, 366),
+(6, 1, 3, 361, 373),
+(7, 2, 3, 350, 94),
+(8, 1, 4, 367, 313),
+(9, 2, 4, 375, 17),
+(10, 1, 5, 720, 137),
+(11, 2, 5, 368, 312),
+(12, 1, 6, 356, 364),
+(13, 2, 6, 369, 362),
+(14, 1, 7, 738, 733),
+(15, 2, 7, 314, 792),
+(16, 1, 8, 562, 563),
+(17, 2, 8, 564, 565),
+(18, 1, 9, 124, 607),
+(19, 2, 9, 374, 734),
+(20, 1, 10, 371, 333);
+
+insert into practice_game_condition (
+    practice_game_condition_id,
+    practice_game_condition_desc_ja,
+    practice_game_condition_desc_en,
+    practice_game_condition_desc_es
+) values
+(1, 'とにかく勝て!', 'Just win, it\'s that simple!', '¡Gana y ya está!'),
+(2, '風属性のキャラで勝て!', 'Win with a Wind team!', '¡Gana con un equipo de Aire!'),
+(3, '林属性のキャラで勝て!', 'Win with a Wood team!', '¡Gana con un equipo de Bosque!'),
+(4, '火属性のキャラで勝て!', 'Win with a Fire team!', '¡Gana con un equipo de Fuego!'),
+(5, '山属性のキャラで勝て!', 'Win with an Earth team!', '¡Gana con un equipo de Montaña!'),
+(6, 'シュート技をもたないキャラで勝て!', 'Win with a team that doesn\'t possess any shooting special moves!', '¡Gana con jugadores sin supertécnicas de tiro!'),
+(7, 'GK技をもたないキャラで勝て!', 'Win with a team that doesn\'t possess any goalkeeping special moves!', '¡Gana con jugadores sin supertécnicas de portero!'),
+(8, '男の子のキャラで勝て!', 'Win with a team composed entirely of boys!', '¡Gana con un equipo formado por chicos!'),
+(9, '女の子のキャラで勝て!', 'Win with a team composed entirely of girls!', '¡Gana con un equipo formado por chicas!');
+
+insert into practice_game (
+    practice_game_id,
+    practice_game_order,
+    route_path_id,
+    team_id,
+    practice_game_condition_id
+) values
+/*1-center*/
+(1, 1, 1, 52, 1),
+(2, 2, 1, 35, 1),
+(3, 3, 1, 54, 1),
+/*1-top*/
+(4, 1, 2, 32, 1),
+(5, 2, 2, 33, 1),
+(6, 3, 2, 34, 1),
+(7, 4, 2, 53, 1),
+/*1-bottom*/
+(8, 1, 3, 38, 1),
+(9, 2, 3, 39, 1),
+(10, 3, 3, 40, 1),
+(11, 4, 3, 41, 1),
+(12, 5, 3, 42, 1),
+(13, 6, 3, 43, 1),
+(14, 7, 3, 37, 1),
+/*2-top*/
+(15, 1, 4, 8, 1),
+(16, 2, 4, 5, 1),
+(17, 3, 4, 7, 1),
+(18, 4, 4, 1, 1),
+(19, 5, 4, 16, 1),
+(20, 6, 4, 3, 1),
+/*2-bottom*/
+(21, 1, 5, 4, 1),
+(22, 2, 5, 11, 1),
+(23, 3, 5, 2, 1),
+(24, 4, 5, 12, 1),
+(25, 5, 5, 6, 1),
+(26, 6, 5, 15, 1),
+(27, 7, 5, 9, 1),
+/*3-top*/
+(28, 1, 6, 36, 1),
+(29, 2, 6, 13, 1),
+(30, 3, 6, 10, 1),
+(31, 4, 6, 55, 1),
+/*3-bottom*/
+(32, 1, 7, 17, 1),
+(33, 2, 7, 18, 1),
+(34, 3, 7, 19, 1),
+(35, 4, 7, 20, 1),
+(36, 5, 7, 25, 1),
+/*4-top*/
+(37, 1, 8, 136, 1),
+(38, 2, 8, 21, 1),
+(39, 3, 8, 84, 1),
+(40, 4, 8, 85, 1),
+(41, 5, 8, 182, 1),
+(42, 6, 8, 29, 1),
+(43, 7, 8, 87, 8),
+(44, 8, 8, 147, 3),
+(45, 9, 8, 89, 7),
+/*4-bottom*/
+(46, 1, 9, 90, 1),
+(47, 2, 9, 91, 1),
+(48, 3, 9, 28, 1),
+(49, 4, 9, 92, 1),
+(50, 5, 9, 152, 1),
+(51, 6, 9, 74, 1),
+(52, 7, 9, 162, 1),
+(53, 8, 9, 163, 1),
+(54, 9, 9, 95, 1),
+/*5-top*/
+(55, 1, 10, 68, 1),
+(56, 2, 10, 45, 1),
+(57, 3, 10, 44, 1),
+(58, 4, 10, 69, 1),
+(59, 5, 10, 70, 1),
+(60, 6, 10, 71, 1),
+(61, 7, 10, 72, 1),
+/*5-bottom*/
+(62, 1, 11, 73, 2),
+(63, 2, 11, 129, 6),
+(64, 3, 11, 184, 1),
+(65, 4, 11, 76, 8),
+(66, 5, 11, 126, 1),
+(67, 6, 11, 148, 1),
+(68, 7, 11, 145, 6),
+(69, 8, 11, 80, 5),
+(70, 9, 11, 81, 5),
+(71, 10, 11, 82, 1),
+/*6-top*/
+(72, 1, 12, 56, 1),
+(73, 2, 12, 46, 1),
+(74, 3, 12, 57, 1),
+(75, 4, 12, 58, 1),
+(76, 5, 12, 47, 1),
+(77, 6, 12, 59, 1),
+(78, 7, 12, 60, 1),
+/*6-bottom*/
+(79, 1, 13, 135, 7),
+(80, 2, 13, 122, 1),
+(81, 3, 13, 63, 5),
+(82, 4, 13, 64, 2),
+(83, 5, 13, 65, 4),
+(84, 6, 13, 66, 6),
+(85, 7, 13, 67, 8),
+(86, 8, 13, 31, 1),
+/*7-top*/
+(87, 1, 14, 96, 1),
+(88, 2, 14, 151, 1),
+(89, 3, 14, 181, 1),
+(90, 4, 14, 102, 1),
+(91, 5, 14, 183, 8),
+/*7-bottom*/
+(92, 1, 15, 22, 1),
+(93, 2, 15, 99, 1),
+(94, 3, 15, 100, 1),
+(95, 4, 15, 101, 1),
+(96, 5, 15, 103, 1),
+(97, 6, 15, 161, 1),
+/*8-top*/
+(98, 1, 16, 111, 1),
+(99, 2, 16, 61, 1),
+(100, 3, 16, 108, 1),
+(101, 4, 16, 138, 1),
+(102, 5, 16, 27, 1),
+(103, 6, 16, 175, 1),
+(104, 7, 16, 156, 1),
+(105, 8, 16, 157, 1),
+(106, 9, 16, 158, 1),
+(107, 10, 16, 30, 1),
+/*8-bottom*/
+(108, 1, 17, 113, 6),
+(109, 2, 17, 114, 6),
+(110, 3, 17, 115, 6),
+(111, 4, 17, 117, 6),
+(112, 5, 17, 124, 9),
+(113, 6, 17, 87, 8),
+(114, 7, 17, 144, 7),
+(115, 8, 17, 134, 9),
+(116, 9, 17, 146, 5),
+/*9-top*/
+(117, 1, 18, 105, 1),
+(118, 2, 18, 180, 1),
+(119, 3, 18, 150, 1),
+(120, 4, 18, 187, 3),
+(121, 5, 18, 159, 1),
+(122, 6, 18, 107, 8),
+(123, 7, 18, 137, 1),
+(124, 8, 18, 176, 4),
+(125, 9, 18, 149, 2),
+(126, 10, 18, 128, 4),
+(127, 11, 18, 179, 1),
+/*9-bottom*/
+(128, 1, 19, 118, 7),
+(129, 2, 19, 119, 7),
+(130, 3, 19, 116, 9),
+(131, 4, 19, 143, 7),
+(132, 5, 19, 139, 3),
+(133, 6, 19, 142, 8),
+(134, 7, 19, 141, 8),
+(135, 8, 19, 140, 9),
+(136, 9, 19, 173, 1),
+/*10-top*/
+(137, 1, 20, 177, 1),
+(138, 2, 20, 170, 1),
+(139, 3, 20, 166, 9),
+(140, 4, 20, 154, 1),
+(141, 5, 20, 165, 7),
+(142, 6, 20, 155, 1),
+(143, 7, 20, 167, 8),
+(144, 8, 20, 174, 1),
+(145, 9, 20, 160, 1),
+(146, 10, 20, 104, 1);
+
+insert into practice_game_initiated_by_npc (
+    practice_game_id,
+    npc_id) values
+(15, 11),
+(16, 12),
+(17, 13),
+(18, 14),
+(19, 15),
+(20, 16),
+(21, 17),
+(22, 18),
+(23, 19),
+(24, 20),
+(25, 21),
+(26, 22),
+(27, 23),
+(87, 24),
+(88, 25),
+(89, 26),
+(90, 27),
+(91, 28),
+(92, 29),
+(93, 30),
+(94, 31),
+(95, 32),
+(96, 33),
+(97, 34);
+
+insert into item_vscard (
+    item_vscard_id,
+    practice_game_id
+) values
+(579 ,3),
+(580, 7),
+
+(589, 29),
+(593, 30),
+(592, 31),
+(584, 32),
+(582, 33),
+(583, 34),
+(585, 35),
+(581, 36),
+
+(591, 92),
+(588, 93),
+(590, 95),
+(586, 96),
+(587, 97);
+
+
+
 /*
 insert into asd (
 ) values
 
-extra_battle_route
-route_path
-practice_game_condition
-practice_game
-practice_game_dictated_by_pgc
 item_vscard
 practice_game_can_drop_item
+
 */
 
 /*tournament-page*/
