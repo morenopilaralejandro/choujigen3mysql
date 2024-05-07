@@ -25,14 +25,15 @@ drop table if exists utc_session;
 drop table if exists old_pin_badge_exchange;
 drop table if exists gacha_yields;
 drop table if exists gacha;
+drop table if exists ultimate_note_increases_free;
 drop table if exists tournament_rank_may_drop_item;
 drop table if exists tournament_rank_disputed_by_team;
 drop table if exists tournament_rank_requires_player;
 drop table if exists tournament_name;
 drop table if exists tournament_rank;
 drop table if exists practice_game_can_drop_item;
+drop table if exists practice_game_initiated_by_npc;
 drop table if exists item_vscard;
-drop table if exists practice_game_dictated_by_pgc;
 drop table if exists practice_game;
 drop table if exists practice_game_condition;
 drop table if exists route_path;
@@ -950,9 +951,9 @@ create table tactic_executed_by_team (
 /*page-extra-battle-route*/
 create table extra_battle_route (
     extra_battle_route_id int not null auto_increment,
-    extra_battle_route_name_ja varchar(32),
-    extra_battle_route_name_en varchar(32),
-    extra_battle_route_name_es varchar(32),
+    extra_battle_route_name_ja varchar(48),
+    extra_battle_route_name_en varchar(48),
+    extra_battle_route_name_es varchar(48),
     npc_id int,
     constraint extra_battle_route_pk primary key (extra_battle_route_id),
     constraint extra_battle_route_fk_npc foreign key (npc_id)
@@ -1097,6 +1098,22 @@ create table tournament_rank_may_drop_item (
         foreign key (item_id)
         references item(item_id) on delete cascade  
 );
+/*page-item*/
+create table ultimate_note_increases_free (
+    item_ultimate_note_id int not null,
+    positi_id int not null,
+    attri_id int not null,
+    constraint ultimate_note_increases_free_pk 
+        primary key (item_ultimate_note_id, positi_id, attri_id),
+    constraint ultimate_note_increases_free_fk_item_ultimate_note
+        foreign key (item_ultimate_note_id) 
+        references item_ultimate_note(item_ultimate_note_id) on delete cascade,
+    constraint ultimate_note_increases_free_fk_positi
+        foreign key (positi_id) references positi(positi_id) on delete cascade,
+    constraint ultimate_note_increases_free_fk_attri
+        foreign key (attri_id) references attri(attri_id) on delete cascade  
+);
+
 /*page-gacha*/
 create table gacha (
     gacha_id int not null auto_increment,
@@ -4734,16 +4751,10 @@ insert into item_vscard (
 (586, 96),
 (587, 97);
 
-
-
 /*
-insert into asd (
-) values
-
-item_vscard
 practice_game_can_drop_item
-
 */
+source /home/alejandro/Desktop/projects/choujigen3mysql/sql/procfunc/proc_insert_route_drop.sql
 
 /*tournament-page*/
 insert into tournament_rank (
@@ -4896,6 +4907,29 @@ insert into tournament_rank_requires_player (
 source /home/alejandro/Desktop/projects/choujigen3mysql/sql/procfunc/proc_insert_tournament_team.sql
 
 source /home/alejandro/Desktop/projects/choujigen3mysql/sql/procfunc/proc_insert_tournament_drop.sql
+
+
+insert into ultimate_note_increases_free (
+    item_ultimate_note_id,
+    positi_id,
+    attri_id
+) values
+(606, 3, 2),
+(607, 1, 3),
+(608, 2, 2),
+(609, 3, 1),
+(610, 2, 1),
+(611, 1, 2),
+(612, 1, 1),
+(612, 4, 1),
+(613, 3, 4),
+(613, 4, 2),
+(614, 3, 3),
+(614, 4, 3),
+(615, 2, 4),
+(615, 4, 4),
+(616, 2, 3),
+(616, 1, 4);
 
 /*
 gacha
