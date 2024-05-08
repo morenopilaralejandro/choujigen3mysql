@@ -2585,7 +2585,7 @@ insert into item (
 (530, 'コスモミサンガ', 'Cosmo Misanga', 'Cosmopulsera', 8000, null, 2),
 (531, 'さいきょうミサンガ', 'Saikyou Misanga', 'Pulsera genial', 30000, null, 2),
 (532, 'ジミなミサンガ', 'Jimina Misanga', 'Pulsera sobria', 0, null, 2),
-(533, 'ハデなミサンガ', 'Hadena Misanga', 'Pulsera llamativa', 0, null, 2),
+(533, 'ハデなミサンガ', 'Hadena Misanga', 'Pulsera chillona', 0, null, 2),
 (534, 'どハデなミサンガ', 'Dohadena Misanga', 'Pulsera llamativa', 0, null, 2),
 (535, '丈夫なミサンガ', 'Joubuna Misanga', 'Pulsera recia', 200, null, 2),
 (536, 'ゆうじょうミサンガ', 'Yuujou Misanga', 'Pulsera amistad', 350, null, 2),
@@ -2934,7 +2934,7 @@ insert into equipment_type (
     equipment_type_name_es) values
 (1, 'シューズ', 'Shoes', 'Botas'),
 (2, 'グローブ', 'Gloves', 'Guantes'),
-(3, 'アクセサリ', 'Accessory', 'Accesorios');
+(3, 'アクセサリ', 'Accessories', 'Accesorios');
 
 insert into item_equipment (
     item_equipment_id,
