@@ -16,10 +16,10 @@ Online version: [diagrams.net](https://drive.google.com/file/d/1rL1mgbhukqdM4S3P
 - Player names
 - Teams
 - Formations
-## WIP
-- Chest
 - Battle Route
 - Tournament
+## WIP
+- Chest
 - Training Center
 - Story Events
 - Connection Map

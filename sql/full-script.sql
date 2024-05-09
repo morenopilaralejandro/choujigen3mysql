@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Apr 29, 2024 at 04:14 PM
+-- Generation Time: May 09, 2024 at 08:28 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -252,620 +252,93 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `proc_insert_hissatsu` ()   begin
     drop temporary table if exists aux_hissatsu;
 end$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `proc_insert_player_basic` ()   begin
+CREATE DEFINER=`root`@`localhost` PROCEDURE `proc_insert_route_drop` ()   begin
 	declare i int default 1;
-    declare vRomanjiFix varchar(32) default '';
-    declare vRomanjiLength int default 0;
-    declare vRomanjiCounter int default 0;
-    declare vRomanjiCurrentChar varchar(1) default '';
-    declare vRomanjiPreviousChar varchar(1) default '';
-    declare vAttriId int default 0;
-    declare vPositiId int default 0;
-    declare vGenderId int default 0;
-    declare vBodyId int default 0;
-    declare vZoneId int default 0;
-    declare vObtentionId int default 0;
-    declare vAuxFemaleName varchar(32) default '';
-    declare vKoukoFound int default 0;
-    declare vFanFound int default 0;
-    declare vLvInt int default 1;
-    declare vBodyTypeInt int default 1;
-    declare vHissatsuCounter int default 0;
-    declare vHissatsuNameAux varchar(32) default '';
-    declare vHissatsuLvAux int default 0;
-    declare vHissatsuIdAux int default 0;
+    declare idItem1 int default 0;
+    declare idItem2 int default 0;
+    declare idItem3 int default 0;
 
     
-    declare vPageOrder varchar(32) default '';
-    declare vNameJa varchar(32) default '';
-    declare vZoneName varchar(32) default '';
-    declare vObtentionDesc varchar(100) default '';
-    declare vAttri varchar(32) default '';
-    declare vPositi varchar(32) default '';
-    declare vLv varchar(32) default '';
-    declare vGp int default 0;
-    declare vTp int default 0;
-    declare vKick int default 0;
-    declare vBody int default 0;
-    declare vControl int default 0;
-    declare vGuard int default 0;
-    declare vSpeed int default 0;
-    declare vStamina int default 0;
-    declare vGuts int default 0;
-    declare vFreedom int default 0;
-    declare vH1 varchar(32) default '';
-    declare vH2 varchar(32) default '';
-    declare vH3 varchar(32) default '';
-    declare vH4 varchar(32) default '';
-    declare vNameRomanji varchar(32) default '';
-
-    declare vBodyType varchar(32) default '';
-    declare vFullJa varchar(32) default '';
-    declare vKanjiJa varchar(32) default '';
-    declare vNameEn varchar(32) default '';
-    declare vFullEn varchar(32) default '';
-    declare vId int default 0;
+    declare vTeam varchar(32) default '';
+    declare vItem1 varchar(32) default '';
+    declare vRate1 int default 0;
+    declare vItem2 varchar(32) default '';
+    declare vRate2 int default 0;
+    declare vItem3 varchar(32) default '';
+    declare vRate3 int default 0;
 
     declare continueCur1 int default 1;
-    declare cur1 cursor for select * from aux_player;
+    declare cur1 cursor for select * from aux_route_drop;
 	declare continue handler for SQLSTATE '02000' set continueCur1 = 0;
-    
-    delete from player;
-    delete from player_found_at_zone;
-    delete from player_learns_hissatsu;
-    drop table if exists aux_hissatsu;
-    create temporary table aux_hissatsu (
-        hissatsu_name varchar(32),
-        learn_order int
-    ); 
+
+    delete from practice_game_can_drop_item;    
     open cur1;
 	while continueCur1=1 do
-        fetch cur1 into vPageOrder, vNameJa, vZoneName, vObtentionDesc, 
-            vAttri, vPositi, vLv, vGp, vTp, vKick, vBody, vControl, vGuard, 
-            vSpeed, vStamina, vGuts, vFreedom, vH1, vH2, vH3, vH4, vNameRomanji,
-            vBodyType, vFullJa, vKanjiJa, vNameEn, vFullEn, vId;
+        fetch cur1 into vTeam, vItem1, vRate1, vItem2, vRate2, vItem3, vRate3;
+        set idItem1 = null;
+        set idItem2 = null;
+        set idItem3 = null;
         if continueCur1 = 1 then
-            
-            set vRomanjiFix = '';
-            set vRomanjiCounter = 1;
-            set vRomanjiCurrentChar = '';
-            set vRomanjiPreviousChar = '';
-            set vRomanjiLength = length(vNameRomanji);
-            while vRomanjiCounter <= vRomanjiLength do
-                set vRomanjiPreviousChar = vRomanjiCurrentChar;
-                set vRomanjiCurrentChar = substring(vNameRomanji, vRomanjiCounter, 1);
-                if vRomanjiCurrentChar = 'ー' then
-                    set vRomanjiFix = concat(vRomanjiFix, vRomanjiPreviousChar);
-                else
-                    set vRomanjiFix = concat(vRomanjiFix, vRomanjiCurrentChar);                
-                end if;
-                set vRomanjiCounter = vRomanjiCounter + 1;
-            end while;
 
-            
-            set vZoneId = 26; 
-            if vZoneName != '' then
-                select z.zone_id into vZoneId from zone z 
-                    join zone_outer zo on z.zone_id = zo.zone_outer_id 
-                    where z.zone_name_ja like concat(concat('%', vZoneName), '%');
-                set continueCur1 = 1;
+            if vItem1 = 'クロスファイア1' then
+                set idItem1 = 34;
+            elseif vItem1 = 'クロスファイア2' then
+                set idItem1 = 111;
+            elseif vItem1 = 'シャドウ・レイ' then
+                set idItem1 = 72;
+            else 
+                select item_id into idItem1 from item 
+                    where item_name_ja = vItem1; 
+            end if;   
+
+            if vItem2 = 'クロスファイア1' then
+                set idItem2 = 34;
+            elseif vItem2 = 'クロスファイア2' then
+                set idItem2 = 111;
+            elseif vItem2 = 'シャドウ・レイ' then
+                set idItem2 = 72;
+            else 
+                select item_id into idItem2 from item 
+                    where item_name_ja = vItem2;
+            end if;         
+
+            if vItem3 = 'クロスファイア1' then
+                set idItem3 = 34;
+            elseif vItem3 = 'クロスファイア2' then
+                set idItem3 = 111;
+            elseif vItem3 = 'シャドウ・レイ' then
+                set idItem3 = 72;
+            else 
+                select item_id into idItem3 from item 
+                    where item_name_ja = vItem3;   
+            end if;             
+
+
+            if idItem1 is null then
+                select vItem1;
+            end if;
+            if idItem2 is null then
+                select vItem2;
+            end if;
+            if idItem3 is null then
+                select vItem3;
             end if;
 
-            
-            case
-                when vObtentionDesc like '%ストーリー%' then
-                    set vObtentionId = 1;
-                when vObtentionDesc like '%スカウト%' then
-                    set vObtentionId = 2;
-                when vObtentionDesc like '%ガチャ%' then
-                    set vObtentionId = 3;
-                when vObtentionDesc like '%人脈システム%' then
-                    set vObtentionId = 4;
-                when vObtentionDesc like '%Wi-Fi%' then
-                    set vObtentionId = 5;
-                when vObtentionDesc like '%パスワード%' then
-                    set vObtentionId = 6;
-                when vObtentionDesc like '%ミニバトル%' then
-                    set vObtentionId = 7;
-                when vObtentionDesc like '%プレミアムスカウト%' then
-                    set vObtentionId = 11;
-                when vObtentionDesc like '%オーガプレミアムリンク%' then
-                    set vObtentionId = 12;
-                else
-                    set vObtentionId = 16; 
-            end case;
+            insert into practice_game_can_drop_item(
+                practice_game_id, item_id, drop_rate)
+                values (i, idItem1, vRate1);
+            insert into practice_game_can_drop_item(
+                practice_game_id, item_id, drop_rate)
+                values (i, idItem2, vRate2);
+            insert into practice_game_can_drop_item(
+                practice_game_id, item_id, drop_rate)
+                values (i, idItem3, vRate3);
 
-            
-            set vLv = concat('0', vLv);
-            set vLvInt = cast(vLv as unsigned);
-            if vLvInt = 0 then
-                set vLvInt = null;
-            end if;
-
-                   
-            set vBodyType = concat('0', vBodyType);
-            set vBodyTypeInt = cast(vBodyType as unsigned);
-            if vBodyTypeInt = 0 then
-                set vBodyId = 2;
-            else
-                set vBodyId = vBodyTypeInt;         
-            end if;
-
-            
-            if vNameJa = 'こうこ' then
-                if vKoukoFound = 0 then
-                    set vGenderId = 1;
-                    set vKoukoFound = 1;
-                else
-                    set vGenderId = 2;
-                end if;
-            elseif vNameJa = 'ファン' then
-                if vFanFound = 0 then
-                    set vGenderId = 2;
-                    set vFanFound = 1;
-                else
-                    set vGenderId = 1;
-                end if;
-            else
-                set vAuxFemaleName = null;
-                set vGenderId = 1;
-                select name_ja into vAuxFemaleName from aux_player_f
-                    where name_ja = vNameJa;
-                set continueCur1 = 1;
-                if vAuxFemaleName is not null then
-                    set vGenderId = 2;  
-                end if;
-            end if;
-
-            
-            select attri_id into vAttriId from attri 
-                where attri_name_ja = vAttri;            
-
-            
-            select positi_id into vPositiId from positi 
-                where positi_name_ja = vPositi;       
-
-             
-            insert into player(player_id, player_name_ja, player_name_hiragana, 
-                player_name_kanji, player_name_romanji, player_name_en, 
-                player_name_en_full, player_initial_lv, player_gp_99, 
-                player_tp_99, player_kick_99, player_body_99, player_control_99,
-                player_guard_99, player_speed_99, player_stamina_99, 
-                player_guts_99, player_freedom_99, attri_id, positi_id, 
-                gender_id, body_type_id, player_obtention_method_id, 
-                original_version) values (
-                i, vNameJa, vFullJa, 
-                vKanjiJa, vRomanjiFix, vNameEn, 
-                vFullEn, vLvInt, vGp, 
-                vTp, vKick, vBody, vControl,
-                vGuard, vSpeed, vStamina, 
-                vGuts, vFreedom, vAttriId, vPositiId, 
-                vGenderId, vBodyId, vObtentionId,
-                null);
-
-            insert into player_found_at_zone(player_id, zone_id, is_random, 
-                hint_ja, hint_en, hint_es) values (
-                i, vZoneId, null, null,'null', null);
-     
-            
-            
-            delete from aux_hissatsu;
-            insert into aux_hissatsu values (vH1, 1);
-            insert into aux_hissatsu values (vH2, 2);
-            insert into aux_hissatsu values (vH3, 3);
-            insert into aux_hissatsu values (vH4, 4);
-
-            update aux_hissatsu set hissatsu_name = replace(hissatsu_name, '(B)', '');
-            update aux_hissatsu set hissatsu_name = replace(hissatsu_name, '(C)', '');
-            update aux_hissatsu set hissatsu_name = replace(hissatsu_name, '(L)', '');
-            update aux_hissatsu set hissatsu_name = replace(hissatsu_name, '改', '');
-            update aux_hissatsu set hissatsu_name = replace(hissatsu_name, '真', '');
-            update aux_hissatsu set hissatsu_name = replace(hissatsu_name, 'V2', '');
-            update aux_hissatsu set hissatsu_name = replace(hissatsu_name, 'V3', '');
-            update aux_hissatsu set hissatsu_name = replace(hissatsu_name, 'G2', '');
-            update aux_hissatsu set hissatsu_name = replace(hissatsu_name, 'G3', '');
-            update aux_hissatsu set hissatsu_name = replace(hissatsu_name, 'G4', '');
-            update aux_hissatsu set hissatsu_name = replace(hissatsu_name, 'G5', '');
-            update aux_hissatsu set hissatsu_name = replace(hissatsu_name, '(', '');
-            update aux_hissatsu set hissatsu_name = replace(hissatsu_name, ')', '');
-            update aux_hissatsu set hissatsu_name = replace(hissatsu_name, '\t', '');
-            update aux_hissatsu set hissatsu_name = replace(hissatsu_name, ' ', '');
-            update aux_hissatsu set hissatsu_name = replace(hissatsu_name, '･', '・');
-            update aux_hissatsu set hissatsu_name = replace(hissatsu_name, 'Ｖ', 'V');
-            update aux_hissatsu set hissatsu_name = replace(hissatsu_name, '―', 'ー');
-            update aux_hissatsu set hissatsu_name = replace(hissatsu_name, '－', 'ー');
-            update aux_hissatsu set hissatsu_name = replace(hissatsu_name, '!', '！');
-            update aux_hissatsu set hissatsu_name = replace(hissatsu_name, 'Ｕ', 'U');
-            update aux_hissatsu set hissatsu_name = replace(hissatsu_name, 'Ｐ', 'P');
-
-
-
-
-
-            update aux_hissatsu set hissatsu_name = trim(hissatsu_name);
-
-            select hissatsu_name into vH1 from aux_hissatsu where learn_order = 1;
-            select hissatsu_name into vH2 from aux_hissatsu where learn_order = 2;
-            select hissatsu_name into vH3 from aux_hissatsu where learn_order = 3;
-            select hissatsu_name into vH4 from aux_hissatsu where learn_order = 4;
-
-            
-            set vHissatsuCounter = 1;
-            while vHissatsuCounter <= 4 do
-                case 
-                    when vHissatsuCounter = 1 then
-                        set vHissatsuNameAux = vH1;
-                    when vHissatsuCounter = 2 then
-                        set vHissatsuNameAux = vH2;
-                    when vHissatsuCounter = 3 then
-                        set vHissatsuNameAux = vH3;
-                    when vHissatsuCounter = 4 then
-                        set vHissatsuNameAux = vH4;
-                end case;
-                
-                case
-                    when upper(vHissatsuNameAux) like '%LV.__' then
-                        set vHissatsuLvAux =  
-                            cast(substring(
-                                vHissatsuNameAux, 
-                                char_length(vHissatsuNameAux) - 1, 
-                                2
-                            ) as unsigned);
-                        set vHissatsuNameAux = 
-                            substring(
-                                vHissatsuNameAux, 
-                                1, 
-                                char_length(vHissatsuNameAux) - 5
-                            );
-                    when upper(vHissatsuNameAux) like '%LV__' then
-                        set vHissatsuLvAux =  
-                            cast(substring(
-                                vHissatsuNameAux, 
-                                char_length(vHissatsuNameAux) - 1, 
-                                2
-                            ) as unsigned);
-                        set vHissatsuNameAux = 
-                            substring(
-                                vHissatsuNameAux, 
-                                1, 
-                                char_length(vHissatsuNameAux) - 4
-                            );
-                    when upper(vHissatsuNameAux) like '%LV_' then
-                        set vHissatsuLvAux =  
-                            cast(substring(
-                                vHissatsuNameAux, 
-                                char_length(vHissatsuNameAux), 
-                                1
-                            ) as unsigned);
-                        set vHissatsuNameAux = 
-                            substring(
-                                vHissatsuNameAux, 
-                                1, 
-                                char_length(vHissatsuNameAux) - 3
-                            );    
-                    when upper(vHissatsuNameAux) like '%LV' then
-                        set vHissatsuLvAux = null;
-                        set vHissatsuNameAux = 
-                            substring(
-                                vHissatsuNameAux, 
-                                1, 
-                                char_length(vHissatsuNameAux) - 2
-                            );    
-                     when upper(vHissatsuNameAux) like '%L_' then
-                        set vHissatsuLvAux =  
-                            cast(substring(
-                                vHissatsuNameAux, 
-                                char_length(vHissatsuNameAux), 
-                                1
-                            ) as unsigned);
-                        set vHissatsuNameAux = 
-                            substring(
-                                vHissatsuNameAux, 
-                                1, 
-                                char_length(vHissatsuNameAux) - 2
-                            );   
-                     when upper(vHissatsuNameAux) like '%P' then
-                        set vHissatsuLvAux = null;
-                        set vHissatsuNameAux = 
-                            substring(
-                                vHissatsuNameAux, 
-                                1, 
-                                char_length(vHissatsuNameAux) - 1
-                            );  
-                    else
-                        set vHissatsuLvAux = null;
-                end case;
-
-                
-                set vHissatsuIdAux = 0;
-                case
-                     
-                    when vHissatsuNameAux like '%クロスファイア%' then
-                        if vAttri = '火' then
-                            set vHissatsuIdAux = 111;
-                        else
-                            set vHissatsuIdAux = 34;
-                        end if;
-                    when vHissatsuNameAux like '%ファイアブリザード%' then
-                        if vAttri = '火' then
-                            set vHissatsuIdAux = 108;
-                        else
-                            set vHissatsuIdAux = 33;
-                        end if;
-                    when vHissatsuNameAux like '%シャドウ・レイ%' then
-                        if vAttri = '山' then
-                            set vHissatsuIdAux = 141;
-                        else
-                            set vHissatsuIdAux = 72;
-                        end if;
-                    when vHissatsuNameAux like 'ゴッドハンド' then
-                        if vAttri = '林' then
-                            set vHissatsuIdAux = 301;
-                        else
-                            set vHissatsuIdAux = 336;
-                        end if;
-                    when vHissatsuNameAux like '%マジン・ザ・ハンド%' then
-                        if vAttri = '林' then
-                            set vHissatsuIdAux = 304;
-                        else
-                            set vHissatsuIdAux = 339;
-                        end if;
-                     
-                    when vHissatsuNameAux like 'ゴッドハンドX' then
-                        set vHissatsuIdAux = 326;
-                    when vHissatsuNameAux like 'しこふみ' then
-                        set vHissatsuIdAux = 259;
-                    when vHissatsuNameAux like 'パワーシールド' then
-                        set vHissatsuIdAux = 317;
-                    when vHissatsuNameAux like 'サイクロ' then
-                        set vHissatsuIdAux = 214;
-                    when vHissatsuNameAux like 'サイクロン' then
-                        set vHissatsuIdAux = 214;
-                    when vHissatsuNameAux like 'ジャッジスルー' then
-                        set vHissatsuIdAux = 182;
-                    when vHissatsuNameAux like 'ジャッジスルー' then
-                        set vHissatsuIdAux = 182;
-                    when vHissatsuNameAux like 'ジャッジスルー２' then
-                        set vHissatsuIdAux = 190;
-                    when vHissatsuNameAux like 'ジャッジスルー2' then
-                        set vHissatsuIdAux = 190;
-                    when vHissatsuNameAux like 'ジャッジスルー3' then
-                        set vHissatsuIdAux = 193;
-                    when vHissatsuNameAux like 'デスゾーン' then
-                        set vHissatsuIdAux = 59;
-                    when vHissatsuNameAux like 'デスゾーン2' then
-                        set vHissatsuIdAux = 68;
-                    when vHissatsuNameAux like 'イケイケ！' then
-                        set vHissatsuIdAux = 353;
-                    when vHissatsuNameAux like 'ツインブースト' then
-                        set vHissatsuIdAux = 84;
-                    when vHissatsuNameAux like 'イナズマ1ごう' then
-                        set vHissatsuIdAux = 12;
-                    when vHissatsuNameAux like 'イナズマ1号' then
-                        set vHissatsuIdAux = 12;
-                    when vHissatsuNameAux like 'つなみブースト' then
-                        set vHissatsuIdAux = 9;
-                    when vHissatsuNameAux like 'ひゃくれつショット' then
-                        set vHissatsuIdAux = 38;
-                    when vHissatsuNameAux like 'ツインブース' then
-                        set vHissatsuIdAux = 84;
-                    when vHissatsuNameAux like 'ツインブースト' then
-                        set vHissatsuIdAux = 84;
-                    when vHissatsuNameAux like 'パーフェクトタワー' then
-                        set vHissatsuIdAux = 224;
-                    when vHissatsuNameAux like 'U・ボート' then
-                        set vHissatsuIdAux = 204;
-                    when vHissatsuNameAux like 'U・ボード' then
-                        set vHissatsuIdAux = 204;
-                    when vHissatsuNameAux like 'U・ポート' then
-                        set vHissatsuIdAux = 204;
-                    when vHissatsuNameAux like 'シザーズ・ボム' then
-                        set vHissatsuIdAux = 201;
-                    when vHissatsuNameAux like 'イリュージンボール' then
-                        set vHissatsuIdAux = 165;
-                    when vHissatsuNameAux like 'グットスメル' then
-                        set vHissatsuIdAux = 235;
-                    when vHissatsuNameAux like 'イナズマ１ごう' then
-                        set vHissatsuIdAux = 12;
-                    when vHissatsuNameAux like 'トライアングルZ' then
-                        set vHissatsuIdAux = 99;
-                    when vHissatsuNameAux like 'こうていペンギン2ごう' then
-                        set vHissatsuIdAux = 58;
-                    when vHissatsuNameAux like 'こうていペンギン３ごう' then
-                        set vHissatsuIdAux = 70;
-                    when vHissatsuNameAux like 'こうていペンギンＸ' then
-                        set vHissatsuIdAux = 104;
-                    when vHissatsuNameAux like 'イナズマ１ごうおとし' then
-                        set vHissatsuIdAux = 29;
-                    when vHissatsuNameAux like 'Xブラスト' then
-                        set vHissatsuIdAux = 110;
-                    when vHissatsuNameAux like 'ツインブーストF' then
-                        set vHissatsuIdAux = 98;
-                    when vHissatsuNameAux like 'ユニコーンブースト ' then
-                        set vHissatsuIdAux = 136;
-                    when vHissatsuNameAux like 'ドッベルゲンガー' then
-                        set vHissatsuIdAux = 227;
-                    when vHissatsuNameAux like 'アースクエイク' then
-                        set vHissatsuIdAux = 263;
-                    when vHissatsuNameAux like 'キトルネードキャッチ' then
-                        set vHissatsuIdAux = 281;
-                    when vHissatsuNameAux like 'カポエイラスナッチ' then
-                        set vHissatsuIdAux = 345;
-                    when vHissatsuNameAux like 'サンダービーストE' then
-                        set vHissatsuIdAux = 17;
-                    when vHissatsuNameAux like 'ビックスパイダー' then
-                        set vHissatsuIdAux = 309;
-                    when vHissatsuNameAux like 'グラビティション' then
-                        set vHissatsuIdAux = 265;
-                    when vHissatsuNameAux like 'プロファイゾーン' then
-                        set vHissatsuIdAux = 215;
-                    when vHissatsuNameAux like 'どこんじょうバット' then
-                        set vHissatsuIdAux = 82;
-                    when vHissatsuNameAux like 'クリテイカル！' then
-                        set vHissatsuIdAux = 360;
-                    when vHissatsuNameAux like 'デモンズカット' then
-                        set vHissatsuIdAux = 242;
-                    when vHissatsuNameAux like 'ゴットハンド' then
-                        set vHissatsuIdAux = 336;
-                    when vHissatsuNameAux like 'ブレイブショット（L' then
-                        set vHissatsuIdAux = 140;
-                    when vHissatsuNameAux like 'ゴットノウズ' then
-                        set vHissatsuIdAux = 22;
-                    when vHissatsuNameAux like 'ガニメデプトロン' then
-                        set vHissatsuIdAux = 48;
-                    else
-                        if vHissatsuNameAux != 'スーパースキャン' then
-                            select h.item_hissatsu_id into vHissatsuIdAux
-                                from item_hissatsu h join item i 
-                                on h.item_hissatsu_id = i.item_id 
-                                where i.item_name_ja 
-                                like concat(concat('%', vHissatsuNameAux), '%');
-                        end if;
-                end case;
-                set continueCur1 = 1;
-                if vHissatsuIdAux > 0 then
-                    insert into player_learns_hissatsu(
-                        player_id, item_hissatsu_id, learn_lv, learn_order) 
-                    values (
-                        i, vHissatsuIdAux, vHissatsuLvAux, vHissatsuCounter);
-
-                end if;
-                set vHissatsuCounter = vHissatsuCounter + 1;
-            end while;
         end if;
         set i = i + 1;
 	end while;
 	close cur1;
-    drop table if exists aux_hissatsu;
-    
-    insert into player_learns_hissatsu values (20, 230, null, 2);
-    insert into player_learns_hissatsu values (21, 230, null, 1);
-    insert into player_learns_hissatsu values (21, 164, null, 3);
-    insert into player_learns_hissatsu values (35, 164, null, 1);
-    insert into player_learns_hissatsu values (93, 164, null, 1);
-    insert into player_learns_hissatsu values (136, 164, null, 2);
-    insert into player_learns_hissatsu values (168, 230, null, 1);
-    insert into player_learns_hissatsu values (187, 230, null, 1);
-    insert into player_learns_hissatsu values (203, 230, null, 2);
-    insert into player_learns_hissatsu values (203, 164, null, 3);
-    insert into player_learns_hissatsu values (208, 164, null, 2);
-    insert into player_learns_hissatsu values (291, 164, null, 1);
-    insert into player_learns_hissatsu values (294, 230, null, 1);
-    insert into player_learns_hissatsu values (347, 230, null, 1);
-    insert into player_learns_hissatsu values (351, 230, null, 1);
-    insert into player_learns_hissatsu values (357, 230, null, 1);
-    insert into player_learns_hissatsu values (357, 164, null, 3);
-    insert into player_learns_hissatsu values (373, 230, null, 3);
-    insert into player_learns_hissatsu values (386, 164, null, 4);
-    insert into player_learns_hissatsu values (464, 230, null, 1);
-    insert into player_learns_hissatsu values (488, 164, null, 2);
-    insert into player_learns_hissatsu values (490, 164, 22, 2);
-    insert into player_learns_hissatsu values (516, 164, null, 3);
-    insert into player_learns_hissatsu values (539, 164, null, 1);
-    insert into player_learns_hissatsu values (586, 230, null, 1);
-    insert into player_learns_hissatsu values (589, 230, null, 4);
-    insert into player_learns_hissatsu values (590, 164, null, 1);
-    insert into player_learns_hissatsu values (601, 230, null, 2);
-    insert into player_learns_hissatsu values (630, 230, null, 1);
-    insert into player_learns_hissatsu values (630, 164, null, 2);
-    insert into player_learns_hissatsu values (644, 230, null, 1);
-    insert into player_learns_hissatsu values (664, 164, null, 1);
-    insert into player_learns_hissatsu values (696, 230, null, 1);
-    insert into player_learns_hissatsu values (696, 164, null, 4);
-    insert into player_learns_hissatsu values (704, 164, null, 3);
-    insert into player_learns_hissatsu values (711, 230, null, 1);
-    insert into player_learns_hissatsu values (725, 164, null, 2);
-    insert into player_learns_hissatsu values (750, 164, null, 1);
-    insert into player_learns_hissatsu values (768, 230, null, 2);
-    insert into player_learns_hissatsu values (776, 230, null, 1);
-    insert into player_learns_hissatsu values (780, 230, null, 1);
-    insert into player_learns_hissatsu values (784, 230, null, 1);
-    insert into player_learns_hissatsu values (871, 230, null, 3);
-    insert into player_learns_hissatsu values (889, 164, null, 1);
-    insert into player_learns_hissatsu values (910, 164, null, 1);
-    insert into player_learns_hissatsu values (932, 164, null, 1);
-    insert into player_learns_hissatsu values (956, 164, null, 2);
-    insert into player_learns_hissatsu values (960, 230, null, 2);
-    insert into player_learns_hissatsu values (971, 164, null, 2);
-    insert into player_learns_hissatsu values (1007, 164, null, 3);
-    insert into player_learns_hissatsu values (1010, 164, null, 1);
-    insert into player_learns_hissatsu values (1010, 230, null, 2);
-    insert into player_learns_hissatsu values (1025, 230, null, 2);
-    insert into player_learns_hissatsu values (1067, 230, null, 2);
-    insert into player_learns_hissatsu values (1068, 230, null, 2);
-    insert into player_learns_hissatsu values (1070, 164, null, 1);
-    insert into player_learns_hissatsu values (1164, 230, null, 2);
-    insert into player_learns_hissatsu values (1171, 164, null, 2);
-    insert into player_learns_hissatsu values (1177, 164, null, 1);
-    insert into player_learns_hissatsu values (1177, 230, null, 2);
-    insert into player_learns_hissatsu values (1232, 164, null, 1);
-    insert into player_learns_hissatsu values (1232, 230, null, 2);
-    insert into player_learns_hissatsu values (1239, 230, null, 2);
-    insert into player_learns_hissatsu values (1255, 164, null, 2);
-    insert into player_learns_hissatsu values (1255, 230, null, 3);
-    insert into player_learns_hissatsu values (1277, 164, null, 2);
-    insert into player_learns_hissatsu values (1278, 164, null, 1);
-    insert into player_learns_hissatsu values (1278, 230, null, 2);
-    insert into player_learns_hissatsu values (1282, 164, null, 1);
-    insert into player_learns_hissatsu values (1301, 164, null, 2);
-    insert into player_learns_hissatsu values (1355, 164, null, 2);
-    insert into player_learns_hissatsu values (1365, 230, null, 1);
-    insert into player_learns_hissatsu values (1404, 230, null, 1);
-    insert into player_learns_hissatsu values (1404, 164, null, 2);
-    insert into player_learns_hissatsu values (1441, 164, null, 2);
-    insert into player_learns_hissatsu values (1453, 164, null, 1);
-    insert into player_learns_hissatsu values (1462, 230, null, 2);
-    insert into player_learns_hissatsu values (1490, 164, null, 2);
-    insert into player_learns_hissatsu values (1504, 230, null, 2);
-    insert into player_learns_hissatsu values (1583, 230, null, 2);
-    insert into player_learns_hissatsu values (1590, 164, null, 1);
-    insert into player_learns_hissatsu values (1590, 230, null, 2);
-    insert into player_learns_hissatsu values (1613, 164, null, 1);
-    insert into player_learns_hissatsu values (1621, 164, null, 2);
-    insert into player_learns_hissatsu values (1657, 164, null, 3);
-    insert into player_learns_hissatsu values (1658, 230, null, 1);
-    insert into player_learns_hissatsu values (1658, 164, null, 3);
-    insert into player_learns_hissatsu values (1659, 164, null, 1);
-    insert into player_learns_hissatsu values (1659, 230, null, 3);
-    insert into player_learns_hissatsu values (1660, 230, null, 1);
-    insert into player_learns_hissatsu values (1660, 164, null, 3);
-    insert into player_learns_hissatsu values (1661, 164, null, 2);
-    insert into player_learns_hissatsu values (1661, 230, null, 3);
-    insert into player_learns_hissatsu values (1663, 164, null, 1);
-    insert into player_learns_hissatsu values (1664, 230, null, 1);
-    insert into player_learns_hissatsu values (1664, 164, null, 2);
-    insert into player_learns_hissatsu values (1666, 230, null, 1);
-    insert into player_learns_hissatsu values (1666, 164, null, 2);
-    insert into player_learns_hissatsu values (1667, 164, null, 3);
-    insert into player_learns_hissatsu values (1668, 230, null, 3);
-    insert into player_learns_hissatsu values (1669, 164, null, 2);
-    insert into player_learns_hissatsu values (1669, 230, null, 3);
-    insert into player_learns_hissatsu values (1670, 230, null, 2);
-    insert into player_learns_hissatsu values (1671, 230, null, 1);
-    insert into player_learns_hissatsu values (1671, 164, null, 3);
-    insert into player_learns_hissatsu values (1674, 230, null, 2);
-    insert into player_learns_hissatsu values (1674, 164, null, 3);
-    insert into player_learns_hissatsu values (1679, 230, null, 3);
-    insert into player_learns_hissatsu values (1682, 164, null, 1);
-    insert into player_learns_hissatsu values (1690, 164, null, 3);
-    insert into player_learns_hissatsu values (1803, 230, null, 2);
-    insert into player_learns_hissatsu values (1811, 230, null, 2);
-    insert into player_learns_hissatsu values (1811, 164, null, 3);
-    insert into player_learns_hissatsu values (1902, 230, null, 1);
-    insert into player_learns_hissatsu values (1905, 164, null, 1);
-    insert into player_learns_hissatsu values (1908, 164, null, 1);
-    insert into player_learns_hissatsu values (1912, 164, null, 2);
-    insert into player_learns_hissatsu values (1948, 164, null, 2);
-    insert into player_learns_hissatsu values (1948, 230, null, 3);
-    insert into player_learns_hissatsu values (1981, 230, null, 1);
-    insert into player_learns_hissatsu values (1981, 164, null, 2);
-    insert into player_learns_hissatsu values (1982, 164, null, 1);
-    insert into player_learns_hissatsu values (2012, 164, null, 2);
-    insert into player_learns_hissatsu values (2063, 230, null, 3);
-    insert into player_learns_hissatsu values (2119, 164, null, 2);
-    insert into player_learns_hissatsu values (2175, 230, null, 2);
-    insert into player_learns_hissatsu values (2252, 230, null, 3);
-    insert into player_learns_hissatsu values (2321, 164, null, 3);
+    drop table if exists aux_route_drop;
 end$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `proc_insert_team_player` ()   begin
@@ -917,95 +390,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `proc_insert_team_player` ()   begin
 	end while;
 	close cur1;
     drop table if exists aux_team_player;
-end$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `proc_insert_team_tactic` ()   begin
-	declare i int default 0;
-    declare cmd varchar(1000) default '';
-    declare idTeam int default 0;
-    declare idTactic  int default 0;
-
-    
-    declare vTeam varchar(32) default '';
-    declare vTactic varchar(32) default '';
-
-    declare continueCur1 int default 1;
-    declare cur1 cursor for select * from aux_team_tactic;
-	declare continue handler for SQLSTATE '02000' set continueCur1 = 0;
-
-    drop temporary table if exists res;
-    create temporary table res (
-        res_cmd varchar(1000)
-    );
-
-    open cur1;
-	while continueCur1=1 do
-        fetch cur1 into vTeam, vTactic;
-        set cmd = '';
-        if continueCur1 = 1 then
-            select team_id into idTeam from team 
-                where team_name_ja = vTeam;
-
-            case 
-                when vTactic = 'Route of Sky' then
-                    set idTactic = 716;
-                when vTactic = 'Dancing Ball Escape' then
-                    set idTactic = 717;
-                when vTactic = 'Dual Typhoon' then
-                    set idTactic = 718;
-                when vTactic = 'Engetsu no Jin' then
-                    set idTactic = 719;
-                when vTactic = 'Muteki no Yari' then
-                    set idTactic = 720;
-                when vTactic = 'Rolling Thunder' then
-                    set idTactic = 721;
-                when vTactic = 'Emperor Road' then
-                    set idTactic = 722;
-                when vTactic = 'Amazon River Wave' then
-                    set idTactic = 723;
-                when vTactic = 'Banana Shoot' then
-                    set idTactic = 724;
-                when vTactic = 'The Tube' then
-                    set idTactic = 725;
-                when vTactic = 'Box Lock Defense' then
-                    set idTactic = 726;
-                when vTactic = 'Absolute Knights' then
-                    set idTactic = 727;
-                when vTactic = 'Andes no Arijigoku' then
-                    set idTactic = 728;
-                when vTactic = 'Perfect Zone Press' then
-                    set idTactic = 729;
-                when vTactic = 'Catenaccio Counter' then
-                    set idTactic = 730;
-                when vTactic = 'Circle Play Drive' then
-                    set idTactic = 731;
-                when vTactic = 'Ghost Lock' then
-                    set idTactic = 732;
-                when vTactic = 'Saint Flash' then
-                    set idTactic = 733;
-                when vTactic = 'Black Thunder' then
-                    set idTactic = 734;
-                when vTactic = 'Quick Time' then
-                    set idTactic = 735;
-                when vTactic = 'Slow Time' then
-                    set idTactic = 736;
-                else
-                    set idTactic = null;
-            end case;
-            set continueCur1 = 1;
-
-            set cmd = concat('(', idTactic);
-            set cmd = concat(cmd, ', ');
-            set cmd = concat(cmd, idTeam);
-            set cmd = concat(cmd, '),');
-
-            insert into res values(cmd);
-        end if;
-	end while;
-	close cur1;
-    select * from res;
-    drop temporary table if exists res;
-    drop temporary table if exists aux_team_tactic;
 end$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `proc_insert_tournament_drop` ()   begin
@@ -1096,76 +480,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `proc_insert_tournament_team` ()   b
 	end while;
 	close cur1;
     drop table if exists aux_tournament_team;
-end$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `proc_set_player_version` ()   begin
-	declare i int default 0;
-    declare vOriginalId int default 0;
-    declare vCurrentName varchar(32) default '';
-    declare vPreviousName varchar(32) default '';
-
-    
-    declare playerId int default 0;
-    declare playerNameJa varchar(32) default '';
-    declare playerNameHiragana varchar(32) default '';
-    declare playerNameKanji varchar(32) default '';
-    declare playerNameRomanji varchar(32) default '';
-    declare playerNameEn varchar(32) default '';
-    declare playerNameEnFull varchar(32) default '';
-    declare playerInitialLv int default 0;
-    declare playerGp99 int default 0;
-    declare playerTp99 int default 0;
-    declare playerKick99 int default 0;
-    declare playerBody99 int default 0;
-    declare playerControl99 int default 0;
-    declare playerGuard99 int default 0;
-    declare playerSpeed99 int default 0;
-    declare playerStamina99 int default 0;
-    declare playerGuts99 int default 0;
-    declare playerFreedom99 int default 0;
-    declare attriId int default 0;
-    declare positiId int default 0;
-    declare genderId int default 0;
-    declare bodyTypeId int default 0;
-    declare playerObtentionMethodId int default 0;
-    declare originalVersion int default 0;
-
-    declare continueCur1 int default 1;
-    declare cur1 cursor for select * from player 
-        where player_name_ja like '% 2' order by player_name_ja;
-	declare continue handler for SQLSTATE '02000' set continueCur1 = 0;
-
-    open cur1;
-	while continueCur1=1 do
-        fetch cur1 into playerId, playerNameJa, playerNameHiragana, 
-            playerNameKanji, playerNameRomanji, playerNameEn, playerNameEnFull, 
-            playerInitialLv, playerGp99, playerTp99, playerKick99, playerBody99, 
-            playerControl99, playerGuard99, playerSpeed99, playerStamina99, 
-            playerGuts99, playerFreedom99, attriId, positiId, genderId, 
-            bodyTypeId, playerObtentionMethodId, originalVersion;
-
-        if continueCur1 = 1 then
-            set vPreviousName = vCurrentName; 
-            set vCurrentName = 
-                substring(playerNameJa, 1, char_length(playerNameJa) - 2);
-            if vCurrentName != vPreviousName then
-                select player_id into vOriginalId from player 
-                    where player_name_ja = vCurrentName limit 1;
-                set continueCur1 = 1;
-            end if;
-            
-            update player set 
-                player_name_ja = vCurrentName, 
-                original_version = vOriginalId
-                where player_id = playerId;
-            set i = i + 1;
-        end if;
-	end while;
-	close cur1;
-    
-    update player set original_version = 1217 where player_id = 1896;
-    
-    update player set original_version = 1396 where player_id = 1868;
 end$$
 
 DELIMITER ;
@@ -1499,7 +813,7 @@ CREATE TABLE `equipment_type` (
 INSERT INTO `equipment_type` (`equipment_type_id`, `equipment_type_name_ja`, `equipment_type_name_en`, `equipment_type_name_es`) VALUES
 (1, 'シューズ', 'Shoes', 'Botas'),
 (2, 'グローブ', 'Gloves', 'Guantes'),
-(3, 'アクセサリ', 'Accessory', 'Accesorios');
+(3, 'アクセサリ', 'Accessories', 'Accesorios');
 
 -- --------------------------------------------------------
 
@@ -1509,11 +823,27 @@ INSERT INTO `equipment_type` (`equipment_type_id`, `equipment_type_name_ja`, `eq
 
 CREATE TABLE `extra_battle_route` (
   `extra_battle_route_id` int(11) NOT NULL,
-  `extra_battle_route_name_ja` varchar(32) DEFAULT NULL,
-  `extra_battle_route_name_en` varchar(32) DEFAULT NULL,
-  `extra_battle_route_name_es` varchar(32) DEFAULT NULL,
+  `extra_battle_route_name_ja` varchar(48) DEFAULT NULL,
+  `extra_battle_route_name_en` varchar(48) DEFAULT NULL,
+  `extra_battle_route_name_es` varchar(48) DEFAULT NULL,
   `npc_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `extra_battle_route`
+--
+
+INSERT INTO `extra_battle_route` (`extra_battle_route_id`, `extra_battle_route_name_ja`, `extra_battle_route_name_en`, `extra_battle_route_name_es`, `npc_id`) VALUES
+(1, '火来校長のエクストラ対戦ルート', 'Mr Firewill\'s competition route', 'Cadena extra de partidos del Sr. Firewill', 1),
+(2, 'エキシビション対戦ルート', 'Exhibition route', 'Cadena de amistosos', 2),
+(3, 'ナゾのエクストラ対戦ルート', 'Secret competition route', 'Cadena secreta de partidos', 3),
+(4, '瞳子の超次元トーナメント ', 'Lina\'s hyperdimensional tournament', 'Torneo especial de Lina', 4),
+(5, '総一郎の超次元トーナメント -', 'Sonny\'s hyperdimensional tournament', 'Torneo especial de Sonny', 5),
+(6, 'ダイスケの超次元トーナメント', 'David\'s hyperdimensional tournament', 'Torneo especial de David Evans', 6),
+(7, 'ドリーム超次元トーナメント', 'Dream hyperdimensional tournament', 'Torneo especial mágico', 7),
+(8, '鬼瓦刑事の超次元トーナメント', 'Detective Smith\'s hyperdimensional tournament', 'Torneo especial del detective Smith', 8),
+(9, '夕香の超次元トーナメント', 'Jilia\'s hyperdimensional tournament', 'Torneo especial de Julia Blaze', 9),
+(10, 'ルシェの超次元トーナメント', 'Lizzy\'s hyperdimensional tournament', 'Torneo especial de Lizzy', 10);
 
 -- --------------------------------------------------------
 
@@ -3537,7 +2867,7 @@ INSERT INTO `item` (`item_id`, `item_name_ja`, `item_name_en`, `item_name_es`, `
 (91, 'ヘルファイア', 'Hellfire', 'Llamarada Infernal', 3600, NULL, 1),
 (92, 'りゅうせいブレード', 'Meteor Blade', 'Cañón de Meteoritos', 4200, NULL, 1),
 (93, 'ほのおのかざみどり', 'Fire Rooster', 'Pájaro de Fuego', 10000, NULL, 1),
-(94, 'デスレイン', 'Doom Rain', 'Lluvia Letal', 10000, NULL, 1),
+(94, 'デスレイン', 'Doom Rain', 'Diluvio Letal', 10000, NULL, 1),
 (95, 'アトミックフレア', 'Atomic Flare', 'Llamarada Atómica', 10000, NULL, 1),
 (96, 'ばくねつスクリュー', 'Fireball Screw', 'Torbellino de Fuego', 10000, NULL, 1),
 (97, 'ザ・フェニックス', 'The Phoenix', 'Fénix', 10000, NULL, 1),
@@ -3818,7 +3148,7 @@ INSERT INTO `item` (`item_id`, `item_name_ja`, `item_name_en`, `item_name_es`, `
 (372, 'ネバーギブアップ', 'Never Give Up!', 'Siempre a Muerte', 0, NULL, 1),
 (373, 'ふっかつ！', 'Comeback Kid!', '¡Que no Decaiga!', 0, NULL, 1),
 (374, 'みんなイケイケ！', 'Everyone Move It!', '¡Vamos Todos!', 0, NULL, 1),
-(375, 'むぞくせい', 'No Element', 'Anti-Afinidades', 0, NULL, 1),
+(375, 'むぞくせい', 'No Element', 'Antiafinidades', 0, NULL, 1),
 (376, 'やくびょうがみ', 'Jinx', 'Gafe', 0, NULL, 1),
 (377, 'ラッキー！', 'Lucky!', 'Suerte', 0, NULL, 1),
 (378, 'リカバリー', 'Recovery', 'Recobro', 0, NULL, 1),
@@ -3976,7 +3306,7 @@ INSERT INTO `item` (`item_id`, `item_name_ja`, `item_name_en`, `item_name_es`, `
 (530, 'コスモミサンガ', 'Cosmo Misanga', 'Cosmopulsera', 8000, NULL, 2),
 (531, 'さいきょうミサンガ', 'Saikyou Misanga', 'Pulsera genial', 30000, NULL, 2),
 (532, 'ジミなミサンガ', 'Jimina Misanga', 'Pulsera sobria', 0, NULL, 2),
-(533, 'ハデなミサンガ', 'Hadena Misanga', 'Pulsera llamativa', 0, NULL, 2),
+(533, 'ハデなミサンガ', 'Hadena Misanga', 'Pulsera chillona', 0, NULL, 2),
 (534, 'どハデなミサンガ', 'Dohadena Misanga', 'Pulsera llamativa', 0, NULL, 2),
 (535, '丈夫なミサンガ', 'Joubuna Misanga', 'Pulsera recia', 200, NULL, 2),
 (536, 'ゆうじょうミサンガ', 'Yuujou Misanga', 'Pulsera amistad', 350, NULL, 2),
@@ -4003,12 +3333,12 @@ INSERT INTO `item` (`item_id`, `item_name_ja`, `item_name_en`, `item_name_es`, `
 (557, '青いコイン', 'Blue Coin', 'Ficha Azul', NULL, 10, 3),
 (558, '黄色いコイン', 'Yellow Coin', 'Ficha Amarilla', 10, NULL, 3),
 (559, '古びたピンバッチ', 'Old Pin Badge', 'Chapa Vieja', NULL, NULL, 3),
-(560, 'たまごろう', 'Tamagoro', 'Peabody', NULL, NULL, 4),
-(561, 'マックス', 'Makkusu', 'Max', NULL, NULL, 4),
-(562, 'なつみ', 'Natsumi', 'Nelly', NULL, NULL, 4),
-(563, 'ふゆか', 'Fuyuka', 'Cammy', NULL, NULL, 4),
-(564, 'おとなし', 'Otonashi', 'Celia', NULL, NULL, 4),
-(565, 'きの', 'Kino', 'Silvia', NULL, NULL, 4),
+(560, 'たまごろう', 'Peabody', 'Peabody', NULL, NULL, 4),
+(561, 'マックス', 'Max', 'Max', NULL, NULL, 4),
+(562, 'なつみ', 'Nelly', 'Nelly', NULL, NULL, 4),
+(563, 'ふゆか', 'Cammy', 'Cammy', NULL, NULL, 4),
+(564, 'おとなし', 'Celia', 'Celia', NULL, NULL, 4),
+(565, 'きの', 'Silvia', 'Silvia', NULL, NULL, 4),
 (566, '福岡のチケット', 'Fukuoka Map', 'Mapa de Fukuoka', NULL, NULL, 5),
 (567, '奈良のチケット', 'Nara Map', 'Mapa de Nara', NULL, NULL, 5),
 (568, 'フェリーのチケット', 'Okinawa Map', 'Mapa de Okinawa', NULL, NULL, 5),
@@ -4235,7 +3565,8 @@ INSERT INTO `item` (`item_id`, `item_name_ja`, `item_name_en`, `item_name_es`, `
 (788, 'B-ライトウィング', 'B-Right Wing', 'Ala derecha', NULL, NULL, 12),
 (789, 'B-トレイン', 'B-Train', 'Torre', NULL, NULL, 12),
 (790, 'B-トライアングル', 'B-Triangle', 'Pachanga total', NULL, NULL, 12),
-(791, 'B-ランス', 'B-Lance', 'Lanza', NULL, NULL, 12);
+(791, 'B-ランス', 'B-Lance', 'Lanza', NULL, NULL, 12),
+(792, 'ロココ', 'Helio', 'Helio', NULL, NULL, 4);
 
 -- --------------------------------------------------------
 
@@ -5030,7 +4361,8 @@ INSERT INTO `item_reward_player` (`item_reward_player_id`, `player_id`) VALUES
 (560, 866),
 (562, 1027),
 (563, 1269),
-(561, 1348);
+(561, 1348),
+(792, 1586);
 
 -- --------------------------------------------------------
 
@@ -5156,6 +4488,27 @@ CREATE TABLE `item_vscard` (
   `item_vscard_id` int(11) NOT NULL,
   `practice_game_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `item_vscard`
+--
+
+INSERT INTO `item_vscard` (`item_vscard_id`, `practice_game_id`) VALUES
+(579, 3),
+(580, 7),
+(589, 29),
+(593, 30),
+(592, 31),
+(584, 32),
+(582, 33),
+(583, 34),
+(585, 35),
+(581, 36),
+(591, 92),
+(588, 93),
+(590, 95),
+(586, 96),
+(587, 97);
 
 -- --------------------------------------------------------
 
@@ -5321,8 +4674,49 @@ CREATE TABLE `npc` (
   `npc_id` int(11) NOT NULL,
   `npc_name_ja` varchar(32) DEFAULT NULL,
   `npc_name_en` varchar(32) DEFAULT NULL,
+  `npc_name_es` varchar(32) DEFAULT NULL,
   `zone_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `npc`
+--
+
+INSERT INTO `npc` (`npc_id`, `npc_name_ja`, `npc_name_en`, `npc_name_es`, `zone_id`) VALUES
+(1, '火来 伸蔵', 'Mr. Firewill', 'Sr. Firewill', 105),
+(2, 'ロボット', 'Robot', 'Robot', 111),
+(3, 'マシン', 'Machine', 'Robot', 115),
+(4, '瞳子', 'Lina', 'Lina', 175),
+(5, '雷門', 'Raimon', 'Raimon', 110),
+(6, 'ダイスケ', 'David', 'David', 245),
+(7, 'ロボット', 'Robot', 'Robot', 108),
+(8, '鬼瓦', 'Smith', 'Smith', 114),
+(9, '夕香', 'Julia', 'Julia', 118),
+(10, 'ルシェ', 'Lizzy', 'Lizzy', 190),
+(11, '千羽山選手', 'Farm', 'Jugador del Farm', 100),
+(12, '真二屋', 'Artic', 'Artic', 159),
+(13, '伊賀島', 'Igajima', 'Igajima', 130),
+(14, '傘美野選手', 'Umbrella player', 'Jugador del Umbrella', 131),
+(15, '監督', 'Coach', 'Entrenador', 171),
+(16, '野生選手', 'Wild player', 'Jugador del Wild', 162),
+(17, ' 御影専農選手', 'Brain player', 'Jugador del Brain', 137),
+(18, '監督', 'Coach', 'Entrenador', 150),
+(19, '尾刈斗選手', 'Occult player', 'Jugador del Occult', 155),
+(20, '漫遊寺選手', 'Cloister Divinity player', 'Jugador del Claustro Sagrado', 161),
+(21, '帝国選手', 'Royal Academy player', 'Jugador de la Royal Academy', 133),
+(22, '校長', 'Principal', 'Director', 165),
+(23, '木戸川選手', 'Kirkwood player', 'Jugador del Kirkwood', 174),
+(24, 'ロボット', 'Robot', 'Robot', 180),
+(25, 'ロボット', 'Robot', 'Robot', 134),
+(26, 'ロボット', 'Robot', 'Robot', 173),
+(27, 'ロボット', 'Robot', 'Robot', 247),
+(28, 'ロボット', 'Robot', 'Robot', 258),
+(29, 'ロボット', 'Robot', 'Robot', 242),
+(30, 'ロボット', 'Robot', 'Robot', 144),
+(31, 'ロボット', 'Robot', 'Robot', 213),
+(32, 'ロボット', 'Robot', 'Robot', 213),
+(33, 'ロボット', 'Robot', 'Robot', 206),
+(34, 'ロボット', 'Robot', 'Robot', 206);
 
 -- --------------------------------------------------------
 
@@ -20235,8 +19629,161 @@ CREATE TABLE `practice_game` (
   `practice_game_id` int(11) NOT NULL,
   `practice_game_order` int(11) DEFAULT NULL,
   `route_path_id` int(11) DEFAULT NULL,
-  `team_id` int(11) DEFAULT NULL
+  `team_id` int(11) DEFAULT NULL,
+  `practice_game_condition_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `practice_game`
+--
+
+INSERT INTO `practice_game` (`practice_game_id`, `practice_game_order`, `route_path_id`, `team_id`, `practice_game_condition_id`) VALUES
+(1, 1, 1, 52, 1),
+(2, 2, 1, 35, 1),
+(3, 3, 1, 54, 1),
+(4, 1, 2, 32, 1),
+(5, 2, 2, 33, 1),
+(6, 3, 2, 34, 1),
+(7, 4, 2, 53, 1),
+(8, 1, 3, 38, 1),
+(9, 2, 3, 39, 1),
+(10, 3, 3, 40, 1),
+(11, 4, 3, 41, 1),
+(12, 5, 3, 42, 1),
+(13, 6, 3, 43, 1),
+(14, 7, 3, 37, 1),
+(15, 1, 4, 8, 1),
+(16, 2, 4, 5, 1),
+(17, 3, 4, 7, 1),
+(18, 4, 4, 1, 1),
+(19, 5, 4, 16, 1),
+(20, 6, 4, 3, 1),
+(21, 1, 5, 4, 1),
+(22, 2, 5, 11, 1),
+(23, 3, 5, 2, 1),
+(24, 4, 5, 12, 1),
+(25, 5, 5, 6, 1),
+(26, 6, 5, 15, 1),
+(27, 7, 5, 9, 1),
+(28, 1, 6, 36, 1),
+(29, 2, 6, 13, 1),
+(30, 3, 6, 10, 1),
+(31, 4, 6, 55, 1),
+(32, 1, 7, 17, 1),
+(33, 2, 7, 18, 1),
+(34, 3, 7, 19, 1),
+(35, 4, 7, 20, 1),
+(36, 5, 7, 25, 1),
+(37, 1, 8, 136, 1),
+(38, 2, 8, 21, 1),
+(39, 3, 8, 84, 1),
+(40, 4, 8, 85, 1),
+(41, 5, 8, 182, 1),
+(42, 6, 8, 29, 1),
+(43, 7, 8, 87, 8),
+(44, 8, 8, 147, 3),
+(45, 9, 8, 89, 7),
+(46, 1, 9, 90, 1),
+(47, 2, 9, 91, 1),
+(48, 3, 9, 28, 1),
+(49, 4, 9, 92, 1),
+(50, 5, 9, 152, 1),
+(51, 6, 9, 74, 1),
+(52, 7, 9, 162, 1),
+(53, 8, 9, 163, 1),
+(54, 9, 9, 95, 1),
+(55, 1, 10, 68, 1),
+(56, 2, 10, 45, 1),
+(57, 3, 10, 44, 1),
+(58, 4, 10, 69, 1),
+(59, 5, 10, 70, 1),
+(60, 6, 10, 71, 1),
+(61, 7, 10, 72, 1),
+(62, 1, 11, 73, 2),
+(63, 2, 11, 129, 6),
+(64, 3, 11, 184, 1),
+(65, 4, 11, 76, 8),
+(66, 5, 11, 126, 1),
+(67, 6, 11, 148, 1),
+(68, 7, 11, 145, 6),
+(69, 8, 11, 80, 5),
+(70, 9, 11, 81, 5),
+(71, 10, 11, 82, 1),
+(72, 1, 12, 56, 1),
+(73, 2, 12, 46, 1),
+(74, 3, 12, 57, 1),
+(75, 4, 12, 58, 1),
+(76, 5, 12, 47, 1),
+(77, 6, 12, 59, 1),
+(78, 7, 12, 60, 1),
+(79, 1, 13, 135, 7),
+(80, 2, 13, 122, 1),
+(81, 3, 13, 63, 5),
+(82, 4, 13, 64, 2),
+(83, 5, 13, 65, 4),
+(84, 6, 13, 66, 6),
+(85, 7, 13, 67, 8),
+(86, 8, 13, 31, 1),
+(87, 1, 14, 96, 1),
+(88, 2, 14, 151, 1),
+(89, 3, 14, 181, 1),
+(90, 4, 14, 102, 1),
+(91, 5, 14, 183, 8),
+(92, 1, 15, 22, 1),
+(93, 2, 15, 99, 1),
+(94, 3, 15, 100, 1),
+(95, 4, 15, 101, 1),
+(96, 5, 15, 103, 1),
+(97, 6, 15, 161, 1),
+(98, 1, 16, 111, 1),
+(99, 2, 16, 61, 1),
+(100, 3, 16, 108, 1),
+(101, 4, 16, 138, 1),
+(102, 5, 16, 27, 1),
+(103, 6, 16, 175, 1),
+(104, 7, 16, 156, 1),
+(105, 8, 16, 157, 1),
+(106, 9, 16, 158, 1),
+(107, 10, 16, 30, 1),
+(108, 1, 17, 113, 6),
+(109, 2, 17, 114, 6),
+(110, 3, 17, 115, 6),
+(111, 4, 17, 117, 6),
+(112, 5, 17, 124, 9),
+(113, 6, 17, 87, 8),
+(114, 7, 17, 144, 7),
+(115, 8, 17, 134, 9),
+(116, 9, 17, 146, 5),
+(117, 1, 18, 105, 1),
+(118, 2, 18, 180, 1),
+(119, 3, 18, 150, 1),
+(120, 4, 18, 187, 3),
+(121, 5, 18, 159, 1),
+(122, 6, 18, 107, 8),
+(123, 7, 18, 137, 1),
+(124, 8, 18, 176, 4),
+(125, 9, 18, 149, 2),
+(126, 10, 18, 128, 4),
+(127, 11, 18, 179, 1),
+(128, 1, 19, 118, 7),
+(129, 2, 19, 119, 7),
+(130, 3, 19, 116, 9),
+(131, 4, 19, 143, 7),
+(132, 5, 19, 139, 3),
+(133, 6, 19, 142, 8),
+(134, 7, 19, 141, 8),
+(135, 8, 19, 140, 9),
+(136, 9, 19, 173, 1),
+(137, 1, 20, 177, 1),
+(138, 2, 20, 170, 1),
+(139, 3, 20, 166, 9),
+(140, 4, 20, 154, 1),
+(141, 5, 20, 165, 7),
+(142, 6, 20, 155, 1),
+(143, 7, 20, 167, 8),
+(144, 8, 20, 174, 1),
+(145, 9, 20, 160, 1),
+(146, 10, 20, 104, 1);
 
 -- --------------------------------------------------------
 
@@ -20249,6 +19796,450 @@ CREATE TABLE `practice_game_can_drop_item` (
   `item_id` int(11) NOT NULL,
   `drop_rate` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `practice_game_can_drop_item`
+--
+
+INSERT INTO `practice_game_can_drop_item` (`practice_game_id`, `item_id`, `drop_rate`) VALUES
+(1, 422, 75),
+(1, 467, 50),
+(1, 547, 10),
+(2, 395, 30),
+(2, 497, 20),
+(2, 579, 40),
+(3, 395, 30),
+(3, 497, 20),
+(3, 548, 8),
+(4, 429, 30),
+(4, 487, 20),
+(4, 550, 10),
+(5, 389, 30),
+(5, 495, 20),
+(5, 547, 15),
+(6, 439, 30),
+(6, 499, 20),
+(6, 580, 40),
+(7, 548, 10),
+(7, 551, 10),
+(7, 674, 20),
+(8, 353, 5),
+(8, 404, 25),
+(8, 504, 20),
+(9, 446, 25),
+(9, 507, 20),
+(9, 653, 15),
+(10, 409, 25),
+(10, 513, 20),
+(10, 559, 5),
+(11, 411, 25),
+(11, 512, 20),
+(11, 551, 10),
+(12, 363, 3),
+(12, 447, 25),
+(12, 514, 20),
+(13, 410, 20),
+(13, 515, 15),
+(13, 658, 15),
+(14, 365, 3),
+(14, 449, 30),
+(14, 517, 20),
+(15, 430, 45),
+(15, 484, 40),
+(15, 624, 30),
+(16, 415, 60),
+(16, 456, 40),
+(16, 622, 30),
+(17, 390, 45),
+(17, 479, 40),
+(17, 623, 30),
+(18, 381, 60),
+(18, 460, 40),
+(18, 628, 30),
+(19, 437, 45),
+(19, 583, 40),
+(19, 639, 20),
+(20, 419, 60),
+(20, 463, 40),
+(20, 620, 30),
+(21, 383, 60),
+(21, 468, 40),
+(21, 621, 30),
+(22, 423, 50),
+(22, 469, 35),
+(22, 635, 20),
+(23, 416, 60),
+(23, 462, 40),
+(23, 619, 30),
+(24, 426, 50),
+(24, 473, 35),
+(24, 636, 20),
+(25, 428, 45),
+(25, 478, 40),
+(25, 618, 20),
+(26, 434, 45),
+(26, 488, 35),
+(26, 638, 20),
+(27, 397, 45),
+(27, 491, 40),
+(27, 625, 20),
+(28, 374, 1),
+(28, 445, 30),
+(28, 510, 20),
+(29, 388, 50),
+(29, 477, 35),
+(29, 637, 20),
+(30, 436, 45),
+(30, 492, 40),
+(30, 626, 10),
+(31, 548, 10),
+(31, 551, 10),
+(31, 626, 20),
+(32, 384, 50),
+(32, 471, 35),
+(32, 550, 20),
+(33, 394, 40),
+(33, 486, 30),
+(33, 547, 20),
+(34, 394, 40),
+(34, 486, 30),
+(34, 551, 10),
+(35, 400, 30),
+(35, 496, 25),
+(35, 548, 10),
+(36, 368, 3),
+(36, 454, 3),
+(36, 518, 8),
+(37, 69, 5),
+(37, 406, 30),
+(37, 690, 5),
+(38, 403, 50),
+(38, 498, 35),
+(38, 642, 10),
+(39, 366, 3),
+(39, 552, 3),
+(39, 689, 20),
+(40, 363, 3),
+(40, 549, 3),
+(40, 676, 20),
+(41, 367, 3),
+(41, 549, 3),
+(41, 708, 20),
+(42, 452, 2),
+(42, 503, 50),
+(42, 559, 8),
+(43, 375, 3),
+(43, 552, 3),
+(43, 693, 10),
+(44, 5, 35),
+(44, 354, 3),
+(44, 672, 10),
+(45, 369, 1),
+(45, 549, 3),
+(45, 712, 20),
+(46, 368, 3),
+(46, 552, 3),
+(46, 689, 15),
+(47, 367, 3),
+(47, 549, 3),
+(47, 709, 20),
+(48, 422, 50),
+(48, 467, 35),
+(48, 634, 15),
+(49, 357, 3),
+(49, 438, 30),
+(49, 704, 10),
+(50, 368, 3),
+(50, 552, 3),
+(50, 692, 20),
+(51, 431, 50),
+(51, 482, 35),
+(51, 641, 15),
+(52, 378, 3),
+(52, 549, 3),
+(52, 710, 20),
+(53, 96, 15),
+(53, 159, 25),
+(53, 218, 25),
+(54, 43, 35),
+(54, 90, 25),
+(54, 311, 15),
+(55, 378, 3),
+(55, 549, 3),
+(55, 605, 40),
+(56, 408, 30),
+(56, 500, 20),
+(56, 659, 30),
+(57, 444, 30),
+(57, 501, 20),
+(57, 660, 30),
+(58, 130, 25),
+(58, 173, 25),
+(58, 356, 1),
+(59, 125, 25),
+(59, 204, 25),
+(59, 683, 15),
+(60, 186, 25),
+(60, 365, 5),
+(60, 605, 40),
+(61, 110, 5),
+(61, 326, 25),
+(61, 704, 15),
+(62, 125, 25),
+(62, 362, 1),
+(62, 707, 10),
+(63, 5, 35),
+(63, 370, 3),
+(63, 706, 15),
+(64, 440, 30),
+(64, 483, 20),
+(64, 643, 10),
+(65, 364, 1),
+(65, 549, 3),
+(65, 693, 10),
+(66, 355, 3),
+(66, 552, 3),
+(66, 681, 10),
+(67, 28, 15),
+(67, 559, 5),
+(67, 691, 5),
+(68, 369, 1),
+(68, 552, 3),
+(68, 683, 15),
+(69, 34, 5),
+(69, 159, 25),
+(69, 219, 25),
+(70, 186, 25),
+(70, 306, 35),
+(70, 372, 5),
+(71, 358, 3),
+(71, 552, 3),
+(71, 669, 20),
+(72, 363, 3),
+(72, 552, 3),
+(72, 605, 40),
+(73, 443, 30),
+(73, 502, 20),
+(73, 661, 30),
+(74, 87, 25),
+(74, 173, 25),
+(74, 237, 25),
+(75, 111, 5),
+(75, 344, 15),
+(75, 366, 2),
+(76, 407, 30),
+(76, 505, 20),
+(76, 662, 30),
+(77, 367, 3),
+(77, 549, 3),
+(77, 605, 40),
+(78, 57, 25),
+(78, 357, 3),
+(78, 552, 3),
+(79, 413, 2),
+(79, 549, 3),
+(79, 640, 30),
+(80, 378, 3),
+(80, 438, 30),
+(80, 703, 20),
+(81, 360, 2),
+(81, 406, 30),
+(81, 695, 20),
+(82, 372, 5),
+(82, 552, 3),
+(82, 678, 10),
+(83, 277, 15),
+(83, 353, 5),
+(83, 684, 20),
+(84, 306, 35),
+(84, 311, 15),
+(84, 359, 3),
+(85, 352, 3),
+(85, 549, 3),
+(85, 683, 15),
+(86, 414, 1),
+(86, 519, 8),
+(86, 698, 10),
+(87, 92, 15),
+(87, 367, 3),
+(87, 441, 30),
+(88, 371, 1),
+(88, 552, 3),
+(88, 670, 15),
+(89, 160, 15),
+(89, 243, 15),
+(89, 451, 10),
+(90, 374, 1),
+(90, 438, 30),
+(90, 704, 15),
+(91, 72, 5),
+(91, 373, 3),
+(91, 448, 15),
+(92, 413, 2),
+(92, 498, 35),
+(92, 640, 10),
+(93, 43, 35),
+(93, 362, 1),
+(93, 702, 15),
+(94, 371, 1),
+(94, 552, 3),
+(94, 713, 20),
+(95, 366, 2),
+(95, 508, 20),
+(95, 679, 20),
+(96, 28, 15),
+(96, 377, 3),
+(96, 671, 20),
+(97, 87, 25),
+(97, 359, 3),
+(97, 704, 15),
+(98, 362, 1),
+(98, 402, 30),
+(98, 711, 15),
+(99, 417, 50),
+(99, 458, 35),
+(99, 627, 30),
+(100, 368, 2),
+(100, 552, 3),
+(100, 711, 15),
+(101, 549, 3),
+(101, 559, 5),
+(101, 709, 20),
+(102, 421, 50),
+(102, 464, 35),
+(102, 630, 20),
+(103, 369, 1),
+(103, 552, 3),
+(103, 704, 15),
+(104, 361, 3),
+(104, 549, 3),
+(104, 715, 20),
+(105, 378, 3),
+(105, 402, 30),
+(105, 696, 10),
+(106, 219, 25),
+(106, 277, 15),
+(106, 344, 15),
+(107, 453, 1),
+(107, 506, 10),
+(107, 699, 20),
+(108, 359, 3),
+(108, 401, 30),
+(108, 695, 20),
+(109, 355, 3),
+(109, 552, 3),
+(109, 681, 10),
+(110, 377, 3),
+(110, 549, 3),
+(110, 696, 10),
+(111, 372, 5),
+(111, 552, 3),
+(111, 671, 20),
+(112, 376, 4),
+(112, 442, 30),
+(112, 697, 15),
+(113, 358, 3),
+(113, 549, 3),
+(113, 672, 10),
+(114, 360, 2),
+(114, 552, 3),
+(114, 685, 10),
+(115, 361, 3),
+(115, 549, 3),
+(115, 694, 20),
+(116, 364, 1),
+(116, 441, 30),
+(116, 705, 15),
+(117, 356, 1),
+(117, 552, 3),
+(117, 697, 15),
+(118, 405, 30),
+(118, 481, 20),
+(118, 644, 10),
+(119, 376, 4),
+(119, 549, 3),
+(119, 700, 20),
+(120, 96, 15),
+(120, 352, 3),
+(120, 707, 10),
+(121, 374, 1),
+(121, 549, 3),
+(121, 693, 10),
+(122, 365, 5),
+(122, 552, 3),
+(122, 714, 20),
+(123, 357, 3),
+(123, 401, 30),
+(123, 709, 20),
+(124, 368, 3),
+(124, 552, 3),
+(124, 705, 15),
+(125, 218, 25),
+(125, 237, 25),
+(125, 277, 15),
+(126, 370, 3),
+(126, 549, 3),
+(126, 697, 15),
+(127, 15, 25),
+(127, 358, 3),
+(127, 685, 10),
+(128, 354, 3),
+(128, 552, 3),
+(128, 687, 20),
+(129, 375, 3),
+(129, 552, 3),
+(129, 693, 10),
+(130, 549, 3),
+(130, 559, 5),
+(130, 702, 15),
+(131, 356, 1),
+(131, 552, 3),
+(131, 675, 20),
+(132, 354, 3),
+(132, 549, 3),
+(132, 685, 10),
+(133, 43, 35),
+(133, 355, 3),
+(133, 681, 10),
+(134, 218, 25),
+(134, 375, 3),
+(134, 678, 10),
+(135, 374, 1),
+(135, 552, 3),
+(135, 677, 20),
+(136, 361, 3),
+(136, 549, 3),
+(136, 703, 20),
+(137, 370, 3),
+(137, 552, 3),
+(137, 634, 15),
+(138, 366, 3),
+(138, 549, 3),
+(138, 669, 20),
+(139, 354, 3),
+(139, 549, 3),
+(139, 673, 20),
+(140, 15, 25),
+(140, 361, 3),
+(140, 688, 20),
+(141, 359, 3),
+(141, 552, 3),
+(141, 702, 20),
+(142, 414, 1),
+(142, 519, 8),
+(142, 698, 10),
+(143, 355, 3),
+(143, 549, 3),
+(143, 641, 15),
+(144, 130, 25),
+(144, 173, 25),
+(144, 660, 45),
+(145, 398, 40),
+(145, 474, 20),
+(145, 705, 15),
+(146, 204, 25),
+(146, 333, 2),
+(146, 686, 20);
 
 -- --------------------------------------------------------
 
@@ -20263,16 +20254,61 @@ CREATE TABLE `practice_game_condition` (
   `practice_game_condition_desc_es` varchar(200) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `practice_game_condition`
+--
+
+INSERT INTO `practice_game_condition` (`practice_game_condition_id`, `practice_game_condition_desc_ja`, `practice_game_condition_desc_en`, `practice_game_condition_desc_es`) VALUES
+(1, 'とにかく勝て!', 'Just win, it\'s that simple!', '¡Gana y ya está!'),
+(2, '風属性のキャラで勝て!', 'Win with a Wind team!', '¡Gana con un equipo de Aire!'),
+(3, '林属性のキャラで勝て!', 'Win with a Wood team!', '¡Gana con un equipo de Bosque!'),
+(4, '火属性のキャラで勝て!', 'Win with a Fire team!', '¡Gana con un equipo de Fuego!'),
+(5, '山属性のキャラで勝て!', 'Win with an Earth team!', '¡Gana con un equipo de Montaña!'),
+(6, 'シュート技をもたないキャラで勝て!', 'Win with a team that doesn\'t possess any shooting special moves!', '¡Gana con jugadores sin supertécnicas de tiro!'),
+(7, 'GK技をもたないキャラで勝て!', 'Win with a team that doesn\'t possess any goalkeeping special moves!', '¡Gana con jugadores sin supertécnicas de portero!'),
+(8, '男の子のキャラで勝て!', 'Win with a team composed entirely of boys!', '¡Gana con un equipo formado por chicos!'),
+(9, '女の子のキャラで勝て!', 'Win with a team composed entirely of girls!', '¡Gana con un equipo formado por chicas!');
+
 -- --------------------------------------------------------
 
 --
--- Table structure for table `practice_game_dictated_by_pgc`
+-- Table structure for table `practice_game_initiated_by_npc`
 --
 
-CREATE TABLE `practice_game_dictated_by_pgc` (
+CREATE TABLE `practice_game_initiated_by_npc` (
   `practice_game_id` int(11) NOT NULL,
-  `practice_game_condition_id` int(11) NOT NULL
+  `npc_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `practice_game_initiated_by_npc`
+--
+
+INSERT INTO `practice_game_initiated_by_npc` (`practice_game_id`, `npc_id`) VALUES
+(15, 11),
+(16, 12),
+(17, 13),
+(18, 14),
+(19, 15),
+(20, 16),
+(21, 17),
+(22, 18),
+(23, 19),
+(24, 20),
+(25, 21),
+(26, 22),
+(27, 23),
+(87, 24),
+(88, 25),
+(89, 26),
+(90, 27),
+(91, 28),
+(92, 29),
+(93, 30),
+(94, 31),
+(95, 32),
+(96, 33),
+(97, 34);
 
 -- --------------------------------------------------------
 
@@ -20310,6 +20346,32 @@ CREATE TABLE `route_path` (
   `reward_n` int(11) DEFAULT NULL,
   `reward_s` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `route_path`
+--
+
+INSERT INTO `route_path` (`route_path_id`, `route_path_order`, `extra_battle_route_id`, `reward_n`, `reward_s`) VALUES
+(1, 3, 1, 572, 560),
+(2, 1, 1, 729, 561),
+(3, 2, 1, 723, 731),
+(4, 1, 2, 177, 360),
+(5, 2, 2, 573, 366),
+(6, 1, 3, 361, 373),
+(7, 2, 3, 350, 94),
+(8, 1, 4, 367, 313),
+(9, 2, 4, 375, 17),
+(10, 1, 5, 720, 137),
+(11, 2, 5, 368, 312),
+(12, 1, 6, 356, 364),
+(13, 2, 6, 369, 362),
+(14, 1, 7, 738, 733),
+(15, 2, 7, 314, 792),
+(16, 1, 8, 562, 563),
+(17, 2, 8, 564, 565),
+(18, 1, 9, 124, 607),
+(19, 2, 9, 374, 734),
+(20, 1, 10, 371, 333);
 
 -- --------------------------------------------------------
 
@@ -21715,6 +21777,40 @@ INSERT INTO `training_method_focuses_on_stat` (`training_method_id`, `stat_id`) 
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `ultimate_note_increases_free`
+--
+
+CREATE TABLE `ultimate_note_increases_free` (
+  `item_ultimate_note_id` int(11) NOT NULL,
+  `positi_id` int(11) NOT NULL,
+  `attri_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `ultimate_note_increases_free`
+--
+
+INSERT INTO `ultimate_note_increases_free` (`item_ultimate_note_id`, `positi_id`, `attri_id`) VALUES
+(606, 3, 2),
+(607, 1, 3),
+(608, 2, 2),
+(609, 3, 1),
+(610, 2, 1),
+(611, 1, 2),
+(612, 1, 1),
+(612, 4, 1),
+(613, 3, 4),
+(613, 4, 2),
+(614, 3, 3),
+(614, 4, 3),
+(615, 2, 4),
+(615, 4, 4),
+(616, 1, 4),
+(616, 2, 3);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `utc_drop_type`
 --
 
@@ -22892,7 +22988,8 @@ ALTER TABLE `positi`
 ALTER TABLE `practice_game`
   ADD PRIMARY KEY (`practice_game_id`),
   ADD KEY `practice_game_fk_route_path` (`route_path_id`),
-  ADD KEY `practice_game_fk_team` (`team_id`);
+  ADD KEY `practice_game_fk_team` (`team_id`),
+  ADD KEY `practice_game_fk_condition` (`practice_game_condition_id`);
 
 --
 -- Indexes for table `practice_game_can_drop_item`
@@ -22908,11 +23005,11 @@ ALTER TABLE `practice_game_condition`
   ADD PRIMARY KEY (`practice_game_condition_id`);
 
 --
--- Indexes for table `practice_game_dictated_by_pgc`
+-- Indexes for table `practice_game_initiated_by_npc`
 --
-ALTER TABLE `practice_game_dictated_by_pgc`
-  ADD PRIMARY KEY (`practice_game_id`),
-  ADD KEY `practice_game_dictated_by_pgc_fk_pgc` (`practice_game_condition_id`);
+ALTER TABLE `practice_game_initiated_by_npc`
+  ADD PRIMARY KEY (`practice_game_id`,`npc_id`),
+  ADD KEY `practice_game_initiated_by_npc_fk_npc` (`npc_id`);
 
 --
 -- Indexes for table `region`
@@ -23034,6 +23131,14 @@ ALTER TABLE `training_method`
 ALTER TABLE `training_method_focuses_on_stat`
   ADD PRIMARY KEY (`training_method_id`,`stat_id`),
   ADD KEY `training_method_focuses_on_stat_fk_stat` (`stat_id`);
+
+--
+-- Indexes for table `ultimate_note_increases_free`
+--
+ALTER TABLE `ultimate_note_increases_free`
+  ADD PRIMARY KEY (`item_ultimate_note_id`,`positi_id`,`attri_id`),
+  ADD KEY `ultimate_note_increases_free_fk_positi` (`positi_id`),
+  ADD KEY `ultimate_note_increases_free_fk_attri` (`attri_id`);
 
 --
 -- Indexes for table `utc_drop_type`
@@ -23160,7 +23265,7 @@ ALTER TABLE `conn_panel`
 -- AUTO_INCREMENT for table `extra_battle_route`
 --
 ALTER TABLE `extra_battle_route`
-  MODIFY `extra_battle_route_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `extra_battle_route_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `formation_scheme`
@@ -23214,7 +23319,7 @@ ALTER TABLE `hissatsu_type`
 -- AUTO_INCREMENT for table `item`
 --
 ALTER TABLE `item`
-  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=792;
+  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=793;
 
 --
 -- AUTO_INCREMENT for table `item_formation`
@@ -23232,7 +23337,7 @@ ALTER TABLE `item_type`
 -- AUTO_INCREMENT for table `npc`
 --
 ALTER TABLE `npc`
-  MODIFY `npc_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `npc_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT for table `old_pin_badge_exchange`
@@ -23268,13 +23373,13 @@ ALTER TABLE `positi`
 -- AUTO_INCREMENT for table `practice_game`
 --
 ALTER TABLE `practice_game`
-  MODIFY `practice_game_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `practice_game_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=147;
 
 --
 -- AUTO_INCREMENT for table `practice_game_condition`
 --
 ALTER TABLE `practice_game_condition`
-  MODIFY `practice_game_condition_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `practice_game_condition_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `region`
@@ -23286,7 +23391,7 @@ ALTER TABLE `region`
 -- AUTO_INCREMENT for table `route_path`
 --
 ALTER TABLE `route_path`
-  MODIFY `route_path_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `route_path_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `shoot_special_property`
@@ -23735,6 +23840,7 @@ ALTER TABLE `player_received_during_story`
 -- Constraints for table `practice_game`
 --
 ALTER TABLE `practice_game`
+  ADD CONSTRAINT `practice_game_fk_condition` FOREIGN KEY (`practice_game_condition_id`) REFERENCES `practice_game_condition` (`practice_game_condition_id`) ON DELETE CASCADE,
   ADD CONSTRAINT `practice_game_fk_route_path` FOREIGN KEY (`route_path_id`) REFERENCES `route_path` (`route_path_id`) ON DELETE CASCADE,
   ADD CONSTRAINT `practice_game_fk_team` FOREIGN KEY (`team_id`) REFERENCES `team` (`team_id`) ON DELETE CASCADE;
 
@@ -23746,11 +23852,11 @@ ALTER TABLE `practice_game_can_drop_item`
   ADD CONSTRAINT `practice_game_can_drop_item_fk_practice_game` FOREIGN KEY (`practice_game_id`) REFERENCES `practice_game` (`practice_game_id`) ON DELETE CASCADE;
 
 --
--- Constraints for table `practice_game_dictated_by_pgc`
+-- Constraints for table `practice_game_initiated_by_npc`
 --
-ALTER TABLE `practice_game_dictated_by_pgc`
-  ADD CONSTRAINT `practice_game_dictated_by_pgc_fk_pgc` FOREIGN KEY (`practice_game_condition_id`) REFERENCES `practice_game_condition` (`practice_game_condition_id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `practice_game_dictated_by_pgc_fk_practice_game` FOREIGN KEY (`practice_game_id`) REFERENCES `practice_game` (`practice_game_id`) ON DELETE CASCADE;
+ALTER TABLE `practice_game_initiated_by_npc`
+  ADD CONSTRAINT `practice_game_initiated_by_npc_fk_npc` FOREIGN KEY (`npc_id`) REFERENCES `npc` (`npc_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `practice_game_initiated_by_npc_fk_practice_game` FOREIGN KEY (`practice_game_id`) REFERENCES `practice_game` (`practice_game_id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `route_path`
@@ -23814,6 +23920,14 @@ ALTER TABLE `tournament_rank_requires_player`
 ALTER TABLE `training_method_focuses_on_stat`
   ADD CONSTRAINT `training_method_focuses_on_stat_fk_stat` FOREIGN KEY (`stat_id`) REFERENCES `stat` (`stat_id`) ON DELETE CASCADE,
   ADD CONSTRAINT `training_method_focuses_on_stat_fk_training_method` FOREIGN KEY (`training_method_id`) REFERENCES `training_method` (`training_method_id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `ultimate_note_increases_free`
+--
+ALTER TABLE `ultimate_note_increases_free`
+  ADD CONSTRAINT `ultimate_note_increases_free_fk_attri` FOREIGN KEY (`attri_id`) REFERENCES `attri` (`attri_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `ultimate_note_increases_free_fk_item_ultimate_note` FOREIGN KEY (`item_ultimate_note_id`) REFERENCES `item_ultimate_note` (`item_ultimate_note_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `ultimate_note_increases_free_fk_positi` FOREIGN KEY (`positi_id`) REFERENCES `positi` (`positi_id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `utc_session_develops_stat`
