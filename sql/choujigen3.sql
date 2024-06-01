@@ -9,6 +9,7 @@ source /home/alejandro/Desktop/projects/choujigen3mysql/sql/choujigen3.sql
 */
 
 /*1-drop*/
+drop table if exists daily;
 drop table if exists link_lock;
 drop table if exists link_chest;
 drop table if exists link_player;
@@ -1277,6 +1278,15 @@ create table link_lock (
         references player(player_id) on delete cascade
 );
 
+create table daily (
+    daily_id int not null,
+    player_id int,
+    views int,
+    constraint daily_pk primary key (daily_id),
+    constraint daily_pk_player foreign key (player_id)
+        references player(player_id) on delete cascade
+);
+
 /*3-insert*/
 /*----------------------------------------------------------------------------*/
 /*----------------------------------------------------------------------------*/
@@ -1499,8 +1509,8 @@ values
 /*north-tokyo-arcane-hill*/
     (134, '裏山', 'Hill Behind', 'Cerro Arcano', 3),
 /*south-tokyo-tokyo-international-airport*/
-    (135, '東京大江戸国際空港', 'Tokyo International Airport', 'Aeropuerto de Tokyo', 3),
-        (136, '東京大江戸国際空港', 'Tokyo International Airport', 'Aeropuerto de Tokyo', 4),
+    (135, '東京大江戸国際空港', 'Tokyo International Airport', 'Aeropuerto de Tokio', 3),
+        (136, '東京大江戸国際空港', 'Tokyo International Airport', 'Aeropuerto de Tokio', 4),
 /*south-tokyo-football-association*/
     (137, 'サッカー協会前', 'Football Association', 'Asociación de Fútbol', 3),
         (138, 'サッカー協会', 'Football Association', 'Asociación de Fútbol', 4),
@@ -3143,7 +3153,7 @@ insert into item_map (
 (567, 4),
 (568, 9),
 (569, 5),
-(570, 179);
+(570, 159);
 
 insert into item_key (
     item_key_id,
@@ -4893,7 +4903,7 @@ insert into tournament_rank_requires_player (
 (16, 2303),
 (16, 1269),
 (16, 1217),
-(16, 1395),
+(16, 1396 ),
 (16, 2077),
 (16, 2112),
 (16, 2085),
@@ -4951,4 +4961,11 @@ link_player
 link_chest
 link_lock
 */
+insert into daily (
+    daily_id,
+    player_id,
+    views
+) values
+(1, 1, 0);
 
+SET GLOBAL event_scheduler = ON;

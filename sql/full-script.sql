@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: May 09, 2024 at 08:28 PM
+-- Generation Time: Jun 01, 2024 at 04:31 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -601,6 +601,25 @@ CREATE TABLE `conn_panel` (
   `conn_panel_name_en` varchar(32) DEFAULT NULL,
   `conn_panel_name_es` varchar(32) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `daily`
+--
+
+CREATE TABLE `daily` (
+  `daily_id` int(11) NOT NULL,
+  `player_id` int(11) DEFAULT NULL,
+  `views` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `daily`
+--
+
+INSERT INTO `daily` (`daily_id`, `player_id`, `views`) VALUES
+(1, 1, 1161);
 
 -- --------------------------------------------------------
 
@@ -4308,7 +4327,7 @@ INSERT INTO `item_map` (`item_map_id`, `zone_id`) VALUES
 (569, 5),
 (566, 8),
 (568, 9),
-(570, 179);
+(570, 159);
 
 -- --------------------------------------------------------
 
@@ -21686,7 +21705,7 @@ INSERT INTO `tournament_rank_requires_player` (`tournament_rank_id`, `player_id`
 (16, 352),
 (16, 1217),
 (16, 1269),
-(16, 1395),
+(16, 1396),
 (16, 1428),
 (16, 2077),
 (16, 2085),
@@ -22009,8 +22028,8 @@ INSERT INTO `zone` (`zone_id`, `zone_name_ja`, `zone_name_en`, `zone_name_es`, `
 (132, '帝国学園', 'Royal Academy', 'Royal Academy', 3),
 (133, '帝国学園 通路', 'Royal Academy Passage', 'Entrada R. Academy', 3),
 (134, '裏山', 'Hill Behind', 'Cerro Arcano', 3),
-(135, '東京大江戸国際空港', 'Tokyo International Airport', 'Aeropuerto de Tokyo', 3),
-(136, '東京大江戸国際空港', 'Tokyo International Airport', 'Aeropuerto de Tokyo', 4),
+(135, '東京大江戸国際空港', 'Tokyo International Airport', 'Aeropuerto de Tokio', 3),
+(136, '東京大江戸国際空港', 'Tokyo International Airport', 'Aeropuerto de Tokio', 4),
 (137, 'サッカー協会前', 'Football Association', 'Asociación de Fútbol', 3),
 (138, 'サッカー協会', 'Football Association', 'Asociación de Fútbol', 4),
 (139, 'サッカー協会 ロビー', 'Lobby', 'Recepción', 5),
@@ -22549,6 +22568,13 @@ ALTER TABLE `conn_link_type`
 --
 ALTER TABLE `conn_panel`
   ADD PRIMARY KEY (`conn_panel_id`);
+
+--
+-- Indexes for table `daily`
+--
+ALTER TABLE `daily`
+  ADD PRIMARY KEY (`daily_id`),
+  ADD KEY `daily_pk_player` (`player_id`);
 
 --
 -- Indexes for table `equipment_strengthens_stat`
@@ -23501,6 +23527,12 @@ ALTER TABLE `conn_link`
   ADD CONSTRAINT `conn_link_fk_conn_panel` FOREIGN KEY (`conn_panel_id`) REFERENCES `conn_panel` (`conn_panel_id`) ON DELETE CASCADE;
 
 --
+-- Constraints for table `daily`
+--
+ALTER TABLE `daily`
+  ADD CONSTRAINT `daily_pk_player` FOREIGN KEY (`player_id`) REFERENCES `player` (`player_id`) ON DELETE CASCADE;
+
+--
 -- Constraints for table `equipment_strengthens_stat`
 --
 ALTER TABLE `equipment_strengthens_stat`
@@ -23984,6 +24016,24 @@ ALTER TABLE `zone_level`
 ALTER TABLE `zone_outer`
   ADD CONSTRAINT `zone_outer_fk_region` FOREIGN KEY (`region_id`) REFERENCES `region` (`region_id`) ON DELETE CASCADE,
   ADD CONSTRAINT `zone_outer_fk_zone` FOREIGN KEY (`zone_outer_id`) REFERENCES `zone` (`zone_id`) ON DELETE CASCADE;
+
+DELIMITER $$
+--
+-- Events
+--
+CREATE DEFINER=`root`@`localhost` EVENT `daily_event` ON SCHEDULE EVERY 1 DAY STARTS '2024-06-02 00:00:00' ON COMPLETION PRESERVE ENABLE DO begin
+    declare idPlayer int default 1;
+    declare vMin int default 1;    
+    declare vMax int default 1;
+
+    select count(*) into vMax from player;
+    set idPlayer = ROUND((RAND() * (vMax-vMin))+vMin);
+
+update daily set id_player = idPlayer where daily_id = 1;
+update daily set views = 0 where daily_id = 1;
+end$$
+
+DELIMITER ;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
