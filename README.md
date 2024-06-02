@@ -18,6 +18,7 @@ Online version: [diagrams.net](https://drive.google.com/file/d/1rL1mgbhukqdM4S3P
 - Formations
 - Battle Route
 - Tournament
+- Stores
 ## WIP
 - Chest
 - Training Center

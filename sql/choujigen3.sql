@@ -2065,7 +2065,7 @@ insert into item (
 (1, 'スパイラルショット', 'Spiral Shot', 'Remate en Espiral', 400, null, 1),
 (2, 'スピニングシュート', 'Spinning Shoot', 'Tiro Giratorio', 400, null, 1),
 (3, 'すいせいシュート', 'Comet Shot', 'Tiro del Cometa', 600, null, 1),
-(4, 'コンドルダイブ', 'Condor Dive', 'Ataque de Cóndor', 600, null, 1),
+(4, 'コンドルダイブ', 'Condor Dive', 'Ataque Cóndor', 600, null, 1),
 (5, 'コロドラシュート', 'Baby Dragon', 'Tiro Chispadraco', 800, null, 1),
 (6, 'クロスドライブ', 'Cross Drive', 'Pase Cruzado', 1000, null, 1),
 (7, 'バックトルネード', 'Back Tornado', 'Tornado Inverso', 1400, null, 1),
@@ -2144,7 +2144,7 @@ insert into item (
 (80, 'ダブルグレネード', 'Double Grenade', 'Granada Doble', 1400, null, 1),
 (81, 'シャインドライブ', 'Shine Drive', 'Tiro Cegador', 1800, null, 1),
 (82, 'ドこんじょうバット', 'Utter Gutsiness Bat', 'Bateo Total', 1800, null, 1),
-(83, 'つうてんかくシュート', 'Steeple Shot', 'Torre de Osaka', 2200, null, 1),
+(83, 'つうてんかくシュート', 'Steeple Shot', 'Tiro Torre de Osaka', 2200, null, 1),
 (84, 'ツインブースト', 'Twin Boost', 'Remate Combinado', 2200, null, 1),
 (85, 'アサルトシュート', 'Assault Shot', 'Remate Asalto', 2200, null, 1),
 (86, 'RCシュート', 'Remote Combustion', 'Tiro Teledirigido', 2600, null, 1),
@@ -2161,7 +2161,7 @@ insert into item (
 (97, 'ザ・フェニックス', 'The Phoenix', 'Fénix', 10000, null, 1),
 (98, 'ツインブーストＦ', 'Twin Boost F', 'Empuje Gemelo F', 10000, null, 1),
 (99, 'トライアングルＺ', 'Triangle Z', 'Triángulo Z', 10000, null, 1),
-(100, 'トリプルブースト', 'Triple Boost', 'Remate Triple', 10000, null, 1),
+(100, 'トリプルブースト', 'Triple Boost', 'Empuje Trillizo', 10000, null, 1),
 (101, 'てんくうおとし', 'Celestial Smash', 'Descenso Estelar', 10000, null, 1),
 (102, 'タイガーストーム', 'Tiger Storm', 'Tormenta del Tigre', 12000, null, 1),
 (103, 'ダブル・ジョー', 'Double Jaw', 'Mandíbulas Dobles', 12000, null, 1),
@@ -2210,7 +2210,7 @@ insert into item (
 (146, 'たつまきせんぷう', 'Whirlwind Twister', 'Torbellino Dragón', 200, null, 1),
 (147, 'どくぎりのじゅつ', 'Poison Fog', 'Niebla Venenosa', 400, null, 1),
 (148, 'ムーンサルト', 'Moonsault', 'Luna Creciente', 600, null, 1),
-(149, 'ジグザグスパーク', 'Zigzag Spark', 'Zig Zag Explosivo', 800, null, 1),
+(149, 'ジグザグスパーク', 'Zigzag Spark', 'Zigzag Chispeante', 800, null, 1),
 (150, 'リボンシャワー', 'Ribbon Shower', 'Regate Rítmico', 1000, null, 1),
 (151, 'カマイタチ', 'Whirlwind Cut', 'Remolino Cortante', 1400, null, 1),
 (152, 'オーロラドリブル', 'Aurora Dribble', 'Regate Aurora', 1800, null, 1),
@@ -2308,7 +2308,7 @@ insert into item (
 (244, 'シグマゾーン', 'Sigma Zone', 'Zona Sigma', 10000, null, 1),
 (245, 'ジャイアントスピン', 'Supreme Spin', 'Superpeonza', 400, null, 1),
 (246, 'フォトンフラッシュ', 'Photon Crash', 'Flash de Fotones', 600, null, 1),
-(247, 'スーパーしこふみ', 'Super Sumo Stomp', 'Super Pisotón de Sumo', 600, null, 1),
+(247, 'スーパーしこふみ', 'Super Sumo Stomp', 'Superpisotón de sumo', 600, null, 1),
 (248, 'フェイクボンバー', 'Fake Bomber', 'Bombazo', 1000, null, 1),
 (249, 'じばしりかえん', 'Racing Flame', 'Estela Ígnea', 1200, null, 1),
 (250, 'ジグザグフレイム', 'Zigzag Flame', 'Zigzag de Fuego', 1400, null, 1),
@@ -2347,7 +2347,7 @@ insert into item (
 (283, 'はなふぶき', 'Flower Power', 'Tormenta de Pétalos', 1000, null, 1),
 (284, 'つむじ', 'Whirlwind', 'Torbellino', 1200, null, 1),
 (285, 'オーロラカーテン', 'Aurora Curtain', 'Cortina Aurora', 1400, null, 1),
-(286, 'せいぎのてっけん', 'Fist of Justice', 'Super Puño Invencible', 1800, null, 1),
+(286, 'せいぎのてっけん', 'Fist of Justice', 'Superpuño Invencible', 1800, null, 1),
 (287, 'ガラティーン', 'Galatyn', 'Espada Defensora', 1800, null, 1),
 (288, 'グレートバリアリーフ', 'Barrier Reef', 'Gran Barrera de Coral', 1800, null, 1),
 (289, 'セーフティプロテクト', 'Safety First', 'Muralla de Escudos', 2200, null, 1),
@@ -2363,7 +2363,7 @@ insert into item (
 (299, 'キラーブレード', 'Killer Blade', 'Cuchilla Asesina', 200, null, 1),
 (300, 'ゆがむくうかん', 'Warp Space', 'Espiral de Distorsión', 400, null, 1),
 (301, 'ゴッドハンド', 'God Hand', 'Mano Celestial', 0, null, 1),
-(302, 'シュートポケット', 'Shot Pocket', 'Campo de Fuerza', 1000, null, 1),
+(302, 'シュートポケット', 'Shot Pocket', 'Campo de Fuerza Defensivo', 1000, null, 1),
 (303, 'スラッシュネイル', 'Claw Slash', 'Uñas Afiladas', 1200, null, 1),
 (304, 'マジン・ザ・ハンド', 'Majin the Hand', 'Mano Mágica', 0, null, 1),
 (305, 'ブラックホール', 'Black Hole', 'Agujero Negro', 1400, null, 1),
@@ -2488,7 +2488,7 @@ insert into item (
 (423, 'せつげんのスパイク', 'Setsugen no Spike', 'Botas frías', 250, null, 2),
 (424, 'どりょくのスパイク', 'Doryouku no Spike', 'Botas de currante', 250, null, 2),
 (425, 'アローシューズ', 'Arrow Shoes', 'Botas certeras', 400, null, 2),
-(426, 'たんれんスパイク', 'Tanren Spike', 'Botas diestras ', 400, null, 2),
+(426, 'たんれんスパイク', 'Tanren Spike', 'Botas diestras', 400, null, 2),
 (427, 'スマートスパイク', 'Smart Spike', 'Botas elegantes', 600, null, 2),
 (428, '帝国スパイク', 'Teikoku Spike', 'Botas Royal', 0, null, 2),
 (429, '大津波のスパイク', 'Otsunami no Spike', 'Botas Big Waves', 0, null, 2),
@@ -3347,7 +3347,14 @@ insert into npc (
 
 /*
 chest
+*/
+
+/*
 item_sold_at_stor
+*/
+call proc_insert_stor_item();
+
+/*
 player_found_at_zone
 */
 
