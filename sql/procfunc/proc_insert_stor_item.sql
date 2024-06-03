@@ -63,7 +63,7 @@ begin
         set i = i + 1;
 	end while;
 	close cur1;
-    drop table if exists proc_insert_stor_item;
+    drop table if exists aux_stor;
 end
 &&
 delimiter ;

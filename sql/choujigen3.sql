@@ -4952,11 +4952,50 @@ insert into ultimate_note_increases_free (
 gacha
 gacha_yields
 old_pin_badge_exchange
-utc_session
-utc_session_develops_stat
-utc_drop_type
-utc_session_drops
+*/
 
+insert into utc_session (
+    utc_session_id,
+    utc_session_name_ja,
+    utc_session_name_en,
+    utc_session_name_es
+) values 
+(1, 'アタックコース	', 'Attack Course', 'Ataque'),
+(2, 'ディフェンスコース', 'Defence Course', 'Defensa'),
+(3, 'スピードコース	', 'Speed Course', 'Rapidez'),
+(4, 'テクニックコース', 'Technique Course', 'Técnica'),
+(5, 'たいりょくコース', 'Strenght Course', 'Aguante'),
+(6, 'ふしぎコース', 'Special Course', 'Especial'),
+(7, '経験値コース', 'Experience Course', 'Experiencia'),
+(8, 'スーパー経験値コース', 'Super Experience Course', 'Superexperiencia');
+
+insert into utc_session_develops_stat (
+    utc_session_id,
+    stat_id
+) values
+(1, 3),
+(1, 4),
+(2, 6),
+(3, 7),
+(4, 4),
+(4, 5),
+(5, 8),
+(5, 9),
+(6, 1),
+(6, 2);
+
+insert into utc_drop_type (
+    utc_drop_type_id,
+    utc_drop_type_name
+) values
+(1, '宝箱'),
+(2, 'ボス');
+
+
+/*utc_session_drops*/
+source /home/alejandro/Desktop/projects/choujigen3mysql/sql/procfunc/proc_insert_utc_drop.sql
+
+/*
 story
 item_gifted_during_story
 player_received_during_story
@@ -4968,6 +5007,7 @@ link_player
 link_chest
 link_lock
 */
+
 insert into daily (
     daily_id,
     player_id,
