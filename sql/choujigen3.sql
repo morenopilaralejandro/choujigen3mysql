@@ -1170,7 +1170,9 @@ create table utc_session_develops_stat (
 
 create table utc_drop_type (
     utc_drop_type_id int not null auto_increment,
-    utc_drop_type_name varchar(32),
+    utc_drop_type_name_ja varchar(32),
+    utc_drop_type_name_en varchar(32),
+    utc_drop_type_name_es varchar(32),
     constraint utc_drop_type_pk primary key (utc_drop_type_id)
 );
 
@@ -4986,10 +4988,12 @@ insert into utc_session_develops_stat (
 
 insert into utc_drop_type (
     utc_drop_type_id,
-    utc_drop_type_name
+    utc_drop_type_name_ja,
+    utc_drop_type_name_en,
+    utc_drop_type_name_es
 ) values
-(1, '宝箱'),
-(2, 'ボス');
+(1, '宝箱', 'Chest', 'Cofre'),
+(2, 'ボス', 'Boss', 'Jefe');
 
 
 /*utc_session_drops*/
