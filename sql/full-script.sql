@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jun 03, 2024 at 02:59 PM
+-- Generation Time: Jun 08, 2024 at 09:06 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -395,7 +395,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `proc_insert_stor_item` ()   begin
         set i = i + 1;
 	end while;
 	close cur1;
-    drop table if exists proc_insert_stor_item;
+    drop table if exists aux_stor;
 end$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `proc_insert_team_player` ()   begin
@@ -539,6 +539,52 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `proc_insert_tournament_team` ()   b
     drop table if exists aux_tournament_team;
 end$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `proc_insert_utc_drop` ()   begin
+	declare i int default 1;
+    declare idItem int default 0;
+
+    
+    declare vUtcSessionId int default 0;
+    declare vItemId varchar(32) default '';
+    declare vUtcDropTypeId int default 0;
+    declare vDropRate int default 0;
+
+    declare continueCur1 int default 1;
+    declare cur1 cursor for select * from aux_utc;
+	declare continue handler for SQLSTATE '02000' set continueCur1 = 0;
+
+    delete from utc_session_drops;    
+    open cur1;
+	while continueCur1=1 do
+        fetch cur1 into vUtcSessionId, vItemId, vUtcDropTypeId, vDropRate;
+        set idItem = null;
+        if continueCur1 = 1 then
+            
+
+            if vItemId = 'placeholder' then
+                set idItem = 141;
+            else 
+                select item_id into idItem from item 
+                    where item_name_ja = vItemId;      
+            end if;         
+
+            if idItem is null then
+                select vItemId;
+            end if;
+
+            insert into utc_session_drops(
+                utc_session_id, 
+                item_id, 
+                utc_drop_type_id, 
+                drop_rate)
+                values (vUtcSessionId, idItem, vUtcDropTypeId, vDropRate);
+        end if;
+        set i = i + 1;
+	end while;
+	close cur1;
+    drop table if exists aux_utc;
+end$$
+
 DELIMITER ;
 
 -- --------------------------------------------------------
@@ -676,7 +722,7 @@ CREATE TABLE `daily` (
 --
 
 INSERT INTO `daily` (`daily_id`, `player_id`, `views`) VALUES
-(1, 1, 0);
+(1, 1, 2);
 
 -- --------------------------------------------------------
 
@@ -4759,7 +4805,6 @@ INSERT INTO `item_sold_at_stor` (`stor_id`, `item_id`) VALUES
 (20, 48),
 (20, 123),
 (20, 168),
-(20, 177),
 (20, 182),
 (20, 199),
 (20, 200),
@@ -4768,6 +4813,7 @@ INSERT INTO `item_sold_at_stor` (`stor_id`, `item_id`) VALUES
 (20, 234),
 (20, 235),
 (20, 289),
+(20, 302),
 (20, 322),
 (20, 341),
 (21, 380),
@@ -4836,11 +4882,11 @@ INSERT INTO `item_sold_at_stor` (`stor_id`, `item_id`) VALUES
 (26, 83),
 (26, 149),
 (26, 150),
-(26, 177),
 (26, 197),
 (26, 212),
 (26, 232),
 (26, 283),
+(26, 302),
 (26, 336),
 (26, 338),
 (27, 594),
@@ -8299,6 +8345,7 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (512, 178, 11),
 (516, 132, 5),
 (516, 134, 9),
+(518, 75, 6),
 (521, 131, 8),
 (522, 146, 2),
 (522, 154, 5),
@@ -10155,7 +10202,6 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (2129, 39, 4),
 (2129, 59, 3),
 (2129, 60, 3),
-(2129, 75, 6),
 (2130, 39, 7),
 (2130, 68, 8),
 (2131, 39, 10),
@@ -22611,8 +22657,18 @@ INSERT INTO `ultimate_note_increases_free` (`item_ultimate_note_id`, `positi_id`
 
 CREATE TABLE `utc_drop_type` (
   `utc_drop_type_id` int(11) NOT NULL,
-  `utc_drop_type_name` varchar(32) DEFAULT NULL
+  `utc_drop_type_name_ja` varchar(32) DEFAULT NULL,
+  `utc_drop_type_name_en` varchar(32) DEFAULT NULL,
+  `utc_drop_type_name_es` varchar(32) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `utc_drop_type`
+--
+
+INSERT INTO `utc_drop_type` (`utc_drop_type_id`, `utc_drop_type_name_ja`, `utc_drop_type_name_en`, `utc_drop_type_name_es`) VALUES
+(1, '宝箱', 'Chest', 'Cofre'),
+(2, 'ボス', 'Boss', 'Jefe');
 
 -- --------------------------------------------------------
 
@@ -22627,6 +22683,20 @@ CREATE TABLE `utc_session` (
   `utc_session_name_es` varchar(32) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `utc_session`
+--
+
+INSERT INTO `utc_session` (`utc_session_id`, `utc_session_name_ja`, `utc_session_name_en`, `utc_session_name_es`) VALUES
+(1, 'アタックコース	', 'Attack Course', 'Ataque'),
+(2, 'ディフェンスコース', 'Defence Course', 'Defensa'),
+(3, 'スピードコース	', 'Speed Course', 'Rapidez'),
+(4, 'テクニックコース', 'Technique Course', 'Técnica'),
+(5, 'たいりょくコース', 'Strenght Course', 'Aguante'),
+(6, 'ふしぎコース', 'Special Course', 'Especial'),
+(7, '経験値コース', 'Experience Course', 'Experiencia'),
+(8, 'スーパー経験値コース', 'Super Experience Course', 'Superexperiencia');
+
 -- --------------------------------------------------------
 
 --
@@ -22637,6 +22707,22 @@ CREATE TABLE `utc_session_develops_stat` (
   `utc_session_id` int(11) NOT NULL,
   `stat_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `utc_session_develops_stat`
+--
+
+INSERT INTO `utc_session_develops_stat` (`utc_session_id`, `stat_id`) VALUES
+(1, 3),
+(1, 4),
+(2, 6),
+(3, 7),
+(4, 4),
+(4, 5),
+(5, 8),
+(5, 9),
+(6, 1),
+(6, 2);
 
 -- --------------------------------------------------------
 
@@ -22650,6 +22736,81 @@ CREATE TABLE `utc_session_drops` (
   `utc_drop_type_id` int(11) DEFAULT NULL,
   `drop_rate` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `utc_session_drops`
+--
+
+INSERT INTO `utc_session_drops` (`utc_session_id`, `item_id`, `utc_drop_type_id`, `drop_rate`) VALUES
+(1, 13, 1, 2),
+(1, 51, 1, 2),
+(1, 91, 2, 15),
+(1, 126, 2, 15),
+(1, 133, 1, 2),
+(1, 136, 1, 3),
+(1, 378, 1, 3),
+(1, 550, 1, 10),
+(1, 559, 2, 5),
+(2, 233, 2, 15),
+(2, 253, 1, 2),
+(2, 324, 2, 15),
+(2, 325, 1, 2),
+(2, 331, 1, 3),
+(2, 346, 1, 2),
+(2, 352, 1, 3),
+(2, 547, 1, 10),
+(2, 559, 2, 5),
+(3, 161, 1, 3),
+(3, 171, 1, 2),
+(3, 183, 2, 20),
+(3, 191, 1, 2),
+(3, 201, 1, 2),
+(3, 250, 2, 20),
+(3, 355, 1, 3),
+(3, 550, 1, 10),
+(3, 559, 2, 5),
+(4, 62, 1, 2),
+(4, 132, 1, 2),
+(4, 172, 2, 15),
+(4, 242, 1, 3),
+(4, 268, 1, 2),
+(4, 287, 2, 15),
+(4, 354, 1, 3),
+(4, 547, 1, 10),
+(4, 559, 2, 5),
+(5, 264, 1, 2),
+(5, 266, 2, 15),
+(5, 276, 1, 3),
+(5, 288, 1, 2),
+(5, 343, 2, 15),
+(5, 345, 1, 2),
+(5, 377, 1, 3),
+(5, 550, 1, 10),
+(5, 559, 2, 5),
+(6, 22, 1, 2),
+(6, 56, 1, 2),
+(6, 107, 1, 3),
+(6, 135, 1, 2),
+(6, 193, 1, 2),
+(6, 213, 2, 20),
+(6, 249, 2, 20),
+(6, 376, 1, 3),
+(6, 547, 1, 10),
+(6, 559, 2, 5),
+(7, 25, 1, 2),
+(7, 73, 1, 2),
+(7, 91, 2, 15),
+(7, 233, 2, 15),
+(7, 295, 1, 2),
+(7, 328, 1, 2),
+(7, 559, 2, 5),
+(8, 25, 1, 2),
+(8, 73, 1, 2),
+(8, 208, 1, 2),
+(8, 244, 2, 10),
+(8, 258, 2, 10),
+(8, 328, 1, 2),
+(8, 559, 2, 5);
 
 -- --------------------------------------------------------
 
@@ -24265,13 +24426,13 @@ ALTER TABLE `training_method`
 -- AUTO_INCREMENT for table `utc_drop_type`
 --
 ALTER TABLE `utc_drop_type`
-  MODIFY `utc_drop_type_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `utc_drop_type_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `utc_session`
 --
 ALTER TABLE `utc_session`
-  MODIFY `utc_session_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `utc_session_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `zone`
