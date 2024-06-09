@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jun 08, 2024 at 09:06 AM
+-- Generation Time: Jun 09, 2024 at 09:56 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -722,7 +722,7 @@ CREATE TABLE `daily` (
 --
 
 INSERT INTO `daily` (`daily_id`, `player_id`, `views`) VALUES
-(1, 1, 2);
+(1, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -8814,7 +8814,6 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (1552, 142, 8),
 (1555, 152, 16),
 (1556, 99, 5),
-(1558, 43, 15),
 (1562, 131, 1),
 (1563, 144, 4),
 (1563, 146, 9),
@@ -10446,6 +10445,7 @@ INSERT INTO `player_is_part_of_team` (`player_id`, `team_id`, `place`) VALUES
 (2204, 43, 7),
 (2204, 64, 15),
 (2204, 71, 15),
+(2205, 43, 15),
 (2206, 43, 1),
 (2206, 66, 11),
 (2206, 70, 1),
@@ -20312,7 +20312,6 @@ INSERT INTO `player_plays_during_story_team` (`player_id`, `team_id`) VALUES
 (2188, 42),
 (2189, 42),
 (2190, 42),
-(1558, 43),
 (2191, 43),
 (2192, 43),
 (2193, 43),
@@ -20327,6 +20326,7 @@ INSERT INTO `player_plays_during_story_team` (`player_id`, `team_id`) VALUES
 (2202, 43),
 (2203, 43),
 (2204, 43),
+(2205, 43),
 (2206, 43),
 (2207, 44),
 (2208, 44),
