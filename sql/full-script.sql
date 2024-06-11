@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jun 09, 2024 at 09:56 AM
+-- Generation Time: Jun 11, 2024 at 11:24 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -722,7 +722,7 @@ CREATE TABLE `daily` (
 --
 
 INSERT INTO `daily` (`daily_id`, `player_id`, `views`) VALUES
-(1, 1, 0);
+(1, 1, 3);
 
 -- --------------------------------------------------------
 

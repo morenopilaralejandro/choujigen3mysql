@@ -2816,7 +2816,7 @@ insert into item (
 (721, 'ローリングサンダー', 'Rolling Thunder', 'Trueno Rodante', null, null, 11),
 (722, 'エンペラーロード', 'Royal Road', 'Carretera Imperial', null, null, 11),
 (723, 'アマゾンリバーウェーブ', 'Amazon Wave', 'Ola del Amazonas', null, null, 11),
-(724, 'バナナシュート', 'Banana Shoot', 'Banana Shoot', null, null, 11),
+(724, 'バナナシュート', 'Banana Shoot', 'Banana Shot', null, null, 11),
 (725, 'ザ・チューブ', 'The Tube', 'Cañón de Agua', null, null, 11),
 (726, 'ボックスロックディフェンス', 'Box Lock ', 'Defensa en Bloque', null, null, 11),
 (727, 'アブソリュートナイツ', 'Absolute Knights', 'Caballeros Perfectos', null, null, 11),
